@@ -55,7 +55,7 @@ function Admin2() {
               <p className="circle bg-slate-400">a</p>
               <div>1. Detail Obat</div>
               <div className="mx-2">-</div>
-              <div>2. Detail Kuantitas & Harga</div>
+              <div>2. Detail Kuantitas & Harga </div>
             </div>
             <FormControl mt={"1.5"} className="flex">
               <FormLabel pt={2} fontSize="sm" w="175px">
