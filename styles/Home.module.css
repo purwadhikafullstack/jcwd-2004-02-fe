@@ -114,3 +114,11 @@
     flex-direction: column;
   }
 }
+
+.circle {
+  display: flex;
+  width: 100px;
+  height: 100px;
+  background-color: #0070f3;
+  border-radius: 50%;
+}
