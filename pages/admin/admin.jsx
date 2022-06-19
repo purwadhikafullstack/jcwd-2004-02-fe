@@ -107,27 +107,6 @@ function ModalInputAdmin() {
   //   }
   // };
 
-  const onSaveDataClick = async () => {
-    // let token = Cookies.get("token");
-    const formData = new FormData();
-
-    formData.append("products", selectedImage.file);
-
-    try {
-      let res = await axios.post(
-        `${API_URL}/products`,
-        formData
-        // ,{
-        //     headers: {
-        //         authorization: `bearer ${token}`
-        //     }
-        // }
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const renderPhotos = (source) => {
     console.log("source: ", source);
     return source.map((photo) => {
@@ -213,6 +192,85 @@ function ModalInputAdmin() {
     // } catch (error) {
     //   console.log(error);
     // }
+  };
+
+  const onSaveDataClick2 = async () => {
+    // let token = Cookies.get("token");
+    const formData = new FormData();
+
+    formData.append("products", selectedImage.file);
+
+    try {
+      let res = await axios.post(
+        `${API_URL}/products`,
+        formData
+        // ,{
+        //     headers: {
+        //         authorization: `bearer ${token}`
+        //     }
+        // }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onSaveDataClick = async () => {
+    try {
+      let formData = new FormData();
+      let insertData = {
+        name: "",
+        no_obat: "",
+        no_BPOM: "",
+        price: 0,
+        description: {},
+        warning: "",
+        usage: "",
+        quantity: 0,
+        unit: "",
+        expired_at: "", // belom tau cara masukin ke tabel stok
+        brand_id: 0,
+        type_id: 0,
+        hargaJual: 0,
+        hargaBeli: 0,
+        symptom: [],
+        category: [],
+        stock: 0,
+        expired: "",
+      };
+
+      for (let i = 0; i < selectedImage.length; i++) {
+        formData.append(`products`, selectedImage[i]);
+      }
+      formData.append(
+        "data",
+        insertData.name,
+        insertData.no_obat,
+        insertData.no_BPOM,
+        insertData.price,
+        insertData.description,
+        insertData.warning,
+        insertData.usage,
+        insertData.quantity,
+        insertData.unit,
+        insertData.expired_at,
+        insertData.brand_id,
+        insertData.type_id,
+        insertData.hargaJual,
+        insertData.hargaBeli,
+        insertData.symptom,
+        insertData.category,
+        insertData.stock,
+        insertData.expired
+      );
+      console.log("iniformdata", formData);
+      await submitPostParent(formData);
+      setInputCaption("");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      onUploadclose();
+    }
   };
 
   // untuk +- input jumlah kuantitas barang
@@ -424,8 +482,8 @@ function ModalInputAdmin() {
                       fontSize="sm"
                       placeholder="Pilih..."
                       options={brandOptions}
-                      onChange={(e) => handleChangeSelect(e.value, "brand")}
-                      value={input.brand}
+                      onChange={(e) => handleChangeSelect(e.value, "brand_id")}
+                      // value={input.brand}
                     />
                   </Stack>
                 </FormControl>
@@ -441,8 +499,8 @@ function ModalInputAdmin() {
                       fontSize="sm"
                       placeholder="Pilih..."
                       options={typeOptions}
-                      onChange={(e) => handleChangeSelect(e.value, "type")}
-                      value={input.type}
+                      onChange={(e) => handleChangeSelect(e.value, "type_id")}
+                      // value={input.type}
                     />
                   </Stack>
                 </FormControl>
