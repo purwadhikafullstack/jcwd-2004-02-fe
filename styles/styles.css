@@ -50,3 +50,19 @@ img {
   object-fit: cover;
   padding: 0.75rem;
 }
+
+.profileTag {
+  display: flex;
+  margin-left: 40px;
+  margin-top: 20px;
+  align-items: center;
+  background-color: yellow;
+  font-weight: 600;
+}
+
+.profileDesc {
+  display: flex;
+  margin-top: 20px;
+  align-items: center;
+  background-color: yellow;
+}

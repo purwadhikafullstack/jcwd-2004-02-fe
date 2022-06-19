@@ -5,6 +5,7 @@ import ModalAdminEditDetail from "./admin/adminEditDetail";
 import ModalAdminEditFoto from "./admin/adminEditFoto";
 import ModalAdminEditStok from "./admin/adminEditStok";
 import AddProductSuccess from "./admin/addProductSuccess";
+import Profile from "./profile/profile";
 export default function Home() {
   return (
     <div>
@@ -12,11 +13,12 @@ export default function Home() {
         <title>Footer</title>
         <link rel="icon" href="/pro.ico" />
       </Head>
-      <ModalInputAdmin />
+      {/* <ModalInputAdmin />
       <ModalAdminEditDetail />
       <ModalAdminEditStok />
       <ModalAdminEditFoto />
-      <AddProductSuccess />
+      <AddProductSuccess /> */}
+      <Profile />
       {/* <Footer /> */}
     </div>
   );
