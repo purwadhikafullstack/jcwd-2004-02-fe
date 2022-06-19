@@ -1,7 +1,10 @@
 import Head from "next/head";
 import Footer from "../components/Footer";
-import AddProductSuccess from "./addProductSuccess";
-import Admin from "./admin";
+import ModalInputAdmin from "./admin/admin";
+import ModalAdminEditDetail from "./admin/adminEditDetail";
+import ModalAdminEditFoto from "./admin/adminEditFoto";
+import ModalAdminEditStok from "./admin/adminEditStok";
+import AddProductSuccess from "./admin/addProductSuccess";
 export default function Home() {
   return (
     <div>
@@ -9,7 +12,10 @@ export default function Home() {
         <title>Footer</title>
         <link rel="icon" href="/pro.ico" />
       </Head>
-      <Admin />
+      <ModalInputAdmin />
+      <ModalAdminEditDetail />
+      <ModalAdminEditStok />
+      <ModalAdminEditFoto />
       <AddProductSuccess />
       {/* <Footer /> */}
     </div>
