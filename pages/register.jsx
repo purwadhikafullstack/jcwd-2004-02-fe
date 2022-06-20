@@ -10,7 +10,8 @@ import { useState } from "react"
 import * as Yup from "yup" 
 import { useFormik } from "formik"; 
 import {registerActions} from "../redux/actions/userActions.jsx" 
-import {connect, useSelector} from 'react-redux'
+import {connect} from 'react-redux' 
+import useUser from "../hooks/useUser"
 
 
 const Register = ({registerActions}) => { 
@@ -18,7 +19,7 @@ const Register = ({registerActions}) => {
     const [show1, setShow1] = useState(false)
     const handleClick1 = () => setShow1(!show1)  
 
-    const {isLogin} = useSelector((state)=> state.user)
+    const {isLogin} = useUser()
 
 
     const formik = useFormik ({
@@ -36,20 +37,15 @@ const Register = ({registerActions}) => {
             password: Yup.string()
             .required('password is required')
             .min(8,'password must be at least 8 characters')
-            // .matches(/^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8-20}$/, 'password must be at least 1 number, 1 letter, and 1 special characters'), 
             .matches(/[A-Z]/g, "Must be at least 1 uppercase letter").matches(/[a-z]/g, "Must be at least 1 lowercase letter").matches(/[0-9]/g, "Must be at least 1 number").matches(/[-._!"`'#%&,:;<>=@{}~\$\(\)\*\+\/\\\?\[\]\^\|]+/g, "Must be at least 1 special character"),
             
         }), 
         onSubmit: async(values) => {
             try {
-                // setdisableButton(true)
                 registerActions(values) 
             } catch (error) {
                 console.log(error)
             } 
-            // finally {
-            //     setdisableButton(false)
-            // }
         }
     })  
 
@@ -113,5 +109,4 @@ const Register = ({registerActions}) => {
     )
 } 
 
-// export default Register 
 export default connect(null, { registerActions })(Register);

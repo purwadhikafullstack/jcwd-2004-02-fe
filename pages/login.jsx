@@ -1,16 +1,16 @@
 import { ButtonSecondary,ButtonPrimary } from "../components/button" 
 import {FcGoogle} from "react-icons/fc"
-import {BsFacebook} from "react-icons/bs" 
 import {CgProfile} from "react-icons/cg" 
 import {MdEmail} from "react-icons/md" 
 import {AiFillLock} from "react-icons/ai" 
 import {BsEyeFill,BsEyeSlashFill} from 'react-icons/bs'
-import React from "react";
+import React from "react"
 import { useState } from "react"  
 import {loginActions} from "../redux/actions/userActions.jsx"
 import { connect, useSelector } from "react-redux" 
 import * as Yup from "yup" 
-import { useFormik } from "formik";
+import { useFormik } from "formik" 
+import useUser from "../hooks/useUser"
 
 
 const Login = ({loginActions}) => {
@@ -18,7 +18,7 @@ const Login = ({loginActions}) => {
     const [show1, setShow1] = useState(false)
     const handleClick1 = () => setShow1(!show1)  
 
-    const {isLogin} = useSelector((state)=> state.user) 
+    const {isLogin} = useUser() 
 
     const formik = useFormik ({
         initialValues: {
@@ -33,14 +33,10 @@ const Login = ({loginActions}) => {
         }), 
         onSubmit: async(values) => { 
             try {
-                // setEnableButton(true)
                 loginActions(values)
             } catch (error) {
                 console.log(error)
             } 
-            // finally {
-            //     setEnableButton(false)
-            // }
         }
     }) 
 
