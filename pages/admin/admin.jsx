@@ -18,7 +18,6 @@ import {
   FormLabel,
   Input,
   Stack,
-  // Select,
   HStack,
   useNumberInput,
 } from "@chakra-ui/react";
@@ -32,8 +31,7 @@ function ModalInputAdmin() {
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(0);
   const [getData, setgetData] = useState({});
-  // utk gambar
-  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [selectedImage, setselectedImage] = useState([null, null, null]);
 
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
@@ -42,7 +40,6 @@ function ModalInputAdmin() {
     name: "",
     no_obat: "",
     no_BPOM: "",
-    price: 0,
     description: {},
     warning: "",
     usage: "",
@@ -53,11 +50,11 @@ function ModalInputAdmin() {
     type_id: 0,
     hargaJual: 0,
     hargaBeli: 0,
-    is_deleted: 0,
     symptom: [],
     category: [],
-    stock: 0,
-    expired: "",
+    stock: 10,
+    expired: "2022-06-22",
+    is_deleted: 0,
   });
 
   // handle
@@ -65,12 +62,14 @@ function ModalInputAdmin() {
     setinput({ ...input, [prop]: e.target.value });
   };
 
+  // handle select
   // individu -> e.value, multi -> e
   const handleChangeSelect = (e, prop) => {
     setinput({ ...input, [prop]: e });
     console.log(e);
   };
 
+  // handle description
   const handleChangeDesc = (e, prop, param) => {
     let description = input.description;
     description[param] = e.target.value;
@@ -78,42 +77,62 @@ function ModalInputAdmin() {
     console.log(e);
   };
 
-  const handleImageChange = (e) => {
-    if (e.target.files) {
-      const filesArray = Array.from(e.target.files).map((file) =>
-        URL.createObjectURL(file)
-      );
+  // handle image
+  const handleImageChange = (e, index) => {
+    console.log(e.target.files[0]);
 
-      setSelectedFiles((prevImages) => prevImages.concat(filesArray));
-      Array.from(e.target.files).map(
-        (file) => URL.revokeObjectURL(file) // avoid memory leak
-      );
+    if (e.target.files[0]) {
+      let selectedImageMut = selectedImage;
+      selectedImageMut[index] = e.target.files[0];
+
+      setselectedImage([...selectedImageMut]);
     }
   };
 
-  const [selectedImage, setselectedImage] = useState({
-    file: [],
-    filePreview: null,
-  });
+  const deletePhoto = (index) => {
+    let selectedImageMut = selectedImage;
+    selectedImageMut[index] = null;
 
-  // const handleImageChange = (e) => {
-  //   console.log(e.target.files[0]);
-  //   if (e.target && e.target.files[0]) {
-  //     setselectedImage({
-  //       ...selectedImage,
-  //       file: e.target.files[0],
-  //       filePreview: URL.createObjectURL(e.target.files[0]),
-  //     });
-  //   }
-  // };
+    setselectedImage([...selectedImageMut]);
+  };
 
   const renderPhotos = (source) => {
     console.log("source: ", source);
-    return source.map((photo) => {
-      return <img src={photo} alt="" key={photo} />;
+
+    return source.map((photo, index) => {
+      if (photo) {
+        return (
+          <div>
+            <img
+              className=" mx-5 h-[200px] w-[200px]"
+              src={URL.createObjectURL(photo)}
+              alt=""
+              key={index}
+            />
+            <div onClick={() => deletePhoto(index)}>hapus</div>
+          </div>
+        );
+      } else {
+        return (
+          <>
+            <input
+              style={{ display: "none" }}
+              type="file"
+              id={"file" + index}
+              onChange={(e) => handleImageChange(e, index)}
+            />
+            <label
+              className="mx-5 bg-blue-500 h-[200px] w-[200px]"
+              htmlFor={"file" + index}
+            >
+              <i>{index === 0 ? "Insert Main Image" : "Insert Image"}</i>
+            </label>
+          </>
+        );
+      }
     });
   };
-  console.log(input);
+  // console.log(input);
 
   // fetch
   const fetchData = async () => {
@@ -148,128 +167,83 @@ function ModalInputAdmin() {
     }
   };
 
-  // submit
-  const onAddDataClick = async () => {
-    console.log(input);
-    let dataInputFinal = input;
-    dataInputFinal.symptom = dataInputFinal.symptom.map((val) => val.value);
-    console.log(dataInputFinal);
-    // try {
-    //   await axios.post(`${API_URL}/products`, input);
-    //   fetchData();
-    //   setOpen(false);
-    //   setinput({
-    //     name: "",
-    //     no_obat: "",
-    //     no_BPOM: "",
-    //     price: 0,
-
-    //     description: {
-    //       "indikasi/kegunaan":
-    //         "Untuk mengobati batu berdahak, batuk karena flu, batuk karena asma, bronkitis akut atau kronis",
-    //     },
-    //     warning: {
-    //       "indikasi/kegunaan":
-    //         "Untuk mengobati batu berdahak, batuk karena flu, batuk karena asma, bronkitis akut atau kronis",
-    //     },
-    //     usage: {
-    //       "indikasi/kegunaan":
-    //         "Untuk mengobati batu berdahak, batuk karena flu, batuk karena asma, bronkitis akut atau kronis",
-    //     },
-    //     quantity: 0,
-    //     unit: "",
-    //     expired_at: "",
-    //     brand_id: 0,
-    //     type_id: 0,
-    //     hargaJual: 0,
-    //     hargaBeli: 0,
-    //     is_deleted: 0,
-    //     symptom: [],
-    //     category: [],
-    //     stock: 0,
-    //     expired: "",
-    //   });
-    // } catch (error) {
-    //   console.log(error);
-    // }
-  };
-
-  const onSaveDataClick2 = async () => {
-    // let token = Cookies.get("token");
+  // submit form
+  const onSaveDataClick = async (e) => {
+    e.preventDefault();
     const formData = new FormData();
+    let insertData = {
+      name: input.name,
+      no_obat: input.no_obat,
+      no_BPOM: input.no_BPOM,
+      description: input.description,
+      warning: input.warning,
+      usage: input.usage,
+      quantity: input.quantity,
+      unit: input.unit,
+      expired_at: input.expired_at,
+      brand_id: input.brand_id.value,
+      type_id: input.type_id.value,
+      hargaJual: input.hargaJual,
+      hargaBeli: input.hargaBeli,
+      symptom: input.symptom.map((val) => val.value),
+      category: input.category.map((val) => val.value),
+      stock: input.stock,
+      expired: input.expired,
+      is_deleted: input.is_deleted,
+    };
+    // console.log(insertData);
+    if (selectedImage[0] === null) {
+      // agar coding berhenti, dikasih return (perlu diberi warning pakai toastify)
+      return;
+    }
 
-    formData.append("products", selectedImage.file);
-
+    for (let i = 0; i < selectedImage.length; i++) {
+      if (selectedImage[i]) {
+        formData.append(`products`, selectedImage[i]);
+      }
+    }
+    formData.append("data", JSON.stringify(insertData));
+    console.log("iniformdata", formData);
     try {
-      let res = await axios.post(
-        `${API_URL}/products`,
-        formData
-        // ,{
-        //     headers: {
-        //         authorization: `bearer ${token}`
-        //     }
-        // }
-      );
+      await submitProduct(formData);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const onSaveDataClick = async () => {
+  const submitProduct = async (values) => {
     try {
-      let formData = new FormData();
-      let insertData = {
-        name: "",
-        no_obat: "",
-        no_BPOM: "",
-        price: 0,
-        description: {},
-        warning: "",
-        usage: "",
-        quantity: 0,
-        unit: "",
-        expired_at: "", // belom tau cara masukin ke tabel stok
-        brand_id: 0,
-        type_id: 0,
-        hargaJual: 0,
-        hargaBeli: 0,
-        symptom: [],
-        category: [],
-        stock: 0,
-        expired: "",
-      };
+      // let token = Cookies.get("token");
 
-      for (let i = 0; i < selectedImage.length; i++) {
-        formData.append(`products`, selectedImage[i]);
-      }
-      formData.append(
-        "data",
-        insertData.name,
-        insertData.no_obat,
-        insertData.no_BPOM,
-        insertData.price,
-        insertData.description,
-        insertData.warning,
-        insertData.usage,
-        insertData.quantity,
-        insertData.unit,
-        insertData.expired_at,
-        insertData.brand_id,
-        insertData.type_id,
-        insertData.hargaJual,
-        insertData.hargaBeli,
-        insertData.symptom,
-        insertData.category,
-        insertData.stock,
-        insertData.expired
-      );
-      console.log("iniformdata", formData);
-      await submitPostParent(formData);
-      setInputCaption("");
+      await axios.post(`${API_URL}/products/addproduct`, values, {
+        // headers: {
+        //   // authorization: `Bearer ${token}`,
+        // },
+      });
+
+      console.log("success");
     } catch (error) {
       console.log(error);
     } finally {
-      onUploadclose();
+      // setinput({
+      //   name: "",
+      //   no_obat: "",
+      //   no_BPOM: "",
+      //   description: {},
+      //   warning: "",
+      //   usage: "",
+      //   quantity: 0,
+      //   unit: "",
+      //   expired_at: "", // belom tau cara masukin ke tabel stok
+      //   brand_id: 0,
+      //   type_id: 0,
+      //   hargaJual: 0,
+      //   hargaBeli: 0,
+      //   symptom: [],
+      //   category: [],
+      //   stock: 10,
+      //   expired: "2022-06-22",
+      // });
     }
   };
 
@@ -303,6 +277,7 @@ function ModalInputAdmin() {
     return { value: val.id, label: val.name };
   });
 
+  // custom styles
   const customStyles = {
     // option: (provided, state) => ({
     //   ...provided,
@@ -322,21 +297,7 @@ function ModalInputAdmin() {
     // },
   };
 
-  // uploat foto
-
-  // incremen
-  // const [num, setNum] = useState(0)
-  // const incNum = () => {
-  //   setNum(num + 1);
-  // };
-  // const decNum = () => {
-  //   if (num > 0) {
-  //     setNum(num - 1);
-  //   } else {
-  //     setNum(0);
-  //   }
-  // };
-
+  // increment
   const incNum = () => {
     let count = parseInt(input.quantity) + 1;
     setinput({ ...input, quantity: count });
@@ -348,7 +309,7 @@ function ModalInputAdmin() {
     setinput({ ...input, quantity: count });
   };
 
-  // handleChangeNum;
+  // function menerima array isinya name dari
 
   return (
     <>
@@ -374,17 +335,19 @@ function ModalInputAdmin() {
                     1
                   </div>
                   <div className="font-semibold"> Detail Obat</div>
-                  <div className="mx-2 text-purple-600 font-semibold  ">></div>
+                  <div className="mx-2 text-purple-600 font-semibold  ">
+                    {">"}
+                  </div>
                   <div className="rounded-full w-5 bg-gray-400 text-center text-white mr-2">
                     2
                   </div>
                   <div className="text-gray-400">Keterangan Obat</div>
-                  <div className="mx-2  font-semibold  ">></div>
+                  <div className="mx-2  font-semibold  ">{">"}</div>
                   <div className="rounded-full w-5 bg-gray-400 text-center text-white mr-2">
                     3
                   </div>
                   <div className="text-gray-400">Detail Kuantitas & Harga</div>
-                  <div className="mx-2  font-semibold  ">></div>
+                  <div className="mx-2  font-semibold  ">{">"}</div>
                   <div className="rounded-full w-5 bg-gray-400 text-center text-white mr-2">
                     4
                   </div>
@@ -461,7 +424,6 @@ function ModalInputAdmin() {
                   </FormLabel>
                   <Stack spacing={3}>
                     <div>
-                      {/* <Calendar onChange={onChangeCal} value={valueCal} /> */}
                       <input
                         type="date"
                         onChange={(e) => handleChange(e, "expired_at")}
@@ -482,8 +444,8 @@ function ModalInputAdmin() {
                       fontSize="sm"
                       placeholder="Pilih..."
                       options={brandOptions}
-                      onChange={(e) => handleChangeSelect(e.value, "brand_id")}
-                      // value={input.brand}
+                      onChange={(e) => handleChangeSelect(e, "brand_id")}
+                      value={input.brand_id}
                     />
                   </Stack>
                 </FormControl>
@@ -499,8 +461,8 @@ function ModalInputAdmin() {
                       fontSize="sm"
                       placeholder="Pilih..."
                       options={typeOptions}
-                      onChange={(e) => handleChangeSelect(e.value, "type_id")}
-                      // value={input.type}
+                      onChange={(e) => handleChangeSelect(e, "type_id")}
+                      value={input.type_id}
                     />
                   </Stack>
                 </FormControl>
@@ -524,7 +486,12 @@ function ModalInputAdmin() {
               </ModalBody>
 
               <ModalFooter>
-                <Button colorScheme="purple" mr={3} onClick={() => setTab(1)}>
+                <Button
+                  colorScheme="purple"
+                  mr={3}
+                  disabled={false}
+                  onClick={() => setTab(1)}
+                >
                   Lanjutkan
                 </Button>
               </ModalFooter>
@@ -540,17 +507,21 @@ function ModalInputAdmin() {
                     1
                   </div>
                   <div className="text-gray-400"> Detail Obat</div>
-                  <div className="mx-2  font-semibold  ">></div>
+                  <div className="mx-2  font-semibold  ">{">"}</div>
                   <div className="rounded-full w-5  bg-purple-600 text-center text-white mr-2">
                     2
                   </div>
                   <div className="font-semibold ">Keterangan Obat</div>
-                  <div className="mx-2 text-purple-600 font-semibold  ">></div>
+                  <div className="mx-2 text-purple-600 font-semibold  ">
+                    {">"}
+                  </div>
                   <div className="rounded-full w-5 bg-gray-400 text-center text-white mr-2">
                     3
                   </div>
                   <div className="text-gray-400">Detail Kuantitas & Harga</div>
-                  <div className="mx-2 text-purple-600 font-semibold  ">></div>
+                  <div className="mx-2 text-purple-600 font-semibold  ">
+                    {">"}
+                  </div>
                   <div className="rounded-full w-5 bg-gray-400 text-center text-white mr-2">
                     4
                   </div>
@@ -567,6 +538,7 @@ function ModalInputAdmin() {
                     onChange={(e) =>
                       handleChangeDesc(e, "description", "indikasi / kegunaan")
                     }
+                    value={input.description["indikasi / kegunaan"]}
                   />
                 </FormControl>
                 <FormControl mt={"1.5"} className="flex">
@@ -583,6 +555,7 @@ function ModalInputAdmin() {
                         "Kandungan / Komposisi"
                       )
                     }
+                    value={input.description["Kandungan / Komposisi"]}
                   />
                 </FormControl>
                 <FormControl mt={"1.5"} className="flex">
@@ -595,6 +568,7 @@ function ModalInputAdmin() {
                     onChange={(e) =>
                       handleChangeDesc(e, "description", "Kemasan")
                     }
+                    value={input.description["Kemasan"]}
                   />
                 </FormControl>
                 <FormControl mt={"1.5"} className="flex">
@@ -607,18 +581,20 @@ function ModalInputAdmin() {
                     onChange={(e) =>
                       handleChangeDesc(e, "description", "Golongan")
                     }
+                    value={input.description["Golongan"]}
                   />
                 </FormControl>
                 <FormControl mt={"1.5"} className="flex">
                   <FormLabel pt={2} fontSize="sm" w="175px">
                     Butuh Resep
                   </FormLabel>
-                  <Input
+                  <textarea
                     className="w-1/2 text-sm pt-2"
                     placeholder="Ya/Tidak"
                     onChange={(e) =>
                       handleChangeDesc(e, "description", "Butuh Resep")
                     }
+                    value={input.description["Butuh Resep"]}
                   />
                 </FormControl>
                 <FormControl mt={"1.5"} className="flex">
@@ -631,6 +607,7 @@ function ModalInputAdmin() {
                     onChange={(e) =>
                       handleChangeDesc(e, "description", "Cara Penyimpanan")
                     }
+                    value={input.description["Cara Penyimpanan"]}
                   />
                 </FormControl>
                 <FormControl mt={"1.5"} className="flex">
@@ -643,6 +620,7 @@ function ModalInputAdmin() {
                     onChange={(e) =>
                       handleChangeDesc(e, "description", "Principal")
                     }
+                    value={input.description["Principal"]}
                   />
                 </FormControl>
                 <FormControl mt={"1.5"} className="flex">
@@ -659,6 +637,7 @@ function ModalInputAdmin() {
                         "Nomor Ijin Edar (NIE)"
                       )
                     }
+                    value={input.description["Nomor Ijin Edar (NIE)"]}
                   />
                 </FormControl>
 
@@ -705,7 +684,7 @@ function ModalInputAdmin() {
                     1
                   </div>
                   <div className="text-gray-400"> Detail Obat</div>
-                  <div className="mx-2 font-semibold  ">></div>
+                  <div className="mx-2 font-semibold  ">{">"}</div>
 
                   <div className="rounded-full w-5 bg-gray-400  text-center text-white mr-2">
                     2
@@ -714,13 +693,15 @@ function ModalInputAdmin() {
                     Keterangan Obat
                   </div>
 
-                  <div className="mx-2  font-semibold  ">></div>
+                  <div className="mx-2  font-semibold  ">{">"}</div>
 
                   <div className="rounded-full w-5 bg-purple-600 text-center text-white mr-2">
                     3
                   </div>
                   <div className="">Detail Kuantitas & Harga</div>
-                  <div className="mx-2 text-purple-600 font-semibold  ">></div>
+                  <div className="mx-2 text-purple-600 font-semibold  ">
+                    {">"}
+                  </div>
                   <div className="rounded-full w-5 bg-gray-400 text-center text-white mr-2">
                     4
                   </div>
@@ -831,7 +812,7 @@ function ModalInputAdmin() {
                     1
                   </div>
                   <div className="text-gray-400"> Detail Obat</div>
-                  <div className="mx-2 font-semibold  ">></div>
+                  <div className="mx-2 font-semibold  ">{">"}</div>
 
                   <div className="rounded-full w-5 bg-gray-400  text-center text-white mr-2">
                     2
@@ -840,13 +821,15 @@ function ModalInputAdmin() {
                     Keterangan Obat
                   </div>
 
-                  <div className="mx-2  font-semibold  ">></div>
+                  <div className="mx-2  font-semibold  ">{">"}</div>
 
                   <div className="rounded-full w-5 bg-gray-400 text-center text-white mr-2">
                     3
                   </div>
                   <div className="text-gray-400">Detail Kuantitas & Harga</div>
-                  <div className="mx-2 text-purple-600 font-semibold  ">></div>
+                  <div className="mx-2 text-purple-600 font-semibold  ">
+                    {">"}
+                  </div>
                   <div className="rounded-full w-5 bg-purple-600 text-center text-white mr-2">
                     4
                   </div>
@@ -856,19 +839,19 @@ function ModalInputAdmin() {
                 <FormControl mt={"1.5"} className="flex">
                   <Stack spacing={3}>
                     <div className="flex flex-col items-center justify-center mx-20">
-                      <input
+                      {/* <input
                         type="file"
                         id="file"
-                        multiple
                         onChange={handleImageChange}
-                      />
-                      <div className="label-holder">
+                        on
+                      /> */}
+                      {/* <div className="label-holder">
                         <label htmlFor="file" className="label">
                           <i>Tambah Foto</i>
                         </label>
-                      </div>
+                      </div> */}
                       <div className="result ">
-                        {renderPhotos(selectedFiles)}
+                        {renderPhotos(selectedImage)}
                       </div>
                     </div>
                   </Stack>
