@@ -45,7 +45,7 @@ function ModalInputAdmin() {
     usage: "",
     quantity: 0,
     unit: "",
-    expired_at: "", // belom tau cara masukin ke tabel stok
+    // expired_at: "", // belom tau cara masukin ke tabel stok
     brand_id: 0,
     type_id: 0,
     hargaJual: 0,
@@ -53,7 +53,7 @@ function ModalInputAdmin() {
     symptom: [],
     category: [],
     stock: 10,
-    expired: "2022-06-22",
+    expired: "",
     is_deleted: 0,
   });
 
@@ -175,12 +175,12 @@ function ModalInputAdmin() {
       name: input.name,
       no_obat: input.no_obat,
       no_BPOM: input.no_BPOM,
+      expired: input.expired,
       description: input.description,
       warning: input.warning,
       usage: input.usage,
       quantity: input.quantity,
       unit: input.unit,
-      expired_at: input.expired_at,
       brand_id: input.brand_id.value,
       type_id: input.type_id.value,
       hargaJual: input.hargaJual,
@@ -188,14 +188,12 @@ function ModalInputAdmin() {
       symptom: input.symptom.map((val) => val.value),
       category: input.category.map((val) => val.value),
       stock: input.stock,
-      expired: input.expired,
-      is_deleted: input.is_deleted,
     };
-    // console.log(insertData);
-    if (selectedImage[0] === null) {
-      // agar coding berhenti, dikasih return (perlu diberi warning pakai toastify)
-      return;
-    }
+    console.log(insertData);
+    // if (selectedImage[0] === null) {
+    //   // agar coding berhenti, dikasih return (perlu diberi warning pakai toastify)
+    //   return;
+    // }
 
     for (let i = 0; i < selectedImage.length; i++) {
       if (selectedImage[i]) {
@@ -234,15 +232,14 @@ function ModalInputAdmin() {
       //   usage: "",
       //   quantity: 0,
       //   unit: "",
-      //   expired_at: "", // belom tau cara masukin ke tabel stok
       //   brand_id: 0,
       //   type_id: 0,
       //   hargaJual: 0,
       //   hargaBeli: 0,
       //   symptom: [],
       //   category: [],
-      //   stock: 10,
-      //   expired: "2022-06-22",
+      //   stock: 0,
+      //   expired: "",
       // });
     }
   };
@@ -426,8 +423,8 @@ function ModalInputAdmin() {
                     <div>
                       <input
                         type="date"
-                        onChange={(e) => handleChange(e, "expired_at")}
-                        value={input.expired_at}
+                        onChange={(e) => handleChange(e, "expired")}
+                        value={input.expired}
                       />
                     </div>
                   </Stack>
