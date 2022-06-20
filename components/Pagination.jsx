@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
-function Pagination({ totalData, dataPerPage, pageChangeHandler }) {
+function Pagination({
+  totalData,
+  dataPerPage,
+  pageChangeHandler,
+  updateLimit,
+  value,
+}) {
   const totalPage = Math.ceil(totalData / dataPerPage);
-  const pageArr = [...new Array(totalPage)];
+
+  // const pageArr = [...new Array(totalPage)];
 
   const [currentPage, setCurrentPage] = useState(0);
   const [canGoBack, setCanGoBack] = useState(false);
@@ -20,7 +27,7 @@ function Pagination({ totalData, dataPerPage, pageChangeHandler }) {
 
   const PaginationBar = () => {
     if (totalPage < 6) {
-      setPagination([...new Array(5)]);
+      setPagination([1, 2, 3, 4, 5]);
     } else {
       if (currentPage <= 2) {
         setPagination([1, 2, 3, "...", totalPage]);
@@ -47,14 +54,8 @@ function Pagination({ totalData, dataPerPage, pageChangeHandler }) {
   }, [totalPage, currentPage]);
 
   useEffect(() => {
-    if (totalPage < 6) {
-      setPagination([...new Array(5)]);
-      console.log("1");
-    } else {
-      setPagination([1, 2, 3, "...", 5]);
-      console.log("2");
-    }
-    console.log(pagination, "ini child");
+    PaginationBar();
+    // console.log(totalPage, "ini child");
   }, []);
 
   useEffect(() => {
@@ -81,12 +82,14 @@ function Pagination({ totalData, dataPerPage, pageChangeHandler }) {
             <div className="border-2 rounded-lg text-purple-500 border-purple-500 w-[72px] p-1 ml-2">
               <select
                 className="text-sm font-medium outline-none w-full"
-                placeholder="Filter"
+                placeholder="Limit"
+                id="limit"
+                value={value}
+                onChange={(e) => updateLimit(e)}
               >
-                <option value="#">10</option>
-                <option value="saab">20</option>
-                <option value="opel">30</option>
-                <option value="audi">40</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
               </select>
             </div>
           </div>
@@ -94,32 +97,12 @@ function Pagination({ totalData, dataPerPage, pageChangeHandler }) {
             <button onClick={onPrevPage} disabled={!canGoBack}>
               <IoIosArrowBack />
             </button>
-            {/* <>
-              {pageArr.map((num, index) => {
-                return (
-                  <>
-                    {currentPage === index ? (
-                      <button key={index} className="bg-purple-400">
-                        {index + 1}
-                      </button>
-                    ) : (
-                      <button onClick={() => onPageSelect(index)}>
-                        {index + 1}
-                      </button>
-                    )}
-                  </>
-                );
-              })}
-            </> */}
             <>
               {pagination.map((val, index) => {
                 return (
-                  <>
+                  <div className="flex" key={index}>
                     {val == currentPage + 1 ? (
-                      <button
-                        key={index}
-                        className="w-[26px] shadow-md text-white text-sm p-1 font-semibold rounded-full bg-purple-400 mx-1"
-                      >
+                      <button className="w-[26px] shadow-md text-white text-sm p-1 font-semibold rounded-full bg-purple-400 mx-1">
                         {val}
                       </button>
                     ) : (
@@ -131,7 +114,7 @@ function Pagination({ totalData, dataPerPage, pageChangeHandler }) {
                         {val}
                       </button>
                     )}
-                  </>
+                  </div>
                 );
               })}
             </>

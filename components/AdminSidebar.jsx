@@ -96,7 +96,13 @@ function AdminSidebar({ children }) {
           {routes.map((route, index) => {
             if (route.subroutes) {
               return (
-                <Submenu route={route} isOpen={isOpen} setIsOpen={setIsOpen} />
+                <div key={index}>
+                  <Submenu
+                    route={route}
+                    isOpen={isOpen}
+                    setIsOpen={setIsOpen}
+                  />
+                </div>
               );
             }
 

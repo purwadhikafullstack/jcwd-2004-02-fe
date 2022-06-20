@@ -4,50 +4,80 @@ import { FiDownload } from "react-icons/fi";
 import { IoDocumentText } from "react-icons/io5";
 import { HiSearch } from "react-icons/hi";
 import NewTable from "../../components/Table";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
 import axios from "axios";
 import { API_URL } from "../../helpers";
 import Pagination from "../../components/Pagination";
+import { flushSync } from "react-dom";
 
 function DaftarProduk() {
   const [page, setPage] = useState(0);
   const [data, setData] = useState([]);
   const [totalData, setTotalData] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [input, setInput] = useState({
+    search: "",
+    category: "",
+  });
+  const [value, setLimit] = useState(10);
+  const [comp, setComponent] = useState([]);
+
+  const [pending, startTransition] = useTransition();
+
+  const updateLimit = (e) => {
+    setLimit(parseInt(e.target.value));
+  };
 
   const handleInput = (e) => {
-    setInput(e.target.value);
+    setInput({ ...input, [e.target.name]: e.target.value });
+    setPage(0);
     console.log(input);
   };
 
+  const getComponent = async () => {
+    let res2 = await axios.get(`${API_URL}/adminproduk/component`);
+    setComponent([...res2.data]);
+
+    console.log(comp, "inicom");
+  };
+
   const getDaftarProduk = async (page, input) => {
-    setIsLoading(false);
     let res = await axios.get(
-      `${API_URL}/adminproduk/fetchdaftarproduk?page=${page}&search=${input}`
+      `${API_URL}/adminproduk/fetchdaftarproduk?page=${page}&search=${input.search}&category=${input.category}`
     );
     setTotalData(parseInt(res.headers["x-total-product"]));
     setData([...res.data]);
+    setIsLoading(false);
+    console.log(res.headers["x-total-product"]);
+    console.log(res.headers);
   };
 
-  const showLoading = () => setIsLoading(true);
+  useEffect(() => {
+    getComponent();
+  }, []);
 
   useEffect(() => {
-    showLoading();
     getDaftarProduk(page, input);
+    // console.log(totalData, "ini total data [page, input]");
   }, [page, input]);
+
+  // useEffect(() => {
+  //   console.log(value);
+  // }, [value]);
 
   const Categories = ({ val }) => {
     return (
       <>
         {val.map((category, i) => {
           return (
-            <span
-              key={i}
-              className="bg-violet-300 font-semibold capitalize py-1 px-2 mr-1 text-sm rounded-xl"
-            >
-              {category}
-            </span>
+            <>
+              <span
+                key={i}
+                className="bg-violet-300 font-semibold capitalize py-1 px-2 mr-1 text-sm rounded-xl"
+              >
+                {category}
+              </span>
+            </>
           );
         })}
       </>
@@ -129,6 +159,8 @@ function DaftarProduk() {
                   <input
                     className="text-sm font-medium outline-none w-[270px]"
                     placeholder="Cari nama obat"
+                    name="search"
+                    value={input.search}
                     onChange={(e) => handleInput(e)}
                   ></input>
                   <HiSearch className="text-xl" />
@@ -137,11 +169,18 @@ function DaftarProduk() {
                   <select
                     className="text-sm font-medium outline-none w-full"
                     placeholder="Filter"
+                    name="category"
+                    value={input.category}
+                    onChange={(e) => handleInput(e)}
                   >
-                    <option value="#">Filter</option>
-                    <option value="saab">Obat Bebas</option>
-                    <option value="opel">Obat Racik</option>
-                    <option value="audi">Obat Resep</option>
+                    <option value="">All</option>
+                    {comp.map(({ id, name }) => {
+                      return (
+                        <>
+                          <option value={id + 1}>{name}</option>
+                        </>
+                      );
+                    })}
                   </select>
                 </div>
               </div>
@@ -158,8 +197,10 @@ function DaftarProduk() {
 
               <Pagination
                 totalData={totalData}
-                dataPerPage={10}
+                dataPerPage={10} // ganti value
                 pageChangeHandler={setPage}
+                updateLimit={updateLimit}
+                value={value}
               />
             </div>
           </div>
