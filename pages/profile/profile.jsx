@@ -54,7 +54,7 @@ const Profile = () => {
     fetchProfile();
   }, []);
 
-  const { id, name, email, password, gender, birthdate } = useUser();
+  // const { id, name, email, password, gender, birthdate } = useUser();
 
   //   const profileRender = getData.user?.map((val) => {
   //     return { value: val.id, label: val.name };
