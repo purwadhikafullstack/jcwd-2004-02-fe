@@ -56,7 +56,7 @@ img {
   margin-left: 40px;
   margin-top: 20px;
   align-items: center;
-  background-color: yellow;
+  /* background-color: yellow; */
   font-weight: 600;
 }
 
@@ -64,5 +64,5 @@ img {
   display: flex;
   margin-top: 20px;
   align-items: center;
-  background-color: yellow;
+  /* background-color: yellow; */
 }
