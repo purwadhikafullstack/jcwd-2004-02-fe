@@ -5,7 +5,7 @@ import ModalAdminEditDetail from "./admin/adminEditDetail";
 import ModalAdminEditFoto from "./admin/adminEditFoto";
 import ModalAdminEditStok from "./admin/adminEditStok";
 import AddProductSuccess from "./admin/addProductSuccess";
-import Profile from "./profile/profile";
+import Profile from "../components/profile";
 export default function Home() {
   return (
     <div>
