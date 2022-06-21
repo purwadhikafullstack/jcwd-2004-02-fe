@@ -36,7 +36,7 @@ const Verified = () => {
 
     useEffect(() => { 
         if (mounted.current){
-            return accVerified()
+            accVerified()
         } 
         mounted.current = true 
         return () => {}
