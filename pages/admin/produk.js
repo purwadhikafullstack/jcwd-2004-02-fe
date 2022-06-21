@@ -64,10 +64,6 @@ function DaftarProduk() {
     console.log(totalData);
   }, [page, input]);
 
-  // useEffect(() => {
-  //   console.log(value);
-  // }, [value]);
-
   const Categories = ({ val }) => {
     return (
       <>
@@ -204,6 +200,7 @@ function DaftarProduk() {
                 pageChangeHandler={setPage}
                 updateLimit={updateLimit}
                 value={value}
+                totalPage={Math.ceil(totalData / 10)}
               />
             </div>
           </div>

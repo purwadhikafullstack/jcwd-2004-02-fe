@@ -7,14 +7,9 @@ function Pagination({
   pageChangeHandler,
   updateLimit,
   value,
+  totalPage,
 }) {
-  const totalPage = Math.ceil(totalData / dataPerPage);
-
-  // const pageArr = [...new Array(totalPage)];
-
   const [currentPage, setCurrentPage] = useState(0);
-  const [canGoBack, setCanGoBack] = useState(false);
-  const [canGoNext, setCanGoNext] = useState(true);
 
   const [pageFirstRecord, setPageFirstRecord] = useState(1);
   const [pageLastRecord, setPageLastRecord] = useState(dataPerPage);
@@ -40,21 +35,6 @@ function Pagination({
       }
     }
   };
-
-  // useEffect(() => {
-  //   if (totalPage === currentPage) {
-  //     setCanGoNext(false);
-  //   } else {
-  //     setCanGoNext(true);
-  //   }
-
-  //   if (currentPage === 0) {
-  //     setCanGoBack(false);
-  //   } else {
-  //     setCanGoBack(true);
-  //   }
-  //   console.log("total & curr page");
-  // }, [totalPage, currentPage]);
 
   useEffect(() => {
     PaginationBar();
