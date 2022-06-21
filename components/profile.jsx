@@ -28,7 +28,7 @@ const Profile = () => {
   return (
     // <Box boxShadow="2xl" p="6" rounded="md" bg="white">
     <div className="flex">
-      <div className="shadow-purple-200 shadow-xl rounded-lg mt-10 ml-14 w-2/12">
+      <div className="shadow-purple-200 shadow-xl rounded-lg mt-10 mx-auto w-2/12">
         <div className=" pt-10 ml-11 text-2xl font-bold">Jane Doe</div>
         <Divider className="mt-5" />
         <div className="flex">
@@ -55,7 +55,7 @@ const Profile = () => {
         </div>
       </div>
 
-      <div className="flex ml-10 shadow-purple-200 shadow-xl w-6/12 rounded-lg mt-10 pb-14">
+      <div className="flex mx-auto shadow-purple-200 shadow-xl w-6/12 rounded-lg mt-10 pb-14">
         <div>
           <div className="pt-10 ml-11 text-2xl font-bold">Profil</div>
           <Divider className="mt-5" />
