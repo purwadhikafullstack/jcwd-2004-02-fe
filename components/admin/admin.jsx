@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import { useEffect, useState } from "react";
 import Select from "react-select";
-// import CreatableSelect from 'react-select/creatable';
-// import { ActionMeta, OnChangeValue } from 'react-select';
-import Calendar from "react-calendar";
 import {
   Modal,
   ModalOverlay,
@@ -18,16 +15,12 @@ import {
   FormLabel,
   Input,
   Stack,
-  HStack,
-  useNumberInput,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { API_URL } from "../../helpers";
 
 function ModalInputAdmin() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(0);
   const [getData, setgetData] = useState({});
@@ -45,7 +38,6 @@ function ModalInputAdmin() {
     usage: "",
     quantity: 0,
     unit: "",
-    // expired_at: "", // belom tau cara masukin ke tabel stok
     brand_id: 0,
     type_id: 0,
     hargaJual: 0,
@@ -103,13 +95,20 @@ function ModalInputAdmin() {
       if (photo) {
         return (
           <div>
-            <img
-              className=" mx-5 h-[200px] w-[200px]"
-              src={URL.createObjectURL(photo)}
-              alt=""
-              key={index}
-            />
-            <div onClick={() => deletePhoto(index)}>hapus</div>
+            <div>
+              <div
+                onClick={() => deletePhoto(index)}
+                className="cursor-pointer absolute ml-24 mt-2 bg-slate-200 w-6 h-6 rounded-full text-slate-600 left-40"
+              >
+                X
+              </div>
+              <img
+                className="h-[200px] w-[200px] object-cover "
+                src={URL.createObjectURL(photo)}
+                alt=""
+                key={index}
+              />
+            </div>
           </div>
         );
       } else {
@@ -122,10 +121,12 @@ function ModalInputAdmin() {
               onChange={(e) => handleImageChange(e, index)}
             />
             <label
-              className="mx-5 bg-blue-500 h-[200px] w-[200px]"
+              className="mx-5 h-[200px] w-[200px] border-dashed border-2 cursor-pointer"
               htmlFor={"file" + index}
             >
-              <i>{index === 0 ? "Insert Main Image" : "Insert Image"}</i>
+              <i className="flex align-middle justify-center">
+                {index === 0 ? "Insert Main Image" : "Insert Image"}
+              </i>
             </label>
           </>
         );
@@ -133,15 +134,6 @@ function ModalInputAdmin() {
     });
   };
   // console.log(input);
-
-  // fetch
-  const fetchData = async () => {
-    let res = await axios.get(
-      `${API_URL}/products?_page=${page + 1}&_limit=${rowsPerPage}`
-    );
-    setData(res.data);
-    settotalData(parseInt(res.headers["x-total-count"]));
-  };
 
   useEffect(() => {
     fetchComponentObat();
@@ -162,6 +154,7 @@ function ModalInputAdmin() {
       );
       // console.log(res.data);
       setgetData(res.data);
+      console.log("resdata", res.data);
     } catch (error) {
       console.log(error);
     }
@@ -204,6 +197,7 @@ function ModalInputAdmin() {
     console.log("iniformdata", formData);
     try {
       await submitProduct(formData);
+      setTab(5);
     } catch (error) {
       console.log(error);
     }
@@ -863,6 +857,16 @@ function ModalInputAdmin() {
                   Simpan
                 </Button>
               </ModalFooter>
+            </div>
+          ) : null}
+          {/* fourth tab */}
+          {tab === 5 ? (
+            <div>
+              <ModalBody className="flex items-center justify-center" h="600px">
+                <div className="flex items-center justify-center">
+                  <img src={"/addProductSuccess.svg"} />
+                </div>
+              </ModalBody>
             </div>
           ) : null}
         </ModalContent>

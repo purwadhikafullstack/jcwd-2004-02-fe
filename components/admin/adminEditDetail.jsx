@@ -253,7 +253,9 @@ function ModalAdminEditDetail() {
                     1
                   </div>
                   <div className="font-semibold"> Detail Obat</div>
-                  <div className="mx-2 text-purple-600 font-semibold  ">></div>
+                  <div className="mx-2 text-purple-600 font-semibold  ">
+                    {">"}
+                  </div>
                   <div className="rounded-full w-5 bg-gray-400 text-center text-white mr-2">
                     2
                   </div>
@@ -411,7 +413,7 @@ function ModalAdminEditDetail() {
                     1
                   </div>
                   <div className="text-gray-400"> Detail Obat</div>
-                  <div className="mx-2  font-semibold  ">></div>
+                  <div className="mx-2  font-semibold  ">{">"}</div>
                   <div className="rounded-full w-5  bg-purple-600 text-center text-white mr-2">
                     2
                   </div>
