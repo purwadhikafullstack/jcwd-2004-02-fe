@@ -1,10 +1,11 @@
 import Head from "next/head";
 import Footer from "../components/Footer";
-import ModalInputAdmin from "./admin/admin";
-import ModalAdminEditDetail from "./admin/adminEditDetail";
-import ModalAdminEditFoto from "./admin/adminEditFoto";
-import ModalAdminEditStok from "./admin/adminEditStok";
-import AddProductSuccess from "./admin/addProductSuccess";
+import ModalInputAdmin from "../components/admin/admin";
+import ModalAdminEditDetail from "../components/admin/adminEditDetail";
+import ModalAdminEditFoto from "../components/admin/adminEditFoto";
+import ModalAdminEditStok from "../components/admin/adminEditStok";
+import AddProductSuccess from "../components/admin/addProductSuccess";
+// import AddProductSuccess from "../components/admin/addProductSuccess";
 export default function Home() {
   return (
     <div>
