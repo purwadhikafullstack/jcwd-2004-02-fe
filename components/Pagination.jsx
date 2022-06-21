@@ -27,35 +27,38 @@ function Pagination({
 
   const PaginationBar = () => {
     if (totalPage < 6) {
-      setPagination([1, 2, 3, 4, 5]);
+      let page = [1, 2, 3, 4, 5];
+      setPagination([...page]);
     } else {
       if (currentPage <= 2) {
-        setPagination([1, 2, 3, "...", totalPage]);
+        let page = [1, 2, 3, "...", totalPage];
+        setPagination([...page]);
       } else if (2 < currentPage && currentPage < totalPage - 3) {
-        setPagination([1, "...", currentPage + 1, "...", totalPage]);
+        setPagination([...[1, "...", currentPage + 1, "...", totalPage]]);
       } else if (currentPage >= totalPage - 3) {
-        setPagination([1, "...", totalPage - 2, totalPage - 1, totalPage]);
+        setPagination([...[1, "...", totalPage - 2, totalPage - 1, totalPage]]);
       }
     }
   };
 
-  useEffect(() => {
-    if (totalPage === currentPage) {
-      setCanGoNext(false);
-    } else {
-      setCanGoNext(true);
-    }
+  // useEffect(() => {
+  //   if (totalPage === currentPage) {
+  //     setCanGoNext(false);
+  //   } else {
+  //     setCanGoNext(true);
+  //   }
 
-    if (currentPage === 0) {
-      setCanGoBack(false);
-    } else {
-      setCanGoBack(true);
-    }
-  }, [totalPage, currentPage]);
+  //   if (currentPage === 0) {
+  //     setCanGoBack(false);
+  //   } else {
+  //     setCanGoBack(true);
+  //   }
+  //   console.log("total & curr page");
+  // }, [totalPage, currentPage]);
 
   useEffect(() => {
     PaginationBar();
-    // console.log(totalPage, "ini child");
+    console.log("first");
   }, []);
 
   useEffect(() => {
@@ -63,16 +66,18 @@ function Pagination({
     pageChangeHandler(currentPage);
     setPageFirstRecord(skipFactor + 1);
     PaginationBar();
+    console.log("cur page");
   }, [currentPage]);
 
   useEffect(() => {
     const count = pageFirstRecord + dataPerPage;
     setPageLastRecord(count > totalData ? totalData : count - 1);
+    console.log("page first & data & total");
   }, [pageFirstRecord, dataPerPage, totalData]);
 
   return (
     <>
-      {totalPage > 1 ? (
+      {totalPage >= 1 ? (
         <div className="flex justify-between h-[60px] items-center px-[14px]">
           <div>
             Menampilkan {pageFirstRecord} - {pageLastRecord} dari {totalData}
@@ -94,7 +99,7 @@ function Pagination({
             </div>
           </div>
           <div className="flex">
-            <button onClick={onPrevPage} disabled={!canGoBack}>
+            <button onClick={onPrevPage} disabled={currentPage === 0}>
               <IoIosArrowBack />
             </button>
             <>
@@ -118,7 +123,10 @@ function Pagination({
                 );
               })}
             </>
-            <button onClick={onNextPage} disabled={!canGoNext}>
+            <button
+              onClick={onNextPage}
+              disabled={totalPage - 1 === currentPage}
+            >
               <IoIosArrowForward />
             </button>
           </div>

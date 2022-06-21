@@ -10,6 +10,8 @@ import { API_URL } from "../../helpers";
 import Pagination from "../../components/Pagination";
 import { flushSync } from "react-dom";
 
+//  USE DEBOUNCE
+
 function DaftarProduk() {
   const [page, setPage] = useState(0);
   const [data, setData] = useState([]);
@@ -31,14 +33,14 @@ function DaftarProduk() {
   const handleInput = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
     setPage(0);
-    console.log(input);
+    // console.log(input);
   };
 
   const getComponent = async () => {
     let res2 = await axios.get(`${API_URL}/adminproduk/component`);
     setComponent([...res2.data]);
 
-    console.log(comp, "inicom");
+    // console.log(comp, "inicom");
   };
 
   const getDaftarProduk = async (page, input) => {
@@ -48,8 +50,9 @@ function DaftarProduk() {
     setTotalData(parseInt(res.headers["x-total-product"]));
     setData([...res.data]);
     setIsLoading(false);
-    console.log(res.headers["x-total-product"]);
-    console.log(res.headers);
+    // console.log(res.data);
+    // console.log(res.headers["x-total-product"]);
+    // console.log(res.headers);
   };
 
   useEffect(() => {
@@ -58,7 +61,7 @@ function DaftarProduk() {
 
   useEffect(() => {
     getDaftarProduk(page, input);
-    // console.log(totalData, "ini total data [page, input]");
+    console.log(totalData);
   }, [page, input]);
 
   // useEffect(() => {
@@ -75,7 +78,7 @@ function DaftarProduk() {
                 key={i}
                 className="bg-violet-300 font-semibold capitalize py-1 px-2 mr-1 text-sm rounded-xl"
               >
-                {category}
+                {category.name}
               </span>
             </>
           );
@@ -177,7 +180,7 @@ function DaftarProduk() {
                     {comp.map(({ id, name }) => {
                       return (
                         <>
-                          <option value={id + 1}>{name}</option>
+                          <option value={id}>{name}</option>
                         </>
                       );
                     })}
