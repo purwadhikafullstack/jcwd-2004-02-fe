@@ -5,7 +5,6 @@ import { RiListUnordered, RiLockPasswordLine } from "react-icons/ri";
 import { MdPayments, MdLocationOn } from "react-icons/md";
 // import { BsHeartFill } from "react-icons/bs";
 // import { IoMail } from "react-icons/io";
-
 import {
   Modal,
   ModalOverlay,
@@ -30,13 +29,14 @@ import {
 } from "@chakra-ui/react";
 import { ButtonPrimary, ButtonSecondary } from "./button";
 import Navbar from "./navbar";
+import ModalEditProfile from "./modalEditProfile";
+import ModalEditPhoto from "./modalEditPhoto";
 // import useUser from "../../hooks/useUser";
 
 const Profile = () => {
   // const { name, email, gender, birthdate } = useUser();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const initialRef = React.useRef();
-  const finalRef = React.useRef();
+  const [selectedImage, setselectedImage] = useState([]);
+
   return (
     // <Box boxShadow="2xl" p="6" rounded="md" bg="white">
     <div>
@@ -86,46 +86,7 @@ const Profile = () => {
                   className="flex items-center ml-11 mt-10  h-[300px] w-[300px]"
                   src={"/addProductSuccess.svg"}
                 />
-                <>
-                  <Button
-                    onClick={onOpen}
-                    className=" text-[14px] w-32 h-10 mt-4 ml-[140px]"
-                    variant="outline"
-                    colorScheme={"purple"}
-                  >
-                    Edit Foto
-                  </Button>
-                  <Modal
-                    initialFocusRef={initialRef}
-                    finalFocusRef={finalRef}
-                    isOpen={isOpen}
-                    onClose={onClose}
-                  >
-                    <ModalOverlay />
-                    <ModalContent>
-                      <ModalHeader>Create your account</ModalHeader>
-                      <ModalCloseButton />
-                      <ModalBody pb={6}>
-                        <FormControl>
-                          <FormLabel>First name</FormLabel>
-                          <Input ref={initialRef} placeholder="First name" />
-                        </FormControl>
-
-                        <FormControl mt={4}>
-                          <FormLabel>Last name</FormLabel>
-                          <Input placeholder="Last name" />
-                        </FormControl>
-                      </ModalBody>
-
-                      <ModalFooter>
-                        <Button colorScheme="blue" mr={3}>
-                          Save
-                        </Button>
-                        <Button onClick={onClose}>Cancel</Button>
-                      </ModalFooter>
-                    </ModalContent>
-                  </Modal>
-                </>
+                <ModalEditPhoto />
               </div>
               <div>
                 <div>
@@ -153,80 +114,7 @@ const Profile = () => {
                   </div>
                 </div>
                 {/* <div className="profileTag justify-center">Edit Profil</div> */}
-                <>
-                  <Button
-                    onClick={onOpen}
-                    className=" text-[14px] w-32 h-10 mt-6 ml-[140px]"
-                    variant="outline"
-                    colorScheme={"purple"}
-                  >
-                    Edit Profil
-                  </Button>
-                  <Modal
-                    initialFocusRef={initialRef}
-                    finalFocusRef={finalRef}
-                    isOpen={isOpen}
-                    onClose={onClose}
-                  >
-                    <ModalOverlay />
-                    <ModalContent>
-                      <ModalHeader>Edit Profil</ModalHeader>
-                      <ModalCloseButton />
-                      <ModalBody pb={6}>
-                        <FormControl mt={"3"} className="flex">
-                          <FormLabel pt={2} fontSize="md" w="175px">
-                            Nama Lengkap
-                          </FormLabel>
-                          <Stack spacing={3}>
-                            <Input
-                              ref={initialRef}
-                              placeholder="Nama Lengkap"
-                            />
-                          </Stack>
-                        </FormControl>
-
-                        <FormControl mt={"3"} className="flex">
-                          <FormLabel pt={2} fontSize="md" w="175px">
-                            Gender
-                          </FormLabel>
-                          <Stack spacing={3} className="w-[160px]">
-                            <Select placeholder="Select option">
-                              <option value="option1">Pria</option>
-                              <option value="option2">Wanita</option>
-                            </Select>
-                          </Stack>
-                        </FormControl>
-
-                        <FormControl mt={"3"} className="flex">
-                          <FormLabel pt={2} fontSize="md" w="175px">
-                            Tanggal Lahir
-                          </FormLabel>
-                          <Stack spacing={3}>
-                            <div>
-                              <input
-                                style={{
-                                  border: "1px solid #ccc",
-                                  borderRadius: "4px",
-                                }}
-                                className="h-[40px] px-3 text-gray-400"
-                                type="date"
-                                // onChange={(e) => handleChange(e, "expired")}
-                                // value={input.expired}
-                              />
-                            </div>
-                          </Stack>
-                        </FormControl>
-                      </ModalBody>
-
-                      <ModalFooter>
-                        <Button colorScheme="blue" mr={3}>
-                          Save
-                        </Button>
-                        <Button onClick={onClose}>Cancel</Button>
-                      </ModalFooter>
-                    </ModalContent>
-                  </Modal>
-                </>
+                <ModalEditProfile />
               </div>
             </div>
           </div>
