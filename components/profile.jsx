@@ -34,6 +34,9 @@ import Navbar from "./navbar";
 
 const Profile = () => {
   // const { name, email, gender, birthdate } = useUser();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const initialRef = React.useRef();
+  const finalRef = React.useRef();
   return (
     // <Box boxShadow="2xl" p="6" rounded="md" bg="white">
     <div>
@@ -83,9 +86,46 @@ const Profile = () => {
                   className="flex items-center ml-11 mt-10  h-[300px] w-[300px]"
                   src={"/addProductSuccess.svg"}
                 />
-                <ButtonSecondary className=" text-[14px] w-32 h-10 mt-4 ml-[140px]">
-                  Edit Foto
-                </ButtonSecondary>
+                <>
+                  <Button
+                    onClick={onOpen}
+                    className=" text-[14px] w-32 h-10 mt-4 ml-[140px]"
+                    variant="outline"
+                    colorScheme={"purple"}
+                  >
+                    Edit Foto
+                  </Button>
+                  <Modal
+                    initialFocusRef={initialRef}
+                    finalFocusRef={finalRef}
+                    isOpen={isOpen}
+                    onClose={onClose}
+                  >
+                    <ModalOverlay />
+                    <ModalContent>
+                      <ModalHeader>Create your account</ModalHeader>
+                      <ModalCloseButton />
+                      <ModalBody pb={6}>
+                        <FormControl>
+                          <FormLabel>First name</FormLabel>
+                          <Input ref={initialRef} placeholder="First name" />
+                        </FormControl>
+
+                        <FormControl mt={4}>
+                          <FormLabel>Last name</FormLabel>
+                          <Input placeholder="Last name" />
+                        </FormControl>
+                      </ModalBody>
+
+                      <ModalFooter>
+                        <Button colorScheme="blue" mr={3}>
+                          Save
+                        </Button>
+                        <Button onClick={onClose}>Cancel</Button>
+                      </ModalFooter>
+                    </ModalContent>
+                  </Modal>
+                </>
               </div>
               <div>
                 <div>
@@ -113,9 +153,54 @@ const Profile = () => {
                   </div>
                 </div>
                 {/* <div className="profileTag justify-center">Edit Profil</div> */}
-                <ButtonSecondary className=" text-[14px] w-32 h-10 mt-6 ml-[140px]">
-                  Edit Profil
-                </ButtonSecondary>
+                <>
+                  <Button
+                    onClick={onOpen}
+                    className=" text-[14px] w-32 h-10 mt-4 ml-[140px]"
+                    variant="outline"
+                    colorScheme={"purple"}
+                  >
+                    Edit Profil
+                  </Button>
+                  <Modal
+                    initialFocusRef={initialRef}
+                    finalFocusRef={finalRef}
+                    isOpen={isOpen}
+                    onClose={onClose}
+                  >
+                    <ModalOverlay />
+                    <ModalContent>
+                      <ModalHeader>Edit Profil</ModalHeader>
+                      <ModalCloseButton />
+                      <ModalBody pb={6}>
+                        <FormControl>
+                          <FormLabel>Nama Lengkap</FormLabel>
+                          <Input ref={initialRef} placeholder="Nama Lengkap" />
+                        </FormControl>
+
+                        <FormControl mt={4}>
+                          <FormLabel>Gender</FormLabel>
+                          <Select placeholder="Select option">
+                            <option value="option1">Pria</option>
+                            <option value="option2">Wanita</option>
+                          </Select>
+                        </FormControl>
+
+                        <FormControl mt={4}>
+                          <FormLabel>Tanggal Lahir</FormLabel>
+                          <Input placeholder="" />
+                        </FormControl>
+                      </ModalBody>
+
+                      <ModalFooter>
+                        <Button colorScheme="blue" mr={3}>
+                          Save
+                        </Button>
+                        <Button onClick={onClose}>Cancel</Button>
+                      </ModalFooter>
+                    </ModalContent>
+                  </Modal>
+                </>
               </div>
             </div>
           </div>
