@@ -129,7 +129,7 @@ const Profile = () => {
               </div>
               <div>
                 <div>
-                  <div className="flex mt-10">
+                  <div className="flex mt-5">
                     <div className="profileTag">Username</div>
                     <div className="profileDesc ml-16">ss</div>
                   </div>
@@ -156,7 +156,7 @@ const Profile = () => {
                 <>
                   <Button
                     onClick={onOpen}
-                    className=" text-[14px] w-32 h-10 mt-4 ml-[140px]"
+                    className=" text-[14px] w-32 h-10 mt-6 ml-[140px]"
                     variant="outline"
                     colorScheme={"purple"}
                   >
@@ -173,22 +173,48 @@ const Profile = () => {
                       <ModalHeader>Edit Profil</ModalHeader>
                       <ModalCloseButton />
                       <ModalBody pb={6}>
-                        <FormControl>
-                          <FormLabel>Nama Lengkap</FormLabel>
-                          <Input ref={initialRef} placeholder="Nama Lengkap" />
+                        <FormControl mt={"3"} className="flex">
+                          <FormLabel pt={2} fontSize="md" w="175px">
+                            Nama Lengkap
+                          </FormLabel>
+                          <Stack spacing={3}>
+                            <Input
+                              ref={initialRef}
+                              placeholder="Nama Lengkap"
+                            />
+                          </Stack>
                         </FormControl>
 
-                        <FormControl mt={4}>
-                          <FormLabel>Gender</FormLabel>
-                          <Select placeholder="Select option">
-                            <option value="option1">Pria</option>
-                            <option value="option2">Wanita</option>
-                          </Select>
+                        <FormControl mt={"3"} className="flex">
+                          <FormLabel pt={2} fontSize="md" w="175px">
+                            Gender
+                          </FormLabel>
+                          <Stack spacing={3} className="w-[160px]">
+                            <Select placeholder="Select option">
+                              <option value="option1">Pria</option>
+                              <option value="option2">Wanita</option>
+                            </Select>
+                          </Stack>
                         </FormControl>
 
-                        <FormControl mt={4}>
-                          <FormLabel>Tanggal Lahir</FormLabel>
-                          <Input placeholder="" />
+                        <FormControl mt={"3"} className="flex">
+                          <FormLabel pt={2} fontSize="md" w="175px">
+                            Tanggal Lahir
+                          </FormLabel>
+                          <Stack spacing={3}>
+                            <div>
+                              <input
+                                style={{
+                                  border: "1px solid #ccc",
+                                  borderRadius: "4px",
+                                }}
+                                className="h-[40px] px-3 text-gray-400"
+                                type="date"
+                                // onChange={(e) => handleChange(e, "expired")}
+                                // value={input.expired}
+                              />
+                            </div>
+                          </Stack>
                         </FormControl>
                       </ModalBody>
 
