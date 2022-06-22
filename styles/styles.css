@@ -54,10 +54,10 @@ img {
 .profileTag {
   display: flex;
   margin-left: 40px;
-  margin-top: 20px;
+  margin-top: 36px;
   align-items: center;
   /* background-color: yellow; */
-  font-weight: 600;
+  font-weight: 400;
 }
 
 .profileDesc {
