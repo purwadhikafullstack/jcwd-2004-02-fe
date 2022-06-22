@@ -4,11 +4,18 @@ import { FiDownload } from "react-icons/fi";
 import { IoDocumentText } from "react-icons/io5";
 import { HiSearch } from "react-icons/hi";
 import NewTable from "../../components/Table";
-import { useEffect, useMemo, useState, useTransition } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  useTransition,
+} from "react";
 import axios from "axios";
 import { API_URL } from "../../helpers";
 import Pagination from "../../components/Pagination";
 import { flushSync } from "react-dom";
+import debounce from "lodash.debounce";
 
 //  USE DEBOUNCE
 
@@ -24,7 +31,7 @@ function DaftarProduk() {
   const [value, setLimit] = useState(10);
   const [comp, setComponent] = useState([]);
 
-  const [pending, startTransition] = useTransition();
+  // const [pending, startTransition] = useTransition();
 
   const updateLimit = (e) => {
     setLimit(parseInt(e.target.value));
@@ -43,25 +50,30 @@ function DaftarProduk() {
     // console.log(comp, "inicom");
   };
 
-  const getDaftarProduk = async (page, input) => {
+  const getDaftarProduk = async (page, input, cb) => {
     let res = await axios.get(
       `${API_URL}/adminproduk/fetchdaftarproduk?page=${page}&search=${input.search}&category=${input.category}`
-    );
-    setTotalData(parseInt(res.headers["x-total-product"]));
-    setData([...res.data]);
-    setIsLoading(false);
-    // console.log(res.data);
-    // console.log(res.headers["x-total-product"]);
-    // console.log(res.headers);
+    ); //! Dipersingkat querynya (dibuat conditional)
+    cb(res);
   };
+
+  const debouncedFetchData = useCallback(
+    debounce((page, input, cb) => {
+      getDaftarProduk(page, input, cb);
+    }, 1000),
+    []
+  );
 
   useEffect(() => {
     getComponent();
   }, []);
 
   useEffect(() => {
-    getDaftarProduk(page, input);
-    console.log(totalData);
+    debouncedFetchData(page, input, (res) => {
+      setTotalData(parseInt(res.headers["x-total-product"]));
+      setData([...res.data]);
+      setIsLoading(false);
+    });
   }, [page, input]);
 
   const Categories = ({ val }) => {
