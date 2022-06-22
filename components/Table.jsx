@@ -15,6 +15,8 @@ function NewTable({ columns, data, isLoading }) {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data, manualPagination: true }, useSortBy);
 
+  const arrayKosong = [...new Array(10)];
+
   return (
     <div>
       <TableContainer
@@ -37,6 +39,7 @@ function NewTable({ columns, data, isLoading }) {
                     isNumeric={column.isNumeric}
                     className="truncate"
                   >
+                    {" "}
                     <div className="flex jus">
                       {column.render("Header")}
                       <FaSort />
@@ -58,10 +61,10 @@ function NewTable({ columns, data, isLoading }) {
                       className="truncate"
                       isNumeric={cell.column.isNumeric}
                     >
-                      {isLoading ? (
-                        <SkeletonText noOfLines={1} mt={2} mb={1} />
-                      ) : (
+                      {!isLoading ? (
                         <>{cell.render("Cell")}</>
+                      ) : (
+                        <SkeletonText noOfLines={1} mt={2} mb={1} />
                       )}
                     </Td>
                   ))}

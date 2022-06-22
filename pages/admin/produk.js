@@ -44,7 +44,7 @@ function DaftarProduk() {
   };
 
   const getComponent = async () => {
-    let res2 = await axios.get(`${API_URL}/adminproduk/component`);
+    let res2 = await axios.get(`${API_URL}/products/getcategory`);
     setComponent([...res2.data]);
 
     // console.log(comp, "inicom");
@@ -52,7 +52,7 @@ function DaftarProduk() {
 
   const getDaftarProduk = async (page, input, cb) => {
     let res = await axios.get(
-      `${API_URL}/adminproduk/fetchdaftarproduk?page=${page}&search=${input.search}&category=${input.category}`
+      `${API_URL}/products/fetchdaftarproduk?page=${page}&search=${input.search}&category=${input.category}`
     ); //! Dipersingkat querynya (dibuat conditional)
     cb(res);
   };
@@ -107,11 +107,11 @@ function DaftarProduk() {
     },
     {
       Header: "No Obat",
-      accessor: "med_number",
+      accessor: "no_obat",
     },
     {
       Header: "No BPOM",
-      accessor: "bpom_number",
+      accessor: "no_BPOM",
     },
     {
       Header: "Kategori",
@@ -129,11 +129,11 @@ function DaftarProduk() {
     },
     {
       Header: "Nilai Barang",
-      accessor: "buy_price",
+      accessor: "hargaBeli",
     },
     {
       Header: "Nilai Jual",
-      accessor: "sell_price",
+      accessor: "hargaJual",
     },
     {
       Header: "Atur",
