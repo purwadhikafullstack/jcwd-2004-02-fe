@@ -1,3 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .input-container {
+    @apply flex rounded-md border-2 border-slate-300;
+  }
+
+  .menu-container {
+    @apply h-[80px] pl-[42px] bg-white items-center;
+  }
+
+  .menu-clicked {
+    @apply h-[64px] pl-[42px] bg-white items-center;
+  }
+
+  .menu-icon {
+    @apply h-[24px] w-[22px] overflow-hidden relative;
+  }
+
+  .submenu-container {
+    @apply h-[48px] pl-[75px] -z-10 items-center;
+  }
+
+  .bg-admin {
+    @apply ml-[256px] min-h-screen bg-gradient-to-b from-purple-300/5 to-purple-800/25;
+  }
+}
