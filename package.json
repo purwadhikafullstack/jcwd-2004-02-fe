@@ -31,6 +31,7 @@
     "react-toastify": "^9.0.5",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1",
+    "styled-jsx": "^5.0.2",
     "yup": "^0.32.11"
   },
   "devDependencies": {
