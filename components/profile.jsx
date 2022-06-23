@@ -5,36 +5,14 @@ import { RiListUnordered, RiLockPasswordLine } from "react-icons/ri";
 import { MdPayments, MdLocationOn } from "react-icons/md";
 // import { BsHeartFill } from "react-icons/bs";
 // import { IoMail } from "react-icons/io";
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  useDisclosure,
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Stack,
-  Select,
-  HStack,
-  useNumberInput,
-  Divider,
-  Box,
-  Image,
-  Icon,
-} from "@chakra-ui/react";
-import { ButtonPrimary, ButtonSecondary } from "./button";
+import { Divider, Box, Image, Icon } from "@chakra-ui/react";
 import Navbar from "./navbar";
 import ModalEditProfile from "./modalEditProfile";
 import ModalEditPhoto from "./modalEditPhoto";
-// import useUser from "../../hooks/useUser";
+import useUser from "../hooks/useUser";
 
 const Profile = () => {
-  // const { name, email, gender, birthdate } = useUser();
+  const { name, email, gender, birthdate } = useUser();
   const [selectedImage, setselectedImage] = useState([]);
 
   return (
@@ -50,7 +28,7 @@ const Profile = () => {
               src="https://bit.ly/dan-abramov"
               alt="Dan Abramov"
             />
-            <div className=" ml-3 mt-6 text-2xl font-bold">Jane Doe</div>
+            <div className=" ml-3 mt-6 text-2xl font-bold">{name}</div>
           </div>
           <div className="bg-slate-200">
             <Divider className="mt-2" />
@@ -96,24 +74,25 @@ const Profile = () => {
                   </div>
                   <div className="flex">
                     <div className="profileTag">Nama Lengkap</div>
-                    <div className="profileDesc ml-7">Ampuh Rakan</div>
+                    <div className="profileDesc ml-7">{name}</div>
                   </div>
                   <div className="flex">
                     <div className="profileTag">Gender</div>
-                    <div className="profileDesc ml-[85px]">Pria</div>
-                  </div>
-                  <div className="flex">
-                    <div className="profileTag">E-mail</div>
-                    <div className="profileDesc ml-[93px]">
-                      rakan.ganteng@gmail.com
+                    <div className="profileDesc ml-[85px]">
+                      {gender ? gender : "-"}
                     </div>
                   </div>
                   <div className="flex">
-                    <div className="profileTag">Umur</div>
-                    <div className="profileDesc ml-[97px]">25</div>
+                    <div className="profileTag">E-mail</div>
+                    <div className="profileDesc ml-[93px]">{email}</div>
+                  </div>
+                  <div className="flex">
+                    <div className="profileTag">Tanggal Lahir</div>
+                    <div className="profileDesc ml-[44px]">
+                      {birthdate ? birthdate : "-"}
+                    </div>
                   </div>
                 </div>
-                {/* <div className="profileTag justify-center">Edit Profil</div> */}
                 <ModalEditProfile />
               </div>
             </div>

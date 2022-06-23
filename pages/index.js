@@ -1,13 +1,13 @@
 import Head from "next/head";
 import Footer from "../components/Footer";
-import ModalInputAdmin from "./admin/admin";
-import ModalAdminEditDetail from "./admin/adminEditDetail";
-import ModalAdminEditFoto from "./admin/adminEditFoto";
-import ModalAdminEditStok from "./admin/adminEditStok";
-import AddProductSuccess from "./admin/addProductSuccess";
+// import ModalInputAdmin from "./admin/admin";
+// import ModalAdminEditDetail from "./admin/adminEditDetail";
+// import ModalAdminEditFoto from "./admin/adminEditFoto";
+// import ModalAdminEditStok from "./admin/adminEditStok";
+// import AddProductSuccess from "./admin/addProductSuccess";
 import Profile from "../components/profile";
-import Image from 'next/image'
-import styles from '../styles/Home.module.css' 
+import Image from "next/image";
+import styles from "../styles/Home.module.css";
 export default function Home() {
   return (
     <div>
@@ -19,9 +19,9 @@ export default function Home() {
       <ModalAdminEditDetail />
       <ModalAdminEditStok />
       <ModalAdminEditFoto />
-      <AddProductSuccess /> */}
+      // <AddProductSuccess /> */}
       <Profile />
       {/* <Footer /> */}
     </div>
-  )
+  );
 }
