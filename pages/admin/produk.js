@@ -1,6 +1,6 @@
 import AdminNavbar from "../../components/AdminNavbar";
 import AdminSidebar from "../../components/AdminSidebar";
-import ModalInputAdmin from "../../components/admin/admin";
+import ModalInputAdmin from "../../components/admin/ModalInputAdmin";
 import { FiDownload } from "react-icons/fi";
 import { IoDocumentText } from "react-icons/io5";
 import { HiSearch } from "react-icons/hi";
@@ -17,8 +17,6 @@ import { API_URL } from "../../helpers";
 import Pagination from "../../components/Pagination";
 import { flushSync } from "react-dom";
 import debounce from "lodash.debounce";
-
-//  USE DEBOUNCE
 
 function DaftarProduk() {
   const [page, setPage] = useState(0);
@@ -47,15 +45,42 @@ function DaftarProduk() {
   const getComponent = async () => {
     let res2 = await axios.get(`${API_URL}/products/getcategory`);
     setComponent([...res2.data]);
-
-    // console.log(comp, "inicom");
   };
 
   const getDaftarProduk = async (page, input, cb) => {
+    // token + headers
     let res = await axios.get(
       `${API_URL}/products/fetchdaftarproduk?page=${page}&search=${input.search}&category=${input.category}`
-    ); //! Dipersingkat querynya (dibuat conditional)
+    ); // FIXME Dipersingkat querynya (dibuat conditional)
     cb(res);
+  };
+
+  const getLastProduct = async () => {
+    // token + headers
+    let res = axios.get(`${API_URL}/products/getlastproduct`);
+    console.log(res.headers);
+    // setTotalData(parseInt(res.headers["x-total-product"]));
+    setData([...data, ...res.data]);
+  };
+
+  const submitProduct = async (values) => {
+    try {
+      // let token = Cookies.get("token");
+      await axios.post(`${API_URL}/products/addproduct`, values, {
+        // headers: {
+        //   // authorization: `Bearer ${token}`,
+        // },
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      // getLastProduct();
+      setPage(0);
+      setInput({
+        search: "",
+        category: "",
+      });
+    }
   };
 
   const debouncedFetchData = useCallback(
@@ -75,6 +100,7 @@ function DaftarProduk() {
       setData([...res.data]);
       setIsLoading(false);
     });
+    console.log(totalData, "ini total data");
   }, [page, input]);
 
   const Categories = ({ val }) => {
@@ -196,7 +222,7 @@ function DaftarProduk() {
                   </select>
                 </div>
               </div>
-              <ModalInputAdmin />
+              <ModalInputAdmin submitProduct={submitProduct} />
               {/* <div className="flex items-center rounded-lg bg-violet-900 p-[11px] text-white">
                 <FiDownload className="text-sm" />
                 <div className="text-xs font-semibold px-2 tracking-wide">

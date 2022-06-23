@@ -22,7 +22,7 @@ import axios from "axios";
 import { API_URL } from "../../helpers";
 import { flushSync } from "react-dom";
 
-function ModalInputAdmin() {
+function ModalInputAdmin({ submitProduct }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(0);
@@ -201,20 +201,8 @@ function ModalInputAdmin() {
     try {
       await submitProduct(formData);
     } catch (error) {
-      // error pakai toastify
       console.log(error);
-    }
-  };
-
-  const submitProduct = async (values) => {
-    try {
-      // let token = Cookies.get("token");
-
-      await axios.post(`${API_URL}/products/addproduct`, values, {
-        // headers: {
-        //   // authorization: `Bearer ${token}`,
-        // },
-      });
+    } finally {
       flushSync(() => {
         setTab(5);
       });
@@ -242,9 +230,6 @@ function ModalInputAdmin() {
         setTab(0);
         onClose();
       }, 800);
-      console.log("success");
-    } catch (error) {
-      throw error;
     }
   };
 
