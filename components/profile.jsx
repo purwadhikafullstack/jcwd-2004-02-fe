@@ -82,7 +82,6 @@ const Profile = () => {
                       {gender ? gender : "-"}
                     </div>
                   </div>
-
                   <div className="flex">
                     <div className="profileTag">E-mail</div>
                     <div className="profileDesc ml-[93px]">{email}</div>
