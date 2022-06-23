@@ -26,13 +26,15 @@ function NewTable({ columns, data, isLoading }) {
       >
         <Table {...getTableProps()} variant="striped" colorScheme="purple">
           <Thead>
-            {headerGroups.map((headerGroups) => (
+            {headerGroups.map((headerGroups, i) => (
               <Tr
+                key={i}
                 {...headerGroups.getHeaderGroupProps()}
                 backgroundColor={"purple.800"}
               >
-                {headerGroups.headers.map((column) => (
+                {headerGroups.headers.map((column, id) => (
                   <Th
+                    key={id}
                     {...column.getHeaderProps(column.getSortByToggleProps())}
                     textTransform={"capitalize"}
                     textColor={"white"}
@@ -50,12 +52,13 @@ function NewTable({ columns, data, isLoading }) {
             ))}
           </Thead>
           <Tbody {...getTableBodyProps()}>
-            {rows.map((row) => {
+            {rows.map((row, id) => {
               prepareRow(row);
               return (
-                <Tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => (
+                <Tr key={id} {...row.getRowProps()}>
+                  {row.cells.map((cell, id) => (
                     <Td
+                      key={id}
                       {...cell.getCellProps()}
                       maxWidth="200px"
                       className="truncate"
