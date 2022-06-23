@@ -6,7 +6,7 @@ export async function middleware(req){
     let response = await fetch(`${API_URL}/auth/checkRole`,{
         method: "GET", 
         headers: { 
-            auhtorization: `${token}`,
+            auhtorization: `bearer ${token}`,
         }
     }) 
     let data = await response.json()
