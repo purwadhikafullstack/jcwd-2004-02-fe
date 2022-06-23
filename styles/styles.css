@@ -50,3 +50,13 @@ img {
   object-fit: cover;
   padding: 0.75rem;
 }
+
+.selectContainer {
+  width: 160px;
+}
+
+.textareaContainer {
+  resize: "none";
+  border: "2px solid #ccc";
+  border-radius: "4px";
+}

@@ -16,16 +16,13 @@ import {
   FormLabel,
   Input,
   Stack,
-  HStack,
-  useNumberInput,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { API_URL } from "../../helpers";
+import { flushSync } from "react-dom";
 
 function ModalInputAdmin() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(0);
   const [getData, setgetData] = useState({});
@@ -43,7 +40,6 @@ function ModalInputAdmin() {
     usage: "",
     quantity: 0,
     unit: "",
-    // expired_at: "", // belom tau cara masukin ke tabel stok
     brand_id: 0,
     type_id: 0,
     hargaJual: 0,
@@ -100,15 +96,22 @@ function ModalInputAdmin() {
     return source.map((photo, index) => {
       if (photo) {
         return (
-          <div>
-            <img
-              className=" mx-5 h-[200px] w-[200px]"
-              src={URL.createObjectURL(photo)}
-              alt=""
-              key={index}
-            />
-            <div onClick={() => deletePhoto(index)}>hapus</div>
-          </div>
+          <>
+            <div>
+              <span
+                onClick={() => deletePhoto(index)}
+                className="cursor-pointer relative flex items-center justify-center bg-black bg-opacity-40 w-6 h-6 rounded-full text-white z-100 left-[185px] top-6 "
+              >
+                X
+              </span>
+              <img
+                className="h-[210px] w-[210px] object-cover mb-6 "
+                src={URL.createObjectURL(photo)}
+                alt=""
+                key={index}
+              />
+            </div>
+          </>
         );
       } else {
         return (
@@ -120,10 +123,12 @@ function ModalInputAdmin() {
               onChange={(e) => handleImageChange(e, index)}
             />
             <label
-              className="mx-5 bg-blue-500 h-[200px] w-[200px]"
+              className="mx-5 h-[185px] w-[185px] border-dashed border-2 cursor-pointer flex items-center justify-center"
               htmlFor={"file" + index}
             >
-              <i>{index === 0 ? "Insert Main Image" : "Insert Image"}</i>
+              <i className="">
+                {index === 0 ? "Insert Main Image" : "Insert Image"}
+              </i>
             </label>
           </>
         );
@@ -131,15 +136,6 @@ function ModalInputAdmin() {
     });
   };
   // console.log(input);
-
-  // fetch
-  const fetchData = async () => {
-    let res = await axios.get(
-      `${API_URL}/products?_page=${page + 1}&_limit=${rowsPerPage}`
-    );
-    setData(res.data);
-    settotalData(parseInt(res.headers["x-total-count"]));
-  };
 
   useEffect(() => {
     fetchComponentObat();
@@ -160,6 +156,7 @@ function ModalInputAdmin() {
       );
       // console.log(res.data);
       setgetData(res.data);
+      console.log("resdata", res.data);
     } catch (error) {
       console.log(error);
     }
@@ -203,6 +200,7 @@ function ModalInputAdmin() {
     try {
       await submitProduct(formData);
     } catch (error) {
+      // error pakai toastify
       console.log(error);
     }
   };
@@ -216,29 +214,36 @@ function ModalInputAdmin() {
         //   // authorization: `Bearer ${token}`,
         // },
       });
-
+      flushSync(() => {
+        setTab(5);
+      });
+      setinput({
+        name: "",
+        no_obat: "",
+        no_BPOM: "",
+        description: {},
+        warning: "",
+        usage: "",
+        quantity: 0,
+        unit: "",
+        brand_id: 0,
+        type_id: 0,
+        hargaJual: 0,
+        hargaBeli: 0,
+        symptom: [],
+        category: [],
+        stock: 10,
+        expired: "",
+        is_deleted: 0,
+      });
+      setselectedImage([null, null, null]);
+      setTimeout(() => {
+        setTab(0);
+        onClose();
+      }, 800);
       console.log("success");
     } catch (error) {
-      console.log(error);
-    } finally {
-      // setinput({
-      //   name: "",
-      //   no_obat: "",
-      //   no_BPOM: "",
-      //   description: {},
-      //   warning: "",
-      //   usage: "",
-      //   quantity: 0,
-      //   unit: "",
-      //   brand_id: 0,
-      //   type_id: 0,
-      //   hargaJual: 0,
-      //   hargaBeli: 0,
-      //   symptom: [],
-      //   category: [],
-      //   stock: 0,
-      //   expired: "",
-      // });
+      throw error;
     }
   };
 
@@ -272,27 +277,7 @@ function ModalInputAdmin() {
     return { value: val.id, label: val.name };
   });
 
-  // custom styles
-  const customStyles = {
-    // option: (provided, state) => ({
-    //   ...provided,
-    //   borderBottom: "1px dotted pink",
-    //   color: state.isSelected ? "red" : "blue",
-    //   padding: 20,
-    // }),
-    control: () => ({
-      // none of react-select's styles are passed to <Control />
-      width: 300,
-    }),
-    // singleValue: (provided, state) => {
-    //   const opacity = state.isDisabled ? 0.5 : 1;
-    //   const transition = "opacity 300ms";
-
-    //   return { ...provided, opacity, transition };
-    // },
-  };
-
-  // increment
+  // increment utk kuantitas
   const incNum = () => {
     let count = parseInt(input.quantity) + 1;
     setinput({ ...input, quantity: count });
@@ -364,7 +349,7 @@ function ModalInputAdmin() {
                     value={input.name}
                   />
                 </FormControl>
-                <FormControl mt={"1.5"} className="flex">
+                <FormControl mt={"3"} className="flex">
                   <FormLabel pt={2} fontSize="md" w="175px">
                     No. Obat
                   </FormLabel>
@@ -378,7 +363,7 @@ function ModalInputAdmin() {
                     value={input.no_obat}
                   />
                 </FormControl>
-                <FormControl mt={"1.5"} className="flex">
+                <FormControl mt={"3"} className="flex">
                   <FormLabel pt={2} fontSize="md" w="175px">
                     No. BPOM
                   </FormLabel>
@@ -392,20 +377,16 @@ function ModalInputAdmin() {
                     value={input.no_BPOM}
                   />
                 </FormControl>
-                <FormControl mt={"1.5"} className="flex">
+                <FormControl mt={"3"} className="flex">
                   <FormLabel pt={2} fontSize="md" w="175px">
                     Kategori
                   </FormLabel>
-                  <Stack spacing={3}>
+                  <Stack spacing={3} className="min-w-[160px]">
                     <Select
-                      w="141px"
-                      size="md"
-                      variant="outline"
-                      fontSize="sm"
                       placeholder="Pilih..."
                       options={categoryOptions}
                       isMulti
-                      className="basic-multi-select"
+                      className="basic-multi-select "
                       classNamePrefix="select"
                       onChange={(e) => handleChangeSelect(e, "category")}
                       name="category"
@@ -413,13 +394,18 @@ function ModalInputAdmin() {
                     />
                   </Stack>
                 </FormControl>
-                <FormControl mt={"1.5"} className="flex">
+                <FormControl mt={"3"} className="flex">
                   <FormLabel pt={2} fontSize="md" w="175px">
                     Tgl. Kadaluwarsa
                   </FormLabel>
                   <Stack spacing={3}>
                     <div>
                       <input
+                        style={{
+                          border: "1px solid #ccc",
+                          borderRadius: "4px",
+                        }}
+                        className="h-[40px] px-3 text-gray-400"
                         type="date"
                         onChange={(e) => handleChange(e, "expired")}
                         value={input.expired}
@@ -427,11 +413,11 @@ function ModalInputAdmin() {
                     </div>
                   </Stack>
                 </FormControl>
-                <FormControl mt={"1.5"} className="flex">
+                <FormControl mt={"3"} className="flex">
                   <FormLabel pt={2} fontSize="md" w="175px">
                     Merk Obat
                   </FormLabel>
-                  <Stack spacing={3}>
+                  <Stack spacing={3} className="min-w-[160px]">
                     <Select
                       w="141px"
                       size="md"
@@ -444,11 +430,11 @@ function ModalInputAdmin() {
                     />
                   </Stack>
                 </FormControl>
-                <FormControl mt={"1.5"} className="flex">
+                <FormControl mt={"3"} className="flex">
                   <FormLabel pt={2} fontSize="md" w="175px">
                     Tipe Obat
                   </FormLabel>
-                  <Stack spacing={3}>
+                  <Stack spacing={3} className="min-w-[160px]">
                     <Select
                       w="141px"
                       size="md"
@@ -461,11 +447,11 @@ function ModalInputAdmin() {
                     />
                   </Stack>
                 </FormControl>
-                <FormControl mt={"1.5"} className="flex">
+                <FormControl mt={"3"} className="flex">
                   <FormLabel pt={2} fontSize="md" w="175px">
                     Keluhan
                   </FormLabel>
-                  <Stack spacing={3}>
+                  <Stack spacing={3} className="min-w-[160px]">
                     <Select
                       isMulti
                       name="colors"
@@ -522,13 +508,17 @@ function ModalInputAdmin() {
                   </div>
                   <div className="text-gray-400">Upload Foto</div>
                 </div>
-                <div className="text-lg font-bold">Deskripsi</div>
-                <FormControl mt={"1.5"} className="flex">
+                <FormControl mt={10} className="flex">
                   <FormLabel pt={2} fontSize="sm" w="175px">
                     Indikasi / Kegunaan
                   </FormLabel>
                   <textarea
-                    className="w-1/2 text-sm pt-2"
+                    style={{
+                      resize: "none",
+                      border: "1px solid #ccc",
+                      borderRadius: "4px",
+                    }}
+                    className="w-1/2 text-sm pt-2 ml-4 pl-3"
                     placeholder="Masukkan Indikasi / Kegunaan"
                     onChange={(e) =>
                       handleChangeDesc(e, "description", "indikasi / kegunaan")
@@ -536,12 +526,17 @@ function ModalInputAdmin() {
                     value={input.description["indikasi / kegunaan"]}
                   />
                 </FormControl>
-                <FormControl mt={"1.5"} className="flex">
+                <FormControl mt={"3"} className="flex">
                   <FormLabel pt={2} fontSize="sm" w="175px">
                     Kandungan / Komposisi
                   </FormLabel>
                   <textarea
-                    className="w-1/2 text-sm pt-2"
+                    style={{
+                      resize: "none",
+                      border: "1px solid #ccc",
+                      borderRadius: "4px",
+                    }}
+                    className="w-1/2 text-sm pt-2 ml-4 pl-3"
                     placeholder="Masukkan Kandungan / Komposisi"
                     onChange={(e) =>
                       handleChangeDesc(
@@ -553,12 +548,17 @@ function ModalInputAdmin() {
                     value={input.description["Kandungan / Komposisi"]}
                   />
                 </FormControl>
-                <FormControl mt={"1.5"} className="flex">
+                <FormControl mt={"3"} className="flex">
                   <FormLabel pt={2} fontSize="sm" w="175px">
                     Kemasan
                   </FormLabel>
                   <textarea
-                    className="w-1/2 text-sm pt-2"
+                    style={{
+                      resize: "none",
+                      border: "1px solid #ccc",
+                      borderRadius: "4px",
+                    }}
+                    className="w-1/2 text-sm pt-2 ml-4 pl-3"
                     placeholder="Masukkan Jenis Kemasan"
                     onChange={(e) =>
                       handleChangeDesc(e, "description", "Kemasan")
@@ -566,12 +566,17 @@ function ModalInputAdmin() {
                     value={input.description["Kemasan"]}
                   />
                 </FormControl>
-                <FormControl mt={"1.5"} className="flex">
+                <FormControl mt={"3"} className="flex">
                   <FormLabel pt={2} fontSize="sm" w="175px">
                     Golongan
                   </FormLabel>
                   <textarea
-                    className="w-1/2 text-sm pt-2"
+                    style={{
+                      resize: "none",
+                      border: "1px solid #ccc",
+                      borderRadius: "4px",
+                    }}
+                    className="w-1/2 text-sm pt-2 ml-4 pl-3"
                     placeholder="Masukkan Golongan"
                     onChange={(e) =>
                       handleChangeDesc(e, "description", "Golongan")
@@ -579,12 +584,17 @@ function ModalInputAdmin() {
                     value={input.description["Golongan"]}
                   />
                 </FormControl>
-                <FormControl mt={"1.5"} className="flex">
+                <FormControl mt={"3"} className="flex">
                   <FormLabel pt={2} fontSize="sm" w="175px">
                     Butuh Resep
                   </FormLabel>
                   <textarea
-                    className="w-1/2 text-sm pt-2"
+                    style={{
+                      resize: "none",
+                      border: "1px solid #ccc",
+                      borderRadius: "4px",
+                    }}
+                    className="w-1/2 text-sm pt-2 ml-4 pl-3"
                     placeholder="Ya/Tidak"
                     onChange={(e) =>
                       handleChangeDesc(e, "description", "Butuh Resep")
@@ -592,12 +602,17 @@ function ModalInputAdmin() {
                     value={input.description["Butuh Resep"]}
                   />
                 </FormControl>
-                <FormControl mt={"1.5"} className="flex">
+                <FormControl mt={"3"} className="flex">
                   <FormLabel pt={2} fontSize="sm" w="175px">
                     Cara Penyimpanan
                   </FormLabel>
                   <textarea
-                    className="w-1/2 text-sm pt-2"
+                    style={{
+                      resize: "none",
+                      border: "1px solid #ccc",
+                      borderRadius: "4px",
+                    }}
+                    className="w-1/2 text-sm pt-2 ml-4 pl-3"
                     placeholder="Masukkan Cara Penyimpanan"
                     onChange={(e) =>
                       handleChangeDesc(e, "description", "Cara Penyimpanan")
@@ -605,12 +620,17 @@ function ModalInputAdmin() {
                     value={input.description["Cara Penyimpanan"]}
                   />
                 </FormControl>
-                <FormControl mt={"1.5"} className="flex">
+                <FormControl mt={"3"} className="flex">
                   <FormLabel pt={2} fontSize="sm" w="175px">
                     Principal
                   </FormLabel>
                   <textarea
-                    className="w-1/2 text-sm pt-2"
+                    style={{
+                      resize: "none",
+                      border: "1px solid #ccc",
+                      borderRadius: "4px",
+                    }}
+                    className="w-1/2 text-sm pt-2 ml-4 pl-3"
                     placeholder="Masukkan Principal"
                     onChange={(e) =>
                       handleChangeDesc(e, "description", "Principal")
@@ -618,12 +638,17 @@ function ModalInputAdmin() {
                     value={input.description["Principal"]}
                   />
                 </FormControl>
-                <FormControl mt={"1.5"} className="flex">
+                <FormControl mt={"3"} className="flex">
                   <FormLabel pt={2} fontSize="sm" w="175px">
                     Nomor Ijin Edar (NIE)
                   </FormLabel>
                   <textarea
-                    className="w-1/2 text-sm pt-2"
+                    style={{
+                      resize: "none",
+                      border: "1px solid #ccc",
+                      borderRadius: "4px",
+                    }}
+                    className="w-1/2 text-sm pt-2 ml-4 pl-3"
                     placeholder="Masukkan Nomor Ijin Edar (NIE)"
                     onChange={(e) =>
                       handleChangeDesc(
@@ -636,23 +661,33 @@ function ModalInputAdmin() {
                   />
                 </FormControl>
 
-                <FormControl mt={"1.5"} className="flex">
+                <FormControl mt={"3"} className="flex">
                   <FormLabel pt={2} fontSize="md" w="175px">
                     Warning
                   </FormLabel>
                   <textarea
-                    className="w-1/2 text-sm pt-2"
+                    style={{
+                      resize: "none",
+                      border: "1px solid #ccc",
+                      borderRadius: "4px",
+                    }}
+                    className="w-1/2 text-sm pt-2 ml-4 pl-3"
                     placeholder="Masukkan Warning"
                     onChange={(e) => handleChange(e, "warning")}
                     value={input.warning}
                   />
                 </FormControl>
-                <FormControl mt={"1.5"} className="flex">
+                <FormControl mt={"3"} className="flex">
                   <FormLabel pt={2} fontSize="md" w="175px">
                     Usage
                   </FormLabel>
                   <textarea
-                    className="w-1/2 text-sm pt-2"
+                    style={{
+                      resize: "none",
+                      border: "1px solid #ccc",
+                      borderRadius: "4px",
+                    }}
+                    className="w-1/2 text-sm pt-2 ml-4 pl-3"
                     placeholder="Masukkan Usage"
                     onChange={(e) => handleChange(e, "usage")}
                     value={input.usage}
@@ -707,13 +742,6 @@ function ModalInputAdmin() {
                     Kuantitas
                   </FormLabel>
                   <Stack spacing={3}>
-                    {/* <Select
-                      w="141px"
-                      size="sm"
-                      variant="outline"
-                      fontSize="xs"
-                      placeholder="Box"
-                    /> */}
                     <div className="flex mr-2">
                       <button className="text-purple-600 mr-3" onClick={decNum}>
                         -
@@ -733,22 +761,15 @@ function ModalInputAdmin() {
                     </div>
                   </Stack>
                 </FormControl>
-                <FormControl mt={"1.5"} className="flex">
+                <FormControl mt={"3"} className="flex">
                   <FormLabel pt={2} fontSize="sm" w="175px">
                     Satuan
                   </FormLabel>
                   <Stack spacing={3}>
-                    {/* <Select
-                      w="141px"
-                      size="sm"
-                      variant="outline"
-                      fontSize="xs"
-                      placeholder="Box"
-                    /> */}
                     <Input
                       w="226px"
-                      h="32px"
-                      fontSize="xs"
+                      h="40px"
+                      fontSize="sm"
                       placeholder="Masukkan satuan"
                       onChange={(e) => handleChange(e, "unit")}
                       name="unit"
@@ -757,28 +778,28 @@ function ModalInputAdmin() {
                   </Stack>
                 </FormControl>
 
-                <FormControl mt={"1.5"} className="flex">
+                <FormControl mt={"3"} className="flex">
                   <FormLabel pt={2} fontSize="sm" w="175px">
                     Nilai Barang (Rp)
                   </FormLabel>
                   <Input
                     w="226px"
-                    h="32px"
-                    fontSize="xs"
+                    h="40px"
+                    fontSize="sm"
                     placeholder="Masukkan nilai barang (Rp)"
                     onChange={(e) => handleChange(e, "hargaBeli")}
                     name="hargaBeli"
                     value={input.hargaBeli}
                   />
                 </FormControl>
-                <FormControl mt={"1.5"} className="flex">
+                <FormControl mt={"3"} className="flex">
                   <FormLabel pt={2} fontSize="sm" w="175px">
                     Nilai Jual (Rp)
                   </FormLabel>
                   <Input
                     w="226px"
-                    h="32px"
-                    fontSize="xs"
+                    h="40px"
+                    fontSize="sm"
                     placeholder="Masukkan nilai jual (Rp)"
                     onChange={(e) => handleChange(e, "hargaJual")}
                     name="hargaJual"
@@ -831,20 +852,12 @@ function ModalInputAdmin() {
                   <div className="">Upload Foto</div>
                 </div>
 
-                <FormControl mt={"1.5"} className="flex">
+                <FormControl
+                  mt={"1.5"}
+                  className="flex items-center justify-center"
+                >
                   <Stack spacing={3}>
-                    <div className="flex flex-col items-center justify-center mx-20">
-                      {/* <input
-                        type="file"
-                        id="file"
-                        onChange={handleImageChange}
-                        on
-                      /> */}
-                      {/* <div className="label-holder">
-                        <label htmlFor="file" className="label">
-                          <i>Tambah Foto</i>
-                        </label>
-                      </div> */}
+                    <div>
                       <div className="result ">
                         {renderPhotos(selectedImage)}
                       </div>
@@ -861,6 +874,16 @@ function ModalInputAdmin() {
                   Simpan
                 </Button>
               </ModalFooter>
+            </div>
+          ) : null}
+          {/* success tab */}
+          {tab === 5 ? (
+            <div>
+              <ModalBody className="flex items-center justify-center" h="600px">
+                <div className="flex items-center justify-center">
+                  <img src={"/addProductSuccess.svg"} />
+                </div>
+              </ModalBody>
             </div>
           ) : null}
         </ModalContent>
