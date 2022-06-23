@@ -1,5 +1,6 @@
 import AdminNavbar from "../../components/AdminNavbar";
 import AdminSidebar from "../../components/AdminSidebar";
+import ModalInputAdmin from "../../components/admin/admin";
 import { FiDownload } from "react-icons/fi";
 import { IoDocumentText } from "react-icons/io5";
 import { HiSearch } from "react-icons/hi";
@@ -195,12 +196,13 @@ function DaftarProduk() {
                   </select>
                 </div>
               </div>
-              <div className="flex items-center rounded-lg bg-violet-900 p-[11px] text-white">
+              <ModalInputAdmin />
+              {/* <div className="flex items-center rounded-lg bg-violet-900 p-[11px] text-white">
                 <FiDownload className="text-sm" />
                 <div className="text-xs font-semibold px-2 tracking-wide">
                   Tambah Obat
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className="w-full border-b-2 mt-[38px]"></div>
             <div className="mt-[32px] rounded-lg border-2">

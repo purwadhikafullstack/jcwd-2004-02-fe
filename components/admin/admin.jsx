@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { useEffect, useState } from "react";
 import Select from "react-select";
-// import CreatableSelect from 'react-select/creatable';
-// import { ActionMeta, OnChangeValue } from 'react-select';
-import Calendar from "react-calendar";
+import { DownloadIcon } from "@chakra-ui/icons";
 import {
   Modal,
   ModalOverlay,
@@ -310,7 +308,7 @@ function ModalInputAdmin() {
 
   return (
     <>
-      <Button colorScheme="purple" onClick={onOpen}>
+      <Button leftIcon={<DownloadIcon />} colorScheme="purple" onClick={onOpen}>
         Tambah Produk
       </Button>
 
