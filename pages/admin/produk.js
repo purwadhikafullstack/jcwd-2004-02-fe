@@ -223,12 +223,6 @@ function DaftarProduk() {
                 </div>
               </div>
               <ModalInputAdmin submitProduct={submitProduct} />
-              {/* <div className="flex items-center rounded-lg bg-violet-900 p-[11px] text-white">
-                <FiDownload className="text-sm" />
-                <div className="text-xs font-semibold px-2 tracking-wide">
-                  Tambah Obat
-                </div>
-              </div> */}
             </div>
             <div className="w-full border-b-2 mt-[38px]"></div>
             <div className="mt-[32px] rounded-lg border-2">
