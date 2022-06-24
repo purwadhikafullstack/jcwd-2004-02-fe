@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: false,
   env: {
-    NEXT_PUBLIC_API_URL: "http://localhost:5000",
+    NEXT_PUBLIC_API_URL: "http://172.105.119.73:5002",
   },
 };
 
