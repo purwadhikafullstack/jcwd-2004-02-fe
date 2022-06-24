@@ -50,4 +50,4 @@ jobs:
           script: |
             cd /root/jc-2004-final-project/2004-02/fe
             npm install
-            pm2 start npm --name jc2004-02-fe -- start
+            pm2 restart jc2004-02-fe 
