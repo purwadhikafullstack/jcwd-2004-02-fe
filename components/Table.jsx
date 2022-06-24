@@ -60,7 +60,7 @@ function NewTable({ columns, data, isLoading }) {
                     <Td
                       key={id}
                       {...cell.getCellProps()}
-                      maxWidth="200px"
+                      maxWidth="300px"
                       className="truncate"
                       isNumeric={cell.column.isNumeric}
                     >
