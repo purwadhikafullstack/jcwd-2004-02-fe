@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server"; 
-import { API_URL } from "../helpers"; 
+import { API_URL } from "../helpers";  
+import Cookies from "js-cookie";
 
 export async function middleware(req){
-    const token = req.cookies.token
+    const token = req.Cookies.token
     let response = await fetch(`${API_URL}/auth/checkRole`,{
         method: "GET", 
         headers: { 
