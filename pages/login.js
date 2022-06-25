@@ -22,12 +22,12 @@ const Login = ({loginActions}) => {
 
     const formik = useFormik ({
         initialValues: {
-            name: '',
+            email: '',
             password: ''
         }, 
         validationSchema: Yup.object().shape({
-            name: Yup.string()
-            .required('name is required'), 
+            email: Yup.string()
+            .required('email is required'), 
             password: Yup.string()
             .required('password is required')
         }), 
@@ -43,8 +43,8 @@ const Login = ({loginActions}) => {
 
     return (
         <div className="flex">
-            <div className="xl:w-[720px] xl:h-[768px] hidden xl:inline-block ">
-                <img className="xl:w-[720px] xl:h-[768px]" src={"/Frame.svg"}/>
+            <div className="xl:w-1/2 hidden xl:inline-block xl:h-full">
+                <img className="xl:h-screen xl:w-screen object-cover" src={"/Frame.svg"}/>
             </div>
             <div className="px-8 xl:w-1/2 xl:h-screen xl:px-20 xl:pt-10">  
                 <div className="mt-20 flex flex-col xl:mt-3"> 
@@ -56,8 +56,8 @@ const Login = ({loginActions}) => {
                     <form onSubmit={formik.handleSubmit}>
                         <div className="flex flex-col relative mb-4 xl:mb-2">
                             <p className="text-sm text-purple-800 mb-1 xl:text-xs">Email Address</p>
-                            <input name="name" type className="border-2 xl:h-10 h-12 pl-8 pb-1 w-full xl:pl-10 rounded-xl focus:outline-none xl:text-sm" onChange={formik.handleChange} value={formik.values.name} onBlur={formik.handleBlur} required></input>
-                            {formik.touched.name && formik.errors.name ? <p className="text-sm ml-2 text-red-600">{formik.errors.name}</p> : null}
+                            <input name="email" type className="border-2 xl:h-10 h-12 pl-8 pb-1 w-full xl:pl-10 rounded-xl focus:outline-none xl:text-sm" onChange={formik.handleChange} value={formik.values.email} onBlur={formik.handleBlur} required></input>
+                            {formik.touched.email && formik.errors.email ? <p className="text-sm ml-2 text-red-600">{formik.errors.email}</p> : null}
                             <div className="absolute xl:bottom-3 bottom-4 ml-3 text-purple-800 text-lg"><MdEmail/></div>
                         </div> 
                         <div className="flex flex-col relative">

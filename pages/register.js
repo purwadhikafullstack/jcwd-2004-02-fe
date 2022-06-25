@@ -52,7 +52,7 @@ const Register = ({registerActions}) => {
     return ( 
         <div className="flex">
             <div className="xl:w-1/2 hidden xl:inline-block xl:h-screen">
-                <img className="xl:h-screen" src={"/Frame.svg"}/>
+                <img className="xl:h-screen xl:w-screen " src={"/Frame.svg"}/>
             </div>
             <div className="px-8 xl:w-1/2 xl:h-screen xl:px-20 xl:pt-10">  
                 <div className="mt-20 flex flex-col xl:mt-3"> 
@@ -79,20 +79,20 @@ const Register = ({registerActions}) => {
                             <p className="text-sm text-purple-800 mb-1 xl:text-xs">Name</p>
                             <input name="name" className="border-2 xl:h-10 xl:pl-10 h-12 pl-8 pb-1 w-full rounded-xl focus:outline-none xl:text-sm" onChange={formik.handleChange} value={formik.values.name} onBlur={formik.handleBlur} required></input>
                             {formik.touched.name && formik.errors.name ? <p className="text-sm ml-2 text-red-600">{formik.errors.username}</p> : null}
-                            <div className="absolute xl:bottom-3  bottom-4 ml-3 text-purple-800 text-lg"><CgProfile/></div>
+                            <div className="absolute xl:bottom-3 top-8 ml-3 text-purple-800 text-lg"><CgProfile/></div>
                         </div>
                         <div className="flex flex-col relative mb-4 xl:mb-3">
                             <p className="text-sm text-purple-800 mb-1 xl:text-xs">Email Address</p>
                             <input name="email" className="border-2 xl:h-10 h-12 pl-8 pb-1 w-full xl:pl-10 rounded-xl focus:outline-none xl:text-sm" onChange={formik.handleChange} value={formik.values.email} onBlur={formik.handleBlur} required></input>
                             {formik.touched.email && formik.errors.email ? <p className="text-sm ml-2 text-red-600">{formik.errors.email}</p> : null}   
-                            <div className="absolute xl:bottom-3 bottom-4 ml-3 text-purple-800 text-lg"><MdEmail/></div>
+                            <div className="absolute xl:bottom-3 top-8 ml-3 text-purple-800 text-lg"><MdEmail/></div>
                         </div> 
                         <div className="flex flex-col relative">
                             <p className="text-sm text-purple-800 mb-1 xl:text-xs">Password</p>
                             <input name="password" type={show1 ? 'text':'password'} className="border-2 xl:h-10 xl:pl-10 h-12 pl-8 pr-8 xl:pr-10 pb-1 w-full rounded-xl focus:outline-none xl:text-sm" onChange={formik.handleChange} value={formik.values.password} onBlur={formik.handleBlur} required></input>
                             {formik.touched.password && formik.errors.password ? <p className="text-sm ml-2 text-red-600">{formik.errors.password}</p> : null}   
-                            <div className="absolute xl:bottom-3 bottom-4 ml-3 text-purple-800 text-lg"><AiFillLock/></div>
-                            <div className="absolute xl:bottom-3 bottom-4 ml-[278px] xl:ml-[440px] text-purple-800 text-lg" onClick={handleClick1}>{show1?<BsEyeFill/>:<BsEyeSlashFill/>}</div>
+                            <div className="absolute xl:bottom-3 top-8 ml-3 text-purple-800 text-lg"><AiFillLock/></div>
+                            <div className="absolute xl:bottom-3 top-8 ml-[278px] xl:ml-[440px] text-purple-800 text-lg" onClick={handleClick1}>{show1?<BsEyeFill/>:<BsEyeSlashFill/>}</div>
                         </div>
                         <div className="mt-5 mb-16 xl:mb-9 xl:mt-7">
                             <input type={"checkbox"} className="mr-1 xl:text-lg"/>
