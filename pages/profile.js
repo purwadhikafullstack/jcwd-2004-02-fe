@@ -94,6 +94,7 @@ const Profile = () => {
                     </div>
                   </div>
                 </div>
+
                 <ModalEditProfile />
               </div>
             </div>
