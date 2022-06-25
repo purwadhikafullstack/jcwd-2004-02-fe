@@ -24,7 +24,7 @@
   }
 
   .bg-admin {
-    @apply ml-[256px] min-h-screen bg-gradient-to-b from-purple-300/5 to-purple-800/25;
+    @apply ml-[256px] min-h-screen bg-gradient-to-b from-secondary/5 to-secondary/30;
   }
 
   .user-container {

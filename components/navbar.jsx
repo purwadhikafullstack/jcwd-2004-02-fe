@@ -6,8 +6,8 @@ const Navbar = () => {
   const { isLogin } = useUser();
 
   return (
-    <div className="sticky top-0">
-      <div className="flex h-20 bg-white shadow-lg shadow-purple-100">
+    <div className="sticky top-0 z-50">
+      <div className="flex h-20 bg-white shadow-md">
         <div className="w-80 h-full  flex items-center justify-center">
           <div>
             <img src={"/logo.svg"} className="text-sm" />

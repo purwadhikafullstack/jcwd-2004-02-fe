@@ -18,30 +18,20 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { API_URL } from "../helpers";
 
-function UserProductSidebar() {
-  const [data, setData] = useState({});
-
-  const fetchComponentObat = async () => {
-    try {
-      let res = await axios.get(`${API_URL}/products/component`);
-      setData(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchComponentObat();
-  }, []);
-
+function UserProductSidebar({
+  component,
+  category_id,
+  handleInput,
+  isLoading,
+}) {
   return (
     <div className="w-[300px] mr-[48px]">
-      <div className="container mb-[32px]">
+      <div className="container mb-[32px] cursor-pointer">
         <Accordion
           defaultIndex={[0]}
           allowMultiple
           border="transparent"
-          color={"purple.800"}
+          color={"brand.primary"}
           my={"9px"}
           ml={"8px"}
         >
@@ -62,15 +52,42 @@ function UserProductSidebar() {
                 <AccordionIcon />
               </AccordionButton>
             </h2>
-            <div>
-              {data.category?.map((val) => {
-                return (
-                  <AccordionPanel key={val.id} pb={2}>
-                    <a>{val.name}</a>
-                  </AccordionPanel>
-                );
-              })}
-            </div>
+            {isLoading ? (
+              <>
+                <AccordionPanel>
+                  <div className="animation-pulse bg-slate-200 h-[14px] rounded-xl" />
+                </AccordionPanel>
+                <AccordionPanel>
+                  <div className="animation-pulse bg-slate-200 h-[14px] rounded-xl" />
+                </AccordionPanel>
+                <AccordionPanel>
+                  <div className="animation-pulse bg-slate-200 h-[14px] rounded-xl" />
+                </AccordionPanel>
+                <AccordionPanel>
+                  <div className="animation-pulse bg-slate-200 h-[14px] rounded-xl" />
+                </AccordionPanel>
+              </>
+            ) : (
+              <div>
+                {component.category?.map((val) => {
+                  return (
+                    <AccordionPanel key={val.id} pb={2}>
+                      {category_id == val.id ? (
+                        <button className="text-secondary">{val.name}</button>
+                      ) : (
+                        <button
+                          value={val.id}
+                          name="category"
+                          onClick={(e) => handleInput(e)}
+                        >
+                          {val.name}
+                        </button>
+                      )}
+                    </AccordionPanel>
+                  );
+                })}
+              </div>
+            )}
           </AccordionItem>
         </Accordion>
       </div>
@@ -91,7 +108,7 @@ function UserProductSidebar() {
             defaultIndex={[0]}
             allowMultiple
             border="transparent"
-            color={"purple.800"}
+            color={"brand.primary"}
             my={"9px"}
             ml={"8px"}
           >
@@ -112,20 +129,40 @@ function UserProductSidebar() {
                   <AccordionIcon />
                 </AccordionButton>
               </h2>
-              <div>
-                {data.symptom?.map((val) => {
-                  return (
-                    <AccordionPanel key={val.id} pb={2}>
-                      <Checkbox borderColor={"gray.600"} colorScheme="purple">
-                        {val.name}
-                      </Checkbox>
-                    </AccordionPanel>
-                  );
-                })}
-                <AccordionPanel textColor={"purple.500"} fontWeight={"medium"}>
-                  Lihat Lebih Lengkap
-                </AccordionPanel>
-              </div>
+              {isLoading ? (
+                <>
+                  <AccordionPanel>
+                    <div className="animation-pulse bg-slate-200 h-[14px] rounded-xl" />
+                  </AccordionPanel>
+                  <AccordionPanel>
+                    <div className="animation-pulse bg-slate-200 h-[14px] rounded-xl" />
+                  </AccordionPanel>
+                  <AccordionPanel>
+                    <div className="animation-pulse bg-slate-200 h-[14px] rounded-xl" />
+                  </AccordionPanel>
+                  <AccordionPanel>
+                    <div className="animation-pulse bg-slate-200 h-[14px] rounded-xl" />
+                  </AccordionPanel>
+                </>
+              ) : (
+                <div>
+                  {component.symptom?.map((val) => {
+                    return (
+                      <AccordionPanel key={val.id} pb={2}>
+                        <Checkbox borderColor={"gray.600"} colorScheme="purple">
+                          {val.name}
+                        </Checkbox>
+                      </AccordionPanel>
+                    );
+                  })}
+                  <AccordionPanel
+                    textColor={"brand.secondary"}
+                    fontWeight={"medium"}
+                  >
+                    Lihat Lebih Lengkap
+                  </AccordionPanel>
+                </div>
+              )}
             </AccordionItem>
           </Accordion>
         </div>
@@ -134,7 +171,7 @@ function UserProductSidebar() {
             defaultIndex={[0]}
             allowMultiple
             border="transparent"
-            color={"purple.800"}
+            color={"brand.primary"}
             my={"9px"}
             ml={"8px"}
           >
@@ -197,7 +234,7 @@ function UserProductSidebar() {
             defaultIndex={[0]}
             allowMultiple
             border="transparent"
-            color={"purple.800"}
+            color={"brand.primary"}
             my={"9px"}
             ml={"8px"}
           >
@@ -218,20 +255,40 @@ function UserProductSidebar() {
                   <AccordionIcon />
                 </AccordionButton>
               </h2>
-              <div>
-                {data.type?.map((val) => {
-                  return (
-                    <AccordionPanel key={val.id} pb={2}>
-                      <Checkbox borderColor={"gray.600"} colorScheme="purple">
-                        {val.name}
-                      </Checkbox>
-                    </AccordionPanel>
-                  );
-                })}
-                <AccordionPanel textColor={"purple.500"} fontWeight={"medium"}>
-                  Lihat Lebih Lengkap
-                </AccordionPanel>
-              </div>
+              {isLoading ? (
+                <>
+                  <AccordionPanel>
+                    <div className="animation-pulse bg-slate-200 h-[14px] rounded-xl" />
+                  </AccordionPanel>
+                  <AccordionPanel>
+                    <div className="animation-pulse bg-slate-200 h-[14px] rounded-xl" />
+                  </AccordionPanel>
+                  <AccordionPanel>
+                    <div className="animation-pulse bg-slate-200 h-[14px] rounded-xl" />
+                  </AccordionPanel>
+                  <AccordionPanel>
+                    <div className="animation-pulse bg-slate-200 h-[14px] rounded-xl" />
+                  </AccordionPanel>
+                </>
+              ) : (
+                <div>
+                  {component.type?.map((val) => {
+                    return (
+                      <AccordionPanel key={val.id} pb={2}>
+                        <Checkbox borderColor={"gray.600"} colorScheme="purple">
+                          {val.name}
+                        </Checkbox>
+                      </AccordionPanel>
+                    );
+                  })}
+                  <AccordionPanel
+                    textColor={"brand.secondary"}
+                    fontWeight={"medium"}
+                  >
+                    Lihat Lebih Lengkap
+                  </AccordionPanel>
+                </div>
+              )}
             </AccordionItem>
           </Accordion>
         </div>
@@ -240,7 +297,7 @@ function UserProductSidebar() {
             defaultIndex={[0]}
             allowMultiple
             border="transparent"
-            color={"purple.800"}
+            color={"brand.primary"}
             my={"9px"}
             ml={"8px"}
           >
@@ -261,37 +318,57 @@ function UserProductSidebar() {
                   <AccordionIcon />
                 </AccordionButton>
               </h2>
-              <div>
-                <AccordionPanel>
-                  <InputGroup borderColor="gray.400">
-                    <Input
-                      fontSize={"14px"}
-                      letterSpacing={"wider"}
-                      focusBorderColor="purple.600"
-                      placeholder="Harga Minimum"
-                    />
-                    <InputRightElement
-                      pr={"20px"}
-                      pointerEvents="none"
-                      color="purple.900"
-                      fontWeight="semibold"
-                      children={<Icon as={GrSearch} color="gray.300" />}
-                    />
-                  </InputGroup>
-                </AccordionPanel>
-                {data.brand?.map((val) => {
-                  return (
-                    <AccordionPanel key={val.id} pb={2}>
-                      <Checkbox borderColor={"gray.600"} colorScheme="purple">
-                        {val.name}
-                      </Checkbox>
-                    </AccordionPanel>
-                  );
-                })}
-                <AccordionPanel textColor={"purple.500"} fontWeight={"medium"}>
-                  Lihat Lebih Lengkap
-                </AccordionPanel>
-              </div>
+              {isLoading ? (
+                <>
+                  <AccordionPanel>
+                    <div className="animation-pulse bg-slate-200 h-[14px] rounded-xl" />
+                  </AccordionPanel>
+                  <AccordionPanel>
+                    <div className="animation-pulse bg-slate-200 h-[14px] rounded-xl" />
+                  </AccordionPanel>
+                  <AccordionPanel>
+                    <div className="animation-pulse bg-slate-200 h-[14px] rounded-xl" />
+                  </AccordionPanel>
+                  <AccordionPanel>
+                    <div className="animation-pulse bg-slate-200 h-[14px] rounded-xl" />
+                  </AccordionPanel>
+                </>
+              ) : (
+                <div>
+                  <AccordionPanel>
+                    <InputGroup borderColor="gray.400">
+                      <Input
+                        fontSize={"14px"}
+                        letterSpacing={"wider"}
+                        focusBorderColor="purple.600"
+                        placeholder="Harga Minimum"
+                      />
+                      <InputRightElement
+                        pr={"20px"}
+                        pointerEvents="none"
+                        color="purple.900"
+                        fontWeight="semibold"
+                        children={<Icon as={GrSearch} color="gray.300" />}
+                      />
+                    </InputGroup>
+                  </AccordionPanel>
+                  {component.brand?.map((val) => {
+                    return (
+                      <AccordionPanel key={val.id} pb={2}>
+                        <Checkbox borderColor={"gray.600"} colorScheme="purple">
+                          {val.name}
+                        </Checkbox>
+                      </AccordionPanel>
+                    );
+                  })}
+                  <AccordionPanel
+                    textColor={"brand.secondary"}
+                    fontWeight={"medium"}
+                  >
+                    Lihat Lebih Lengkap
+                  </AccordionPanel>
+                </div>
+              )}
             </AccordionItem>
           </Accordion>
         </div>
