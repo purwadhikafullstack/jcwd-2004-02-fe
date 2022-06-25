@@ -18,10 +18,9 @@ import {
 } from "@chakra-ui/react";
 import { editProfileActions } from "../redux/actions/userActions";
 import { connect, useDispatch } from "react-redux";
-
 import useUser from "../hooks/useUser";
 import { AiOutlineReload } from "react-icons/ai";
-const ModalEditProfile = ({ editProfileActions }) => {
+const ProfileModalEditProfile = ({ editProfileActions }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { name, email, gender, birthdate } = useUser();
   const [input, setinput] = useState({
@@ -139,4 +138,4 @@ const ModalEditProfile = ({ editProfileActions }) => {
   );
 };
 
-export default connect(null, { editProfileActions })(ModalEditProfile);
+export default connect(null, { editProfileActions })(ProfileModalEditProfile);

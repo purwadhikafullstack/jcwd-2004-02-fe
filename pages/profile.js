@@ -3,31 +3,31 @@ import { useEffect, useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import { RiListUnordered, RiLockPasswordLine } from "react-icons/ri";
 import { MdPayments, MdLocationOn } from "react-icons/md";
-// import { BsHeartFill } from "react-icons/bs";
-// import { IoMail } from "react-icons/io";
 import { Divider, Box, Image, Icon } from "@chakra-ui/react";
 import useUser from "../hooks/useUser";
-import ModalEditPhoto from "../components/modalEditPhoto";
-import ModalEditProfile from "../components/modalEditProfile";
+import ProfileModalEditPhoto from "../components/ProfileModalEditPhoto";
+import ProfileModalEditProfile from "../components/ProfileModalEditProfile";
 import Navbar from "../components/Navbar";
+import { API_URL } from "../helpers";
+import moment from "moment";
+import "moment/locale/id";
 
 const Profile = () => {
-  const { name, email, gender, birthdate } = useUser();
-  const [selectedImage, setselectedImage] = useState([]);
-
+  const { name, email, gender, birthdate, profilepic } = useUser();
+  const profpic = profilepic ? `${API_URL + profilepic}` : `../no_pic.png`;
   return (
     <div>
       <Navbar />
       <div className="flex">
-        <div className="shadow-purple-200 shadow-lg rounded-lg mt-10 mx-auto w-[300px] ml-[52px] h-[380px]">
-          <div className="flex ml-11">
+        <div className=" shadow-md rounded-lg mt-10 mx-auto w-[300px] ml-[52px] h-[380px]">
+          <div className="flex ml-5">
             <Image
               borderRadius="full"
               boxSize="75px"
-              src="https://bit.ly/dan-abramov"
-              alt="Dan Abramov"
+              src={profpic}
+              alt="profilepic"
             />
-            <div className=" flex ml-3 text-xl items-center font-bold">
+            <div className="mt-6 ml-2 items-center font-bold pr-10 truncate ...">
               {name}
             </div>
           </div>
@@ -53,7 +53,7 @@ const Profile = () => {
           </div>
         </div>
 
-        <div className="flex mx-auto shadow-purple-200 shadow-lg w-7/12 rounded-lg mt-10 pb-14 ml-10">
+        <div className="flex mx-auto shadow-md w-7/12 rounded-lg mt-10 pb-14 ml-10">
           <div>
             <div className="pt-5 ml-11 text-2xl font-bold">Profil</div>
             <div className="bg-slate-200">
@@ -62,18 +62,14 @@ const Profile = () => {
             <div className="flex">
               <div className="flex flex-col">
                 <img
-                  className="flex items-center ml-11 mt-10  h-[300px] w-[300px]"
-                  src="https://bit.ly/dan-abramov"
+                  className="flex items-center ml-11 mt-10 rounded-2xl h-[300px] w-[300px]"
+                  src={profpic}
                 />
-                <ModalEditPhoto />
+                <ProfileModalEditPhoto />
               </div>
               <div>
                 <div>
-                  <div className="flex mt-5">
-                    <div className="profileTag">Username</div>
-                    <div className="profileDesc ml-16">ss</div>
-                  </div>
-                  <div className="flex">
+                  <div className="flex mt-12 ">
                     <div className="profileTag">Nama Lengkap</div>
                     <div className="profileDesc ml-7">{name}</div>
                   </div>
@@ -89,13 +85,13 @@ const Profile = () => {
                   </div>
                   <div className="flex">
                     <div className="profileTag">Tanggal Lahir</div>
-                    <div className="profileDesc ml-[44px]">
-                      {birthdate ? birthdate : "-"}
+                    <div className="profileDesc ml-[40px]">
+                      {birthdate ? moment(birthdate).format("LL") : "-"}
                     </div>
                   </div>
                 </div>
 
-                <ModalEditProfile />
+                <ProfileModalEditProfile />
               </div>
             </div>
           </div>

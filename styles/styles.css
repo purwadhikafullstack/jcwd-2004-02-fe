@@ -51,14 +51,13 @@ img {
   padding: 0.75rem;
 }
 
-<<<<<<< HEAD
 .profileTag {
   display: flex;
   margin-left: 40px;
   margin-top: 36px;
   align-items: center;
-  /* background-color: yellow; */
-  font-weight: 400;
+  font-weight: 500;
+  color: indigo;
 }
 
 .profileDesc {
@@ -66,7 +65,8 @@ img {
   margin-top: 36px;
   align-items: center;
   /* background-color: yellow; */
-=======
+}
+
 .selectContainer {
   width: 160px;
 }
@@ -75,5 +75,4 @@ img {
   resize: "none";
   border: "2px solid #ccc";
   border-radius: "4px";
->>>>>>> db94ccacdc9a22212eb4586c767647e395ab2ec8
 }
