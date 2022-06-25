@@ -6,17 +6,16 @@ import { MdPayments, MdLocationOn } from "react-icons/md";
 // import { BsHeartFill } from "react-icons/bs";
 // import { IoMail } from "react-icons/io";
 import { Divider, Box, Image, Icon } from "@chakra-ui/react";
-import Navbar from "./navbar";
-import ModalEditProfile from "./modalEditProfile";
-import ModalEditPhoto from "./modalEditPhoto";
 import useUser from "../hooks/useUser";
+import ModalEditPhoto from "../components/modalEditPhoto";
+import ModalEditProfile from "../components/modalEditProfile";
+import Navbar from "../components/Navbar";
 
 const Profile = () => {
   const { name, email, gender, birthdate } = useUser();
   const [selectedImage, setselectedImage] = useState([]);
 
   return (
-    // <Box boxShadow="2xl" p="6" rounded="md" bg="white">
     <div>
       <Navbar />
       <div className="flex">
@@ -28,23 +27,25 @@ const Profile = () => {
               src="https://bit.ly/dan-abramov"
               alt="Dan Abramov"
             />
-            <div className=" ml-3 mt-6 text-2xl font-bold">{name}</div>
+            <div className=" flex ml-3 text-xl items-center font-bold">
+              {name}
+            </div>
           </div>
           <div className="bg-slate-200">
             <Divider className="mt-2" />
           </div>
           <div className="flex">
             <div>
-              <div className="flex mt-5">
+              <div className="flex mt-5 cursor-pointer">
                 <CgProfile className="flex ml-10 mt-9 text-2xl items-center" />
                 <div className="profileTag">Profil</div>
               </div>
-              <div className="flex">
+              <div className="flex cursor-pointer">
                 <RiLockPasswordLine className="flex ml-10 mt-9 text-2xl items-center" />
                 <div className="profileTag">Ganti Password</div>
               </div>
 
-              <div className="flex">
+              <div className="flex cursor-pointer">
                 <MdLocationOn className="flex ml-10 mt-9 text-2xl items-center" />
                 <div className="profileTag">Alamat Pengiriman</div>
               </div>
@@ -62,7 +63,7 @@ const Profile = () => {
               <div className="flex flex-col">
                 <img
                   className="flex items-center ml-11 mt-10  h-[300px] w-[300px]"
-                  src={"/addProductSuccess.svg"}
+                  src="https://bit.ly/dan-abramov"
                 />
                 <ModalEditPhoto />
               </div>
@@ -100,7 +101,6 @@ const Profile = () => {
         </div>
       </div>
     </div>
-    // </Box>
   );
 };
 

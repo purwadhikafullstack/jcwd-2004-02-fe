@@ -18,42 +18,34 @@ import {
 } from "@chakra-ui/react";
 import { editProfileActions } from "../redux/actions/userActions";
 import { connect, useDispatch } from "react-redux";
-import dobToAge from "dob-to-age";
 
 import useUser from "../hooks/useUser";
+import { AiOutlineReload } from "react-icons/ai";
 const ModalEditProfile = ({ editProfileActions }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { name, email, gender, birthdate } = useUser();
   const [input, setinput] = useState({
-    name: "",
-    gender: "",
-    birthdate: "",
+    name: name,
+    gender: gender,
+    birthdate: birthdate,
   });
 
   const initialRef = React.useRef();
   const finalRef = React.useRef();
 
-  //   const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  function getAge(dateString) {
-    var today = new Date();
-    var birthDate = new Date(dateString);
-    var age = today.getFullYear() - birthDate.getFullYear();
-    var m = today.getMonth() - birthDate.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-      age--;
-    }
-    return age;
-  }
   const onFileChange = (e) => {
     console.log(input, "inpuuut");
     setinput({ ...input, [e.target.name]: e.target.value });
   };
-  const onSaveDataClick = (e) => {
+  const onSaveDataClick = async (e) => {
     e.preventDefault();
     editProfileActions(input);
     console.log(input);
     onClose();
+
+    // window.location.reload();
   };
   return (
     <>
@@ -87,6 +79,7 @@ const ModalEditProfile = ({ editProfileActions }) => {
                     name="name"
                     ref={initialRef}
                     value={input.name}
+                    // defaultValue={name}
                     onChange={onFileChange}
                   />
                 </Stack>

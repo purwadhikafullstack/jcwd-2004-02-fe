@@ -1,6 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import { API_URL } from "../../helpers";
+import { toast } from "react-toastify";
 
 export const loginActions = ({ email, password }, router) => {
   return async (dispatch) => {
@@ -56,6 +57,9 @@ export const editProfileActions = ({ ...input }) => {
         }
       );
       dispatch({ type: "LOGIN", payload: res.data });
+      toast.success("Profil berhasil di update", {
+        position: "top-right",
+      });
     } catch (error) {
       dispatch({
         type: "LOGIN",
