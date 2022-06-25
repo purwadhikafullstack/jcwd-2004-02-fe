@@ -1,18 +1,13 @@
-import Head from "next/head";
+import Head from 'next/head'
+import Image from 'next/image'
+import styles from '../styles/Home.module.css' 
+import Navbar from '../components/navbar'
+
+
 export default function Home() {
   return (
     <div>
-      <Head>
-        <title>Footer</title>
-        <link rel="icon" href="/pro.ico" />
-      </Head>
-      {/* <ModalInputAdmin />
-      <ModalAdminEditDetail />
-      <ModalAdminEditStok />
-      <ModalAdminEditFoto />
-      // <AddProductSuccess /> */}
-      <Profile />
-      {/* <Footer /> */}
+      <Navbar/>
     </div>
   );
 }

@@ -43,8 +43,8 @@ const Login = ({loginActions}) => {
 
     return (
         <div className="flex">
-            <div className="xl:w-1/2 hidden xl:inline-block xl:h-full">
-                <img className="xl:h-screen xl:w-screen" src={"/Frame.svg"}/>
+            <div className="xl:w-[720px] xl:h-[768px] hidden xl:inline-block ">
+                <img className="xl:w-[720px] xl:h-[768px]" src={"/Frame.svg"}/>
             </div>
             <div className="px-8 xl:w-1/2 xl:h-screen xl:px-20 xl:pt-10">  
                 <div className="mt-20 flex flex-col xl:mt-3"> 

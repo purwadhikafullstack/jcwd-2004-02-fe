@@ -19,7 +19,7 @@
   margin-top: 3em;
   display: grid;
   place-items: center;
-  background-color: red;
+  /* background-color: red; */
 }
 .label {
   height: 50px;
@@ -36,7 +36,7 @@
   min-height: 100%;
   max-height: auto;
   width: 100%;
-  background-color: blue;
+  /* background-color: blue; */
   margin-top: 1rem;
   display: flex;
   flex-wrap: wrap;
@@ -51,6 +51,7 @@ img {
   padding: 0.75rem;
 }
 
+<<<<<<< HEAD
 .profileTag {
   display: flex;
   margin-left: 40px;
@@ -65,4 +66,14 @@ img {
   margin-top: 36px;
   align-items: center;
   /* background-color: yellow; */
+=======
+.selectContainer {
+  width: 160px;
+}
+
+.textareaContainer {
+  resize: "none";
+  border: "2px solid #ccc";
+  border-radius: "4px";
+>>>>>>> db94ccacdc9a22212eb4586c767647e395ab2ec8
 }
