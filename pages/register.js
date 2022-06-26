@@ -11,7 +11,8 @@ import * as Yup from "yup"
 import { useFormik } from "formik"; 
 import {registerActions} from "../redux/actions/userActions.jsx" 
 import {connect} from 'react-redux' 
-import useUser from "../hooks/useUser"
+import useUser from "../hooks/useUser" 
+import Link from "next/link"
 
 
 const Register = ({registerActions}) => { 
@@ -61,7 +62,7 @@ const Register = ({registerActions}) => {
                         <span className="font-bold hidden xl:inline-block text-2xl xl:text-2xl">Mari Kita Mulai</span>   
                     </div>
                     <div>
-                        <span className="xl:text-xs font-light">Sudah punya akun?</span><span className="underline text-green-500 xl:text-xs"> Masuk</span>
+                        <span className="xl:text-xs font-light">Sudah punya akun?</span><Link href={"/login"}><span className="underline text-green-500 xl:text-xs cursor-pointer"> Masuk</span></Link>
                     </div>
                 </div> 
                 <div className="mt-8 xl:mt-5 flex justify-between"> 
