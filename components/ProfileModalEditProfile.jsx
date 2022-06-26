@@ -93,7 +93,6 @@ const ProfileModalEditProfile = ({ editProfileActions }) => {
                   <Select
                     fontSize="sm"
                     name="gender"
-                    placeholder="Select option"
                     value={input.gender}
                     onChange={onFileChange}
                   >

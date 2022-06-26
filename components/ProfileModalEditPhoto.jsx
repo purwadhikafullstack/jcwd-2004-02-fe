@@ -15,15 +15,20 @@ import {
   useDisclosure,
   Button,
 } from "@chakra-ui/react";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 const ProfileModalEditPhoto = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const initialRef = React.useRef();
-  const finalRef = React.useRef();
   const { profilepic } = useUser();
   const [selectedImage, setselectedImage] = useState({
     file: [],
     filePreview: null,
   });
+
+  const closeClear = () => {
+    setselectedImage([]);
+    onClose();
+  };
 
   const onFileChange = (e) => {
     console.log(e.target.files[0]);
@@ -49,10 +54,20 @@ const ProfileModalEditPhoto = () => {
           authorization: `bearer ${token}`,
         },
       });
-
       onClose();
+      toast.success("Foto Berhasil di Update!", {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
     } catch (error) {
-      console.log(error);
+      toast.error("Foto Gagal di Update", {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
     }
   };
   return (
@@ -65,67 +80,59 @@ const ProfileModalEditPhoto = () => {
       >
         Edit Foto
       </Button>
-      {/* <Modal
-        initialFocusRef={initialRef}
-        finalFocusRef={finalRef}
-        isOpen={isOpen}
-        onClose={onClose}
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Pilih Foto</ModalHeader>
-          <ModalCloseButton />
-          <div>
-            <ModalBody pb={6}>
-              <FormControl mt={"1.5"} className="flex">
-                <Stack spacing={3}>
-                  <div className="flex flex-col items-center justify-center">
-                    <div>ini gambar</div>
-                  </div>
-                </Stack>
-              </FormControl>
-            </ModalBody>
 
-            <ModalFooter>
-              <Button mr={3}>Kembali</Button>
-              <Button colorScheme="purple" mr={3}>
-                Simpan
-              </Button>
-            </ModalFooter>
-          </div>
-        </ModalContent>
-      </Modal> */}
-
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={closeClear}>
         <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Edit Profile Picture</ModalHeader>
+        <ModalContent className="-z-10">
+          <ModalHeader>Edit atau Tambah Foto</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
+          <ModalBody className="flex flex-col items-center justify-center">
+            <i className="mb-2 text-xs text-gray-500">
+              Tekan gambar untuk ganti foto profil
+            </i>
             <input
               type="file"
-              name="image"
-              accept=".gif,.jpg,.jpeg,.png"
+              className="hidden"
               onChange={onFileChange}
+              id="image"
+              name="image"
+              accept=".jpg,.jpeg,.png"
             />
-            {profilepic && selectedImage.filePreview ? (
-              <img
-                src={selectedImage.filePreview}
-                alt=""
-                className="object-cover w-36 h-36 mt-8 ml-36 rounded-full flex justify-center items-center"
-              />
-            ) : null}
-            {!profilepic && selectedImage.filePreview ? (
-              <img
-                src={selectedImage.filePreview}
-                alt=""
-                className="object-cover w-28 h-28 mt-8 rounded-full "
-              />
-            ) : null}
+            <label
+              for="image"
+              type="button"
+              className="mx-5 h-h-[300px] w-[300px] border-dashed border-2 cursor-pointer flex items-center justify-center"
+            >
+              {selectedImage.filePreview ? (
+                <img
+                  src={selectedImage.filePreview}
+                  alt=""
+                  className="h-[300px] w-[300px]"
+                />
+              ) : (
+                <img
+                  src={`${API_URL}${profilepic}`}
+                  alt=""
+                  className="h-[300px] w-[300px]"
+                />
+              )}
+            </label>
+
+            <i className="mt-2 text-xs text-gray-500">
+              Ukuran Gambar: maks. 2 MB
+            </i>
+            <i className="mt-2 text-xs text-gray-500">
+              Format Gambar: .jpg, .png, .jpeg
+            </i>
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="purple" mr={3} onClick={onSaveDataClick}>
+            <Button
+              colorScheme="purple"
+              mr={3}
+              isDisabled={true}
+              onClick={onSaveDataClick}
+            >
               Simpan
             </Button>
           </ModalFooter>
