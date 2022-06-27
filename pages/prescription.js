@@ -1,34 +1,44 @@
 import React, { Component, useCallback, createRef } from "react";
 import { useEffect, useState } from "react";
 import { Divider, Box, Image, Button } from "@chakra-ui/react";
-import useUser from "../hooks/useUser";
 import Navbar from "../components/Navbar";
 import { API_URL } from "../helpers";
 import { useDropzone } from "react-dropzone";
 import { BsImage } from "react-icons/bs";
+import Cookies from "js-cookie";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Prescription = () => {
-  const { name, email, gender, birthdate, profilepic } = useUser();
-  const [tab, setTab] = useState(0);
-  console.log(tab);
-  const [images, setImages] = useState([]);
+  // const [images, setImages] = useState([]);
+
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
     console.log("accepted", acceptedFiles);
     console.log("rejected", rejectedFiles);
   }, []);
 
-  useEffect(() => {
-    console.log(images);
-  }, [images]);
+  // const onFileChange = (e) => {
+  //   console.log(e.target.files[0]);
+  //   if (e.target && e.target.files[0]) {
+  //     setselectedImage({
+  //       ...selectedImage,
+  //       [e.target.name]: e.target.files[0],
+  //     });
+  //   }
+  // };
 
-  const { getRootProps, getInputProps, isDragActive, open, acceptedFiles } =
-    useDropzone({
-      onDrop,
-      accept: "image/png",
-      noClick: true,
-      noKeyboard: true,
-    });
+  // useEffect(() => {
+  //   console.log(images, "a");
+  // }, [images]);
 
+  const { getRootProps, getInputProps, open, acceptedFiles } = useDropzone({
+    onDrop,
+    accept: "image/png",
+    noClick: true,
+    noKeyboard: true,
+  });
+
+  // utk keterangan
   const files = acceptedFiles.map((file) => (
     <div className="flex">
       <div key={file.path}>{file.path}</div>
@@ -38,6 +48,39 @@ const Prescription = () => {
     </div>
   ));
 
+  const onSaveDataClick = async () => {
+    let token = Cookies.get("token");
+    const formData = new FormData();
+
+    console.log(acceptedFiles, "acc");
+    formData.append("prescription", acceptedFiles.file);
+
+    try {
+      let res = await axios.post(
+        `${API_URL}/prescription/prescriptionpic`,
+        formData,
+        {
+          headers: {
+            authorization: `bearer ${token}`,
+          },
+        }
+      );
+      onClose();
+      toast.success("Foto Resep Berhasil ditambahkan!", {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
+    } catch (error) {
+      toast.error("Foto Resep Gagal ditambahkan", {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
+    }
+  };
   return (
     <div>
       <Navbar />
@@ -57,7 +100,8 @@ const Prescription = () => {
             <Divider className="mt-2 ml-14" />
 
             {/* page 1 */}
-            {tab === 0 ? (
+            {/* {tab === 0 */}
+            {!acceptedFiles[0] ? (
               <div
                 className="containerx mx-[80px] my-2 flex items-center justify-center w-[900px] h-[400px]"
                 {...getRootProps()}
@@ -81,7 +125,8 @@ const Prescription = () => {
             ) : null}
 
             {/* page 2 */}
-            {tab === 1 ? (
+            {/* {tab === 1  */}
+            {acceptedFiles[0] ? (
               <div>
                 <div className="container2 mx-[80px] my-2 flex w-[900px] h-[350px]">
                   <div className="flex border-solid border-gray-200 rounded-lg border-2 px-5 py-2">
@@ -111,7 +156,7 @@ const Prescription = () => {
                     colorScheme={"purple"}
                     className="w-[100px] mt-3 "
                     type="button"
-                    onClick={() => setTab(0)}
+                    onClick={onSaveDataClick}
                   >
                     Unggah
                   </Button>
