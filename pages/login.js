@@ -20,7 +20,7 @@ const Login = ({loginActions}) => {
     const [show1, setShow1] = useState(false)
     const handleClick1 = () => setShow1(!show1)  
 
-    const {isLogin} = useUser() 
+    const {isLogin, role_id} = useUser()
 
     const formik = useFormik ({
         initialValues: {
@@ -42,6 +42,11 @@ const Login = ({loginActions}) => {
         }
     }) 
 
+    if(isLogin && role_id == 0) {
+        router.push('/')
+    }if(isLogin && role_id == 1){
+        router.push('/admin')
+    }
 
     return (
         <div className="flex">
