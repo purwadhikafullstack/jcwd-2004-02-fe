@@ -78,7 +78,9 @@ export const editProfileActions = ({ ...input }) => {
           },
         }
       );
+
       dispatch({ type: "LOGIN", payload: res.data });
+
       toast.success("Profil berhasil di update!", {
         position: "top-right",
       });

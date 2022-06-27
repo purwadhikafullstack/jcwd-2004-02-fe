@@ -17,16 +17,18 @@ import {
 } from "@chakra-ui/react";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { useDispatch } from "react-redux";
 const ProfileModalEditPhoto = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { profilepic } = useUser();
   const [selectedImage, setselectedImage] = useState({
-    file: [],
+    file: null,
     filePreview: null,
   });
+  const dispatch = useDispatch();
 
   const closeClear = () => {
-    setselectedImage([]);
+    setselectedImage(null);
     onClose();
   };
 
@@ -42,6 +44,7 @@ const ProfileModalEditPhoto = () => {
   };
   // const dispatch = useDispatch();
 
+  // save changes
   const onSaveDataClick = async () => {
     let token = Cookies.get("token");
     const formData = new FormData();
@@ -54,6 +57,7 @@ const ProfileModalEditPhoto = () => {
           authorization: `bearer ${token}`,
         },
       });
+      dispatch({ type: "LOGIN", payload: res.data });
       onClose();
       toast.success("Foto Berhasil di Update!", {
         position: "top-right",
@@ -130,7 +134,7 @@ const ProfileModalEditPhoto = () => {
             <Button
               colorScheme="purple"
               mr={3}
-              isDisabled={true}
+              isDisabled={!selectedImage.file}
               onClick={onSaveDataClick}
             >
               Simpan
