@@ -51,6 +51,22 @@ img {
   padding: 0.75rem;
 }
 
+.profileTag {
+  display: flex;
+  margin-left: 40px;
+  margin-top: 36px;
+  align-items: center;
+  font-weight: 500;
+  color: indigo;
+}
+
+.profileDesc {
+  display: flex;
+  margin-top: 36px;
+  align-items: center;
+  /* background-color: yellow; */
+}
+
 .selectContainer {
   width: 160px;
 }
