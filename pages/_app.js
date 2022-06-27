@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; 
 import {ChakraProvider} from '@chakra-ui/react'  
 import AuthProvider from '../components/authProvider';
+import "../styles/styles.css";
 
 function MyApp({ Component, pageProps }) {
   return (

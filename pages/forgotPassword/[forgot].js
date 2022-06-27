@@ -89,7 +89,7 @@ const ForgotPass = () => {
                         </div> 
                         <div className="flex flex-col relative mb-4 xl:mb-8">
                             <p className="text-sm text-purple-800 mb-1 xl:text-xs">Confirm New Password</p>
-                            <input name="confirmNewPassword" placeholder="Masukkan kembali password anda" className="border-2 xl:h-10 h-12 pl-8 pb-1 w-full xl:pl-10 rounded-xl focus:outline-none xl:text-sm" onChange={formik.handleChange} value={formik.values.confirmNewPassword} onBlur={formik.handleBlur} required ></input>
+                            <input name="confirmNewPassword" type={show1 ? 'text':'password'} placeholder="Masukkan kembali password anda" className="border-2 xl:h-10 h-12 pl-8 pb-1 w-full xl:pl-10 rounded-xl focus:outline-none xl:text-sm" onChange={formik.handleChange} value={formik.values.confirmNewPassword} onBlur={formik.handleBlur} required ></input>
                             {formik.touched.confirmNewPassword && formik.errors.confirmNewPassword ? <p className="text-sm ml-2 text-red-600">{formik.errors.confirmNewPassword}</p> : null}   
                             {/* <div className="absolute xl:bottom-3 bottom-4 ml-3 text-purple-800 text-lg"><AiFillLock/></div> */}
                             <div className="absolute xl:bottom-3 bottom-4 ml-[278px] xl:ml-[440px] text-purple-800 text-lg" onClick={handleClick1}>{show1?<BsEyeFill/>:<BsEyeSlashFill/>}</div>

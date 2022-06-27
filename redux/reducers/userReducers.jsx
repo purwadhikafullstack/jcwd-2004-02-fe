@@ -3,7 +3,9 @@ const INITIAL_STATE = {
     isLogin: false, 
     name: "",
     email: "", 
-    isVerified: ""
+    is_verified: 0, 
+    role_id: 0
+
 } 
 
 const userReducer = (state = INITIAL_STATE, action) => {
