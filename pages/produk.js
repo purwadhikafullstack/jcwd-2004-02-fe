@@ -20,8 +20,8 @@ export default function UserProduct() {
     symptom: [],
     type: [],
     brand: [],
-    min_price: 0,
-    max_price: 0,
+    min_price: "",
+    max_price: "",
   });
   const [categorySelected, setCategorySelected] = useState("");
 
@@ -36,7 +36,6 @@ export default function UserProduct() {
       tempArr.push(parseInt(e.target.value));
     } else {
       tempArr = tempArr.filter((id) => id !== parseInt(e.target.value));
-      // let ind = tempArr.findIndex(val)
     }
     console.log(tempArr);
     setInput({ ...input, [prop]: tempArr });
@@ -120,6 +119,7 @@ export default function UserProduct() {
           <UserProductSidebar
             component={component}
             category_id={input.category}
+            input={input}
             handleInput={handleInput}
             handleCheckbox={handleCheckbox}
             isLoading={isLoading}

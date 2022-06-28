@@ -23,6 +23,7 @@ function UserProductSidebar({
   handleInput,
   handleCheckbox,
   isLoading,
+  input,
 }) {
   return (
     <div className="w-[300px] mr-[48px]">
@@ -208,10 +209,14 @@ function UserProductSidebar({
                       children="Rp"
                     />
                     <Input
+                      type={"number"}
                       fontSize={"14px"}
                       letterSpacing={"wider"}
                       focusBorderColor="purple.600"
                       placeholder="Harga Minimum"
+                      value={input.min_price}
+                      name="min_price"
+                      onChange={(e) => handleInput(e)}
                     />
                   </InputGroup>
                 </AccordionPanel>
@@ -224,10 +229,14 @@ function UserProductSidebar({
                       children="Rp"
                     />
                     <Input
+                      type={"number"}
                       fontSize={"14px"}
                       letterSpacing={"wider"}
                       focusBorderColor="purple.600"
                       placeholder="Harga Maksimum"
+                      value={input.max_price}
+                      name="max_price"
+                      onChange={(e) => handleInput(e)}
                     />
                   </InputGroup>
                 </AccordionPanel>
@@ -352,7 +361,10 @@ function UserProductSidebar({
                         fontSize={"14px"}
                         letterSpacing={"wider"}
                         focusBorderColor="purple.600"
-                        placeholder="Harga Minimum"
+                        placeholder="Cari Brand"
+                        value={input.search}
+                        name="search"
+                        onChange={(e) => handleInput(e)}
                       />
                       <InputRightElement
                         pr={"20px"}
