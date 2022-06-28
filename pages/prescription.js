@@ -10,26 +10,10 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const Prescription = () => {
-  // const [images, setImages] = useState([]);
-
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
     console.log("accepted", acceptedFiles);
     console.log("rejected", rejectedFiles);
   }, []);
-
-  // const onFileChange = (e) => {
-  //   console.log(e.target.files[0]);
-  //   if (e.target && e.target.files[0]) {
-  //     setselectedImage({
-  //       ...selectedImage,
-  //       [e.target.name]: e.target.files[0],
-  //     });
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   console.log(images, "a");
-  // }, [images]);
 
   const { getRootProps, getInputProps, open, acceptedFiles } = useDropzone({
     onDrop,
@@ -38,22 +22,12 @@ const Prescription = () => {
     noKeyboard: true,
   });
 
-  // utk keterangan
-  const files = acceptedFiles.map((file) => (
-    <div className="flex">
-      <div key={file.path}>{file.path}</div>
-      <div className="text-purple-600 ml-3" key={file.path}>
-        {file.size / 1000} KB
-      </div>
-    </div>
-  ));
-
   const onSaveDataClick = async () => {
     let token = Cookies.get("token");
     const formData = new FormData();
 
     console.log(acceptedFiles, "acc");
-    formData.append("prescription", acceptedFiles.file);
+    formData.append("prescription", acceptedFiles[0]);
 
     try {
       let res = await axios.post(
@@ -65,7 +39,7 @@ const Prescription = () => {
           },
         }
       );
-      onClose();
+      // onClose();
       toast.success("Foto Resep Berhasil ditambahkan!", {
         position: "top-right",
         autoClose: 1000,
@@ -73,6 +47,7 @@ const Prescription = () => {
         draggable: true,
       });
     } catch (error) {
+      console.log(error);
       toast.error("Foto Resep Gagal ditambahkan", {
         position: "top-right",
         autoClose: 1000,
@@ -100,7 +75,6 @@ const Prescription = () => {
             <Divider className="mt-2 ml-14" />
 
             {/* page 1 */}
-            {/* {tab === 0 */}
             {!acceptedFiles[0] ? (
               <div
                 className="containerx mx-[80px] my-2 flex items-center justify-center w-[900px] h-[400px]"
@@ -125,13 +99,24 @@ const Prescription = () => {
             ) : null}
 
             {/* page 2 */}
-            {/* {tab === 1  */}
             {acceptedFiles[0] ? (
               <div>
                 <div className="container2 mx-[80px] my-2 flex w-[900px] h-[350px]">
                   <div className="flex border-solid border-gray-200 rounded-lg border-2 px-5 py-2">
                     <BsImage className="text-2xl text-purple-600 " />
-                    <ul className="ml-6 text-sm">{files}</ul>
+                    <ul className="ml-6 text-sm">
+                      <div className="flex">
+                        <div key={acceptedFiles[0].path}>
+                          {acceptedFiles[0].path}
+                        </div>
+                        <div
+                          className="text-purple-600 ml-3"
+                          key={acceptedFiles[0].path}
+                        >
+                          {acceptedFiles[0].size / 1000} KB
+                        </div>
+                      </div>
+                    </ul>
                   </div>
                   <Button
                     colorScheme={"purple"}
@@ -148,7 +133,7 @@ const Prescription = () => {
                     colorScheme={"purple"}
                     className="w-[100px] mt-3 mr-5 "
                     type="button"
-                    onClick={open}
+                    // onClick={a}
                   >
                     Cancel
                   </Button>
