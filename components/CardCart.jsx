@@ -15,7 +15,7 @@ function CardCart({ img, name, price, unit }) {
           {name}
         </div>
         <div className="flex items-center tracking-wide h-[21px] mb-[4px] lg:h-[24px] lg:mb-[7px] mt-[8px] text-xs">
-          <div className="border-2 border-orange-300 text-orange-300 rounded-md px-1 font-semibold">
+          <div className="border-2 border-orange-400 text-orange-400 rounded-md px-1 font-semibold">
             17%
           </div>
           <div className="pl-2 line-through decoration-1 decoration-slate-600 text-slate-500">

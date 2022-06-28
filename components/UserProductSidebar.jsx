@@ -16,12 +16,12 @@ import {
 import { GrSearch } from "react-icons/gr";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { API_URL } from "../helpers";
 
 function UserProductSidebar({
   component,
   category_id,
   handleInput,
+  handleCheckbox,
   isLoading,
 }) {
   return (
@@ -149,7 +149,13 @@ function UserProductSidebar({
                   {component.symptom?.map((val) => {
                     return (
                       <AccordionPanel key={val.id} pb={2}>
-                        <Checkbox borderColor={"gray.600"} colorScheme="purple">
+                        <Checkbox
+                          borderColor={"gray.600"}
+                          name="symptom"
+                          colorScheme="purple"
+                          value={val.id}
+                          onChange={(e) => handleCheckbox(e, "symptom")}
+                        >
                           {val.name}
                         </Checkbox>
                       </AccordionPanel>
@@ -275,7 +281,12 @@ function UserProductSidebar({
                   {component.type?.map((val) => {
                     return (
                       <AccordionPanel key={val.id} pb={2}>
-                        <Checkbox borderColor={"gray.600"} colorScheme="purple">
+                        <Checkbox
+                          borderColor={"gray.600"}
+                          colorScheme="purple"
+                          value={val.id}
+                          onChange={(e) => handleCheckbox(e, "type")}
+                        >
                           {val.name}
                         </Checkbox>
                       </AccordionPanel>
@@ -355,7 +366,12 @@ function UserProductSidebar({
                   {component.brand?.map((val) => {
                     return (
                       <AccordionPanel key={val.id} pb={2}>
-                        <Checkbox borderColor={"gray.600"} colorScheme="purple">
+                        <Checkbox
+                          borderColor={"gray.600"}
+                          colorScheme="purple"
+                          value={val.id}
+                          onChange={(e) => handleCheckbox(e, "brand")}
+                        >
                           {val.name}
                         </Checkbox>
                       </AccordionPanel>

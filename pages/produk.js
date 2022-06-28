@@ -1,13 +1,12 @@
 import Head from "next/head";
 import UserProductSidebar from "../components/UserProductSidebar";
+import UserProductMainPage from "../components/UserProductMainPage";
 import Navbar from "../components/navbar";
-import CardCart from "../components/CardCart";
 import Footer from "../components/Footer";
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../helpers";
 import debounce from "lodash.debounce";
-import CardLoader from "../components/CartLoader";
 
 export default function UserProduct() {
   const [component, setComponent] = useState({});
@@ -18,9 +17,9 @@ export default function UserProduct() {
   const [input, setInput] = useState({
     search: "",
     category: 1,
-    symptom: "",
-    type: "",
-    brand: "",
+    symptom: [],
+    type: [],
+    brand: [],
     min_price: 0,
     max_price: 0,
   });
@@ -29,6 +28,19 @@ export default function UserProduct() {
   const handleInput = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
     setPage(0);
+  };
+
+  const handleCheckbox = (e, prop) => {
+    let tempArr = input[prop];
+    if (e.target.checked) {
+      tempArr.push(parseInt(e.target.value));
+    } else {
+      tempArr = tempArr.filter((id) => id !== parseInt(e.target.value));
+      // let ind = tempArr.findIndex(val)
+    }
+    console.log(tempArr);
+    setInput({ ...input, [prop]: tempArr });
+    console.log(input);
   };
 
   const fetchComponentObat = async () => {
@@ -47,9 +59,20 @@ export default function UserProduct() {
     //   &symptom=${input.symptom}&type=${input.type}&brand=${input.brand}&min_price=${input.min_price}&max_price=${input.max_price}`
     // );
     let res = await axios.get(
-      `${API_URL}/products/fetchuserproduct?page=${page}&category=${input.category}`
+      `${API_URL}/products/fetchuserproduct?page=${page}&category=${input.category}&symptom=${input.symptom}&type=${input.type}&brand=${input.brand}`
     );
     cb(res);
+  };
+
+  const getSelectedCategory = async () => {
+    try {
+      let res = await axios.get(
+        `${API_URL}/products/getusercategoryselected/${input.category}`
+      );
+      setCategorySelected(res.data[0].name);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const debouncedFetchData = useCallback(
@@ -61,7 +84,7 @@ export default function UserProduct() {
 
   useEffect(() => {
     fetchComponentObat();
-    categoryName();
+    getSelectedCategory();
   }, []);
 
   useEffect(() => {
@@ -81,16 +104,8 @@ export default function UserProduct() {
       }, 2000);
     });
     console.log(totalData, "ini total data");
-    categoryName();
+    getSelectedCategory();
   }, [page, input]);
-
-  const categoryName = () => {
-    component.category?.map((val) => {
-      if (input.category === val.id) {
-        setCategorySelected(val.name);
-      }
-    });
-  };
 
   return (
     <>
@@ -106,56 +121,15 @@ export default function UserProduct() {
             component={component}
             category_id={input.category}
             handleInput={handleInput}
+            handleCheckbox={handleCheckbox}
             isLoading={isLoading}
           />
-          <div className=" w-[900px]">
-            <div className="text-2xl font-bold text-primary pb-[16px] border-b-2">
-              Obat
-            </div>
-            <div className="flex mt-[24px] justify-between items-center">
-              <div className="text-slate-400">
-                {totalData} Produk di Obat-obatan
-              </div>
-              <div className="flex items-center">
-                <div className="text-slate-400">Urutkan</div>
-                <div className="border-2 rounded-lg text-slate-400 border-slate-300 py-1 w-[137px] px-1 h-[36px] ml-[16px]">
-                  <select
-                    className="text-sm font-medium outline-none w-full"
-                    placeholder="Terpopular"
-                    name="category"
-                  >
-                    <option value="">Terpopular</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div className="mt-[36px] grid grid-cols-4 gap-4">
-              {isLoading ? (
-                <>
-                  <CardLoader />
-                  <CardLoader />
-                  <CardLoader />
-                  <CardLoader />
-                </>
-              ) : (
-                <>
-                  {data.map((val, ind) => {
-                    return (
-                      <>
-                        <CardCart
-                          key={ind}
-                          img={`${API_URL}${val.image}`}
-                          name={val.name}
-                          price={val.hargaJual}
-                          unit={val.unit}
-                        />
-                      </>
-                    );
-                  })}
-                </>
-              )}
-            </div>
-          </div>
+          <UserProductMainPage
+            categorySelected={categorySelected}
+            data={data}
+            totalData={totalData}
+            isLoading={isLoading}
+          />
         </div>
       </div>
       <Footer />
