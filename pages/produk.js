@@ -58,7 +58,8 @@ export default function UserProduct() {
     //   &symptom=${input.symptom}&type=${input.type}&brand=${input.brand}&min_price=${input.min_price}&max_price=${input.max_price}`
     // );
     let res = await axios.get(
-      `${API_URL}/products/fetchuserproduct?page=${page}&category=${input.category}&symptom=${input.symptom}&type=${input.type}&brand=${input.brand}`
+      `${API_URL}/products/fetchuserproduct?page=${page}&category=${input.category}&symptom=${input.symptom}&type=${input.type}&brand=${input.brand}&search=${input.search}
+      `
     );
     cb(res);
   };

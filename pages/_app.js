@@ -6,6 +6,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import AuthProvider from "../components/authProvider";
 import "../styles/styles.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 function MyApp({ Component, pageProps }) {
   const theme = extendTheme({
