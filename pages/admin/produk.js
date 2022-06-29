@@ -74,7 +74,7 @@ function DaftarProduk() {
     } catch (error) {
       console.log(error);
     } finally {
-      // getLastProduct();
+      getLastProduct();
       setPage(0);
       setInput({
         search: "",
@@ -93,6 +93,14 @@ function DaftarProduk() {
   useEffect(() => {
     getComponent();
   }, []);
+
+  useEffect(() => {
+    if (isLoading) {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
+    }
+  }, [isLoading]);
 
   useEffect(() => {
     debouncedFetchData(page, input, (res) => {
@@ -223,12 +231,6 @@ function DaftarProduk() {
                 </div>
               </div>
               <ModalInputAdmin submitProduct={submitProduct} />
-              {/* <div className="flex items-center rounded-lg bg-violet-900 p-[11px] text-white">
-                <FiDownload className="text-sm" />
-                <div className="text-xs font-semibold px-2 tracking-wide">
-                  Tambah Obat
-                </div>
-              </div> */}
             </div>
             <div className="w-full border-b-2 mt-[38px]"></div>
             <div className="mt-[32px] rounded-lg border-2">
