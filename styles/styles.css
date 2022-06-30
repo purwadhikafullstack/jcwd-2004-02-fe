@@ -119,3 +119,8 @@ img {
   width: 900px;
   margin-top: 10px;
 }
+
+.flexfooter {
+  flex: 1;
+  background-color: pink;
+}

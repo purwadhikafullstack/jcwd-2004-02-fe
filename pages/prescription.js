@@ -8,8 +8,10 @@ import { BsImage } from "react-icons/bs";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 const Prescription = () => {
+  const router = useRouter();
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
     console.log("accepted", acceptedFiles);
     console.log("rejected", rejectedFiles);
@@ -40,12 +42,13 @@ const Prescription = () => {
         }
       );
       // onClose();
-      toast.success("Foto Resep Berhasil ditambahkan!", {
-        position: "top-right",
-        autoClose: 1000,
-        closeOnClick: true,
-        draggable: true,
-      });
+      // toast.success("Foto Resep Berhasil ditambahkan!", {
+      //   position: "top-right",
+      //   autoClose: 1000,
+      //   closeOnClick: true,
+      //   draggable: true,
+      // });
+      router.push("/prescriptionBerhasil");
     } catch (error) {
       console.log(error);
       toast.error("Foto Resep Gagal ditambahkan", {
@@ -96,10 +99,7 @@ const Prescription = () => {
                   Unggah Resep
                 </Button>
               </div>
-            ) : null}
-
-            {/* page 2 */}
-            {acceptedFiles[0] ? (
+            ) : (
               <div>
                 <div className="container2 mx-[80px] my-2 flex w-[900px] h-[350px]">
                   <div className="flex border-solid border-gray-200 rounded-lg border-2 px-5 py-2">
@@ -147,7 +147,7 @@ const Prescription = () => {
                   </Button>
                 </div>
               </div>
-            ) : null}
+            )}
           </div>
         </div>
       </div>

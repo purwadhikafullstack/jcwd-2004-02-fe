@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { useEffect, useState } from "react";
 import Select from "react-select";
-// import CreatableSelect from 'react-select/creatable';
-// import { ActionMeta, OnChangeValue } from 'react-select';
-import Calendar from "react-calendar";
+import { DownloadIcon } from "@chakra-ui/icons";
 import {
   Modal,
   ModalOverlay,
@@ -18,24 +16,18 @@ import {
   FormLabel,
   Input,
   Stack,
-  // Select,
-  HStack,
-  useNumberInput,
 } from "@chakra-ui/react";
 import axios from "axios";
+
 import { API_URL } from "../../helpers";
+import { flushSync } from "react-dom";
 
-API_URL;
-
-function ModalAdminEditStok() {
+function AdminEditStok({ submitProduct }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(0);
   const [getData, setgetData] = useState({});
-  // utk gambar
-  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [selectedImage, setselectedImage] = useState([null, null, null]);
 
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
@@ -44,22 +36,20 @@ function ModalAdminEditStok() {
     name: "",
     no_obat: "",
     no_BPOM: "",
-    price: 0,
     description: {},
     warning: "",
     usage: "",
     quantity: 0,
     unit: "",
-    expired_at: "", // belom tau cara masukin ke tabel stok
     brand_id: 0,
     type_id: 0,
     hargaJual: 0,
     hargaBeli: 0,
-    is_deleted: 0,
     symptom: [],
     category: [],
-    stock: 0,
+    stock: 10,
     expired: "",
+    is_deleted: 0,
   });
 
   // handle
@@ -67,20 +57,86 @@ function ModalAdminEditStok() {
     setinput({ ...input, [prop]: e.target.value });
   };
 
+  // handle select
   // individu -> e.value, multi -> e
   const handleChangeSelect = (e, prop) => {
     setinput({ ...input, [prop]: e });
     console.log(e);
   };
 
-  // fetch
-  const fetchData = async () => {
-    let res = await axios.get(
-      `${API_URL}/products?_page=${page + 1}&_limit=${rowsPerPage}`
-    );
-    setData(res.data);
-    settotalData(parseInt(res.headers["x-total-count"]));
+  // handle description
+  const handleChangeDesc = (e, prop, param) => {
+    let description = input.description;
+    description[param] = e.target.value;
+    setinput({ ...input, [prop]: description });
+    console.log(e);
   };
+
+  // handle image
+  const handleImageChange = (e, index) => {
+    console.log(e.target.files[0]);
+
+    if (e.target.files[0]) {
+      let selectedImageMut = selectedImage;
+      selectedImageMut[index] = e.target.files[0];
+
+      setselectedImage([...selectedImageMut]);
+    }
+  };
+
+  const deletePhoto = (index) => {
+    let selectedImageMut = selectedImage;
+    selectedImageMut[index] = null;
+
+    setselectedImage([...selectedImageMut]);
+  };
+
+  const renderPhotos = (source) => {
+    console.log("source: ", source);
+
+    return source.map((photo, index) => {
+      if (photo) {
+        return (
+          <>
+            <div>
+              <span
+                onClick={() => deletePhoto(index)}
+                className="cursor-pointer relative flex items-center justify-center bg-black bg-opacity-40 w-6 h-6 rounded-full text-white z-100 left-[185px] top-6 "
+              >
+                X
+              </span>
+              <img
+                className="h-[210px] w-[210px] object-cover mb-6 "
+                src={URL.createObjectURL(photo)}
+                alt=""
+                key={index}
+              />
+            </div>
+          </>
+        );
+      } else {
+        return (
+          <>
+            <input
+              style={{ display: "none" }}
+              type="file"
+              id={"file" + index}
+              onChange={(e) => handleImageChange(e, index)}
+            />
+            <label
+              className="mx-5 h-[185px] w-[185px] border-dashed border-2 cursor-pointer flex items-center justify-center"
+              htmlFor={"file" + index}
+            >
+              <i className="">
+                {index === 0 ? "Insert Main Image" : "Insert Image"}
+              </i>
+            </label>
+          </>
+        );
+      }
+    });
+  };
+  // console.log(input);
 
   useEffect(() => {
     fetchComponentObat();
@@ -101,94 +157,109 @@ function ModalAdminEditStok() {
       );
       // console.log(res.data);
       setgetData(res.data);
+      console.log("resdata", res.data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  // submit
-  const onAddDataClick = async () => {
-    console.log(input);
-    let dataInputFinal = input;
-    dataInputFinal.symptom = dataInputFinal.symptom.map((val) => val.value);
-    console.log(dataInputFinal);
-    // try {
-    //   await axios.post(`${API_URL}/products`, input);
-    //   fetchData();
-    //   setOpen(false);
-    //   setinput({
-    //     name: "",
-    //     no_obat: "",
-    //     no_BPOM: "",
-    //     price: 0,
+  // submit form
+  const onSaveDataClick = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    let insertData = {
+      expired: input.expired,
 
-    //     description: {
-    //       "indikasi/kegunaan":
-    //         "Untuk mengobati batu berdahak, batuk karena flu, batuk karena asma, bronkitis akut atau kronis",
-    //     },
-    //     warning: {
-    //       "indikasi/kegunaan":
-    //         "Untuk mengobati batu berdahak, batuk karena flu, batuk karena asma, bronkitis akut atau kronis",
-    //     },
-    //     usage: {
-    //       "indikasi/kegunaan":
-    //         "Untuk mengobati batu berdahak, batuk karena flu, batuk karena asma, bronkitis akut atau kronis",
-    //     },
-    //     quantity: 0,
-    //     unit: "",
-    //     expired_at: "",
-    //     brand_id: 0,
-    //     type_id: 0,
-    //     hargaJual: 0,
-    //     hargaBeli: 0,
-    //     is_deleted: 0,
-    //     symptom: [],
-    //     category: [],
-    //     stock: 0,
-    //     expired: "",
-    //   });
-    // } catch (error) {
-    //   console.log(error);
+      quantity: input.quantity,
+      unit: input.unit,
+
+      hargaJual: input.hargaJual,
+      hargaBeli: input.hargaBeli,
+
+      stock: input.stock,
+    };
+    console.log(insertData);
+    // if (selectedImage[0] === null) {
+    //   // agar coding berhenti, dikasih return (perlu diberi warning pakai toastify)
+    //   return;
     // }
+
+    for (let i = 0; i < selectedImage.length; i++) {
+      if (selectedImage[i]) {
+        formData.append(`products`, selectedImage[i]);
+      }
+    }
+    formData.append("data", JSON.stringify(insertData));
+    console.log("iniformdata", formData);
+    try {
+      await submitProduct(formData);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      flushSync(() => {
+        setTab(5);
+      });
+      setinput({
+        name: "",
+        no_obat: "",
+        no_BPOM: "",
+        description: {},
+        warning: "",
+        usage: "",
+        quantity: 0,
+        unit: "",
+        brand_id: 0,
+        type_id: 0,
+        hargaJual: 0,
+        hargaBeli: 0,
+        symptom: [],
+        category: [],
+        stock: 10,
+        expired: "",
+        is_deleted: 0,
+      });
+      setselectedImage([null, null, null]);
+      setTimeout(() => {
+        setTab(0);
+        onClose();
+      }, 800);
+    }
   };
 
-  // untuk +- input jumlah kuantitas barang
-  const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
-    useNumberInput({
-      step: 1,
-      defaultValue: 1,
-      min: 1,
-      precision: 0,
-    });
+  // untuk isi dari select dari database
+  const categoryOptions = getData.category?.map((val) => {
+    return { value: val.id, label: val.name };
+  });
 
-  const inc = getIncrementButtonProps();
-  const dec = getDecrementButtonProps();
-  const inputPlusMinus = getInputProps();
+  const symptomOptions = getData.symptom?.map((val) => {
+    return { value: val.id, label: val.name };
+  });
 
-  const customStyles = {
-    // option: (provided, state) => ({
-    //   ...provided,
-    //   borderBottom: "1px dotted pink",
-    //   color: state.isSelected ? "red" : "blue",
-    //   padding: 20,
-    // }),
-    control: () => ({
-      // none of react-select's styles are passed to <Control />
-      width: 300,
-    }),
-    // singleValue: (provided, state) => {
-    //   const opacity = state.isDisabled ? 0.5 : 1;
-    //   const transition = "opacity 300ms";
+  const brandOptions = getData.brand?.map((val) => {
+    return { value: val.id, label: val.name };
+  });
 
-    //   return { ...provided, opacity, transition };
-    // },
+  const typeOptions = getData.type?.map((val) => {
+    return { value: val.id, label: val.name };
+  });
+
+  // increment utk kuantitas
+  const incNum = () => {
+    let count = parseInt(input.quantity) + 1;
+    setinput({ ...input, quantity: count });
   };
 
-  // uploat foto
+  const decNum = () => {
+    let count = parseInt(input.quantity) - 1;
+    count = count < 1 ? 1 : count;
+    setinput({ ...input, quantity: count });
+  };
+
+  // function menerima array isinya name dari
 
   return (
     <>
-      <Button colorScheme="purple" onClick={onOpen}>
+      <Button leftIcon={<DownloadIcon />} colorScheme="purple" onClick={onOpen}>
         Edit Stok
       </Button>
 
@@ -200,108 +271,106 @@ function ModalAdminEditStok() {
       >
         <ModalOverlay />
         <ModalContent maxW="1000px" maxH="900px" pl={8} pt={4}>
-          <ModalHeader>Edit Stok Obat</ModalHeader>
+          <ModalHeader>Edit Stok</ModalHeader>
           <ModalCloseButton />
 
-          <div>
-            <ModalBody pb={6}>
-              <FormControl mt={"1.5"} className="flex">
-                <FormLabel pt={2} fontSize="sm" w="175px">
-                  Kuantitas
-                </FormLabel>
-                <HStack>
-                  <Button
-                    size="xs"
-                    colorScheme="purple"
-                    variant="unstyled"
-                    {...dec}
-                  >
-                    -
-                  </Button>
-                  <Input
-                    marginLeft=""
-                    size="xs"
-                    width="20px"
-                    variant="unstyled"
-                    {...inputPlusMinus}
-                  />
-                  <Button
-                    size="xs"
-                    colorScheme="purple"
-                    variant="ghost"
-                    {...inc}
-                  >
-                    +
-                  </Button>
-                </HStack>
-              </FormControl>
-              <FormControl mt={"1.5"} className="flex">
-                <FormLabel pt={2} fontSize="sm" w="175px">
-                  Satuan
-                </FormLabel>
-                <Stack spacing={3}>
-                  {/* <Select
-                      w="141px"
-                      size="sm"
-                      variant="outline"
-                      fontSize="xs"
-                      placeholder="Box"
-                    /> */}
+          {/* third tab */}
+          {tab === 0 ? (
+            <div>
+              <ModalBody pb={6}>
+                <FormControl mt={"1.5"} className="flex">
+                  <FormLabel pt={2} fontSize="sm" w="175px">
+                    Kuantitas
+                  </FormLabel>
+                  <Stack spacing={3}>
+                    <div className="flex mr-2">
+                      <button className="text-purple-600 mr-3" onClick={decNum}>
+                        -
+                      </button>
+                      <div>
+                        <input
+                          className="w-7 text-sm"
+                          type="number"
+                          onChange={(e) => handleChange(e, "quantity")}
+                          value={input.quantity}
+                        />
+                      </div>
+
+                      <button className="text-purple-600 " onClick={incNum}>
+                        +
+                      </button>
+                    </div>
+                  </Stack>
+                </FormControl>
+                <FormControl mt={"3"} className="flex">
+                  <FormLabel pt={2} fontSize="sm" w="175px">
+                    Satuan
+                  </FormLabel>
+                  <Stack spacing={3}>
+                    <Input
+                      w="226px"
+                      h="40px"
+                      fontSize="sm"
+                      placeholder="Masukkan satuan"
+                      onChange={(e) => handleChange(e, "unit")}
+                      name="unit"
+                      value={input.unit}
+                    />
+                  </Stack>
+                </FormControl>
+
+                <FormControl mt={"3"} className="flex">
+                  <FormLabel pt={2} fontSize="sm" w="175px">
+                    Nilai Barang (Rp)
+                  </FormLabel>
                   <Input
                     w="226px"
-                    h="32px"
-                    fontSize="xs"
-                    placeholder="Masukkan satuan"
-                    onChange={(e) => handleChange(e, "unit")}
-                    name="unit"
-                    value={input.unit}
+                    h="40px"
+                    fontSize="sm"
+                    placeholder="Masukkan nilai barang (Rp)"
+                    onChange={(e) => handleChange(e, "hargaBeli")}
+                    name="hargaBeli"
+                    value={input.hargaBeli}
                   />
-                </Stack>
-              </FormControl>
+                </FormControl>
+                <FormControl mt={"3"} className="flex">
+                  <FormLabel pt={2} fontSize="sm" w="175px">
+                    Nilai Jual (Rp)
+                  </FormLabel>
+                  <Input
+                    w="226px"
+                    h="40px"
+                    fontSize="sm"
+                    placeholder="Masukkan nilai jual (Rp)"
+                    onChange={(e) => handleChange(e, "hargaJual")}
+                    name="hargaJual"
+                    value={input.hargaJual}
+                  />
+                </FormControl>
+              </ModalBody>
 
-              <FormControl mt={"1.5"} className="flex">
-                <FormLabel pt={2} fontSize="sm" w="175px">
-                  Nilai Barang (Rp)
-                </FormLabel>
-                <Input
-                  w="226px"
-                  h="32px"
-                  fontSize="xs"
-                  placeholder="Masukkan nilai barang (Rp)"
-                  onChange={(e) => handleChange(e, "hargaBeli")}
-                  name="hargaBeli"
-                  value={input.hargaBeli}
-                />
-              </FormControl>
-              <FormControl mt={"1.5"} className="flex">
-                <FormLabel pt={2} fontSize="sm" w="175px">
-                  Nilai Jual (Rp)
-                </FormLabel>
-                <Input
-                  w="226px"
-                  h="32px"
-                  fontSize="xs"
-                  placeholder="Masukkan nilai jual (Rp)"
-                  onChange={(e) => handleChange(e, "hargaJual")}
-                  name="hargaJual"
-                  value={input.hargaJual}
-                />
-              </FormControl>
-            </ModalBody>
+              <ModalFooter>
+                <Button colorScheme="purple" mr={3} onClick={onSaveDataClick}>
+                  Simpan
+                </Button>
+              </ModalFooter>
+            </div>
+          ) : null}
 
-            <ModalFooter>
-              <Button onClick={() => setTab(1)} mr={3}>
-                Kembali
-              </Button>
-              <Button colorScheme="purple" onClick={() => setTab(3)} mr={3}>
-                Lanjutkan
-              </Button>
-            </ModalFooter>
-          </div>
+          {/* success tab */}
+          {tab === 5 ? (
+            <div>
+              <ModalBody className="flex items-center justify-center" h="600px">
+                <div className="flex items-center justify-center">
+                  <img src={"/addProductSuccess.svg"} />
+                </div>
+              </ModalBody>
+            </div>
+          ) : null}
         </ModalContent>
       </Modal>
     </>
   );
 }
 
-export default ModalAdminEditStok;
+export default AdminEditStok;

@@ -1,4 +1,3 @@
-import React from "react";
 import {
   FaInstagram,
   FaTwitter,
@@ -9,107 +8,102 @@ import { FiPhoneCall } from "react-icons/fi";
 
 import { MdMail } from "react-icons/md";
 
-function Footer() {
+const Footer = () => {
   return (
-    <>
-      <div className="bg-gray-50 h-1/2 w-full flex md:flex-row flex-col justify-around items-start p-20">
-        <div className="p-5 ">
-          <ul>
-            <p className="text-gray-800 font-bold text-3xl pb-6">Healthymed</p>
-          </ul>
-
-          <ul>
-            <div className="flex">
-              <FaWhatsapp className=" mt-2 text-4xl cursor-pointer hover:text-yellow-600" />
-              <li className="ml-4 text-gray-500 text-md pb-8 font-semibold hover:text-blue-600 cursor-pointer">
-                Chat Whatsapp <br />
-                +62-0123-4567
-              </li>
+    <div className=" mt-4 pt-4 flex flex-col bottom-0 w-full text-purple-800">
+      <div className="flex justify-center">
+        <div className="w-80 flex flex-col items-center mb-12">
+          <div>
+            <img src={"/logo.svg"} className="h-[50px] w-[100px]" />
+            <div className="flex text-xs items-center w-60 my-3">
+              <div>
+                <FaWhatsapp className="text-4xl mr-4" />
+              </div>
+              <div>
+                <div>Chat Whatsapp</div>
+                <div>+62-1234-5678</div>
+              </div>
             </div>
-            <div className="flex">
-              <FiPhoneCall className="mt-2 text-4xl cursor-pointer hover:text-yellow-600" />
-              <li className="ml-4 text-gray-500 text-md pb-8 font-semibold hover:text-blue-600 cursor-pointer">
-                Email <br />
-                contact@healthymed.com
-              </li>
+            <div className="flex text-xs items-center w-60">
+              <div>
+                <MdMail className="text-4xl mr-4" />
+              </div>
+              <div>
+                <div>Email</div>
+                <div>contact@healthymed.com</div>
+              </div>
             </div>
-            <div className="flex">
-              <MdMail className="mt-2 text-4xl cursor-pointer hover:text-yellow-600" />
-              <li className="ml-4 text-gray-500 text-md pb-2 font-semibold hover:text-blue-600 cursor-pointer">
-                Call Center <br />
-                +62-0123-4567
-              </li>
+            <div className="flex text-xs items-center w-60 my-3">
+              <div>
+                <FiPhoneCall className="text-4xl mr-4" />
+              </div>
+              <div>
+                <div>Call Center</div>
+                <div>+62-1234-5678</div>
+              </div>
             </div>
-          </ul>
+          </div>
         </div>
 
-        <div className="p-5 ">
-          <ul>
-            <li className="text-gray-500 text-sm pb-8 font-semibold hover:text-blue-600 cursor-pointer">
-              Tentang Kami
-            </li>
-            <li className="text-gray-500 text-sm pb-8 font-semibold hover:text-blue-600 cursor-pointer">
-              FAQ
-            </li>
-            <li className="text-gray-500 text-sm pb-8 font-semibold hover:text-blue-600 cursor-pointer">
-              Kebijakan Privasi
-            </li>
-            <li className="text-gray-500 text-sm pb-8 font-semibold hover:text-blue-600 cursor-pointer">
-              Syarat & Ketentuan
-            </li>
-            <li className="text-gray-500 text-sm pb-8 font-semibold hover:text-blue-600 cursor-pointer">
-              Karir
-            </li>
-          </ul>
+        <div className="w-80 flex flex-col items-center ">
+          <div>
+            <div className="flex text-xs items-center w-60 my-3">
+              <div>
+                <div className="mt-2">Tentang Kami</div>
+                <div className="mt-5">FAQ</div>
+                <div className="mt-5">Kebijakan Privasi</div>
+                <div className="mt-5">Syarat & Ketentuan</div>
+                <div className="mt-5">Karir</div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="p-5">
-          <ul>
-            <li className="text-gray-500 text-sm pb-8 font-semibold hover:text-blue-600 cursor-pointer">
-              Blog
-            </li>
-            <li className="text-gray-500 text-sm pb-8 font-semibold hover:text-blue-600 cursor-pointer">
-              Cara Belanja
-            </li>
-            <li className="text-gray-500 text-sm pb-8 font-semibold hover:text-blue-600 cursor-pointer">
-              Promo
-            </li>
-            <a
-              href="https://www.google.com/"
-              className="text-gray-500 text-sm pb-8 font-semibold hover:text-blue-600 cursor-pointer"
-            >
-              Diagnosis
-            </a>
-          </ul>
+        <div className="w-80 flex flex-col items-center ">
+          <div>
+            <div className="flex text-xs items-center w-60 my-3">
+              <div>
+                <div className="mt-2">Blog</div>
+                <div className="mt-5">Cara Belanja</div>
+                <div className="mt-5">Promo</div>
+                <div className="mt-5">Diagnosis</div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="p-5 -mt-2">
-          <ul>
-            <p className="text-gray-800 font-bold text-2xl pb-8">Ikuti Kami</p>
-            <div className="flex">
-              <FaFacebookF className="text-2xl cursor-pointer hover:text-yellow-600" />
-              <li className="ml-4 text-gray-500 pb-8 font-semibold hover:text-blue-600 cursor-pointer">
-                Facebook
-              </li>
+
+        <div className="w-40 flex flex-col items-center ">
+          <div>
+            <div className="text-xl font-semibold">Ikuti Kami</div>
+            <div className="flex text-xs items-center w-60 my-3">
+              <div>
+                <div className="flex text-xs items-center w-60 my-3">
+                  <div>
+                    <FaFacebookF className="text-4xl mr-4" />
+                  </div>
+                  <div>Facebook</div>
+                </div>
+                <div className="flex text-xs items-center w-60 my-3">
+                  <div>
+                    <FaTwitter className="text-4xl mr-4" />
+                  </div>
+                  <div>Twitter</div>
+                </div>
+                <div className="flex text-xs items-center w-60 my-3">
+                  <div>
+                    <FaInstagram className="text-4xl mr-4" />
+                  </div>
+                  <div>Instagram</div>
+                </div>
+              </div>
             </div>
-            <div className="flex">
-              <FaTwitter className="text-2xl cursor-pointer hover:text-yellow-600" />
-              <li className="ml-4 text-gray-500 text-md pb-8 font-semibold hover:text-blue-600 cursor-pointer">
-                Twitter
-              </li>
-            </div>
-            <div className="flex">
-              <FaInstagram className="text-2xl cursor-pointer hover:text-yellow-600" />
-              <li className="ml-4 text-gray-500 text-md pb-2 font-semibold hover:text-blue-600 cursor-pointer">
-                Instagram
-              </li>
-            </div>
-          </ul>
+          </div>
         </div>
       </div>
-      <div className="flex flex-col justify-center items-center text-center  p-10 bg-violet-600">
-        <h1 className=" text-white">Designed by JCUI/UX 1004</h1>
+      <div className=" flex flex-col items-center justify-center  bg-[#4F618E]">
+        <h1 className=" text-white my-6">Designed by JCUI/UX 1004</h1>
       </div>
-    </>
+    </div>
   );
-}
+};
 
 export default Footer;

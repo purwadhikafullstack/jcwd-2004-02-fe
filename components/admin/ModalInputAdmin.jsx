@@ -21,6 +21,8 @@ import axios from "axios";
 
 import { API_URL } from "../../helpers";
 import { flushSync } from "react-dom";
+import * as yup from "yup";
+import { userSchema } from "./validation";
 
 function ModalInputAdmin({ submitProduct }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -232,19 +234,6 @@ function ModalInputAdmin({ submitProduct }) {
       }, 800);
     }
   };
-
-  // untuk +- input jumlah kuantitas barang
-  // const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
-  //   useNumberInput({
-  //     step: 1,
-  //     defaultValue: 1,
-  //     min: 1,
-  //     precision: 0,
-  //   });
-
-  // const inc = getIncrementButtonProps();
-  // const dec = getDecrementButtonProps();
-  // const inputPlusMinus = getInputProps();
 
   // untuk isi dari select dari database
   const categoryOptions = getData.category?.map((val) => {
