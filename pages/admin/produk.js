@@ -3,7 +3,7 @@ import AdminSidebar from "../../components/AdminSidebar";
 import ModalInputAdmin from "../../components/admin/ModalInputAdmin";
 import { FiDownload } from "react-icons/fi";
 import { IoDocumentText } from "react-icons/io5";
-import { HiSearch } from "react-icons/hi";
+import { HiSearch, HiOutlineDotsVertical } from "react-icons/hi";
 import NewTable from "../../components/Table";
 import {
   useCallback,
@@ -130,6 +130,19 @@ function DaftarProduk() {
     );
   };
 
+  const DetailButton = ({ val }) => {
+    return (
+      <div className="flex justify-between text-center items-center">
+        <div className="text-sm text-primary rounded-lg font-semibold py-1 px-2 border-[1px] mr-1 border-primary bg-white ">
+          Lihat Detail {val}
+        </div>
+        <div className="text-sm text-primary rounded-md font-semibold py-2 px border-[1px] border-primary bg-white">
+          <HiOutlineDotsVertical />
+        </div>
+      </div>
+    );
+  };
+
   const columns = useMemo(() => [
     {
       Header: "No",
@@ -172,6 +185,8 @@ function DaftarProduk() {
     },
     {
       Header: "Atur",
+      // accessor: "id",
+      Cell: (data) => <DetailButton val={data.row.original.id} />,
     },
   ]);
 
