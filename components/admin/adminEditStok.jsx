@@ -259,8 +259,8 @@ function AdminEditStok({ submitProduct }) {
 
   return (
     <>
-      <Button leftIcon={<DownloadIcon />} colorScheme="purple" onClick={onOpen}>
-        Edit Stok
+      <Button colorScheme="purple" onClick={onOpen}>
+        Edit
       </Button>
 
       <Modal
