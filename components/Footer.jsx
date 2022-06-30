@@ -14,7 +14,7 @@ const Footer = () => {
       <div className="flex justify-center">
         <div className="w-80 flex flex-col items-center mb-12">
           <div>
-            <img src={"/logo.svg"} className="h-[50px] w-[100px]" />
+            <img src={"/logo.svg"} className="h-auto w-[200px] -ml-3 " />
             <div className="flex text-xs items-center w-60 my-3">
               <div>
                 <FaWhatsapp className="text-4xl mr-4" />
