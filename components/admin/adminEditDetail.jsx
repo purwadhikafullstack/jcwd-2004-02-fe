@@ -26,25 +26,24 @@ function AdminEditDetail({ submitProduct2 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [tab, setTab] = useState(0);
   const [getData, setgetData] = useState({});
-  const [detailObat, setDetailObat] = useState({});
+  const [input, setinput] = useState({
+    name: "",
+    no_obat: "",
+    no_BPOM: 0,
+    category: [],
+    brand_id: 0,
+    type_id: 0,
+    symptom: [],
+
+    description: {},
+    warning: "",
+    usage: "",
+  });
 
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
 
-  const [input, setinput] = useState({
-    name: detailObat.name,
-    no_obat: detailObat.no_obat,
-    no_BPOM: detailObat.no_bpom,
-    category: [],
-    brand_id: detailObat.brand_id,
-    type_id: detailObat.type_id,
-    symptom: [],
-
-    description: {},
-    warning: detailObat.warning,
-    usage: detailObat.usage,
-  });
-  console.log(detailObat, "hahahah");
+  console.log(input, "hahahah");
   // handle
   const handleChange = (e, prop) => {
     setinput({ ...input, [prop]: e.target.value });
@@ -106,9 +105,10 @@ function AdminEditDetail({ submitProduct2 }) {
       );
       // console.log(res.data);
       // console.log("resdata", res.data);
-      setDetailObat(res.data);
 
-      // setDetailObat([...res.data]);
+      setinput(res.data);
+
+      // setinput([...res.data]);
     } catch (error) {
       console.log(error);
     }
@@ -117,7 +117,6 @@ function AdminEditDetail({ submitProduct2 }) {
   // submit form
   const onSaveDataClick = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
     let insertData = {
       name: input.name,
       no_obat: input.no_obat,
@@ -132,10 +131,8 @@ function AdminEditDetail({ submitProduct2 }) {
     };
     console.log(insertData);
 
-    formData.append("data", JSON.stringify(insertData));
-    console.log("iniformdata", formData);
     try {
-      await submitProduct2(formData);
+      await submitProduct2(insertData);
     } catch (error) {
       console.log(error);
     } finally {
