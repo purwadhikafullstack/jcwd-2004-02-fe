@@ -12,17 +12,25 @@ import {
   ModalCloseButton,
   useDisclosure,
   Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Stack,
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  TableContainer,
 } from "@chakra-ui/react";
 import axios from "axios";
 
 import { API_URL } from "../../helpers";
 import { flushSync } from "react-dom";
 
-function AdminEditStok({ submitProduct }) {
+import AdminEditStok from "./adminEditStok";
+import AdminDeleteProduct from "./adminDeleteProduct";
+
+function adminEditStockTableProduct({ submitProduct }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(0);
@@ -259,8 +267,8 @@ function AdminEditStok({ submitProduct }) {
 
   return (
     <>
-      <Button colorScheme="purple" onClick={onOpen}>
-        Edit
+      <Button leftIcon={<DownloadIcon />} colorScheme="purple" onClick={onOpen}>
+        Edit Stok
       </Button>
 
       <Modal
@@ -278,75 +286,57 @@ function AdminEditStok({ submitProduct }) {
           {tab === 0 ? (
             <div>
               <ModalBody pb={6}>
-                <FormControl mt={"1.5"} className="flex">
-                  <FormLabel pt={2} fontSize="sm" w="175px">
-                    Kuantitas
-                  </FormLabel>
-                  <Stack spacing={3}>
-                    <div className="flex mr-2">
-                      <button className="text-purple-600 mr-3" onClick={decNum}>
-                        -
-                      </button>
-                      <div>
-                        <input
-                          className="w-7 text-sm"
-                          type="number"
-                          onChange={(e) => handleChange(e, "quantity")}
-                          value={input.quantity}
-                        />
-                      </div>
-
-                      <button className="text-purple-600 " onClick={incNum}>
-                        +
-                      </button>
-                    </div>
-                  </Stack>
-                </FormControl>
-                <FormControl mt={"3"} className="flex">
-                  <FormLabel pt={2} fontSize="sm" w="175px">
-                    Satuan
-                  </FormLabel>
-                  <Stack spacing={3}>
-                    <Input
-                      w="226px"
-                      h="40px"
-                      fontSize="sm"
-                      placeholder="Masukkan satuan"
-                      onChange={(e) => handleChange(e, "unit")}
-                      name="unit"
-                      value={input.unit}
-                    />
-                  </Stack>
-                </FormControl>
-
-                <FormControl mt={"3"} className="flex">
-                  <FormLabel pt={2} fontSize="sm" w="175px">
-                    Nilai Barang (Rp)
-                  </FormLabel>
-                  <Input
-                    w="226px"
-                    h="40px"
-                    fontSize="sm"
-                    placeholder="Masukkan nilai barang (Rp)"
-                    onChange={(e) => handleChange(e, "hargaBeli")}
-                    name="hargaBeli"
-                    value={input.hargaBeli}
-                  />
-                </FormControl>
-                <FormControl mt={"3"} className="flex">
-                  <FormLabel pt={2} fontSize="sm" w="175px">
-                    Nilai Jual (Rp)
-                  </FormLabel>
-                  <Input
-                    w="226px"
-                    h="40px"
-                    fontSize="sm"
-                    placeholder="Masukkan nilai jual (Rp)"
-                    onChange={(e) => handleChange(e, "hargaJual")}
-                    name="hargaJual"
-                    value={input.hargaJual}
-                  />
-                </FormControl>
+                <TableContainer>
+                  <Table variant="striped" colorScheme="purple">
+                    <Thead>
+                      <Tr>
+                        <Th>Expired at</Th>
+                        <Th>Stock</Th>
+                        <Th>Actions</Th>
+                      </Tr>
+                    </Thead>
+                    <Tbody>
+                      <Tr>
+                        <Td>1-2-2022</Td>
+                        <Td>10</Td>
+                        <Td>
+                          <Td>
+                            <AdminEditStok />
+                          </Td>
+                          <Td>
+                            <AdminDeleteProduct />
+                          </Td>
+                        </Td>
+                      </Tr>
+                      <Tr>
+                        <Td>1-2-2022</Td>
+                        <Td>10</Td>
+                        <Td>
+                          <Td>
+                            <AdminEditStok />
+                          </Td>
+                          <Td>
+                            <AdminDeleteProduct />
+                          </Td>
+                        </Td>
+                      </Tr>
+                      <Tr>
+                        <Td>1-2-2022</Td>
+                        <Td>10</Td>
+                        <Td>
+                          <Td>
+                            <AdminEditStok />
+                          </Td>
+                          <Td>
+                            <AdminDeleteProduct />
+                          </Td>
+                        </Td>
+                      </Tr>
+                    </Tbody>
+                    <Button className=" mt-5">Tambah Stok</Button>
+                    <Tfoot className="bg-red-300 pt-3"></Tfoot>
+                  </Table>
+                </TableContainer>
               </ModalBody>
 
               <ModalFooter>
@@ -373,4 +363,4 @@ function AdminEditStok({ submitProduct }) {
   );
 }
 
-export default AdminEditStok;
+export default adminEditStockTableProduct;
