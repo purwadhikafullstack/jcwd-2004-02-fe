@@ -107,7 +107,6 @@ function AdminEditDetail({ submitProduct2 }) {
       // console.log("resdata", res.data);
 
       setinput(res.data);
-
       // setinput([...res.data]);
     } catch (error) {
       console.log(error);
