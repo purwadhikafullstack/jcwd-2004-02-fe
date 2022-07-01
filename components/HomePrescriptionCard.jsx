@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Button } from "@chakra-ui/react";
+import Link from "next/link";
 
 function HomePrescriptionCard() {
   return (
@@ -11,7 +12,7 @@ function HomePrescriptionCard() {
       </div>
       <div className="w-[352px] ml-[11px] my-auto">
         <div className="text-2xl font-bold tracking-wide text-primary">
-          Punya Resep Doktor?
+          Punya Resep Dokter?
         </div>
         <div className="text-sm font-medium tracking-wide text-slate-700 mt-[12px]">
           Tak perlu antre & obat langsung dikirimkan ke lokasi anda! Foto tidak
@@ -19,15 +20,16 @@ function HomePrescriptionCard() {
         </div>
       </div>
       <div className="my-auto mr-[28px]">
-        <Button
-          height="48px"
-          width="274px"
-          textColor={"whiteAlpha.900"}
-          bgColor={"brand.primary"}
-        >
-          {" "}
-          Unggah Resep
-        </Button>
+        <Link href={"/prescription"}>
+          <Button
+            height="48px"
+            width="274px"
+            textColor={"whiteAlpha.900"}
+            bgColor={"brand.primary"}
+          >
+            Unggah Resep
+          </Button>
+        </Link>
       </div>
     </div>
   );
