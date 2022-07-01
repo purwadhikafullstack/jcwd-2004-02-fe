@@ -78,7 +78,7 @@ function DaftarProduk() {
     } catch (error) {
       console.log(error);
     } finally {
-      // getLastProduct();
+      getLastProduct();
       setPage(0);
       setInput({
         search: "",
@@ -117,6 +117,14 @@ function DaftarProduk() {
   useEffect(() => {
     getComponent();
   }, []);
+
+  useEffect(() => {
+    if (isLoading) {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
+    }
+  }, [isLoading]);
 
   useEffect(() => {
     debouncedFetchData(page, input, (res) => {

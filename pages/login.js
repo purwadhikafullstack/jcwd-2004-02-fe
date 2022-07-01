@@ -12,12 +12,15 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import useUser from "../hooks/useUser";
 import Link from "next/link";
+import { useRouter, router } from "next/router";
 
 const Login = ({ loginActions }) => {
   const [show1, setShow1] = useState(false);
   const handleClick1 = () => setShow1(!show1);
 
-  const { isLogin } = useUser();
+  const { isLogin, role_id } = useUser();
+
+  const router = useRouter();
 
   const formik = useFormik({
     initialValues: {
@@ -36,6 +39,12 @@ const Login = ({ loginActions }) => {
       }
     },
   });
+
+  if (isLogin && role_id == 0) {
+    router.push("/");
+  } else if (isLogin && role_id == 1) {
+    router.push("/admin/produk");
+  }
 
   return (
     <div className="flex">

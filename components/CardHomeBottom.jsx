@@ -3,7 +3,7 @@ import Image from "next/image";
 
 function CardHomeBottom() {
   return (
-    <div className="w-[140px] h-[245px] lg:w-[195px] lg:h-[331px] border-2 border-slate-100 rounded-xl shadow-xl relative">
+    <div className="w-[140px] h-[245px] lg:w-[195px] lg:h-[331px] border-2 border-slate-100 rounded-xl shadow-xl relative bg-white">
       <div className="absolute top-2 right-2 lg:top-5 lg:right-5 z-10 border-2 bg-white border-slate-100 text-slate-300 text-sm lg:text-lg p-1 lg:p-2 rounded-full shadow-lg">
         <FaHeart />
       </div>
@@ -11,7 +11,7 @@ function CardHomeBottom() {
         <div className="lg:h-[143px] h-[76px] bg-slate-200 overflow-hidden relative">
           <Image src={"/image12.png"} layout="fill" objectFit="cover"></Image>
         </div>
-        <div className="h-[34px] lg:h-[40px] text-xs lg:text-sm font-bold text-purple-800">
+        <div className="h-[34px] lg:h-[40px] text-xs lg:text-sm font-bold text-primary">
           ACIFAR KRIM 5 GRAM
         </div>
         <div className="flex items-center tracking-wide h-[21px] mb-[4px] lg:h-[24px] lg:mb-[7px] mt-[8px] text-xs">
@@ -22,12 +22,12 @@ function CardHomeBottom() {
             Rp. 65.000
           </div>
         </div>
-        <div className="flex justify-between text-sm items-center text-purple-800">
+        <div className="flex justify-between text-sm items-center text-primary">
           <div className="font-bold">Rp. 5.300</div>
           <div className="text-xs lg:text-sm font-semibold">/ Pack</div>
         </div>
       </div>
-      <div className="border-2 rounded-md border-purple-800 w-[116px] h-[32px] mx-auto mt-[12px] lg:w-[154px] lg:h-[30px] lg:mt-[18px] text-center py-1 text-purple-800 text-xs font-semibold">
+      <div className="border-2 rounded-md border-pritext-primary w-[116px] h-[32px] mx-auto mt-[12px] lg:w-[154px] lg:h-[30px] lg:mt-[18px] text-center py-1 text-primary text-xs font-semibold">
         Keranjang
       </div>
     </div>
