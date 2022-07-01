@@ -249,7 +249,7 @@ function DaftarProduk() {
               <ModalInputAdmin submitProduct={submitProduct} />
               <AdminEditDetail submitProduct2={submitProduct2} />
               <AdminEditStok />
-              <AdminEditFoto />
+              {/* <AdminEditFoto /> */}
               <AdminEditStockTableProduct />
               {/* <div className="flex items-center rounded-lg bg-violet-900 p-[11px] text-white">
                 <FiDownload className="text-sm" />

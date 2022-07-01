@@ -26,24 +26,25 @@ function AdminEditDetail({ submitProduct2 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [tab, setTab] = useState(0);
   const [getData, setgetData] = useState({});
+  const [detailObat, setDetailObat] = useState({});
 
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
 
   const [input, setinput] = useState({
-    name: "",
-    no_obat: "",
-    no_BPOM: "",
+    name: detailObat.name,
+    no_obat: detailObat.no_obat,
+    no_BPOM: detailObat.no_bpom,
     category: [],
-    brand_id: 0,
-    type_id: 0,
+    brand_id: detailObat.brand_id,
+    type_id: detailObat.type_id,
     symptom: [],
 
     description: {},
-    warning: "",
-    usage: "",
+    warning: detailObat.warning,
+    usage: detailObat.usage,
   });
-
+  console.log(detailObat, "hahahah");
   // handle
   const handleChange = (e, prop) => {
     setinput({ ...input, [prop]: e.target.value });
@@ -66,6 +67,7 @@ function AdminEditDetail({ submitProduct2 }) {
 
   useEffect(() => {
     fetchComponentObat();
+    fetchObat();
   }, []);
 
   // get data symptom, category, dll
@@ -84,6 +86,29 @@ function AdminEditDetail({ submitProduct2 }) {
       // console.log(res.data);
       setgetData(res.data);
       console.log("resdata", res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchObat = async () => {
+    // let token = Cookies.get('token')
+    try {
+      let res = await axios.get(
+        `${API_URL}/products/getselectedproduct/17`,
+        input
+
+        // {
+        //   headers: {
+        //     authorization: `bearer ${token}`,
+        //   },
+        // }
+      );
+      // console.log(res.data);
+      // console.log("resdata", res.data);
+      setDetailObat(res.data);
+
+      // setDetailObat([...res.data]);
     } catch (error) {
       console.log(error);
     }
@@ -247,25 +272,7 @@ function AdminEditDetail({ submitProduct2 }) {
                     />
                   </Stack>
                 </FormControl>
-                <FormControl mt={"3"} className="flex">
-                  <FormLabel pt={2} fontSize="md" w="175px">
-                    Tgl. Kadaluwarsa
-                  </FormLabel>
-                  <Stack spacing={3}>
-                    <div>
-                      <input
-                        style={{
-                          border: "1px solid #ccc",
-                          borderRadius: "4px",
-                        }}
-                        className="h-[40px] px-3 text-gray-400"
-                        type="date"
-                        onChange={(e) => handleChange(e, "expired")}
-                        value={input.expired}
-                      />
-                    </div>
-                  </Stack>
-                </FormControl>
+
                 <FormControl mt={"3"} className="flex">
                   <FormLabel pt={2} fontSize="md" w="175px">
                     Merk Obat
