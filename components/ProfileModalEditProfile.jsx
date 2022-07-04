@@ -19,7 +19,6 @@ import {
 import { editProfileActions } from "../redux/actions/userActions";
 import { connect, useDispatch } from "react-redux";
 import useUser from "../hooks/useUser";
-import { AiOutlineReload } from "react-icons/ai";
 const ProfileModalEditProfile = ({ editProfileActions }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { name, email, gender, birthdate } = useUser();

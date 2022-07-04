@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { useEffect, useState } from "react";
+import Select from "react-select";
 import { DownloadIcon } from "@chakra-ui/icons";
 import {
   Modal,
@@ -11,24 +12,73 @@ import {
   ModalCloseButton,
   useDisclosure,
   Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Stack,
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  TableContainer,
 } from "@chakra-ui/react";
 import axios from "axios";
 
 import { API_URL } from "../../helpers";
 import { flushSync } from "react-dom";
 
-function ModalInputAdmin({ submitProduct }) {
+import AdminEditStok from "./adminEditStok";
+import AdminDeleteProduct from "./adminDeleteProduct";
+
+function adminEditStockTableProduct({ submitProduct }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(0);
   const [getData, setgetData] = useState({});
   const [selectedImage, setselectedImage] = useState([null, null, null]);
 
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
+
+  const [input, setinput] = useState({
+    name: "",
+    no_obat: "",
+    no_BPOM: "",
+    description: {},
+    warning: "",
+    usage: "",
+    quantity: 0,
+    unit: "",
+    brand_id: 0,
+    type_id: 0,
+    hargaJual: 0,
+    hargaBeli: 0,
+    symptom: [],
+    category: [],
+    stock: 10,
+    expired: "",
+    is_deleted: 0,
+  });
+
+  // handle
+  const handleChange = (e, prop) => {
+    setinput({ ...input, [prop]: e.target.value });
+  };
+
+  // handle select
+  // individu -> e.value, multi -> e
+  const handleChangeSelect = (e, prop) => {
+    setinput({ ...input, [prop]: e });
+    console.log(e);
+  };
+
+  // handle description
+  const handleChangeDesc = (e, prop, param) => {
+    let description = input.description;
+    description[param] = e.target.value;
+    setinput({ ...input, [prop]: description });
+    console.log(e);
+  };
 
   // handle image
   const handleImageChange = (e, index) => {
@@ -125,7 +175,18 @@ function ModalInputAdmin({ submitProduct }) {
   const onSaveDataClick = async (e) => {
     e.preventDefault();
     const formData = new FormData();
+    let insertData = {
+      expired: input.expired,
 
+      quantity: input.quantity,
+      unit: input.unit,
+
+      hargaJual: input.hargaJual,
+      hargaBeli: input.hargaBeli,
+
+      stock: input.stock,
+    };
+    console.log(insertData);
     // if (selectedImage[0] === null) {
     //   // agar coding berhenti, dikasih return (perlu diberi warning pakai toastify)
     //   return;
@@ -136,7 +197,8 @@ function ModalInputAdmin({ submitProduct }) {
         formData.append(`products`, selectedImage[i]);
       }
     }
-
+    formData.append("data", JSON.stringify(insertData));
+    console.log("iniformdata", formData);
     try {
       await submitProduct(formData);
     } catch (error) {
@@ -206,7 +268,7 @@ function ModalInputAdmin({ submitProduct }) {
   return (
     <>
       <Button leftIcon={<DownloadIcon />} colorScheme="purple" onClick={onOpen}>
-        Edit Foto
+        Edit Stok
       </Button>
 
       <Modal
@@ -217,25 +279,64 @@ function ModalInputAdmin({ submitProduct }) {
       >
         <ModalOverlay />
         <ModalContent maxW="1000px" maxH="900px" pl={8} pt={4}>
-          <ModalHeader>Edit Foto Obat</ModalHeader>
+          <ModalHeader>Edit Stok</ModalHeader>
           <ModalCloseButton />
 
-          {/* fourth tab */}
+          {/* third tab */}
           {tab === 0 ? (
             <div>
               <ModalBody pb={6}>
-                <FormControl
-                  mt={"1.5"}
-                  className="flex items-center justify-center"
-                >
-                  <Stack spacing={3}>
-                    <div>
-                      <div className="result ">
-                        {renderPhotos(selectedImage)}
-                      </div>
-                    </div>
-                  </Stack>
-                </FormControl>
+                <TableContainer>
+                  <Table variant="striped" colorScheme="purple">
+                    <Thead>
+                      <Tr>
+                        <Th>Expired at</Th>
+                        <Th>Stock</Th>
+                        <Th>Actions</Th>
+                      </Tr>
+                    </Thead>
+                    <Tbody>
+                      <Tr>
+                        <Td>1-2-2022</Td>
+                        <Td>10</Td>
+                        <Td>
+                          <Td>
+                            <AdminEditStok />
+                          </Td>
+                          <Td>
+                            <AdminDeleteProduct />
+                          </Td>
+                        </Td>
+                      </Tr>
+                      <Tr>
+                        <Td>1-2-2022</Td>
+                        <Td>10</Td>
+                        <Td>
+                          <Td>
+                            <AdminEditStok />
+                          </Td>
+                          <Td>
+                            <AdminDeleteProduct />
+                          </Td>
+                        </Td>
+                      </Tr>
+                      <Tr>
+                        <Td>1-2-2022</Td>
+                        <Td>10</Td>
+                        <Td>
+                          <Td>
+                            <AdminEditStok />
+                          </Td>
+                          <Td>
+                            <AdminDeleteProduct />
+                          </Td>
+                        </Td>
+                      </Tr>
+                    </Tbody>
+                    <Button className=" mt-5">Tambah Stok</Button>
+                    <Tfoot className="bg-red-300 pt-3"></Tfoot>
+                  </Table>
+                </TableContainer>
               </ModalBody>
 
               <ModalFooter>
@@ -245,6 +346,7 @@ function ModalInputAdmin({ submitProduct }) {
               </ModalFooter>
             </div>
           ) : null}
+
           {/* success tab */}
           {tab === 5 ? (
             <div>
@@ -261,4 +363,4 @@ function ModalInputAdmin({ submitProduct }) {
   );
 }
 
-export default ModalInputAdmin;
+export default adminEditStockTableProduct;
