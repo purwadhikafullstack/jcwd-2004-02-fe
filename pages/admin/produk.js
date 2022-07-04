@@ -25,6 +25,7 @@ function DaftarProduk() {
   const [input, setInput] = useState({
     search: "",
     category: "",
+    order: "",
   });
   const [value, setLimit] = useState(10);
   const [comp, setComponent] = useState([]);
@@ -49,7 +50,7 @@ function DaftarProduk() {
   const getDaftarProduk = async (page, input, cb) => {
     // token + headers
     let res = await axios.get(
-      `${API_URL}/products/fetchdaftarproduk?page=${page}&search=${input.search}&category=${input.category}`
+      `${API_URL}/products/fetchdaftarproduk?page=${page}&search=${input.search}&category=${input.category}&order=${input.order}`
     ); // FIXME Dipersingkat querynya (dibuat conditional)
     cb(res);
   };
@@ -264,12 +265,12 @@ function DaftarProduk() {
                   </select>
                 </div>
               </div>
-              <ModalInputAdmin submitProduct={submitProduct} />
+              {/* <ModalInputAdmin submitProduct={submitProduct} />
               <AdminEditDetail submitProductEdit={submitProductEdit} />
               <AdminEditStok />
-              <AdminDeleteProduct />
+              <AdminDeleteProduct /> */}
               {/* <AdminEditFoto /> */}
-              <AdminEditStockTableProduct />
+              {/* <AdminEditStockTableProduct /> */}
               {/* <div className="flex items-center rounded-lg bg-violet-900 p-[11px] text-white">
                 <FiDownload className="text-sm" />
                 <div className="text-xs font-semibold px-2 tracking-wide">
