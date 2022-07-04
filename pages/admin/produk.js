@@ -21,6 +21,7 @@ import { API_URL } from "../../helpers";
 import Pagination from "../../components/Pagination";
 import { flushSync } from "react-dom";
 import debounce from "lodash.debounce";
+import AdminDeleteProduct from "../../components/admin/adminDeleteProduct";
 
 function DaftarProduk() {
   const [page, setPage] = useState(0);
@@ -87,7 +88,7 @@ function DaftarProduk() {
     }
   };
 
-  const submitProduct2 = async (values) => {
+  const submitProductEdit = async (values) => {
     try {
       // let token = Cookies.get("token");
       await axios.put(`${API_URL}/products/17`, values, {
@@ -255,8 +256,9 @@ function DaftarProduk() {
                 </div>
               </div>
               <ModalInputAdmin submitProduct={submitProduct} />
-              <AdminEditDetail submitProduct2={submitProduct2} />
+              <AdminEditDetail submitProductEdit={submitProductEdit} />
               <AdminEditStok />
+              <AdminDeleteProduct />
               {/* <AdminEditFoto /> */}
               <AdminEditStockTableProduct />
               {/* <div className="flex items-center rounded-lg bg-violet-900 p-[11px] text-white">

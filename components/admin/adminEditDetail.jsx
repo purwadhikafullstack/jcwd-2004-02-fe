@@ -22,7 +22,7 @@ import axios from "axios";
 import { API_URL } from "../../helpers";
 import { flushSync } from "react-dom";
 
-function AdminEditDetail({ submitProduct2 }) {
+function AdminEditDetail({ submitProductEdit }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [tab, setTab] = useState(0);
   const [getData, setgetData] = useState({});
@@ -30,7 +30,7 @@ function AdminEditDetail({ submitProduct2 }) {
     name: "",
     no_obat: "",
     no_BPOM: 0,
-    category: [],
+    category: [{}],
     brand_id: 0,
     type_id: 0,
     symptom: [],
@@ -40,10 +40,11 @@ function AdminEditDetail({ submitProduct2 }) {
     usage: "",
   });
 
+  console.log(input, "input");
+
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
 
-  console.log(input, "hahahah");
   // handle
   const handleChange = (e, prop) => {
     setinput({ ...input, [prop]: e.target.value });
@@ -64,6 +65,7 @@ function AdminEditDetail({ submitProduct2 }) {
     console.log(e);
   };
 
+  // memanggil fetch komponen obat dan obat yang ditunjuk
   useEffect(() => {
     fetchComponentObat();
     fetchObat();
@@ -131,7 +133,7 @@ function AdminEditDetail({ submitProduct2 }) {
     console.log(insertData);
 
     try {
-      await submitProduct2(insertData);
+      await submitProductEdit(insertData);
     } catch (error) {
       console.log(error);
     } finally {
@@ -175,6 +177,23 @@ function AdminEditDetail({ submitProduct2 }) {
     return { value: val.id, label: val.name };
   });
 
+  // mapping value dengan label untuk react-select
+  const symptomInput = input.symptom?.map((val) => {
+    return { value: val.id, label: val.name };
+  });
+
+  const categoryInput = input.category?.map((val) => {
+    return { value: val.id, label: val.name };
+  });
+
+  const brandInput = input.brand_id;
+
+  // const typeInput = input.type?.map((val) => {
+  //   return { value: val.id, label: val.name };
+  // });
+
+  console.log(brandInput, "brandinput");
+  console.log(typeOptions, "inputcat");
   return (
     <>
       <Button leftIcon={<DownloadIcon />} colorScheme="purple" onClick={onOpen}>
@@ -220,7 +239,7 @@ function AdminEditDetail({ submitProduct2 }) {
                     placeholder="Masukkan nama obat"
                     onChange={(e) => handleChange(e, "name")}
                     name="name"
-                    value={input.name}
+                    value={input.type_id}
                   />
                 </FormControl>
                 <FormControl mt={"3"} className="flex">
@@ -264,7 +283,7 @@ function AdminEditDetail({ submitProduct2 }) {
                       classNamePrefix="select"
                       onChange={(e) => handleChangeSelect(e, "category")}
                       name="category"
-                      value={input.category}
+                      value={categoryInput}
                     />
                   </Stack>
                 </FormControl>
@@ -316,7 +335,7 @@ function AdminEditDetail({ submitProduct2 }) {
                       className="basic-multi-select"
                       classNamePrefix="select"
                       onChange={(e) => handleChangeSelect(e, "symptom")}
-                      value={input.symptom}
+                      value={symptomInput}
                     />
                   </Stack>
                 </FormControl>
