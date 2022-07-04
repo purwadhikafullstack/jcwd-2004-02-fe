@@ -9,7 +9,7 @@ const Navbar = () => {
   const { isLogin } = useUser();
 
   return (
-    <div className="flex h-[80px] bg-white shadow-lg shadow-purple-100 px-5">
+    <div className="flex justify-between h-[80px] bg-white shadow-lg shadow-purple-100 px-5">
       <div className="w-[250px] h-full  flex items-center justify-center">
         <div className="w-[200px]">
           <img src={"/logo.svg"} className="text-sm" />
@@ -37,8 +37,16 @@ const Navbar = () => {
         </div>
       ) : (
         <div className="w-96 flex items-center justify-center">
-          <ButtonSecondary className="w-24 h-9 mx-2">Masuk</ButtonSecondary>
-          <ButtonPrimary className="w-24 h-9 mx-2">Daftar</ButtonPrimary>
+          <Link href="/login">
+            <div>
+              <ButtonSecondary className="w-24 h-9 mx-2">Masuk</ButtonSecondary>
+            </div>
+          </Link>
+          <Link href="/register">
+            <div>
+              <ButtonPrimary className="w-24 h-9 mx-2">Daftar</ButtonPrimary>
+            </div>
+          </Link>
         </div>
       )}
     </div>

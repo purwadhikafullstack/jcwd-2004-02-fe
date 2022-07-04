@@ -1,14 +1,19 @@
 import Head from "next/head";
-import UserProductSidebar from "../components/UserProductSidebar";
-import UserProductMainPage from "../components/UserProductMainPage";
-import Navbar from "../components/navbar";
-import Footer from "../components/Footer";
+import UserProductSidebar from "../../components/UserProductSidebar";
+import UserProductMainPage from "../../components/UserProductMainPage";
+import Navbar from "../../components/navbar";
+import Footer from "../../components/Footer";
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
-import { API_URL } from "../helpers";
+import { API_URL } from "../../helpers";
 import debounce from "lodash.debounce";
+import { Router, useRouter } from "next/router";
 
 export default function UserProduct() {
+  const route = useRouter();
+  let { category_id } = route.query;
+  category_id = parseInt(category_id);
+
   const [component, setComponent] = useState({});
   const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
@@ -16,12 +21,13 @@ export default function UserProduct() {
   const [isLoading, setIsLoading] = useState(true);
   const [input, setInput] = useState({
     search: "",
-    category: 1,
+    category: category_id,
     symptom: [],
     type: [],
     brand: [],
     min_price: "",
     max_price: "",
+    order: "",
   });
   const [categorySelected, setCategorySelected] = useState("");
 
@@ -58,7 +64,7 @@ export default function UserProduct() {
     //   &symptom=${input.symptom}&type=${input.type}&brand=${input.brand}&min_price=${input.min_price}&max_price=${input.max_price}`
     // );
     let res = await axios.get(
-      `${API_URL}/products/fetchuserproduct?page=${page}&category=${input.category}&symptom=${input.symptom}&type=${input.type}&brand=${input.brand}&search=${input.search}
+      `${API_URL}/products/fetchuserproduct?page=${page}&category=${input.category}&symptom=${input.symptom}&type=${input.type}&brand=${input.brand}&search=${input.search}&order=${input.order}
       `
     );
     cb(res);
@@ -85,6 +91,7 @@ export default function UserProduct() {
   useEffect(() => {
     fetchComponentObat();
     getSelectedCategory();
+    console.log(category_id);
   }, []);
 
   useEffect(() => {
@@ -128,12 +135,21 @@ export default function UserProduct() {
           <UserProductMainPage
             categorySelected={categorySelected}
             data={data}
+            input={input}
+            handleInput={handleInput}
             totalData={totalData}
             isLoading={isLoading}
+            pageChangeHandler={setPage}
           />
         </div>
       </div>
       <Footer />
     </>
   );
+}
+
+export async function getServerSideProps() {
+  return {
+    props: {}, // will be passed to the page component as props
+  };
 }

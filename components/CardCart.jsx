@@ -3,7 +3,7 @@ import Image from "next/image";
 
 function CardCart({ img, name, price, unit }) {
   return (
-    <div className="w-[158px] h-[247px] lg:w-[213px] lg:h-[331px] border-[1px] border-slate-100 rounded-xl shadow-md relative cursor-pointer">
+    <div className="w-[158px] h-[247px] lg:w-[213px] lg:h-[331px] border-[1px] border-slate-100 rounded-xl shadow-md relative cursor-pointer hover:-translate-y-2">
       <div className="absolute top-2 right-2 lg:top-5 lg:right-5 z-10 border-2 bg-white border-slate-100 text-slate-300 text-sm lg:text-lg p-1 lg:p-2 rounded-full shadow-lg">
         <FaHeart />
       </div>
