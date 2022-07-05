@@ -22,29 +22,29 @@ import axios from "axios";
 import { API_URL } from "../../helpers";
 import { flushSync } from "react-dom";
 
-function AdminEditDetail({ submitProduct2 }) {
+function AdminEditDetail({ submitProductEdit }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [tab, setTab] = useState(0);
   const [getData, setgetData] = useState({});
-  const [detailObat, setDetailObat] = useState({});
+  const [input, setinput] = useState({
+    name: "",
+    no_obat: "",
+    no_BPOM: 0,
+    category: [{}],
+    brand_id: 0,
+    type_id: 0,
+    symptom: [],
+
+    description: {},
+    warning: "",
+    usage: "",
+  });
+
+  console.log(input, "input");
 
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
 
-  const [input, setinput] = useState({
-    name: detailObat.name,
-    no_obat: detailObat.no_obat,
-    no_BPOM: detailObat.no_bpom,
-    category: [],
-    brand_id: detailObat.brand_id,
-    type_id: detailObat.type_id,
-    symptom: [],
-
-    description: {},
-    warning: detailObat.warning,
-    usage: detailObat.usage,
-  });
-  console.log(detailObat, "hahahah");
   // handle
   const handleChange = (e, prop) => {
     setinput({ ...input, [prop]: e.target.value });
@@ -65,6 +65,7 @@ function AdminEditDetail({ submitProduct2 }) {
     console.log(e);
   };
 
+  // memanggil fetch komponen obat dan obat yang ditunjuk
   useEffect(() => {
     fetchComponentObat();
     fetchObat();
@@ -106,9 +107,9 @@ function AdminEditDetail({ submitProduct2 }) {
       );
       // console.log(res.data);
       // console.log("resdata", res.data);
-      setDetailObat(res.data);
 
-      // setDetailObat([...res.data]);
+      setinput(res.data);
+      // setinput([...res.data]);
     } catch (error) {
       console.log(error);
     }
@@ -117,7 +118,6 @@ function AdminEditDetail({ submitProduct2 }) {
   // submit form
   const onSaveDataClick = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
     let insertData = {
       name: input.name,
       no_obat: input.no_obat,
@@ -132,10 +132,8 @@ function AdminEditDetail({ submitProduct2 }) {
     };
     console.log(insertData);
 
-    formData.append("data", JSON.stringify(insertData));
-    console.log("iniformdata", formData);
     try {
-      await submitProduct2(formData);
+      await submitProductEdit(insertData);
     } catch (error) {
       console.log(error);
     } finally {
@@ -179,6 +177,23 @@ function AdminEditDetail({ submitProduct2 }) {
     return { value: val.id, label: val.name };
   });
 
+  // mapping value dengan label untuk react-select
+  const symptomInput = input.symptom?.map((val) => {
+    return { value: val.id, label: val.name };
+  });
+
+  const categoryInput = input.category?.map((val) => {
+    return { value: val.id, label: val.name };
+  });
+
+  const brandInput = input.brand_id;
+
+  // const typeInput = input.type?.map((val) => {
+  //   return { value: val.id, label: val.name };
+  // });
+
+  console.log(brandInput, "brandinput");
+  console.log(typeOptions, "inputcat");
   return (
     <>
       <Button leftIcon={<DownloadIcon />} colorScheme="purple" onClick={onOpen}>
@@ -224,7 +239,7 @@ function AdminEditDetail({ submitProduct2 }) {
                     placeholder="Masukkan nama obat"
                     onChange={(e) => handleChange(e, "name")}
                     name="name"
-                    value={input.name}
+                    value={input.type_id}
                   />
                 </FormControl>
                 <FormControl mt={"3"} className="flex">
@@ -268,7 +283,7 @@ function AdminEditDetail({ submitProduct2 }) {
                       classNamePrefix="select"
                       onChange={(e) => handleChangeSelect(e, "category")}
                       name="category"
-                      value={input.category}
+                      value={categoryInput}
                     />
                   </Stack>
                 </FormControl>
@@ -320,7 +335,7 @@ function AdminEditDetail({ submitProduct2 }) {
                       className="basic-multi-select"
                       classNamePrefix="select"
                       onChange={(e) => handleChangeSelect(e, "symptom")}
-                      value={input.symptom}
+                      value={symptomInput}
                     />
                   </Stack>
                 </FormControl>

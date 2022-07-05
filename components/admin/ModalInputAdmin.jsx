@@ -41,7 +41,6 @@ function ModalInputAdmin({ submitProduct }) {
     description: {},
     warning: "",
     usage: "",
-    quantity: 0,
     unit: "",
     brand_id: 0,
     type_id: 0,
@@ -177,7 +176,6 @@ function ModalInputAdmin({ submitProduct }) {
       description: input.description,
       warning: input.warning,
       usage: input.usage,
-      quantity: input.quantity,
       unit: input.unit,
       brand_id: input.brand_id.value,
       type_id: input.type_id.value,
@@ -215,7 +213,6 @@ function ModalInputAdmin({ submitProduct }) {
         description: {},
         warning: "",
         usage: "",
-        quantity: 0,
         unit: "",
         brand_id: 0,
         type_id: 0,
@@ -223,7 +220,7 @@ function ModalInputAdmin({ submitProduct }) {
         hargaBeli: 0,
         symptom: [],
         category: [],
-        stock: 10,
+        stock: 0,
         expired: "",
         is_deleted: 0,
       });
@@ -254,14 +251,14 @@ function ModalInputAdmin({ submitProduct }) {
 
   // increment utk kuantitas
   const incNum = () => {
-    let count = parseInt(input.quantity) + 1;
-    setinput({ ...input, quantity: count });
+    let count = parseInt(input.stock) + 1;
+    setinput({ ...input, stock: count });
   };
 
   const decNum = () => {
-    let count = parseInt(input.quantity) - 1;
+    let count = parseInt(input.stock) - 1;
     count = count < 1 ? 1 : count;
-    setinput({ ...input, quantity: count });
+    setinput({ ...input, stock: count });
   };
 
   // function menerima array isinya name dari
@@ -725,8 +722,8 @@ function ModalInputAdmin({ submitProduct }) {
                         <input
                           className="w-7 text-sm"
                           type="number"
-                          onChange={(e) => handleChange(e, "quantity")}
-                          value={input.quantity}
+                          onChange={(e) => handleChange(e, "stock")}
+                          value={input.stock}
                         />
                       </div>
 

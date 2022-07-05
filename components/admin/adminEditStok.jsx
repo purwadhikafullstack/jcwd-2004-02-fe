@@ -24,143 +24,22 @@ import { flushSync } from "react-dom";
 
 function AdminEditStok({ submitProduct }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(0);
-  const [getData, setgetData] = useState({});
   const [selectedImage, setselectedImage] = useState([null, null, null]);
 
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
 
   const [input, setinput] = useState({
-    name: "",
-    no_obat: "",
-    no_BPOM: "",
-    description: {},
-    warning: "",
-    usage: "",
-    quantity: 0,
-    unit: "",
-    brand_id: 0,
-    type_id: 0,
     hargaJual: 0,
     hargaBeli: 0,
-    symptom: [],
-    category: [],
     stock: 10,
     expired: "",
-    is_deleted: 0,
   });
 
   // handle
   const handleChange = (e, prop) => {
     setinput({ ...input, [prop]: e.target.value });
-  };
-
-  // handle select
-  // individu -> e.value, multi -> e
-  const handleChangeSelect = (e, prop) => {
-    setinput({ ...input, [prop]: e });
-    console.log(e);
-  };
-
-  // handle description
-  const handleChangeDesc = (e, prop, param) => {
-    let description = input.description;
-    description[param] = e.target.value;
-    setinput({ ...input, [prop]: description });
-    console.log(e);
-  };
-
-  // handle image
-  const handleImageChange = (e, index) => {
-    console.log(e.target.files[0]);
-
-    if (e.target.files[0]) {
-      let selectedImageMut = selectedImage;
-      selectedImageMut[index] = e.target.files[0];
-
-      setselectedImage([...selectedImageMut]);
-    }
-  };
-
-  const deletePhoto = (index) => {
-    let selectedImageMut = selectedImage;
-    selectedImageMut[index] = null;
-
-    setselectedImage([...selectedImageMut]);
-  };
-
-  const renderPhotos = (source) => {
-    console.log("source: ", source);
-
-    return source.map((photo, index) => {
-      if (photo) {
-        return (
-          <>
-            <div>
-              <span
-                onClick={() => deletePhoto(index)}
-                className="cursor-pointer relative flex items-center justify-center bg-black bg-opacity-40 w-6 h-6 rounded-full text-white z-100 left-[185px] top-6 "
-              >
-                X
-              </span>
-              <img
-                className="h-[210px] w-[210px] object-cover mb-6 "
-                src={URL.createObjectURL(photo)}
-                alt=""
-                key={index}
-              />
-            </div>
-          </>
-        );
-      } else {
-        return (
-          <>
-            <input
-              style={{ display: "none" }}
-              type="file"
-              id={"file" + index}
-              onChange={(e) => handleImageChange(e, index)}
-            />
-            <label
-              className="mx-5 h-[185px] w-[185px] border-dashed border-2 cursor-pointer flex items-center justify-center"
-              htmlFor={"file" + index}
-            >
-              <i className="">
-                {index === 0 ? "Insert Main Image" : "Insert Image"}
-              </i>
-            </label>
-          </>
-        );
-      }
-    });
-  };
-  // console.log(input);
-
-  useEffect(() => {
-    fetchComponentObat();
-  }, []);
-
-  // get data symptom, category, dll
-  const fetchComponentObat = async () => {
-    // let token = Cookies.get('token')
-    try {
-      let res = await axios.get(
-        `${API_URL}/products/component`,
-        input
-        // {
-        //   headers: {
-        //     authorization: `bearer ${token}`,
-        //   },
-        // }
-      );
-      // console.log(res.data);
-      setgetData(res.data);
-      console.log("resdata", res.data);
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   // submit form
@@ -225,23 +104,6 @@ function AdminEditStok({ submitProduct }) {
       }, 800);
     }
   };
-
-  // untuk isi dari select dari database
-  const categoryOptions = getData.category?.map((val) => {
-    return { value: val.id, label: val.name };
-  });
-
-  const symptomOptions = getData.symptom?.map((val) => {
-    return { value: val.id, label: val.name };
-  });
-
-  const brandOptions = getData.brand?.map((val) => {
-    return { value: val.id, label: val.name };
-  });
-
-  const typeOptions = getData.type?.map((val) => {
-    return { value: val.id, label: val.name };
-  });
 
   // increment utk kuantitas
   const incNum = () => {

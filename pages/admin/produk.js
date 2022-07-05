@@ -7,20 +7,15 @@ import AdminEditStok from "../../components/admin/adminEditStok";
 import AdminEditStockTableProduct from "../../components/admin/adminEditStockTableProduct";
 import { FiDownload } from "react-icons/fi";
 import { IoDocumentText } from "react-icons/io5";
-import { HiSearch } from "react-icons/hi";
+import { HiSearch, HiOutlineDotsVertical } from "react-icons/hi";
 import NewTable from "../../components/Table";
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-  useTransition,
-} from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../../helpers";
 import Pagination from "../../components/Pagination";
 import { flushSync } from "react-dom";
 import debounce from "lodash.debounce";
+import AdminDeleteProduct from "../../components/admin/adminDeleteProduct";
 
 function DaftarProduk() {
   const [page, setPage] = useState(0);
@@ -87,7 +82,7 @@ function DaftarProduk() {
     }
   };
 
-  const submitProduct2 = async (values) => {
+  const submitProductEdit = async (values) => {
     try {
       // let token = Cookies.get("token");
       await axios.put(`${API_URL}/products/17`, values, {
@@ -154,6 +149,19 @@ function DaftarProduk() {
     );
   };
 
+  const DetailButton = ({ val }) => {
+    return (
+      <div className="flex justify-between text-center items-center">
+        <div className="text-sm text-primary rounded-lg font-semibold py-1 px-2 border-[1px] mr-1 border-primary bg-white ">
+          Lihat Detail {val}
+        </div>
+        <div className="text-sm text-primary rounded-md font-semibold py-2 px border-[1px] border-primary bg-white">
+          <HiOutlineDotsVertical />
+        </div>
+      </div>
+    );
+  };
+
   const columns = useMemo(() => [
     {
       Header: "No",
@@ -196,6 +204,8 @@ function DaftarProduk() {
     },
     {
       Header: "Atur",
+      // accessor: "id",
+      Cell: (data) => <DetailButton val={data.row.original.id} />,
     },
   ]);
 
@@ -255,8 +265,9 @@ function DaftarProduk() {
                 </div>
               </div>
               <ModalInputAdmin submitProduct={submitProduct} />
-              <AdminEditDetail submitProduct2={submitProduct2} />
+              <AdminEditDetail submitProductEdit={submitProductEdit} />
               <AdminEditStok />
+              <AdminDeleteProduct />
               {/* <AdminEditFoto /> */}
               <AdminEditStockTableProduct />
               {/* <div className="flex items-center rounded-lg bg-violet-900 p-[11px] text-white">
