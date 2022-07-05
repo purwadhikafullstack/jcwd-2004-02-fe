@@ -51,7 +51,9 @@ function UserProductMainPage({
           <>
             {data.map((val, ind) => {
               return (
-                <Link href={`/products/detail/${val.id}`}>
+                <Link
+                  href={`/products/detail/${val.id}?brand=${val.brand_name}`}
+                >
                   <div>
                     <CardCart
                       key={ind}

@@ -1,6 +1,6 @@
 import axios from "axios";
 import Image from "next/image";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Slider from "react-slick";
 import Footer from "../../../components/Footer";
@@ -18,43 +18,57 @@ import { FaCartPlus } from "react-icons/fa";
 import { FiHeart } from "react-icons/fi";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import HomePopularProductCarousel from "../../../components/HomePopularProductCarousel";
+import ProductDescriptionTabs from "../../../components/ProductDescriptionTabs";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
-function ProductDetail() {
+function ProductDetail({ product, productTerkait }) {
   const route = useRouter();
-  let { product_id } = route.query;
-  product_id = parseInt(product_id);
+  // let { product_id } = route.query;
+  // product_id = parseInt(product_id);
 
-  const [data, setData] = useState({});
+  // const [data, setData] = useState({});
   const [description, setDescription] = useState([]);
   const [quantity, setQuantity] = useState(1);
+  let token = Cookies.get("token");
+  const [isLoading, setIsLoading] = useState(false);
+  const [produkTerkait, setProdukTerkait] = useState([]);
 
-  const getProductDetail = async () => {
-    try {
-      let res = await axios.get(
-        `${API_URL}/products/getdetailproduct/${product_id}`
-      );
-      setData(res.data[0]);
-      descriptionToState(res.data[0].description);
-      console.log(description);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const getProductDetail = async () => {
+  //   try {
+  //     let res = await axios.get(
+  //       `${API_URL}/products/getdetailproduct/${product_id}`
+  //     );
+  //     setData(res.data[0]);
+  //     descriptionToState(res.data[0].description);
+  //     console.log(description);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   getProductDetail();
+  // }, []);
 
   useEffect(() => {
-    getProductDetail();
+    let descriptions = Object.entries(product.description);
+    setDescription(descriptions);
+    setProdukTerkait([...productTerkait]);
+    console.log(product);
+    console.log(produkTerkait);
   }, []);
 
-  function descriptionToState(val) {
-    let descriptions = Object.entries(val);
-    setDescription(descriptions);
-  }
+  // function descriptionToState(val) {
+  //   let descriptions = Object.entries(val);
+  //   setDescription(descriptions);
+  // }
 
   // react-slick configuration
   function NextArrow({ onClick }) {
     return (
       <div
-        className="p-2 rounded-full bg-white drop-shadow-lg text-2xl absolute bottom-[60px] -right-5"
+        className="p-1 rounded-full bg-white drop-shadow-lg border-slate-50 border-[2px] text-2xl absolute bottom-[110px] -right-[70px]"
         onClick={onClick}
       >
         <HiOutlineChevronRight className="text-3xl text-primary" />
@@ -65,7 +79,7 @@ function ProductDetail() {
   function PrevArrow({ onClick }) {
     return (
       <div
-        className="p-2 rounded-full bg-white drop-shadow-lg text-2xl absolute bottom-[60px] -left-5"
+        className="p-1 rounded-full bg-white drop-shadow-lg border-slate-50 border-[2px] text-2xl absolute bottom-[110px] -left-[70px]"
         onClick={onClick}
       >
         <HiOutlineChevronLeft className="text-3xl text-primary" />
@@ -92,7 +106,7 @@ function ProductDetail() {
 
   const increase = () => {
     let count = parseInt(quantity) + 1;
-    count = count >= data.total_stock ? data.total_stock : count;
+    count = count >= product.total_stock ? product.total_stock : count;
     setQuantity(count);
   };
 
@@ -103,12 +117,68 @@ function ProductDetail() {
   };
 
   const handleChange = (e) => {
-    if (e.target.value >= data.total_stock) {
-      setQuantity(data.total_stock);
+    if (e.target.value >= product.total_stock) {
+      setQuantity(product.total_stock);
+    } else if (!e.target.value) {
+      setQuantity(1);
     } else {
       setQuantity(e.target.value);
     }
   };
+
+  const onBuyClick = async () => {
+    try {
+      if (!token) {
+        toast.warn("Kamu belum login, silahkan login terlebih dahulu.", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        route.push("/login");
+      } else {
+        let res = await axios.post(
+          `${API_URL}/products/addtocart`,
+          {
+            product_id: product.id,
+            quantity: quantity,
+          },
+          {
+            headers: { authorization: `Bearer ${token}` },
+          }
+        );
+        toast.success("Produk berhasil ditambahkan ke cart.", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        setIsLoading(true);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message || "Network Error", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
       <Navbar />
@@ -116,7 +186,17 @@ function ProductDetail() {
       <div className="user-container">
         {/* Breadcrumb */}
         <div className="mb-[38px]">
-          <span className="text-secondary">Beranda / Kategori / Obat</span>
+          <a href="/" className="text-secondary hover:text-primary">
+            Beranda /
+          </a>
+          <a
+            href={`/products/${product.brand_id}`}
+            className="text-secondary hover:text-primary"
+          >
+            {" "}
+            Kategori /
+          </a>
+          <span className="text-primary"> {product.name}</span>
         </div>
 
         {/* Product detail*/}
@@ -129,7 +209,7 @@ function ProductDetail() {
             >
               <div className="lg:w-[223px] lg:h-[239px] mx-auto mt-[25px]">
                 <Slider {...settings} className="">
-                  {data.images?.map((val, i) => {
+                  {product.images?.map((val, i) => {
                     return (
                       <div
                         key={i}
@@ -168,14 +248,14 @@ function ProductDetail() {
           {/* Other information */}
           <div className="ml-[122px] w-full">
             <div className="text-sm font-bold text-primary">
-              {data.brand_name}
+              {product.brand_name}
             </div>
-            <div className="text-2xl text-primary mt-[5px]">{data.name}</div>
+            <div className="text-2xl text-primary mt-[5px]">{product.name}</div>
             <div className="text-primary items-center flex mt-[20px]">
               <span className="text-2xl font-bold mr-[12px]">
-                Rp.{data.hargaJual}
+                Rp.{product.hargaJual}
               </span>
-              <span className="text-sm">/ {data.unit}</span>
+              <span className="text-sm">/ {product.unit}</span>
             </div>
             <div className="flex items-center tracking-wide mb-[24px] lg:h-[24px] mt-[11px] text-sm">
               <div className="pr-2 line-through decoration-1 decoration-slate-400 text-slate-400">
@@ -186,14 +266,14 @@ function ProductDetail() {
               </div>
             </div>
             <div className="flex items-center mb-[44px]">
-              <div className="grid grid-cols-3 text-center items-center text-secondary h-[38px] w-[164px] bg-slate-200 rounded-lg">
+              <div className="grid grid-cols-3 text-center items-center text-secondary h-[38px] w-[164px] bg-slate-200 rounded-lg cursor-pointer">
                 <div className="text-xl mx-auto" onClick={decrease}>
                   <HiMinus />
                 </div>
                 <input
                   type="number"
                   min={"0"}
-                  max={data.total_stock}
+                  max={product.total_stock}
                   value={quantity}
                   className="bg-slate-200 font-semibold text-center outline-none"
                   onChange={(e) => handleChange(e)}
@@ -203,17 +283,30 @@ function ProductDetail() {
                 </div>
               </div>
               <div className="text-sm text-slate-400 ml-[12px]">
-                Sisa {data.total_stock} {data.unit}
+                Sisa {product.total_stock} {product.unit}
               </div>
             </div>
             <div className="flex justify-between w-[427px]">
-              <div className="flex items-center w-[194px] h-[47px] border-2 border-secondary rounded-lg text-secondary ">
+              <div
+                className="flex items-center w-[194px] h-[47px] border-2 border-secondary rounded-lg text-secondary hover:bg-hover-button"
+                onClick={() => onBuyClick()}
+              >
                 <FaCartPlus className="text-xl ml-[40px]" />
                 <span className="text-sm font-semibold ml-[20px]">
                   Keranjang
                 </span>
               </div>
-              <div className="flex items-center w-[153px] h-[47px] bg-secondary rounded-lg text-white">
+              <div
+                className="flex items-center w-[153px] h-[47px] bg-secondary rounded-lg text-white"
+                onClick={() => {
+                  try {
+                    onBuyClick();
+                    // route.push("/cart")
+                  } catch (error) {
+                    console.log(error);
+                  }
+                }}
+              >
                 <span className="mx-auto">Beli</span>
               </div>
               <div className="flex items-center w-[48px] h-[47px] border-2 border-secondary rounded-lg text-secondary">
@@ -223,6 +316,7 @@ function ProductDetail() {
 
             {/* Description */}
             <div className="mt-[76px] border-t-2"></div>
+
             <Tabs isFitted textColor={"brand.primary"}>
               <TabList height={"58px"}>
                 <Tab
@@ -273,13 +367,13 @@ function ProductDetail() {
                     <div className="col-span-1 font-semibold">
                       Cara Penggunaan
                     </div>
-                    <div className="col-span-1">{data.usage}</div>
+                    <div className="col-span-1">{product.usage}</div>
                   </div>
                 </TabPanel>
                 <TabPanel>
                   <div className="grid grid-cols-2 py-[16px]">
                     <div className="col-span-1 font-semibold">Peringatan</div>
-                    <div className="col-span-1">{data.warning}</div>
+                    <div className="col-span-1">{product.warning}</div>
                   </div>
                 </TabPanel>
               </TabPanels>
@@ -290,6 +384,9 @@ function ProductDetail() {
         <div className="mt-[60px] text-2xl text-primary font-bold">
           Produk Terkait
         </div>
+        <div className="mt-[28px]">
+          <HomePopularProductCarousel data={produkTerkait} />
+        </div>
       </div>
 
       <Footer />
@@ -299,8 +396,35 @@ function ProductDetail() {
 
 export default ProductDetail;
 
-export async function getServerSideProps() {
-  return {
-    props: {}, // will be passed to the page component as props
-  };
+export async function getServerSideProps(context) {
+  const { query, req, res } = context;
+
+  try {
+    const product_id = query.product_id;
+    const brand = query.brand;
+    // let { data } = await axios.get(
+    //   `${API_URL}/products/getdetailproduct/${product_id}`
+    // );
+    // const product = data[0];
+
+    const detailProductReq = axios.get(
+      `${API_URL}/products/getdetailproduct/${product_id}`
+    );
+    const produkTerkaitReq = axios.get(
+      `${API_URL}/products/getprodukterkait?brand=${brand}`
+    );
+
+    const [product, productTerkait] = await Promise.all([
+      detailProductReq,
+      produkTerkaitReq,
+    ]);
+    return {
+      props: { product: product.data[0], productTerkait: productTerkait.data }, // will be passed to the page component as props
+    };
+  } catch {
+    res.status = 404;
+    return {
+      props: {},
+    };
+  }
 }

@@ -74,7 +74,7 @@ function DaftarProduk() {
     } catch (error) {
       console.log(error);
     } finally {
-      getLastProduct();
+      // getLastProduct();
       setPage(0);
       setInput({
         search: "",
@@ -265,8 +265,8 @@ function DaftarProduk() {
                   </select>
                 </div>
               </div>
-              {/* <ModalInputAdmin submitProduct={submitProduct} />
-              <AdminEditDetail submitProductEdit={submitProductEdit} />
+              <ModalInputAdmin submitProduct={submitProduct} />
+              {/* <AdminEditDetail submitProductEdit={submitProductEdit} />
               <AdminEditStok />
               <AdminDeleteProduct /> */}
               {/* <AdminEditFoto /> */}
