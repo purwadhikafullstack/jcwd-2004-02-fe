@@ -1,6 +1,10 @@
 import AdminNavbar from "../../components/AdminNavbar";
 import AdminSidebar from "../../components/AdminSidebar";
 import ModalInputAdmin from "../../components/admin/ModalInputAdmin";
+import AdminEditDetail from "../../components/admin/adminEditDetail";
+import AdminEditFoto from "../../components/admin/adminEditFoto";
+import AdminEditStok from "../../components/admin/adminEditStok";
+import AdminEditStockTableProduct from "../../components/admin/adminEditStockTableProduct";
 import { FiDownload } from "react-icons/fi";
 import { IoDocumentText } from "react-icons/io5";
 import { HiSearch } from "react-icons/hi";
@@ -74,6 +78,26 @@ function DaftarProduk() {
     } catch (error) {
       console.log(error);
     } finally {
+      getLastProduct();
+      setPage(0);
+      setInput({
+        search: "",
+        category: "",
+      });
+    }
+  };
+
+  const submitProduct2 = async (values) => {
+    try {
+      // let token = Cookies.get("token");
+      await axios.put(`${API_URL}/products/17`, values, {
+        // headers: {
+        //   // authorization: `Bearer ${token}`,
+        // },
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
       // getLastProduct();
       setPage(0);
       setInput({
@@ -93,6 +117,14 @@ function DaftarProduk() {
   useEffect(() => {
     getComponent();
   }, []);
+
+  useEffect(() => {
+    if (isLoading) {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
+    }
+  }, [isLoading]);
 
   useEffect(() => {
     debouncedFetchData(page, input, (res) => {
@@ -223,6 +255,10 @@ function DaftarProduk() {
                 </div>
               </div>
               <ModalInputAdmin submitProduct={submitProduct} />
+              <AdminEditDetail submitProduct2={submitProduct2} />
+              <AdminEditStok />
+              {/* <AdminEditFoto /> */}
+              <AdminEditStockTableProduct />
               {/* <div className="flex items-center rounded-lg bg-violet-900 p-[11px] text-white">
                 <FiDownload className="text-sm" />
                 <div className="text-xs font-semibold px-2 tracking-wide">

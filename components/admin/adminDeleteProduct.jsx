@@ -25,7 +25,7 @@ const handleClick = () => {
   });
 };
 
-function ModalDeleteAdmin() {
+function AdminDeleteProduct() {
   return (
     <>
       <Button colorScheme="purple" onClick={handleClick}>
@@ -35,4 +35,4 @@ function ModalDeleteAdmin() {
   );
 }
 
-export default ModalDeleteAdmin;
+export default AdminDeleteProduct;
