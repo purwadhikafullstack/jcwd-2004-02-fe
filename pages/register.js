@@ -13,6 +13,8 @@ import {registerActions} from "../redux/actions/userActions.jsx"
 import {connect} from 'react-redux' 
 import useUser from "../hooks/useUser" 
 import Link from "next/link"
+import Input from "../components/input"
+import InputPass from "../components/inputPass"
 
 
 const Register = ({registerActions}) => { 
@@ -79,7 +81,7 @@ const Register = ({registerActions}) => {
                         <div className="flex flex-col relative mb-4 xl:mb-2">
                             <p className="text-sm text-purple-800 mb-1 xl:text-xs">Name</p>
                             <input name="name" className="border-2 xl:h-10 xl:pl-10 h-12 pl-8 pb-1 w-full rounded-xl focus:outline-none xl:text-sm" onChange={formik.handleChange} value={formik.values.name} onBlur={formik.handleBlur} required></input>
-                            {formik.touched.name && formik.errors.name ? <p className="text-sm ml-2 text-red-600">{formik.errors.username}</p> : null}
+                            {formik.touched.name && formik.errors.name ? <p className="text-sm ml-2 text-red-600">{formik.errors.name}</p> : null}
                             <div className="absolute xl:bottom-3 top-8 ml-3 text-purple-800 text-lg"><CgProfile/></div>
                         </div>
                         <div className="flex flex-col relative mb-4 xl:mb-3">

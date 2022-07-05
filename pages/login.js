@@ -12,6 +12,10 @@ import * as Yup from "yup"
 import { useFormik } from "formik" 
 import useUser from "../hooks/useUser" 
 import Link from "next/link" 
+import Input from "../components/input"
+import InputPass from "../components/inputPass" 
+import { useRouter, router } from "next/router"  
+
 
 
 
@@ -20,7 +24,8 @@ const Login = ({loginActions}) => {
     const [show1, setShow1] = useState(false)
     const handleClick1 = () => setShow1(!show1)  
 
-    const {isLogin} = useUser() 
+    const {isLogin, role_id} = useUser()  
+    const router = useRouter()
 
     const formik = useFormik ({
         initialValues: {
@@ -42,6 +47,11 @@ const Login = ({loginActions}) => {
         }
     }) 
 
+    if(isLogin && role_id == 0) {
+        router.push('/')
+    }else if(isLogin && role_id == 1){
+        router.push('/admin')
+    }
 
     return (
         <div className="flex">
@@ -85,7 +95,7 @@ const Login = ({loginActions}) => {
                 </div>
                 <div className="flex w-[528px] my-8 xl:my-8 items-center justify-center">
                     <img src={"/Line.svg"}/>
-                    <span className="xl:text-xs">Atau Masuk Dengan</span>
+                    <span className="xl:text-xs">Atau</span>
                     <img src={"/Line.svg"}/>
                 </div> 
                 <div className="mt-8 xl:mt-5 flex justify-between"> 
