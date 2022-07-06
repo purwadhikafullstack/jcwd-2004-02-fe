@@ -21,35 +21,16 @@ import HomePopularProductCarousel from "../../../components/HomePopularProductCa
 import ProductDescriptionTabs from "../../../components/ProductDescriptionTabs";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import Link from "next/link";
 
 function ProductDetail({ product, productTerkait }) {
   const route = useRouter();
-  // let { product_id } = route.query;
-  // product_id = parseInt(product_id);
 
-  // const [data, setData] = useState({});
   const [description, setDescription] = useState([]);
   const [quantity, setQuantity] = useState(1);
   let token = Cookies.get("token");
   const [isLoading, setIsLoading] = useState(false);
   const [produkTerkait, setProdukTerkait] = useState([]);
-
-  // const getProductDetail = async () => {
-  //   try {
-  //     let res = await axios.get(
-  //       `${API_URL}/products/getdetailproduct/${product_id}`
-  //     );
-  //     setData(res.data[0]);
-  //     descriptionToState(res.data[0].description);
-  //     console.log(description);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getProductDetail();
-  // }, []);
 
   useEffect(() => {
     let descriptions = Object.entries(product.description);
@@ -58,11 +39,6 @@ function ProductDetail({ product, productTerkait }) {
     console.log(product);
     console.log(produkTerkait);
   }, []);
-
-  // function descriptionToState(val) {
-  //   let descriptions = Object.entries(val);
-  //   setDescription(descriptions);
-  // }
 
   // react-slick configuration
   function NextArrow({ onClick }) {
@@ -186,16 +162,16 @@ function ProductDetail({ product, productTerkait }) {
       <div className="user-container">
         {/* Breadcrumb */}
         <div className="mb-[38px]">
-          <a href="/" className="text-secondary hover:text-primary">
+          <Link href="/" className="text-secondary hover:text-primary">
             Beranda /
-          </a>
-          <a
+          </Link>
+          <Link
             href={`/products/${product.brand_id}`}
             className="text-secondary hover:text-primary"
           >
             {" "}
             Kategori /
-          </a>
+          </Link>
           <span className="text-primary"> {product.name}</span>
         </div>
 

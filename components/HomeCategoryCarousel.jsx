@@ -82,8 +82,8 @@ function HomeCategoryCarousel() {
       <Slider {...settings}>
         {categories.map(({ id, name }) => {
           return (
-            <Link href={`/products/${id}`}>
-              <div key={id}>
+            <Link key={id} href={`/products/${id}`}>
+              <div>
                 <HomeCategoryCard icon={IconArr[id - 1]} caption={name} />
               </div>
             </Link>

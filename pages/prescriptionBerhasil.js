@@ -6,7 +6,7 @@ import { Button } from "@chakra-ui/react";
 import Link from "next/link";
 
 function prescritpionBerhasil() {
-  const router = useRouter();
+  // const router = useRouter();
 
   return (
     <div>

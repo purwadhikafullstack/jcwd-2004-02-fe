@@ -30,7 +30,7 @@ import { flushSync } from "react-dom";
 import AdminEditStok from "./adminEditStok";
 import AdminDeleteProduct from "./adminDeleteProduct";
 
-function adminEditStockTableProduct({ submitProduct }) {
+function AdminEditStockTableProduct({ submitProduct }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(0);
@@ -363,4 +363,4 @@ function adminEditStockTableProduct({ submitProduct }) {
   );
 }
 
-export default adminEditStockTableProduct;
+export default AdminEditStockTableProduct;
