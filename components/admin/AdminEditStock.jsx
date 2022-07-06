@@ -22,7 +22,7 @@ import axios from "axios";
 import { API_URL } from "../../helpers";
 import { flushSync } from "react-dom";
 
-function AdminEditStok({ submitProduct }) {
+function AdminEditStock({ submitProduct }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [tab, setTab] = useState(0);
   const [selectedImage, setselectedImage] = useState([null, null, null]);
@@ -235,4 +235,4 @@ function AdminEditStok({ submitProduct }) {
   );
 }
 
-export default AdminEditStok;
+export default AdminEditStock;
