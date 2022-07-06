@@ -51,10 +51,12 @@ function UserProductMainPage({
           <>
             {data.map((val, ind) => {
               return (
-                <Link href={`/products/detail/${val.id}`}>
+                <Link
+                  key={ind}
+                  href={`/products/detail/${val.id}?brand=${val.brand_name}`}
+                >
                   <div>
                     <CardCart
-                      key={ind}
                       img={`${API_URL}${val.images[0].image}`}
                       name={val.name}
                       price={val.hargaJual}

@@ -45,9 +45,8 @@ function HomeDiscountProductCarousel({ data }) {
       <Slider {...settings}>
         {data.map((val, ind) => {
           return (
-            <div className="py-2">
+            <div key={ind} className="py-2">
               <CardHomeTop
-                key={ind}
                 img={`${API_URL}${val.images[0].image}`}
                 name={val.name}
                 price={val.hargaJual}
