@@ -206,8 +206,9 @@ function UserProductSidebar({
                       pointerEvents="none"
                       color="purple.900"
                       fontWeight="semibold"
-                      children="Rp"
-                    />
+                    >
+                      Rp
+                    </InputLeftElement>
                     <Input
                       type={"number"}
                       fontSize={"14px"}
@@ -226,8 +227,9 @@ function UserProductSidebar({
                       pointerEvents="none"
                       color="purple.900"
                       fontWeight="semibold"
-                      children="Rp"
-                    />
+                    >
+                      Rp
+                    </InputLeftElement>
                     <Input
                       type={"number"}
                       fontSize={"14px"}
@@ -371,8 +373,9 @@ function UserProductSidebar({
                         pointerEvents="none"
                         color="purple.900"
                         fontWeight="semibold"
-                        children={<Icon as={GrSearch} color="gray.300" />}
-                      />
+                      >
+                        <Icon as={GrSearch} color="gray.300" />
+                      </InputRightElement>
                     </InputGroup>
                   </AccordionPanel>
                   {component.brand?.map((val) => {

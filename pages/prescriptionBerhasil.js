@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 import { Button } from "@chakra-ui/react";
 import Link from "next/link";
 
-function prescritpionBerhasil() {
+function PrescritpionBerhasil() {
   // const router = useRouter();
 
   return (
@@ -30,4 +30,4 @@ function prescritpionBerhasil() {
   );
 }
 
-export default prescritpionBerhasil;
+export default PrescritpionBerhasil;

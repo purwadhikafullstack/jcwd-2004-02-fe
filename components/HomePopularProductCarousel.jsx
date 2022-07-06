@@ -45,7 +45,7 @@ function HomePopularProductCarousel({ data }) {
       <Slider {...settings}>
         {data.map((val, ind) => {
           return (
-            <div key={ind} className="pb-[20px]">
+            <div key={val.id} className="pb-[20px]">
               <CardHomeBottom
                 img={`${API_URL}${val.images[0].image}`}
                 name={val.name}
