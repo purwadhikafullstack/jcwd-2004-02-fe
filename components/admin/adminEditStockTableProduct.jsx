@@ -27,8 +27,8 @@ import axios from "axios";
 import { API_URL } from "../../helpers";
 import { flushSync } from "react-dom";
 
-import AdminEditStok from "./adminEditStok";
-import AdminDeleteProduct from "./adminDeleteProduct";
+import AdminEditStock from "./AdminEditStock";
+import AdminDeleteProduct from "./AdminDeleteProduct";
 
 function AdminEditStockTableProduct({ submitProduct }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -301,7 +301,7 @@ function AdminEditStockTableProduct({ submitProduct }) {
                         <Td>10</Td>
                         <Td>
                           <Td>
-                            <AdminEditStok />
+                            <AdminEditStock />
                           </Td>
                           <Td>
                             <AdminDeleteProduct />
@@ -313,7 +313,7 @@ function AdminEditStockTableProduct({ submitProduct }) {
                         <Td>10</Td>
                         <Td>
                           <Td>
-                            <AdminEditStok />
+                            <AdminEditStock />
                           </Td>
                           <Td>
                             <AdminDeleteProduct />
@@ -325,7 +325,7 @@ function AdminEditStockTableProduct({ submitProduct }) {
                         <Td>10</Td>
                         <Td>
                           <Td>
-                            <AdminEditStok />
+                            <AdminEditStock />
                           </Td>
                           <Td>
                             <AdminDeleteProduct />

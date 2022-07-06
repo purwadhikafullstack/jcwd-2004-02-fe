@@ -24,11 +24,39 @@ import { flushSync } from "react-dom";
 function ModalInputAdmin({ submitProduct }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [tab, setTab] = useState(0);
-  const [getData, setgetData] = useState({});
   const [selectedImage, setselectedImage] = useState([null, null, null]);
 
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
+
+  useEffect(() => {
+    fetchFoto();
+  }, []);
+
+  // get data symptom, category, dll
+
+  const fetchFoto = async () => {
+    // let token = Cookies.get('token')
+    try {
+      let res = await axios.get(
+        `${API_URL}/products/getselectedproductpicture/17`,
+        selectedImage
+
+        // {
+        //   headers: {
+        //     authorization: `bearer ${token}`,
+        //   },
+        // }
+      );
+      // console.log(res.data);
+      console.log("resdata", res.data);
+
+      setinput(res.data);
+      // setinput([...res.data]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // handle image
   const handleImageChange = (e, index) => {
@@ -96,31 +124,6 @@ function ModalInputAdmin({ submitProduct }) {
   };
   // console.log(input);
 
-  useEffect(() => {
-    fetchComponentObat();
-  }, []);
-
-  // get data symptom, category, dll
-  const fetchComponentObat = async () => {
-    // let token = Cookies.get('token')
-    try {
-      let res = await axios.get(
-        `${API_URL}/products/component`,
-        input
-        // {
-        //   headers: {
-        //     authorization: `bearer ${token}`,
-        //   },
-        // }
-      );
-      // console.log(res.data);
-      setgetData(res.data);
-      console.log("resdata", res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   // submit form
   const onSaveDataClick = async (e) => {
     e.preventDefault();
@@ -145,25 +148,6 @@ function ModalInputAdmin({ submitProduct }) {
       flushSync(() => {
         setTab(5);
       });
-      setinput({
-        name: "",
-        no_obat: "",
-        no_BPOM: "",
-        description: {},
-        warning: "",
-        usage: "",
-        quantity: 0,
-        unit: "",
-        brand_id: 0,
-        type_id: 0,
-        hargaJual: 0,
-        hargaBeli: 0,
-        symptom: [],
-        category: [],
-        stock: 10,
-        expired: "",
-        is_deleted: 0,
-      });
       setselectedImage([null, null, null]);
       setTimeout(() => {
         setTab(0);
@@ -171,37 +155,6 @@ function ModalInputAdmin({ submitProduct }) {
       }, 800);
     }
   };
-
-  // untuk isi dari select dari database
-  const categoryOptions = getData.category?.map((val) => {
-    return { value: val.id, label: val.name };
-  });
-
-  const symptomOptions = getData.symptom?.map((val) => {
-    return { value: val.id, label: val.name };
-  });
-
-  const brandOptions = getData.brand?.map((val) => {
-    return { value: val.id, label: val.name };
-  });
-
-  const typeOptions = getData.type?.map((val) => {
-    return { value: val.id, label: val.name };
-  });
-
-  // increment utk kuantitas
-  const incNum = () => {
-    let count = parseInt(input.quantity) + 1;
-    setinput({ ...input, quantity: count });
-  };
-
-  const decNum = () => {
-    let count = parseInt(input.quantity) - 1;
-    count = count < 1 ? 1 : count;
-    setinput({ ...input, quantity: count });
-  };
-
-  // function menerima array isinya name dari
 
   return (
     <>
