@@ -363,4 +363,4 @@ function AdminEditStockTableProduct({ submitProduct }) {
   );
 }
 
-export default adminEditStockTableProduct;
+export default AdminEditStockTableProduct;

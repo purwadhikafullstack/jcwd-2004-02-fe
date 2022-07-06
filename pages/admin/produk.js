@@ -124,9 +124,9 @@ function DaftarProduk() {
         text: "Produk tidak akan bisa dikembalikan!",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
+        confirmButtonColor: "#ac5df7",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
+        confirmButtonText: "Hapus",
       }).then(async (result) => {
         if (result.isConfirmed) {
           let token = Cookies.get("token");
@@ -135,7 +135,7 @@ function DaftarProduk() {
               authorization: `Bearer ${token}`,
             },
           });
-          Swal.fire("Berhasil dihapus!", "success");
+          Swal.fire("Berhasil dihapus!");
         }
       });
     } catch (error) {
@@ -213,7 +213,10 @@ function DaftarProduk() {
             colorScheme="whiteAlpha"
           />
           <MenuList>
-            <MenuItem>Edit Produk</MenuItem>
+            <MenuItem>
+              Edit Produk
+              <AdminEditDetail />
+            </MenuItem>
             <MenuItem>Edit Foto</MenuItem>
             <MenuItem
               onClick={() => {

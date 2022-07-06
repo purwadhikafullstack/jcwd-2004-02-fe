@@ -68,7 +68,7 @@ function AdminEditDetail({ submitProductEdit }) {
   // memanggil fetch komponen obat dan obat yang ditunjuk
   useEffect(() => {
     fetchComponentObat();
-    fetchObat();
+    // fetchObat();
   }, []);
 
   // get data symptom, category, dll
@@ -91,25 +91,23 @@ function AdminEditDetail({ submitProductEdit }) {
     }
   };
 
-  const fetchObat = async () => {
-    // let token = Cookies.get('token')
-    try {
-      let res = await axios.get(
-        `${API_URL}/products/getselectedproduct/16`
-
-        // {
-        //   headers: {
-        //     authorization: `bearer ${token}`,
-        //   },
-        // }
-      );
-
-      setinput(res.data);
-      // setinput([...res.data]);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const fetchObat = async (id) => {
+  //   // let token = Cookies.get('token')
+  //   // try {
+  //   //   let res = await axios
+  //   //     .get
+  //   //     `${API_URL}/products/getselectedproduct/${id}`
+  //   //     // {
+  //   //     //   headers: {
+  //   //     //     authorization: `bearer ${token}`,
+  //   //     //   },
+  //   //     // }
+  //   //     ();
+  //   //   setinput(res.data);
+  //   // } catch (error) {
+  //   //   console.log(error);
+  //   // }
+  // };
 
   // submit form
   const onSaveDataClick = async (e) => {
@@ -159,19 +157,6 @@ function AdminEditDetail({ submitProductEdit }) {
     return { value: val.id, label: val.name };
   });
 
-  // mapping value dengan label untuk react-select
-  // const symptomInput = () =>
-  //   input.symptom?.map((val) => {
-  //     return { value: val.id, label: val.name };
-  //   });
-  // const categoryInput = () =>
-  //   input.category?.map((val) => {
-  //     return { value: val.id, label: val.name };
-  //   });
-
-  // const typeInput = input.type?.map((val) => {
-  //   return { value: val.id, label: val.name };
-  // });
   return (
     <>
       <Button leftIcon={<DownloadIcon />} colorScheme="purple" onClick={onOpen}>
