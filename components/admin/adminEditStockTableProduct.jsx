@@ -27,10 +27,10 @@ import axios from "axios";
 import { API_URL } from "../../helpers";
 import { flushSync } from "react-dom";
 
-import AdminEditStok from "./adminEditStok";
-import AdminDeleteProduct from "./adminDeleteProduct";
+import AdminEditStock from "./AdminEditStock";
+import AdminDeleteProduct from "./AdminDeleteProduct";
 
-function adminEditStockTableProduct({ submitProduct }) {
+function AdminEditStockTableProduct({ submitProduct }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(0);
@@ -301,7 +301,7 @@ function adminEditStockTableProduct({ submitProduct }) {
                         <Td>10</Td>
                         <Td>
                           <Td>
-                            <AdminEditStok />
+                            <AdminEditStock />
                           </Td>
                           <Td>
                             <AdminDeleteProduct />
@@ -313,7 +313,7 @@ function adminEditStockTableProduct({ submitProduct }) {
                         <Td>10</Td>
                         <Td>
                           <Td>
-                            <AdminEditStok />
+                            <AdminEditStock />
                           </Td>
                           <Td>
                             <AdminDeleteProduct />
@@ -325,7 +325,7 @@ function adminEditStockTableProduct({ submitProduct }) {
                         <Td>10</Td>
                         <Td>
                           <Td>
-                            <AdminEditStok />
+                            <AdminEditStock />
                           </Td>
                           <Td>
                             <AdminDeleteProduct />

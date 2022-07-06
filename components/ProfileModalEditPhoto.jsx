@@ -103,7 +103,7 @@ const ProfileModalEditPhoto = () => {
               accept=".jpg,.jpeg,.png"
             />
             <label
-              for="image"
+              htmlFor="image"
               type="button"
               className="mx-5 h-h-[300px] w-[300px] border-dashed border-2 cursor-pointer flex items-center justify-center"
             >

@@ -1,10 +1,10 @@
 import AdminNavbar from "../../components/AdminNavbar";
 import AdminSidebar from "../../components/AdminSidebar";
 import ModalInputAdmin from "../../components/admin/ModalInputAdmin";
-import AdminEditDetail from "../../components/admin/adminEditDetail";
-import AdminEditFoto from "../../components/admin/adminEditFoto";
-import AdminEditStok from "../../components/admin/adminEditStok";
-import AdminEditStockTableProduct from "../../components/admin/adminEditStockTableProduct";
+import AdminEditDetail from "../../components/admin/AdminEditDetail";
+import AdminEditFoto from "../../components/admin/AdminEditFoto";
+import AdminEditStock from "../../components/admin/AdminEditStock";
+import AdminEditStockTableProduct from "../../components/admin/AdminEditStockTableProduct";
 import { FiDownload } from "react-icons/fi";
 import { IoDocumentText } from "react-icons/io5";
 import { HiSearch, HiDotsVertical } from "react-icons/hi";
@@ -333,7 +333,7 @@ function DaftarProduk() {
               </div>
               <ModalInputAdmin submitProduct={submitProduct} />
               <AdminEditDetail submitProductEdit={submitProductEdit} />
-              <AdminEditStok />
+              <AdminEditStock />
 
               <AdminEditFoto />
               <AdminEditStockTableProduct />
