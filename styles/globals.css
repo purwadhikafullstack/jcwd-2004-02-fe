@@ -24,6 +24,14 @@
   }
 
   .bg-admin {
-    @apply ml-[256px] min-h-screen bg-gradient-to-b from-purple-300/5 to-purple-800/25;
+    @apply ml-[256px] min-h-screen bg-gradient-to-b from-secondary/5 to-secondary/30;
+  }
+
+  .user-container {
+    @apply min-w-fit my-[44px] mx-auto w-[1248px];
+  }
+
+  .container {
+    @apply border-[0.5px] border-slate-100 rounded-xl shadow-lg shadow-slate-200;
   }
 }

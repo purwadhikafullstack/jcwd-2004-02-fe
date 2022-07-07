@@ -11,7 +11,7 @@ function AdminHome() {
         <AdminNavbar />
         <AdminSidebar />
       </div>
-      <div className="bg-admin">Ini homepage</div>
+      <div className="bg-admin">Ini homepage admin</div>
     </>
   );
 }

@@ -4,6 +4,9 @@ const nextConfig = {
   env: {
     NEXT_PUBLIC_API_URL: "http://172.105.119.73:5002",
   },
+  images: {
+    domains: ["localhost"],
+  },
 };
 
 module.exports = nextConfig;

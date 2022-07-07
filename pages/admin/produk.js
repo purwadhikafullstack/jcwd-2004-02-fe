@@ -1,22 +1,30 @@
 import AdminNavbar from "../../components/AdminNavbar";
 import AdminSidebar from "../../components/AdminSidebar";
 import ModalInputAdmin from "../../components/admin/ModalInputAdmin";
+import AdminEditDetail from "../../components/admin/AdminEditDetail";
+import AdminEditFoto from "../../components/admin/AdminEditFoto";
+import AdminEditStock from "../../components/admin/AdminEditStock";
+import AdminEditStockTableProduct from "../../components/admin/AdminEditStockTableProduct";
 import { FiDownload } from "react-icons/fi";
 import { IoDocumentText } from "react-icons/io5";
-import { HiSearch } from "react-icons/hi";
+import { HiSearch, HiDotsVertical } from "react-icons/hi";
 import NewTable from "../../components/Table";
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-  useTransition,
-} from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../../helpers";
 import Pagination from "../../components/Pagination";
 import { flushSync } from "react-dom";
 import debounce from "lodash.debounce";
+import {
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  IconButton,
+  Button,
+} from "@chakra-ui/react";
+import Swal from "sweetalert2";
+import Cookies from "js-cookie";
 
 function DaftarProduk() {
   const [page, setPage] = useState(0);
@@ -26,6 +34,7 @@ function DaftarProduk() {
   const [input, setInput] = useState({
     search: "",
     category: "",
+    order: "",
   });
   const [value, setLimit] = useState(10);
   const [comp, setComponent] = useState([]);
@@ -50,7 +59,7 @@ function DaftarProduk() {
   const getDaftarProduk = async (page, input, cb) => {
     // token + headers
     let res = await axios.get(
-      `${API_URL}/products/fetchdaftarproduk?page=${page}&search=${input.search}&category=${input.category}`
+      `${API_URL}/products/fetchdaftarproduk?page=${page}&search=${input.search}&category=${input.category}&order=${input.order}`
     ); // FIXME Dipersingkat querynya (dibuat conditional)
     cb(res);
   };
@@ -83,6 +92,65 @@ function DaftarProduk() {
     }
   };
 
+  const submitProductEdit = async (data) => {
+    try {
+      // let token = Cookies.get("token");
+      await axios.put(
+        `${API_URL}/products/16`,
+        data
+        // {
+        // headers: {
+        //   // authorization: `Bearer ${token}`,
+        // },
+        // }
+      );
+      console.log(data, "vall");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      // getLastProduct();
+      setPage(0);
+      setInput({
+        search: "",
+        category: "",
+      });
+    }
+  };
+
+  // delete feature
+  const clickDelete = async (id) => {
+    try {
+      Swal.fire({
+        title: "Apakah anda yakin?",
+        text: "Produk tidak akan bisa dikembalikan!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          let token = Cookies.get("token");
+          await axios.patch(`${API_URL}/products/deleteproducts/${id}`, {
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
+          });
+          Swal.fire("Berhasil dihapus!", "success");
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      // getLastProduct();
+      setPage(0);
+      setInput({
+        search: "",
+        category: "",
+      });
+    }
+  };
+
   const debouncedFetchData = useCallback(
     debounce((page, input, cb) => {
       getDaftarProduk(page, input, cb);
@@ -93,6 +161,14 @@ function DaftarProduk() {
   useEffect(() => {
     getComponent();
   }, []);
+
+  useEffect(() => {
+    if (isLoading) {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
+    }
+  }, [isLoading]);
 
   useEffect(() => {
     debouncedFetchData(page, input, (res) => {
@@ -119,6 +195,38 @@ function DaftarProduk() {
           );
         })}
       </>
+    );
+  };
+
+  const DetailButton = ({ val }) => {
+    return (
+      <div className="flex justify-between text-center items-center">
+        <div className="text-sm text-primary rounded-lg font-semibold py-1 px-2 border-[1px] mr-1 border-primary bg-white ">
+          Lihat Detail {val}
+        </div>
+        {/* <div className="text-sm text-primary rounded-md font-semibold py-2 px border-[1px] border-primary bg-white"> */}
+        <Menu>
+          <MenuButton
+            as={IconButton}
+            aria-label="Options"
+            icon={<HiDotsVertical />}
+            variant="solid"
+            colorScheme="whiteAlpha"
+          />
+          <MenuList>
+            <MenuItem>Edit Produk</MenuItem>
+            <MenuItem>Edit Foto</MenuItem>
+            <MenuItem
+              onClick={() => {
+                clickDelete(val);
+              }}
+            >
+              Hapus Produk
+            </MenuItem>
+          </MenuList>
+        </Menu>
+        {/* </div> */}
+      </div>
     );
   };
 
@@ -164,6 +272,8 @@ function DaftarProduk() {
     },
     {
       Header: "Atur",
+      // accessor: "id",
+      Cell: (data) => <DetailButton val={data.row.original.id} />,
     },
   ]);
 
@@ -223,6 +333,13 @@ function DaftarProduk() {
                 </div>
               </div>
               <ModalInputAdmin submitProduct={submitProduct} />
+
+              <AdminEditDetail submitProductEdit={submitProductEdit} />
+              <AdminEditStock />
+
+              <AdminEditFoto />
+              <AdminEditStockTableProduct />
+
               {/* <div className="flex items-center rounded-lg bg-violet-900 p-[11px] text-white">
                 <FiDownload className="text-sm" />
                 <div className="text-xs font-semibold px-2 tracking-wide">
