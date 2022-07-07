@@ -13,7 +13,7 @@ const Payment = () => {
                 <div className="my-10">
                     <span className="text-xl text-purple-900 text-left ml-[250px] font-bold ">Menunggu Pembayaran</span>
                 </div>
-                <div className="flex flex-col items-center gap-y-10"> 
+                <div className="flex flex-col items-center gap-y-10 mb-36"> 
                     <BoxTimePayment/> 
                     <BoxPayment/> 
                     <BoxPaymentProof/>
