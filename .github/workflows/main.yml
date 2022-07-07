@@ -47,5 +47,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd /root/jc-2004-final-project/2004-02/fe
+            git pull origin main
+            git status
             npm install
             pm2 restart jc2004-02-fe 
