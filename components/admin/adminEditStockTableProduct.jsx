@@ -28,7 +28,7 @@ import { API_URL } from "../../helpers";
 import { flushSync } from "react-dom";
 
 import AdminEditStock from "./AdminEditStock";
-import AdminDeleteProduct from "./AdminDeleteProduct";
+import AdminDeleteProduct from "./adminDeleteProduct";
 
 function AdminEditStockTableProduct({ submitProduct }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
