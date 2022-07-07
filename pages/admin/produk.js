@@ -1,10 +1,10 @@
 import AdminNavbar from "../../components/AdminNavbar";
 import AdminSidebar from "../../components/AdminSidebar";
 import ModalInputAdmin from "../../components/admin/ModalInputAdmin";
-import AdminEditDetail from "../../components/admin/AdminEditDetail";
-import AdminEditFoto from "../../components/admin/AdminEditFoto";
+import AdminEditDetail from "../../components/admin/adminEditDetail";
+import AdminEditFoto from "../../components/admin/adminEditFoto";
 import AdminEditStock from "../../components/admin/AdminEditStock";
-import AdminEditStockTableProduct from "../../components/admin/AdminEditStockTableProduct";
+import AdminEditStockTableProduct from "../../components/admin/adminEditStockTableProduct";
 import { FiDownload } from "react-icons/fi";
 import { IoDocumentText } from "react-icons/io5";
 import { HiSearch, HiDotsVertical } from "react-icons/hi";
