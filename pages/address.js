@@ -1,5 +1,5 @@
 import Input from "../components/input"
-import Navbar from "../components/navbar" 
+import Navbar from "../components/Navbar" 
 import React, { Component, useEffect, useState } from 'react'
 //  import Select from 'react-select' 
 import { ButtonPrimary, ButtonSecondary } from "../components/button"
