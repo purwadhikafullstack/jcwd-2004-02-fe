@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import { useEffect, useState } from "react";
-import Select from "react-select";
-// import CreatableSelect from 'react-select/creatable';
-// import { ActionMeta, OnChangeValue } from 'react-select';
-import Calendar from "react-calendar";
+import { DownloadIcon } from "@chakra-ui/icons";
 import {
   Modal,
   ModalOverlay,
@@ -18,107 +15,33 @@ import {
   FormLabel,
   Input,
   Stack,
-  // Select,
-  HStack,
-  useNumberInput,
 } from "@chakra-ui/react";
 import axios from "axios";
+
 import { API_URL } from "../../helpers";
+import { flushSync } from "react-dom";
 
-function ModalAdminEditFoto() {
+function ModalInputAdmin({ submitProduct }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const [data, setData] = useState([]);
-  const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(0);
-  const [getData, setgetData] = useState({});
-  // utk gambar
-  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [selectedImage, setselectedImage] = useState([null, null, null]);
 
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
 
-  const [input, setinput] = useState({
-    name: "",
-    no_obat: "",
-    no_BPOM: "",
-    price: 0,
-    description: {},
-    warning: "",
-    usage: "",
-    quantity: 0,
-    unit: "",
-    expired_at: "", // belom tau cara masukin ke tabel stok
-    brand_id: 0,
-    type_id: 0,
-    hargaJual: 0,
-    hargaBeli: 0,
-    is_deleted: 0,
-    symptom: [],
-    category: [],
-    stock: 0,
-    expired: "",
-  });
-
-  // handle
-  const handleChange = (e, prop) => {
-    setinput({ ...input, [prop]: e.target.value });
-  };
-
-  // individu -> e.value, multi -> e
-  const handleChangeSelect = (e, prop) => {
-    setinput({ ...input, [prop]: e });
-    console.log(e);
-  };
-
-  const handleChangeDesc = (e, prop, param) => {
-    let description = input.description;
-    description[param] = e.target.value;
-    setinput({ ...input, [prop]: description });
-    console.log(e);
-  };
-
-  const handleImageChange = (e) => {
-    if (e.target.files) {
-      const filesArray = Array.from(e.target.files).map((file) =>
-        URL.createObjectURL(file)
-      );
-
-      setSelectedFiles((prevImages) => prevImages.concat(filesArray));
-      Array.from(e.target.files).map(
-        (file) => URL.revokeObjectURL(file) // avoid memory leak
-      );
-    }
-  };
-
-  const renderPhotos = (source) => {
-    console.log("source: ", source);
-    return source.map((photo) => {
-      return <img src={photo} alt="" key={photo} />;
-    });
-  };
-  console.log(input);
-
-  // fetch
-  const fetchData = async () => {
-    let res = await axios.get(
-      `${API_URL}/products?_page=${page + 1}&_limit=${rowsPerPage}`
-    );
-    setData(res.data);
-    settotalData(parseInt(res.headers["x-total-count"]));
-  };
-
   useEffect(() => {
-    fetchComponentObat();
+    fetchFoto();
   }, []);
 
   // get data symptom, category, dll
-  const fetchComponentObat = async () => {
+
+  const fetchFoto = async () => {
     // let token = Cookies.get('token')
     try {
       let res = await axios.get(
-        `${API_URL}/products/component`,
-        input
+        `${API_URL}/products/getselectedproductpicture/17`,
+        selectedImage
+
         // {
         //   headers: {
         //     authorization: `bearer ${token}`,
@@ -126,80 +49,116 @@ function ModalAdminEditFoto() {
         // }
       );
       // console.log(res.data);
-      setgetData(res.data);
+      console.log("resdata", res.data);
+
+      setinput(res.data);
+      // setinput([...res.data]);
     } catch (error) {
       console.log(error);
     }
   };
 
-  // submit
-  const onAddDataClick = async () => {
-    console.log(input);
-    let dataInputFinal = input;
-    dataInputFinal.symptom = dataInputFinal.symptom.map((val) => val.value);
-    console.log(dataInputFinal);
-    // try {
-    //   await axios.post(`${API_URL}/products`, input);
-    //   fetchData();
-    //   setOpen(false);
-    //   setinput({
-    //     name: "",
-    //     no_obat: "",
-    //     no_BPOM: "",
-    //     price: 0,
+  // handle image
+  const handleImageChange = (e, index) => {
+    console.log(e.target.files[0]);
 
-    //     description: {
-    //       "indikasi/kegunaan":
-    //         "Untuk mengobati batu berdahak, batuk karena flu, batuk karena asma, bronkitis akut atau kronis",
-    //     },
-    //     warning: {
-    //       "indikasi/kegunaan":
-    //         "Untuk mengobati batu berdahak, batuk karena flu, batuk karena asma, bronkitis akut atau kronis",
-    //     },
-    //     usage: {
-    //       "indikasi/kegunaan":
-    //         "Untuk mengobati batu berdahak, batuk karena flu, batuk karena asma, bronkitis akut atau kronis",
-    //     },
-    //     quantity: 0,
-    //     unit: "",
-    //     expired_at: "",
-    //     brand_id: 0,
-    //     type_id: 0,
-    //     hargaJual: 0,
-    //     hargaBeli: 0,
-    //     is_deleted: 0,
-    //     symptom: [],
-    //     category: [],
-    //     stock: 0,
-    //     expired: "",
-    //   });
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    if (e.target.files[0]) {
+      let selectedImageMut = selectedImage;
+      selectedImageMut[index] = e.target.files[0];
+
+      setselectedImage([...selectedImageMut]);
+    }
   };
 
-  const customStyles = {
-    // option: (provided, state) => ({
-    //   ...provided,
-    //   borderBottom: "1px dotted pink",
-    //   color: state.isSelected ? "red" : "blue",
-    //   padding: 20,
-    // }),
-    control: () => ({
-      // none of react-select's styles are passed to <Control />
-      width: 300,
-    }),
-    // singleValue: (provided, state) => {
-    //   const opacity = state.isDisabled ? 0.5 : 1;
-    //   const transition = "opacity 300ms";
+  const deletePhoto = (index) => {
+    let selectedImageMut = selectedImage;
+    selectedImageMut[index] = null;
 
-    //   return { ...provided, opacity, transition };
-    // },
+    setselectedImage([...selectedImageMut]);
+  };
+
+  const renderPhotos = (source) => {
+    console.log("source: ", source);
+
+    return source.map((photo, index) => {
+      if (photo) {
+        return (
+          <>
+            <div>
+              <span
+                onClick={() => deletePhoto(index)}
+                className="cursor-pointer relative flex items-center justify-center bg-black bg-opacity-40 w-6 h-6 rounded-full text-white z-100 left-[185px] top-6 "
+              >
+                X
+              </span>
+              <img
+                className="h-[210px] w-[210px] object-cover mb-6 "
+                src={URL.createObjectURL(photo)}
+                alt=""
+                key={index}
+              />
+            </div>
+          </>
+        );
+      } else {
+        return (
+          <>
+            <input
+              style={{ display: "none" }}
+              type="file"
+              id={"file" + index}
+              onChange={(e) => handleImageChange(e, index)}
+            />
+            <label
+              className="mx-5 h-[185px] w-[185px] border-dashed border-2 cursor-pointer flex items-center justify-center"
+              htmlFor={"file" + index}
+            >
+              <i className="">
+                {index === 0 ? "Insert Main Image" : "Insert Image"}
+              </i>
+            </label>
+          </>
+        );
+      }
+    });
+  };
+  // console.log(input);
+
+  // submit form
+  const onSaveDataClick = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+
+    // if (selectedImage[0] === null) {
+    //   // agar coding berhenti, dikasih return (perlu diberi warning pakai toastify)
+    //   return;
+    // }
+
+    for (let i = 0; i < selectedImage.length; i++) {
+      if (selectedImage[i]) {
+        formData.append(`products`, selectedImage[i]);
+      }
+    }
+
+    try {
+      await submitProduct(formData);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      flushSync(() => {
+        setTab(5);
+      });
+      setselectedImage([null, null, null]);
+      setTimeout(() => {
+        setTab(0);
+        onClose();
+      }, 800);
+    }
   };
 
   return (
     <>
-      <Button colorScheme="purple" onClick={onOpen}>
+      <Button leftIcon={<DownloadIcon />} colorScheme="purple" onClick={onOpen}>
         Edit Foto
       </Button>
 
@@ -211,45 +170,48 @@ function ModalAdminEditFoto() {
       >
         <ModalOverlay />
         <ModalContent maxW="1000px" maxH="900px" pl={8} pt={4}>
-          <ModalHeader>Edit Foto</ModalHeader>
+          <ModalHeader>Edit Foto Obat</ModalHeader>
           <ModalCloseButton />
 
-          <div>
-            <ModalBody pb={6}>
-              <FormControl mt={"1.5"} className="flex">
-                <FormLabel pt={2} fontSize="sm" w="175px">
-                  Upload Foto
-                </FormLabel>
-                <Stack spacing={3}>
-                  <div>
-                    <input
-                      type="file"
-                      id="file"
-                      multiple
-                      onChange={handleImageChange}
-                    />
-                    <div className="label-holder">
-                      <label htmlFor="file" className="label"></label>
+          {/* fourth tab */}
+          {tab === 0 ? (
+            <div>
+              <ModalBody pb={6}>
+                <FormControl
+                  mt={"1.5"}
+                  className="flex items-center justify-center"
+                >
+                  <Stack spacing={3}>
+                    <div>
+                      <div className="result ">
+                        {renderPhotos(selectedImage)}
+                      </div>
                     </div>
-                    <div className="result">{renderPhotos(selectedFiles)}</div>
-                  </div>
-                </Stack>
-              </FormControl>
-            </ModalBody>
+                  </Stack>
+                </FormControl>
+              </ModalBody>
 
-            <ModalFooter>
-              <Button onClick={() => setTab(2)} mr={3}>
-                Kembali
-              </Button>
-              <Button colorScheme="purple" mr={3} onClick={onAddDataClick}>
-                Simpan
-              </Button>
-            </ModalFooter>
-          </div>
+              <ModalFooter>
+                <Button colorScheme="purple" mr={3} onClick={onSaveDataClick}>
+                  Simpan
+                </Button>
+              </ModalFooter>
+            </div>
+          ) : null}
+          {/* success tab */}
+          {tab === 5 ? (
+            <div>
+              <ModalBody className="flex items-center justify-center" h="600px">
+                <div className="flex items-center justify-center">
+                  <img src={"/addProductSuccess.svg"} />
+                </div>
+              </ModalBody>
+            </div>
+          ) : null}
         </ModalContent>
       </Modal>
     </>
   );
 }
 
-export default ModalAdminEditFoto;
+export default ModalInputAdmin;

@@ -4,7 +4,18 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        transparent: "transparent",
+        current: "currentColor",
+        primary: "#6b4c92",
+        secondary: "#c86eac",
+        warning: "#fff5d3",
+        "warning-text": "##cbaf4e",
+        // orenji: "##f99746",
+        "hover-button": "#efebf2",
+      },
+    },
   },
   plugins: [require("tailwind-scrollbar")],
   variants: {
