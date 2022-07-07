@@ -7,7 +7,9 @@ import Footer from "../components/footer"
 import axios from "axios"
 import { API_URL } from "../helpers"
 import { Select } from '@chakra-ui/react'
-import Cookies from "js-cookie"
+import Cookies from "js-cookie" 
+import { toast } from "react-toastify"; 
+import { useRouter, router } from "next/router";
 
 const Address = () => { 
     // const options = [
@@ -15,6 +17,7 @@ const Address = () => {
     //   { value: 'strawberry', label: 'Strawberry' },
     //   { value: 'vanilla', label: 'Vanilla' }
     // ] 
+    const router = useRouter();
 
     const [addAddress, setAddAddress] = useState({
         address:"", 
@@ -62,6 +65,13 @@ const Address = () => {
             {headers:{
                 authorization: `bearer ${token}`
             }})
+            toast.success("berhasil menambah alamat", {
+                position: "top-right",
+                autoClose: 1000,
+                closeOnClick: true,
+                draggable: true,
+              }); 
+              router.push('/checkout')
         } catch (error) {
             console.log(error);
         }

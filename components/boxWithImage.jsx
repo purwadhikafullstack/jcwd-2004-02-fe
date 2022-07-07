@@ -7,7 +7,7 @@ import { getCartAction } from "../redux/actions"
 import { connect } from "react-redux" 
 import {BsFillTrashFill} from "react-icons/bs"
 
-const BoxWithImage = ({id,name,price,unit, total, kuantitas,imageProduct,productId,getCartAction}) => { 
+const BoxWithImage = ({id,name,price,unit, total, kuantitas,imageProduct,productId,getCartAction, total_stock}) => { 
 
     const [input, setInput] = useState({quantity:kuantitas})   
     const [quantity, setquantity] = useState("")  
@@ -21,6 +21,7 @@ const BoxWithImage = ({id,name,price,unit, total, kuantitas,imageProduct,product
 
     const increase = () => {
         let count = parseInt(input.quantity) + 1
+        count = count >=total_stock ?total_stock : count;
         setInput({...input, quantity:count}) 
         plusHandle()
     } 
@@ -50,7 +51,7 @@ const BoxWithImage = ({id,name,price,unit, total, kuantitas,imageProduct,product
         let token = Cookies.get('token') 
         try {
             const res = await axios.delete(
-                `${API_URL}/transaction/deleteCart?product_id=3`, {
+                `${API_URL}/transaction/deleteCart?product_id=${id}`, {
                     headers: {
                         authorization: `bearer ${token}`
                     }
@@ -58,7 +59,9 @@ const BoxWithImage = ({id,name,price,unit, total, kuantitas,imageProduct,product
             ) 
         } catch (error) {
             console.log(error)
-        } 
+        } finally {
+            getCartAction()
+        }
 
       }  
     
@@ -91,7 +94,11 @@ const BoxWithImage = ({id,name,price,unit, total, kuantitas,imageProduct,product
         }finally{
             getCartAction()
         }
-    } 
+    }  
+
+    const handleCart = () => {
+        router.push()
+    }
      
 
     return ( 
@@ -111,7 +118,7 @@ const BoxWithImage = ({id,name,price,unit, total, kuantitas,imageProduct,product
                             <input type={"checkbox"}/> 
                         </div> 
                         <div className="w-[86px] h-[86px]"> 
-                            <img src={imageProduct}/>
+                            <img src={'/bisolvon.jpg'}/>
                         </div> 
                     </div> 
                     <div className="flex justify-between w-full">

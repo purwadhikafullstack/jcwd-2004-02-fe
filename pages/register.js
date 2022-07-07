@@ -14,7 +14,6 @@ import {connect} from 'react-redux'
 import useUser from "../hooks/useUser" 
 import Link from "next/link"
 import Input from "../components/input"
-import InputPass from "../components/inputPass"
 
 
 const Register = ({registerActions}) => { 

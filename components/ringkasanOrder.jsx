@@ -1,4 +1,4 @@
-const RingkasanOrder = ({id, name, price, unit}) => {
+const RingkasanOrder = ({id, name, price, unit, totalHarga}) => {
     return (
         <div>
             <div className="flex ml-2">

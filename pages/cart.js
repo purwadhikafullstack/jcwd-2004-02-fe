@@ -151,6 +151,7 @@ const Cart = ({getCartAction}) => {
                             total={cart.totalHarga}  
                             index={index} 
                             productId={cart.product_id}
+                            total_stock={cart.total_stock}
                            
                             /> 
                         ))}  

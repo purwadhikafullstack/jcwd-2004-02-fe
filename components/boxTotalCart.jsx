@@ -1,7 +1,16 @@
 import Link from "next/link"
 import { ButtonPrimary } from "./button"
+import { useRouter } from "next/router"
 
-const BoxTotalCart = ({subTotal}) => { 
+
+const BoxTotalCart = ({subTotal}) => {  
+    
+    const router = useRouter()
+
+
+    const handleCart = () => {
+        router.push('/checkout')
+    }
     return (
         <div className="h-[300px] w-[360px] p-5 rounded-lg shadow-xl shadow-purple-100 " >
             <span className="font-bold text-purple-900 text-lg">Total</span> 
@@ -17,7 +26,7 @@ const BoxTotalCart = ({subTotal}) => {
                 <span className="font-bold text-purple-900">Rp{subTotal}</span>
             </div> 
             <Link href={"/checkout"}>
-                <ButtonPrimary className="w-full h-[45px] mt-10">Bayar(1)</ButtonPrimary>
+                <button onClick={handleCart} className="w-full h-[45px] mt-10 bg-purple-900 text-white rounded-lg text-xs">Bayar</button>
             </Link>
         </div>
     )

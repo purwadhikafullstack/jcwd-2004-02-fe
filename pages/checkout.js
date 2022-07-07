@@ -72,8 +72,9 @@ const Checkout = ({getCartAction}) => {
             <div className="flex px-[96px] pt-10 pb-14"> 
                 <div className="flex flex-col"> 
                     <div>
-                    {getUserAddress.map((address)=>(
-                        <BoxAddress  
+                    {getUserAddress.map((address, index)=>(
+                        <BoxAddress   
+                        key={index}
                         id={address.id}
                         firstname={address.firstname}
                         lastname={address.lastname}
@@ -87,11 +88,12 @@ const Checkout = ({getCartAction}) => {
                             <div className="ml-2">
                                 <img className="my-6" src={"/Line24.svg"}/>
                             </div>
-                            {cart.map ((checkout) => (
+                            {cart.map ((checkout, index) => (
                                 <RingkasanOrder  
+                                key={index} 
                                 id={checkout.id} 
                                 name={checkout.name} 
-                                price={checkout.hargaJual} 
+                                price={checkout.totalHarga} 
                                 unit={checkout.unit}
                                 />
                                 ))}
