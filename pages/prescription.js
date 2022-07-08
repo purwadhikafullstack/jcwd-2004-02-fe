@@ -12,13 +12,13 @@ import { useRouter } from "next/router";
 
 const Prescription = () => {
   const router = useRouter();
-  const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
-    console.log("accepted", acceptedFiles);
-    console.log("rejected", rejectedFiles);
-  }, []);
+  // const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
+  //   console.log("accepted", acceptedFiles);
+  //   console.log("rejected", rejectedFiles);
+  // }, []);
 
   const { getRootProps, getInputProps, open, acceptedFiles } = useDropzone({
-    onDrop,
+    // onDrop,
     accept: "image/png",
     noClick: true,
     noKeyboard: true,
@@ -41,17 +41,10 @@ const Prescription = () => {
           },
         }
       );
-      // onClose();
-      // toast.success("Foto Resep Berhasil ditambahkan!", {
-      //   position: "top-right",
-      //   autoClose: 1000,
-      //   closeOnClick: true,
-      //   draggable: true,
-      // });
       router.push("/prescriptionBerhasil");
     } catch (error) {
-      console.log(error);
-      toast.error("Foto Resep Gagal ditambahkan", {
+      console.log(error, "err");
+      toast.error(error.response.data, {
         position: "top-right",
         autoClose: 1000,
         closeOnClick: true,

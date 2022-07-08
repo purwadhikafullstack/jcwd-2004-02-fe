@@ -44,11 +44,11 @@ function ModalInputAdmin({ submitProduct }) {
     unit: "",
     brand_id: 0,
     type_id: 0,
-    hargaJual: 0,
-    hargaBeli: 0,
+    hargaJual: "",
+    hargaBeli: "",
     symptom: [],
     category: [],
-    stock: 10,
+    stock: 0,
     expired: "",
     is_deleted: 0,
   });
@@ -442,7 +442,16 @@ function ModalInputAdmin({ submitProduct }) {
                 <Button
                   colorScheme="purple"
                   mr={3}
-                  disabled={false}
+                  disabled={
+                    !input.name ||
+                    !input.no_obat ||
+                    !input.no_BPOM ||
+                    !input.type_id ||
+                    !input.brand_id ||
+                    !input.expired[0] ||
+                    !input.category[0] ||
+                    !input.symptom[0]
+                  }
                   onClick={() => setTab(1)}
                 >
                   Lanjutkan
@@ -671,7 +680,23 @@ function ModalInputAdmin({ submitProduct }) {
                 <Button onClick={() => setTab(0)} mr={3}>
                   Kembali
                 </Button>
-                <Button colorScheme="purple" mr={3} onClick={() => setTab(2)}>
+                <Button
+                  colorScheme="purple"
+                  mr={3}
+                  disabled={
+                    !input.usage ||
+                    !input.warning ||
+                    !input.description["indikasi / kegunaan"] ||
+                    !input.description["Kandungan / Komposisi"] ||
+                    !input.description["Kemasan"] ||
+                    !input.description["Golongan"] ||
+                    !input.description["Butuh Resep"] ||
+                    !input.description["Cara Penyimpanan"] ||
+                    !input.description["Principal"] ||
+                    !input.description["Nomor Ijin Edar (NIE)"]
+                  }
+                  onClick={() => setTab(2)}
+                >
                   Lanjutkan
                 </Button>
               </ModalFooter>
@@ -784,7 +809,17 @@ function ModalInputAdmin({ submitProduct }) {
                 <Button onClick={() => setTab(1)} mr={3}>
                   Kembali
                 </Button>
-                <Button colorScheme="purple" onClick={() => setTab(3)} mr={3}>
+                <Button
+                  colorScheme="purple"
+                  disabled={
+                    !input.stock ||
+                    !input.unit ||
+                    !input.hargaBeli ||
+                    !input.hargaJual
+                  }
+                  onClick={() => setTab(3)}
+                  mr={3}
+                >
                   Lanjutkan
                 </Button>
               </ModalFooter>
@@ -842,7 +877,12 @@ function ModalInputAdmin({ submitProduct }) {
                 <Button onClick={() => setTab(2)} mr={3}>
                   Kembali
                 </Button>
-                <Button colorScheme="purple" mr={3} onClick={onSaveDataClick}>
+                <Button
+                  colorScheme="purple"
+                  mr={3}
+                  disabled={!selectedImage[0]}
+                  onClick={onSaveDataClick}
+                >
                   Simpan
                 </Button>
               </ModalFooter>
