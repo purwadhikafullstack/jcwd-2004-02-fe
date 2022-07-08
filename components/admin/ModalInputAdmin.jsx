@@ -261,7 +261,7 @@ function ModalInputAdmin({ submitProduct }) {
     setinput({ ...input, stock: count });
   };
 
-  // function menerima array isinya name dari
+  // function menerima array isinya name dari a
 
   return (
     <>
