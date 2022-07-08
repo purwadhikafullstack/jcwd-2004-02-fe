@@ -28,7 +28,7 @@ function MyApp({ Component, pageProps }) {
       <ChakraProvider theme={theme}>
         <AuthProvider>
           <Component {...pageProps} />
-          <ToastContainer />
+          <ToastContainer className={"foo"} />
         </AuthProvider>
       </ChakraProvider>
     </Provider>
