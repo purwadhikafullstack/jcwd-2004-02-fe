@@ -21,7 +21,7 @@ import {
   MenuList,
   MenuItem,
   IconButton,
-  Button,
+  useDisclosure,
 } from "@chakra-ui/react";
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
@@ -37,8 +37,60 @@ function DaftarProduk() {
   });
   const [value, setLimit] = useState(10);
   const [comp, setComponent] = useState([]);
+  // state input edit
+  const [inputEdit, setinputEdit] = useState({
+    name: "",
+    no_obat: "",
+    no_BPOM: 0,
+    category: [],
+    brand_id: 0,
+    type_id: 0,
+    symptom: [],
 
+    description: {},
+    warning: "",
+    usage: "",
+    id: 0,
+  });
+
+  const [inputImage, setinputImage] = useState([]);
+  const {
+    isOpen: isEditOpen,
+    onOpen: onEditOpen,
+    onClose: onEditClose,
+  } = useDisclosure();
+  const {
+    isOpen: isEditPhotoOpen,
+    onOpen: onEditPhotoOpen,
+    onClose: onEditPhotoClose,
+  } = useDisclosure();
+  const {
+    isOpen: isEditStockOpen,
+    onOpen: onEditStockOpen,
+    onClose: onEditStockClose,
+  } = useDisclosure();
   // const [pending, startTransition] = useTransition();
+
+  useEffect(() => {
+    getComponent();
+  }, []);
+
+  useEffect(() => {
+    if (isLoading) {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    debouncedFetchData(page, input, (res) => {
+      setTotalData(parseInt(res.headers["x-total-product"]));
+      setData([...res.data]);
+      setIsLoading(false);
+    });
+    console.log(totalData, "ini total data");
+  }, [page, input]);
 
   const updateLimit = (e) => {
     setLimit(parseInt(e.target.value));
@@ -47,7 +99,6 @@ function DaftarProduk() {
   const handleInput = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
     setPage(0);
-    // console.log(input);
   };
 
   const getComponent = async () => {
@@ -71,6 +122,58 @@ function DaftarProduk() {
     setData([...data, ...res.data]);
   };
 
+  // fetch detail obat untuk edit
+  const fetchDetailObat = async (id) => {
+    // let token = Cookies.get("token");
+    try {
+      let res = await axios.get(`${API_URL}/products/getselectedproduct/${id}`);
+      // {
+      //   headers: {
+      //     authorization: `bearer ${token}`,
+      //   },
+      // }
+      setinputEdit(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchFoto = async (id) => {
+    // let token = Cookies.get('token')
+    try {
+      let res = await axios.get(
+        `${API_URL}/products/getselectedproductpicture/${id}`
+
+        // {
+        //   headers: {
+        //     authorization: `bearer ${token}`,
+        //   },
+        // }
+      );
+      console.log("resdatafoto", res.data);
+
+      setinputImage(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // fetch detail obat untuk edit
+  const fetchStockObat = async (id) => {
+    // let token = Cookies.get("token");
+    try {
+      let res = await axios.get(`${API_URL}/products/getselectedproduct/${id}`);
+      // {
+      //   headers: {
+      //     authorization: `bearer ${token}`,
+      //   },
+      // }
+      setinputEdit(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const submitProduct = async (values) => {
     try {
       // let token = Cookies.get("token");
@@ -82,7 +185,7 @@ function DaftarProduk() {
     } catch (error) {
       console.log(error);
     } finally {
-      getLastProduct();
+      // getLastProduct();
       setPage(0);
       setInput({
         search: "",
@@ -95,7 +198,7 @@ function DaftarProduk() {
     try {
       // let token = Cookies.get("token");
       await axios.put(
-        `${API_URL}/products/16`,
+        `${API_URL}/products/${inputEdit.id}`,
         data
         // {
         // headers: {
@@ -157,27 +260,6 @@ function DaftarProduk() {
     []
   );
 
-  useEffect(() => {
-    getComponent();
-  }, []);
-
-  useEffect(() => {
-    if (isLoading) {
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 2000);
-    }
-  }, [isLoading]);
-
-  useEffect(() => {
-    debouncedFetchData(page, input, (res) => {
-      setTotalData(parseInt(res.headers["x-total-product"]));
-      setData([...res.data]);
-      setIsLoading(false);
-    });
-    console.log(totalData, "ini total data");
-  }, [page, input]);
-
   const Categories = ({ val }) => {
     return (
       <>
@@ -196,12 +278,29 @@ function DaftarProduk() {
       </>
     );
   };
+  // click modal edit
+  const clickEdit = (productId) => {
+    fetchDetailObat(productId);
+    onEditOpen();
+  };
+  // click modal edit photo
+  const clickEditPhoto = (productId) => {
+    fetchFoto(productId);
+    onEditPhotoOpen();
+  };
 
-  const DetailButton = ({ val }) => {
+  // click modal edit photo
+  const clickEditStock = (productId) => {
+    fetchStockObat(productId);
+    onEditPhotoOpen();
+  };
+
+  console.log(inputEdit, "inputedit");
+  const DetailButton = ({ productId }) => {
     return (
       <div className="flex justify-between text-center items-center">
         <div className="text-sm text-primary rounded-lg font-semibold py-1 px-2 border-[1px] mr-1 border-primary bg-white ">
-          Lihat Detail {val}
+          Lihat Detail {productId}
         </div>
         {/* <div className="text-sm text-primary rounded-md font-semibold py-2 px border-[1px] border-primary bg-white"> */}
         <Menu>
@@ -213,17 +312,33 @@ function DaftarProduk() {
             colorScheme="whiteAlpha"
           />
           <MenuList>
-            <MenuItem>
-              Edit Produk
-              <AdminEditDetail />
-            </MenuItem>
-            <MenuItem>Edit Foto</MenuItem>
             <MenuItem
               onClick={() => {
-                clickDelete(val);
+                clickEdit(productId);
               }}
             >
-              Hapus Produk
+              <div className="text-primary">Edit Produk</div>
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                clickEditStock(productId);
+              }}
+            >
+              <div className="text-primary">Edit Stok</div>
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                clickEditPhoto(productId);
+              }}
+            >
+              <div className="text-primary">Edit Foto</div>
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                clickDelete(productId);
+              }}
+            >
+              <div className="text-primary">Hapus Produk</div>
             </MenuItem>
           </MenuList>
         </Menu>
@@ -275,13 +390,31 @@ function DaftarProduk() {
     {
       Header: "Atur",
       // accessor: "id",
-      Cell: (data) => <DetailButton val={data.row.original.id} />,
+      Cell: (data) => <DetailButton productId={data.row.original.id} />,
     },
   ]);
 
   return (
     <>
+      {/* kiri=props; kanan=value */}
       <div>
+        <AdminEditDetail
+          isOpen={isEditOpen}
+          onOpen={onEditOpen}
+          onClose={onEditClose}
+          submitProductEdit={submitProductEdit}
+          inputEdit={inputEdit}
+          setinputEdit={setinputEdit}
+        />
+        <AdminEditFoto
+          isOpen={isEditPhotoOpen}
+          onOpen={onEditPhotoOpen}
+          onClose={onEditPhotoClose}
+          submitProduct={submitProduct}
+          inputImage={inputImage}
+          setinputImage={setinputImage}
+          fetchFoto={fetchFoto}
+        />
         <AdminNavbar />
         <AdminSidebar />
       </div>
@@ -335,10 +468,7 @@ function DaftarProduk() {
                 </div>
               </div>
               <ModalInputAdmin submitProduct={submitProduct} />
-              <AdminEditDetail submitProductEdit={submitProductEdit} />
               <AdminEditStock />
-
-              <AdminEditFoto />
               <AdminEditStockTableProduct />
               {/* <div className="flex items-center rounded-lg bg-violet-900 p-[11px] text-white">
                 <FiDownload className="text-sm" />

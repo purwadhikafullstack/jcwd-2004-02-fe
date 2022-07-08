@@ -1,6 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
 import { useEffect, useState } from "react";
-import { DownloadIcon } from "@chakra-ui/icons";
 import {
   Modal,
   ModalOverlay,
@@ -9,11 +8,8 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  useDisclosure,
   Button,
   FormControl,
-  FormLabel,
-  Input,
   Stack,
 } from "@chakra-ui/react";
 import axios from "axios";
@@ -21,42 +17,19 @@ import axios from "axios";
 import { API_URL } from "../../helpers";
 import { flushSync } from "react-dom";
 
-function ModalInputAdmin({ submitProduct }) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+function ModalInputAdmin({
+  submitProduct,
+  isOpen,
+  onClose,
+  fetchFoto,
+  inputImage,
+  setinputImage,
+}) {
   const [tab, setTab] = useState(0);
-  const [selectedImage, setselectedImage] = useState([]);
+  // const [inputImage, setinputImage] = useState([]);
 
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
-
-  useEffect(() => {
-    fetchFoto();
-  }, []);
-
-  // get data symptom, category, dll
-
-  const fetchFoto = async () => {
-    // let token = Cookies.get('token')
-    try {
-      let res = await axios.get(
-        `${API_URL}/products/getselectedproductpicture/17`,
-        selectedImage
-
-        // {
-        //   headers: {
-        //     authorization: `bearer ${token}`,
-        //   },
-        // }
-      );
-      // console.log(res.data);
-      console.log("resdatafoto", res.data);
-
-      setselectedImage(res.data);
-      // setinput([...res.data]);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   // handle image
   const handleImageChange = async (e) => {
@@ -67,11 +40,11 @@ function ModalInputAdmin({ submitProduct }) {
       const formData = new FormData();
       formData.append("products", e.target.files[0]);
       // 17 (product id) ganti params
-      formData.append("data", JSON.stringify(17));
+      formData.append("data", JSON.stringify(inputImage[0].product_id));
       try {
         await axios.post(`${API_URL}/products/pic`, formData);
         setTimeout(() => {
-          fetchFoto();
+          fetchFoto(inputImage[0].product_id);
         }, 500);
       } catch (error) {
         console.log(error);
@@ -80,17 +53,11 @@ function ModalInputAdmin({ submitProduct }) {
   };
 
   const deletePhoto = async (index) => {
-    // let selectedImageMut = selectedImage;
-    // // merubah  [{id:1,image:'sdsadsad'}]-> [{id:1,image:null}]
-    // selectedImageMut[index] = { ...selectedImage[index], image: null };
-
-    // setselectedImage([...selectedImageMut]);
-
-    let photo_id = selectedImage[index].id;
+    let photo_id = inputImage[index].id;
     try {
       await axios.delete(`${API_URL}/products/pic/${photo_id}`);
       setTimeout(() => {
-        fetchFoto();
+        fetchFoto(inputImage[0].product_id);
       }, 500);
     } catch (error) {
       console.log(error);
@@ -114,75 +81,26 @@ function ModalInputAdmin({ submitProduct }) {
               <img
                 className="h-[210px] w-[210px] object-cover mb-6 "
                 src={`${API_URL}` + photo.image}
-                alt=""
+                alt="image"
                 key={index}
               />
             </div>
           </>
         );
       }
-      // else {
-      //   return (
-      //     <>
-      //       <input
-      //         style={{ display: "none" }}
-      //         type="file"
-      //         id={"file" + index}
-      //         onChange={(e) => handleImageChange(e, index, photo.id)}
-      //       />
-      //       <label
-      //         className="mx-5 h-[185px] w-[185px] border-dashed border-2 cursor-pointer flex items-center justify-center"
-      //         htmlFor={"file" + index}
-      //       >
-      //         <i className="">
-      //           {index === 0 ? "Insert Main Image" : "Insert Image"}
-      //         </i>
-      //       </label>
-      //     </>
-      //   );
-      // }
     });
   };
-  // console.log(input);
 
   // submit form
-  const onSaveDataClick = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-
-    // if (selectedImage[0] === null) {
-    //   // agar coding berhenti, dikasih return (perlu diberi warning pakai toastify)
-    //   return;
-    // }
-
-    for (let i = 0; i < selectedImage.length; i++) {
-      if (selectedImage[i]) {
-        formData.append(`products`, selectedImage[i]);
-      }
-    }
-
-    try {
-      await submitProduct(formData);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      flushSync(() => {
-        setTab(5);
-      });
-      setselectedImage([null, null, null]);
-      setTimeout(() => {
-        setTab(0);
-        onClose();
-      }, 800);
-    }
+  const onSaveDataClick = (e) => {
+    setTimeout(() => {
+      setTab(0);
+      onClose();
+    }, 800);
   };
 
   return (
     <>
-      <Button leftIcon={<DownloadIcon />} colorScheme="purple" onClick={onOpen}>
-        Edit Foto
-      </Button>
-
       <Modal
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}
@@ -204,9 +122,7 @@ function ModalInputAdmin({ submitProduct }) {
                 >
                   <Stack spacing={3}>
                     <div>
-                      <div className="result ">
-                        {renderPhotos(selectedImage)}
-                      </div>
+                      <div className="result ">{renderPhotos(inputImage)}</div>
                     </div>
                   </Stack>
                 </FormControl>
@@ -217,12 +133,14 @@ function ModalInputAdmin({ submitProduct }) {
                     id={"productImage"}
                     onChange={(e) => handleImageChange(e)}
                   />
-                  <label
-                    className="mx-5 h-[185px] w-[185px] border-dashed border-2 cursor-pointer flex items-center justify-center"
-                    htmlFor={"productImage"}
-                  >
-                    <i className="">+</i>
-                  </label>
+                  <div className="flex items-center justify-center ">
+                    <label
+                      className="mx-5 h-12 w-48 cursor-pointer flex items-center justify-center bg-purple-700 text-white rounded-lg"
+                      htmlFor={"productImage"}
+                    >
+                      <i>Tambah Foto</i>
+                    </label>
+                  </div>
                 </div>
               </ModalBody>
 
