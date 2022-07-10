@@ -15,7 +15,8 @@ import useUser from "../hooks/useUser"
 
 const Checkout = ({getCartAction}) => {  
     const [data, setData] = useState([]) 
-    const [getUserAddress,setGetUserAddress] = useState([])
+    const [getUserAddress,setGetUserAddress] = useState([]) 
+    const [selectedAddress, setSelectedAddress] = useState({})
 
     const {isLogin} = useUser() 
     const {cart} = useCart()
@@ -37,25 +38,28 @@ const Checkout = ({getCartAction}) => {
     //         console.log(error)
     //     }
     // }   
-
-    let subTotal = 0
-    for (let i = 0; i < cart.length; i++) {
-        const quantity = cart[i].quantityCart;
-        const price = cart[i].hargaJual;
-        subTotal = subTotal + quantity * price;
-      }
-
+    const subTotal =()=>{
+        let subTotal = 0
+        for (let i = 0; i < cart.length; i++) {
+            const quantity = cart[i].quantityCart;
+            const price = cart[i].hargaJual;
+            subTotal = subTotal + quantity * price;
+        }
+        return subTotal
+    }
+    
     const getAddress = async () => {
         let token = Cookies.get('token') 
         try {
             const res = await axios.get(
-                `${API_URL}/transaction/getAddress`,{
+                `${API_URL}/transaction/getAllAddress`,{
                     headers: {
                         authorization: `bearer ${token}`
                     }
                 }
             ) 
-            setGetUserAddress(res.data)
+            setGetUserAddress(res.data) 
+            setSelectedAddress(res.data[0])
         } catch (error) {
             console.log(error)
         }
@@ -72,16 +76,12 @@ const Checkout = ({getCartAction}) => {
             <div className="flex px-[96px] pt-10 pb-14"> 
                 <div className="flex flex-col"> 
                     <div>
-                    {getUserAddress.map((address, index)=>(
-                        <BoxAddress   
-                        key={index}
-                        id={address.id}
-                        firstname={address.firstname}
-                        lastname={address.lastname}
-                        address={address.address} 
-                        phonenumber={address.phonenumber}
+                    
+                        <BoxAddress
+                        setSelectedAddress={setSelectedAddress}   
+                        selectedAddress={selectedAddress}
+                        getAddress={getUserAddress}
                         />
-                    ))}
                     </div>
                     <div className=" w-[700px] min-h-[260px] rounded-lg mr-12 shadow-xl shadow-purple-100 p-6 text-purple-900 font-bold">Ringkasan Order
                         <div>
@@ -92,7 +92,7 @@ const Checkout = ({getCartAction}) => {
                                 <RingkasanOrder  
                                 key={index} 
                                 id={checkout.id} 
-                                name={checkout.name} 
+                                name={checkout.product_name} 
                                 price={checkout.totalHarga} 
                                 unit={checkout.unit}
                                 />
@@ -104,7 +104,7 @@ const Checkout = ({getCartAction}) => {
                                 </div>
                                 <div className="flex justify-between w-[523px] mt-5">
                                     <span className="text-purple-900 text-md font-semibold">Subtotal</span>
-                                    <span className="text-purple-900 text-md font-bold">Rp.{subTotal}</span>
+                                    <span className="text-purple-900 text-md font-bold">Rp.{subTotal()}</span>
                                 </div>
                             </div> 
                         </div>
@@ -112,7 +112,9 @@ const Checkout = ({getCartAction}) => {
                     </div>
                 </div>
                 <BoxTotalTransaction
-                subTotal={subTotal}/> 
+                subTotal={subTotal()} 
+                address={getUserAddress}
+                selectedAddress={selectedAddress}/> 
             </div>
         </div>
     )

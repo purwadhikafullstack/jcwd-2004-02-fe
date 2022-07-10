@@ -17,13 +17,63 @@ import {
   import { useDisclosure } from '@chakra-ui/react'
 import { useState } from 'react' 
 import {IoIosArrowForward,IoIosArrowBack} from "react-icons/io" 
-import {GoPrimitiveDot} from "react-icons/go" 
+import {GoPrimitiveDot} from "react-icons/go"  
+import axios from "axios"
+import Cookies from "js-cookie"
+import { API_URL } from "../helpers" 
+import { useRouter } from "next/router"; 
+import useCart from '../hooks/useCart'
 
-  const PaymentMethod = () => {
+
+  const PaymentMethod = ({selectedAddress}) => { 
+    let { firstname, address} =selectedAddress 
+
+    const {cart} = useCart()
+    const router = useRouter();
 
     const { isOpen, onOpen, onClose } = useDisclosure() 
     
-    const [tab, setTab] = useState(0)
+    const [tab, setTab] = useState(0) 
+
+    const subTotal =()=>{
+        let subTotal = 0
+        for (let i = 0; i < cart.length; i++) {
+            const quantity = cart[i].quantityCart;
+            const price = cart[i].hargaJual;
+            subTotal = subTotal + quantity * price;
+        }
+        return subTotal
+    }
+
+    const userCheckout =async () => {
+        let token = Cookies.get('token')
+        try {
+            let res = await axios.post(`${API_URL}/transaction/userCheckout`,{
+                address: selectedAddress.address,
+                recipient: selectedAddress.firstname
+            },
+            {
+                headers: {
+                    authorization: `bearer ${token}`
+                }
+            }) 
+            // toast.success("Konfirmasi Pembayaran Berhasil", {
+            //   position: "top-right",
+            //   autoClose: 1000,
+            //   closeOnClick: true,
+            //   draggable: true,
+            // }); 
+            router.push("/payment");
+        } catch (error) {
+            console.log(error);
+            // toast.error("Konfirmasi Pembayaran Gagal", {
+            //     position: "top-right",
+            //     autoClose: 1000,
+            //     closeOnClick: true,
+            //     draggable: true,
+            //   });
+        }
+      }
     console.log('ini tab',tab)
     return ( 
         <>
@@ -37,7 +87,7 @@ import {GoPrimitiveDot} from "react-icons/go"
                 <div className='w-[400px] h-[70px] mt-5 rounded-lg shadow-md flex items-start justify-between p-2'>
                     <div className='flex flex-col'>
                         <span className='text-sm'>Total Harga</span> 
-                        <span className='text-lg font-bold'>Rp22.000</span>
+                        <span className='text-lg font-bold'>Rp{subTotal()}</span>
                     </div>
                     <div>
                         <span className='text-xs'>lihat Detail</span>
@@ -210,7 +260,7 @@ import {GoPrimitiveDot} from "react-icons/go"
             ):null}
 
             <ModalFooter>
-                <Button colorScheme='blue' w='400px' h='50px' bgColor="purple" onClick={onClose}>
+                <Button colorScheme='blue' w='400px' h='50px' bgColor="purple" onClick={userCheckout}>
                 Pilih Metode
                 </Button>
             </ModalFooter>

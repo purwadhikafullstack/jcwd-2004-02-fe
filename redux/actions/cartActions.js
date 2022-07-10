@@ -12,7 +12,7 @@ export const getCartAction = () => {
                 }
             }) 
             dispatch({type: 'UPDATE_CART', payload: res.data}) 
-            console.log('ini respon getcart',res.data.resultCart);
+            console.log('ini respon getcart',res.data);
         } catch (error) {
             console.log(error);
         }

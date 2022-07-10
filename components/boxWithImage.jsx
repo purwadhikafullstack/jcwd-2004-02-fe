@@ -21,16 +21,20 @@ const BoxWithImage = ({id,name,price,unit, total, kuantitas,imageProduct,product
 
     const increase = () => {
         let count = parseInt(input.quantity) + 1
-        count = count >=total_stock ?total_stock : count;
+        count = count >= total_stock ? total_stock : count;
         setInput({...input, quantity:count}) 
-        plusHandle()
+        if ( quantity <= total_stock){
+            plusHandle()}
     } 
 
     const decrease = () => {
         let count = parseInt(input.quantity) - 1
         count = count < 1 ? 1 : count
         setInput({...input,quantity:count}) 
-        minHandle()
+        
+        if ( quantity <= total_stock){
+           minHandle() }
+        
     } 
 
     // const incNum = () => {
@@ -51,7 +55,7 @@ const BoxWithImage = ({id,name,price,unit, total, kuantitas,imageProduct,product
         let token = Cookies.get('token') 
         try {
             const res = await axios.delete(
-                `${API_URL}/transaction/deleteCart?product_id=${id}`, {
+                `${API_URL}/transaction/deleteCart/${id}`, {
                     headers: {
                         authorization: `bearer ${token}`
                     }
@@ -68,7 +72,7 @@ const BoxWithImage = ({id,name,price,unit, total, kuantitas,imageProduct,product
     const plusHandle = async (e) => {
         let token = Cookies.get('token')
         try {
-            const res = await axios.put(`${API_URL}/transaction/plusCart?product_id=${id}`,null,{
+            const res = await axios.put(`${API_URL}/transaction/plusCart/${id}`,null,{
                 headers: {
                     authorization: `bearer ${token}`
                 }
@@ -84,7 +88,7 @@ const BoxWithImage = ({id,name,price,unit, total, kuantitas,imageProduct,product
     const minHandle = async (e) => {
         let token = Cookies.get('token')
         try {
-            const res = await axios.put(`${API_URL}/transaction/minCart?product_id=${id}`,null,{
+            const res = await axios.put(`${API_URL}/transaction/minCart/${id}`,null,{
                 headers: {
                     authorization: `bearer ${token}`
                 }
@@ -145,7 +149,8 @@ const BoxWithImage = ({id,name,price,unit, total, kuantitas,imageProduct,product
                         setquantity(count)}}>-</button> */}
                         {/* <input name="quantity" onChange={(value) => setquantity(value)} value={quantity} className="text-sm font-bold text-purple-900 ml-2 w-5 bg-gray-200"/> */}
                         <div className="mr-5 ml-4">{input.quantity}</div>
-                        <img src={"./plus.svg"} onClick={increase}/>  
+                        <img src={"./plus.svg"} onClick={increase} />  
+                        {/* // quantity lebih atau = maka true */}
                         {/* <button 
                         onClick={() => {let count=parseInt(quantity)+1
                         count = count + ""

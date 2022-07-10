@@ -20,25 +20,25 @@ import { API_URL } from "../helpers"
 import { data } from "autoprefixer"
 
 
-const BoxAddress = ({id, firstname, lastname, address, phonenumber}) => {  
-
+const BoxAddress = ({setSelectedAddress,selectedAddress,getAddress}) => {  
+    let {id, firstname, lastname, address, phonenumber} =selectedAddress
     const { isOpen, onOpen, onClose } = useDisclosure() 
-    const [getAddress, setGetAddress] = useState([]) 
+    // const [getAddress, setGetAddress] = useState([]) 
     
-    const getAllAddress = async () => {
-        let token = Cookies.get('token')
-        let res = await axios.get(`${API_URL}/transaction/getAllAddress`,{
-            headers: {
-                authorization: `bearer ${token}`
-            }
-        }) 
-        setGetAddress(res.data) 
-        console.log('ini res.data ya',res.data);
-    }
+    // const getAllAddress = async () => {
+    //     let token = Cookies.get('token')
+    //     let res = await axios.get(`${API_URL}/transaction/getAllAddress`,{
+    //         headers: {
+    //             authorization: `bearer ${token}`
+    //         }
+    //     }) 
+    //     setGetAddress(res.data) 
+    //     console.log('ini res.data ya',res.data);
+    // }
 
-    useEffect(() => {
-        getAllAddress()
-    }, []) 
+    // useEffect(() => {
+    //     getAllAddress()
+    // }, []) 
     // const defaultAddress = async (req, res) => {
     //     let token = Cookies.get('token') 
     //     try {
@@ -83,14 +83,13 @@ const BoxAddress = ({id, firstname, lastname, address, phonenumber}) => {
                                 </div>
                             </div>  */} 
                             <div>
-                            {getAddress.map((getadd, index)=>(
-                                <BoxChooseAddress 
+                            {getAddress.map((address, index)=>(
+                                <BoxChooseAddress
+                                addressa={address}
+                                terpilih ={address.id === id} 
                                 key={index}
-                                id={getadd.id}
-                                firstname={getadd.firstname}
-                                lastname={getadd.lastname}
-                                phonenumber={getadd.phonenumber}
-                                address={getadd.address}
+                                setSelectedAddress={setSelectedAddress}
+                               
                                 />
                             ))}
                             </div>

@@ -143,7 +143,7 @@ const Cart = ({getCartAction}) => {
                             // {/* <BoxAddress/> */} 
                             key={index}
                             id={cart.id} 
-                            name={cart.name} 
+                            name={cart.product_name} 
                             imageProduct={cart.image}
                             price={cart.hargaJual} 
                             kuantitas={cart.quantityCart} 
@@ -152,7 +152,6 @@ const Cart = ({getCartAction}) => {
                             index={index} 
                             productId={cart.product_id}
                             total_stock={cart.total_stock}
-                           
                             /> 
                         ))}  
                     </div>
