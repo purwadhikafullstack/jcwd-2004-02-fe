@@ -28,7 +28,7 @@ const BoxChooseAddress = ({terpilih,addressa,setSelectedAddress}) => {
         //     console.log(error);  
         // }
         setSelectedAddress(addressa) 
-        onClose
+        onClose()
     }
 
     return(

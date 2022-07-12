@@ -16,11 +16,25 @@ import useUser from "../hooks/useUser"
 const Checkout = ({getCartAction}) => {  
     const [data, setData] = useState([]) 
     const [getUserAddress,setGetUserAddress] = useState([]) 
-    const [selectedAddress, setSelectedAddress] = useState({})
+    const [selectedAddress, setSelectedAddress] = useState({}) 
+    const [selectBank, setSelectBank] = useState(null) 
+    const [bank, setBank] = useState([])
+
 
     const {isLogin} = useUser() 
-    const {cart} = useCart()
+    const {cart} = useCart() 
 
+    const getBank = async () => {
+        try {
+            const res = await axios.get(`${API_URL}/transaction/getBank`) 
+            setBank(res.data) 
+            console.log('ini res banknya ', res.data);
+        } catch (error) {
+            console.log(error);
+        }
+    } 
+    
+    console.log('ini bank banknya yang ada', bank);
 
     // const getDataCart = async () => {
     //     let token = Cookies.get('token')
@@ -66,8 +80,9 @@ const Checkout = ({getCartAction}) => {
     }
 
     useEffect(() => {
+        getBank()
         getCartAction()
-        getAddress()
+        getAddress() 
     }, []) 
 
     return ( 
@@ -114,7 +129,13 @@ const Checkout = ({getCartAction}) => {
                 <BoxTotalTransaction
                 subTotal={subTotal()} 
                 address={getUserAddress}
-                selectedAddress={selectedAddress}/> 
+                selectedAddress={selectedAddress} 
+                selectBank={selectBank} 
+                setSelectBank={setSelectBank} 
+                bank={bank}
+                setBank={setBank}  
+                getBank={getBank}
+                />  
             </div>
         </div>
     )

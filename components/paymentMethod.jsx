@@ -23,10 +23,13 @@ import Cookies from "js-cookie"
 import { API_URL } from "../helpers" 
 import { useRouter } from "next/router"; 
 import useCart from '../hooks/useCart'
+import { useEffect } from 'react'
 
 
-  const PaymentMethod = ({selectedAddress}) => { 
-    let { firstname, address} =selectedAddress 
+  const PaymentMethod = ({selectedAddress, selectBank, setSelectBank,bank, setBank, getBank}) => { 
+    let { firstname, address} =selectedAddress  
+    let {id, name, no_rekening, kode_bank} = bank  
+   
 
     const {cart} = useCart()
     const router = useRouter();
@@ -45,12 +48,14 @@ import useCart from '../hooks/useCart'
         return subTotal
     }
 
-    const userCheckout =async () => {
+    const userCheckout = async () => {
         let token = Cookies.get('token')
         try {
             let res = await axios.post(`${API_URL}/transaction/userCheckout`,{
                 address: selectedAddress.address,
-                recipient: selectedAddress.firstname
+                recipient: selectedAddress.firstname, 
+                bank_id: selectBank,
+                cart:cart
             },
             {
                 headers: {
@@ -63,7 +68,9 @@ import useCart from '../hooks/useCart'
             //   closeOnClick: true,
             //   draggable: true,
             // }); 
-            router.push("/payment");
+
+            console.log('ini res data',res.data);
+            router.push(`/payment/${res.data[0].id}`);
         } catch (error) {
             console.log(error);
             // toast.error("Konfirmasi Pembayaran Gagal", {
@@ -73,7 +80,13 @@ import useCart from '../hooks/useCart'
             //     draggable: true,
             //   });
         }
-      }
+      } 
+
+    
+
+      useEffect(()=>{
+        getBank()
+      },[])
     console.log('ini tab',tab)
     return ( 
         <>
@@ -104,8 +117,8 @@ import useCart from '../hooks/useCart'
                             <div className='w-[80px] h-[15px]'> 
                                 <img src={'/bca.png'}/>
                             </div> 
-                            <span className='mt-1 ml-3 text-sm text-purple-900'>ATM BCA Transfer</span> 
-                            <button onClick={() => setTab(1)}><IoIosArrowForward className='mt-2 ml-40' /></button>
+                            <span className='mt-1 ml-3 text-sm text-purple-900'>ATM {bank[0]?.name} Transfer </span> 
+                            <button onClick={() => {setTab(1) ,setSelectBank(bank[0].id)}}><IoIosArrowForward className='mt-2 ml-40' /></button>
                         </div>
                     </div>
                     <img src={'/Line18.png'} className="w-full"/>
@@ -113,16 +126,16 @@ import useCart from '../hooks/useCart'
                         <div className='w-[80px] h-[15px]'> 
                             <img src={'/mandiri.png'} className="" />
                         </div> 
-                        <span className='mt-1 ml-3 text-sm text-purple-900'>ATM Mandiri Transfer</span> 
-                        <IoIosArrowForward onClick={() => setTab(2)} className='mt-2 ml-[137px]'/>
+                        <span className='mt-1 ml-3 text-sm text-purple-900'>ATM {bank[1]?.name} Transfer</span> 
+                        <IoIosArrowForward onClick={() => {setTab(2),setSelectBank(bank[1].id)}} className='mt-2 ml-[137px]'/>
                     </div>
                     <img src={'/Line18.png'} className="w-full"/>
                     <div className='w-[400px] h-[30px] flex '>
                         <div className='w-[80px] h-[15px]'> 
                             <img src={'/permata.png'} className="flex items-center mb-2" />
                         </div> 
-                        <span className='mt-1 ml-3 text-sm text-purple-900'>ATM Permata Transfer</span> 
-                        <IoIosArrowForward onClick={() => setTab(3)} className='mt-2 ml-[135px]'/>
+                        <span className='mt-1 ml-3 text-sm text-purple-900'>ATM {bank[2]?.name} Transfer</span> 
+                        <IoIosArrowForward onClick={() => {setTab(3),setSelectBank(bank[2].id)}} className='mt-2 ml-[100px]'/>
                     </div>
                     <img src={'/Line18.png'} className="w-full"/>
                     <div className='w-[400px] h-[30px] flex '>
@@ -150,7 +163,7 @@ import useCart from '../hooks/useCart'
                 <div className=' w-[400px] h-[270px] shadow-md  rounded-lg mb-2'> 
                     
                     <div className='flex justify-between p-2'>
-                        <span className='mt-1 text-purple-900'>ATM BCA Transfer</span>
+                        <span className='mt-1 text-purple-900'>ATM {bank[0]?.name} Transfer</span>
                         <div className='w-[80px] h-[15px]'>
                             <img src={'/bca.png'}/>
                         </div>
@@ -171,7 +184,7 @@ import useCart from '../hooks/useCart'
                         </div>
                         <div className='flex'>
                             <GoPrimitiveDot className='ml-[6px] mt-1'/>
-                            <span className='text-sm ml-2 text-purple-900' >masukkan kode bank rekening tujuan diikuti dengan nomor rekening tujuan</span> 
+                            <span className='text-sm ml-2 text-purple-900' >masukkan kode bank {bank[0]?.kode_bank} diikuti dengan nomor rekening {bank[0].kode_bank}</span> 
                         </div>
                         <div className='flex'>
                             <GoPrimitiveDot className='ml-2'/>
@@ -188,7 +201,7 @@ import useCart from '../hooks/useCart'
                 <div className=' w-[400px] h-[270px] shadow-md rounded-lg mb-5'> 
                     
                     <div className='flex justify-between p-2'>
-                        <span className='mt-1 text-purple-900 ml-2'>ATM Mandiri Transfer</span>
+                        <span className='mt-1 text-purple-900 ml-2'>ATM {bank[1].name} Transfer</span>
                         <div className='w-[80px] h-[15px]'>
                             <img src={'/mandiri.png'}/>
                         </div>
@@ -209,7 +222,7 @@ import useCart from '../hooks/useCart'
                         </div>
                         <div className='flex'>
                             <GoPrimitiveDot className='ml-[6px] mt-1'/>
-                            <span className='text-sm ml-2 text-purple-900' >masukkan kode bank rekening tujuan diikuti dengan nomor rekening tujuan</span> 
+                            <span className='text-sm ml-2 text-purple-900' >masukkan kode bank {bank[1].kode_bank} diikuti dengan nomor rekening {bank[1]?.no_rekening}</span> 
                         </div>
                         <div className='flex'>
                             <GoPrimitiveDot className='ml-2'/>
@@ -226,7 +239,7 @@ import useCart from '../hooks/useCart'
                 <div className=' w-[400px] h-[270px] shadow-md rounded-lg mb-5'> 
                     
                     <div className='flex justify-between p-2'>
-                        <span className='mt-1 text-purple-900 ml-2'>ATM Permata Transfer</span>
+                        <span className='mt-1 text-purple-900 ml-2'>ATM {bank[2]?.name} Transfer</span>
                         <div className='w-[80px] h-[15px]'>
                             <img src={'/Permata.png'}/>
                         </div>
@@ -247,7 +260,7 @@ import useCart from '../hooks/useCart'
                         </div>
                         <div className='flex'>
                             <GoPrimitiveDot className='ml-[6px] mt-1'/>
-                            <span className='text-sm ml-2 text-purple-900' >masukkan kode bank rekening tujuan diikuti dengan nomor rekening tujuan</span> 
+                            <span className='text-sm ml-2 text-purple-900' >masukkan kode bank {bank[2]?.kode_bank} diikuti dengan nomor rekening {bank[2]?.no_rekening}</span> 
                         </div>
                         <div className='flex'>
                             <GoPrimitiveDot className='ml-2'/>

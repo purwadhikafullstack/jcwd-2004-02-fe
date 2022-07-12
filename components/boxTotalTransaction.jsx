@@ -4,7 +4,7 @@ import { API_URL } from "../helpers"
 import { ButtonPrimary } from "./button"
 import PaymentMethod from "./paymentMethod"
 
-const BoxTotalTransaction = ({subTotal, selectedAddress}) => {  
+const BoxTotalTransaction = ({subTotal, selectedAddress, selectBank, setSelectBank,bank,setBank, getBank}) => {  
     let {id, firstname, lastname, address, phonenumber} =selectedAddress
 
     // const userCheckout =async () => {
@@ -61,7 +61,13 @@ const BoxTotalTransaction = ({subTotal, selectedAddress}) => {
                 <span className="text-xs text-purple-900">silahkan pilih metode pembayaran anda disini</span>
             </div>
             <PaymentMethod 
-            selectedAddress={selectedAddress}/>
+            selectedAddress={selectedAddress} 
+            selectBank={selectBank}
+            setSelectBank={setSelectBank} 
+            bank={bank}
+            setBank={setBank} 
+            getBank={getBank}
+            />
         </div>
     )
 } 
