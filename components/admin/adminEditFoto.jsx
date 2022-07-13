@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -13,20 +13,10 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import axios from "axios";
-
 import { API_URL } from "../../helpers";
-import { flushSync } from "react-dom";
 
-function ModalInputAdmin({
-  submitProduct,
-  isOpen,
-  onClose,
-  fetchFoto,
-  inputImage,
-  setinputImage,
-}) {
+function ModalInputAdmin({ isOpen, onClose, fetchFoto, inputImage }) {
   const [tab, setTab] = useState(0);
-  // const [inputImage, setinputImage] = useState([]);
 
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
@@ -65,8 +55,6 @@ function ModalInputAdmin({
   };
 
   const renderPhotos = (source) => {
-    console.log("source: ", source);
-
     return source.map((photo, index) => {
       if (photo.image) {
         return (
@@ -93,10 +81,11 @@ function ModalInputAdmin({
 
   // submit form
   const onSaveDataClick = (e) => {
+    setTab(5);
     setTimeout(() => {
       setTab(0);
-      onClose();
-    }, 800);
+      // onClose();
+    }, 500);
   };
 
   return (
@@ -108,12 +97,11 @@ function ModalInputAdmin({
         onClose={onClose}
       >
         <ModalOverlay />
-        <ModalContent maxW="1000px" maxH="900px" pl={8} pt={4}>
-          <ModalHeader>Edit Foto Obat</ModalHeader>
-          <ModalCloseButton />
+        {tab === 0 ? (
+          <ModalContent maxW="1000px" maxH="900px" pl={8} pt={4}>
+            <ModalHeader>Edit Foto Obat</ModalHeader>
+            <ModalCloseButton />
 
-          {/* fourth tab */}
-          {tab === 0 ? (
             <div>
               <ModalBody pb={6}>
                 <FormControl
@@ -150,18 +138,28 @@ function ModalInputAdmin({
                 </Button>
               </ModalFooter>
             </div>
-          ) : null}
-          {/* success tab */}
-          {tab === 5 ? (
+          </ModalContent>
+        ) : null}
+        {tab === 5 ? (
+          <ModalContent pl={8} pt={4}>
+            <ModalHeader>Edit Foto Obat</ModalHeader>
+            <ModalCloseButton />
+
             <div>
-              <ModalBody className="flex items-center justify-center" h="600px">
-                <div className="flex items-center justify-center">
-                  <img src={"/addProductSuccess.svg"} />
+              <ModalBody className="flex flex-col items-center justify-center">
+                <div className="flex flex-col items-center justify-center">
+                  <img src={"/ProductSuccess.svg"} />
+                  <div className="text-primary font-semibold">
+                    Gambar Produk Berhasil Diubah!
+                  </div>
+                  <div className="text-sky-900 text-sm">
+                    Gambar Produk diperbarui secara otomatis
+                  </div>
                 </div>
               </ModalBody>
             </div>
-          ) : null}
-        </ModalContent>
+          </ModalContent>
+        ) : null}
       </Modal>
     </>
   );

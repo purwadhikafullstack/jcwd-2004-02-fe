@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { useEffect, useState } from "react";
 import Select from "react-select";
 import { DownloadIcon } from "@chakra-ui/icons";
@@ -18,15 +18,11 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import axios from "axios";
-
 import { API_URL } from "../../helpers";
 import { flushSync } from "react-dom";
-import * as yup from "yup";
-import { userSchema } from "./Validation";
 
 function ModalInputAdmin({ submitProduct }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(0);
   const [getData, setgetData] = useState({});
   const [selectedImage, setselectedImage] = useState([null, null, null]);
@@ -50,7 +46,7 @@ function ModalInputAdmin({ submitProduct }) {
     category: [],
     stock: 0,
     expired: "",
-    is_deleted: 0,
+    is_deleted: "",
   });
 
   // handle
@@ -222,7 +218,7 @@ function ModalInputAdmin({ submitProduct }) {
         category: [],
         stock: 0,
         expired: "",
-        is_deleted: 0,
+        is_deleted: "",
       });
       setselectedImage([null, null, null]);
       setTimeout(() => {
@@ -261,7 +257,7 @@ function ModalInputAdmin({ submitProduct }) {
     setinput({ ...input, stock: count });
   };
 
-  // function menerima array isinya name dari
+  // function menerima array isinya name dari a
 
   return (
     <>
