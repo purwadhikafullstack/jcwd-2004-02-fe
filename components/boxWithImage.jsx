@@ -5,7 +5,8 @@ import { useState, useEffect } from "react"
 import { API_URL } from "../helpers" 
 import { getCartAction } from "../redux/actions" 
 import { connect } from "react-redux" 
-import {BsFillTrashFill} from "react-icons/bs"
+import {BsFillTrashFill} from "react-icons/bs" 
+import Rupiah from "../helpers/convertToRupiah"
 
 const BoxWithImage = ({id,name,price,unit, total, kuantitas,imageProduct,productId,getCartAction, total_stock}) => { 
 
@@ -36,20 +37,6 @@ const BoxWithImage = ({id,name,price,unit, total, kuantitas,imageProduct,product
            minHandle() }
         
     } 
-
-    // const incNum = () => {
-    //     let count = parseInt(input.quantity) + 1;
-    //     setInput({ ...input, quantity: count });
-    //   };
-    
-    //   const decNum = () => {
-    //     let count = parseInt(input.quantity) - 1;
-    //     count = count < 1 ? 1 : count;
-    //     setInput({ ...input, quantity: count });
-    //   };  
-
-      
-   
 
       const onDeleteClick =async () => {
         let token = Cookies.get('token') 
@@ -99,18 +86,14 @@ const BoxWithImage = ({id,name,price,unit, total, kuantitas,imageProduct,product
             getCartAction()
         }
     }  
-
-    const handleCart = () => {
-        router.push()
-    }
      
 
     return ( 
         <div className=" w-[700px] h-[260px] rounded-lg mr-12 shadow-xl shadow-purple-100 p-6"> 
             <div>
                 <div className="ml-2">
-                    <input type={"checkbox"} className="mr-2"/>
-                    <span className="text-base text-purple-900">Pilih Semua</span> 
+                    {/* <input type={"checkbox"} className="mr-2"/> */}
+                    {/* <span className="text-base text-purple-900">Pilih Semua</span>  */}
                     {/* <img className="my-6" src={"./Line24.svg"}/> */}  
                     <div className="h-6 w-96">
                         <img className="my-6 " src={"/Line24.svg"}/>
@@ -119,7 +102,7 @@ const BoxWithImage = ({id,name,price,unit, total, kuantitas,imageProduct,product
                 <div className="flex ml-2">
                     <div className="flex items-center">
                         <div>
-                            <input type={"checkbox"}/> 
+                            {/* <input type={"checkbox"}/>  */}
                         </div> 
                         <div className="w-[86px] h-[86px]"> 
                             <img src={'/bisolvon.jpg'}/>
@@ -131,7 +114,7 @@ const BoxWithImage = ({id,name,price,unit, total, kuantitas,imageProduct,product
                             <span className="text-xs text-purple-900">1 {unit}</span>
                         </div> 
                         <div className="">
-                            <span className="font-bold text-purple-900">Rp.{price}</span>
+                            <span className="font-bold text-purple-900">{Rupiah(price)}</span>
                         </div>
                     </div>
                 </div> 
@@ -142,11 +125,8 @@ const BoxWithImage = ({id,name,price,unit, total, kuantitas,imageProduct,product
                         <BsFillTrashFill className="w-[20px] h-[20px] text-purple-900" onClick={onDeleteClick}/> 
                     </div>
                     <div className="w-[150px] h-[38px]  bg-gray-200 rounded-xl ml-5 flex justify-between items-center">
-                        <img src={"./min.svg"} onClick={decrease} /> 
-                        {/* <button 
-                        onClick={() => {let count=parseInt(quantity)-1
-                        count = count + ""
-                        setquantity(count)}}>-</button> */}
+                        {/* <img src={"./min.svg"}  />  */}
+                        <button disabled={quantity == 1} onClick={decrease}>-</button> 
                         {/* <input name="quantity" onChange={(value) => setquantity(value)} value={quantity} className="text-sm font-bold text-purple-900 ml-2 w-5 bg-gray-200"/> */}
                         <div className="mr-5 ml-4">{input.quantity}</div>
                         <img src={"./plus.svg"} onClick={increase} />  

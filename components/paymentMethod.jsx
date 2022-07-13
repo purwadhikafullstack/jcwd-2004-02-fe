@@ -23,7 +23,8 @@ import Cookies from "js-cookie"
 import { API_URL } from "../helpers" 
 import { useRouter } from "next/router"; 
 import useCart from '../hooks/useCart'
-import { useEffect } from 'react'
+import { useEffect } from 'react' 
+import Rupiah from '../helpers/convertToRupiah'
 
 
   const PaymentMethod = ({selectedAddress, selectBank, setSelectBank,bank, setBank, getBank}) => { 
@@ -100,7 +101,7 @@ import { useEffect } from 'react'
                 <div className='w-[400px] h-[70px] mt-5 rounded-lg shadow-md flex items-start justify-between p-2'>
                     <div className='flex flex-col'>
                         <span className='text-sm'>Total Harga</span> 
-                        <span className='text-lg font-bold'>Rp{subTotal()}</span>
+                        <span className='text-lg font-bold'>{Rupiah(subTotal())}</span>
                     </div>
                     <div>
                         <span className='text-xs'>lihat Detail</span>

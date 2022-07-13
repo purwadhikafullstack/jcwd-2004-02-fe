@@ -1,3 +1,5 @@
+import Rupiah from "../helpers/convertToRupiah"
+
 const RingkasanOrder = ({id, name, price, unit, totalHarga}) => {
     return (
         <div>
@@ -14,7 +16,7 @@ const RingkasanOrder = ({id, name, price, unit, totalHarga}) => {
                             <span className="text-xs text-purple-900">1 {unit}</span>
                         </div> 
                         <div className="">
-                            <span className="font-bold text-purple-900">Rp.{price}</span>
+                            <span className="font-bold text-purple-900">{Rupiah(price)}</span>
                         </div>
                     </div>
             </div> 

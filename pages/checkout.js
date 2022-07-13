@@ -11,7 +11,8 @@ import { API_URL } from "../helpers"
 import { getCartAction } from "../redux/actions" 
 import { connect } from "react-redux"
 import useCart from "../hooks/useCart"
-import useUser from "../hooks/useUser"
+import useUser from "../hooks/useUser" 
+import Rupiah from "../helpers/convertToRupiah"
 
 const Checkout = ({getCartAction}) => {  
     const [data, setData] = useState([]) 
@@ -34,8 +35,6 @@ const Checkout = ({getCartAction}) => {
         }
     } 
     
-    console.log('ini bank banknya yang ada', bank);
-
     // const getDataCart = async () => {
     //     let token = Cookies.get('token')
     //     try {
@@ -119,7 +118,7 @@ const Checkout = ({getCartAction}) => {
                                 </div>
                                 <div className="flex justify-between w-[523px] mt-5">
                                     <span className="text-purple-900 text-md font-semibold">Subtotal</span>
-                                    <span className="text-purple-900 text-md font-bold">Rp.{subTotal()}</span>
+                                    <span className="text-purple-900 text-md font-bold">{Rupiah(subTotal())}</span>
                                 </div>
                             </div> 
                         </div>

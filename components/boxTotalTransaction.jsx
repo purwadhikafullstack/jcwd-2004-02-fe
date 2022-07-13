@@ -2,7 +2,8 @@ import axios from "axios"
 import Cookies from "js-cookie"
 import { API_URL } from "../helpers"
 import { ButtonPrimary } from "./button"
-import PaymentMethod from "./paymentMethod"
+import PaymentMethod from "./paymentMethod" 
+import Rupiah from "../helpers/convertToRupiah"
 
 const BoxTotalTransaction = ({subTotal, selectedAddress, selectBank, setSelectBank,bank,setBank, getBank}) => {  
     let {id, firstname, lastname, address, phonenumber} =selectedAddress
@@ -40,7 +41,7 @@ const BoxTotalTransaction = ({subTotal, selectedAddress, selectBank, setSelectBa
             <span className="font-bold text-purple-900 text-lg">Total</span> 
             <div className="flex justify-between mt-7">
                 <span className="text-purple-900 text-sm">Sub Total</span>
-                <span className="font-bold text-purple-900">Rp{subTotal}</span>
+                <span className="font-bold text-purple-900">{Rupiah(subTotal)}</span>
             </div>
             <div className="flex justify-between mt-2">
                 <span className="text-purple-900 text-sm">pengiriman</span>
@@ -51,7 +52,7 @@ const BoxTotalTransaction = ({subTotal, selectedAddress, selectBank, setSelectBa
             </div>
             <div className="flex justify-between my-3">
                 <span className="font-medium text-purple-900">Total</span>
-                <span className="font-bold text-purple-900">Rp{subTotal}</span>
+                <span className="font-bold text-purple-900">{Rupiah(subTotal)}</span>
             </div> 
             <div>
                 <img src={"./Line20.svg"}/>
