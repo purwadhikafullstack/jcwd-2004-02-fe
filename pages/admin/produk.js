@@ -12,7 +12,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../../helpers";
 import Pagination from "../../components/Pagination";
-import { flushSync } from "react-dom";
 import debounce from "lodash.debounce";
 import {
   Menu,
@@ -25,7 +24,7 @@ import {
 } from "@chakra-ui/react";
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 function DaftarProduk() {
   const [page, setPage] = useState(0);
@@ -196,11 +195,11 @@ function DaftarProduk() {
 
   const submitProduct = async (values) => {
     try {
-      // let token = Cookies.get("token");
+      let token = Cookies.get("token");
       await axios.post(`${API_URL}/products/addproduct`, values, {
-        // headers: {
-        //   // authorization: `Bearer ${token}`,
-        // },
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
       });
     } catch (error) {
       console.log(error);
@@ -216,16 +215,12 @@ function DaftarProduk() {
 
   const submitProductEdit = async (data) => {
     try {
-      // let token = Cookies.get("token");
-      await axios.put(
-        `${API_URL}/products/${inputEdit.id}`,
-        data
-        // {
-        // headers: {
-        //   // authorization: `Bearer ${token}`,
-        // },
-        // }
-      );
+      let token = Cookies.get("token");
+      await axios.put(`${API_URL}/products/${inputEdit.id}`, data, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      });
       console.log(data, "vall");
     } catch (error) {
       console.log(error);
@@ -301,6 +296,9 @@ function DaftarProduk() {
   const clickDelete = async (id) => {
     try {
       Swal.fire({
+        customClass: {
+          container: "my-swal",
+        },
         title: "Apakah anda yakin?",
         text: "Produk tidak akan bisa dikembalikan!",
         icon: "warning",
@@ -384,11 +382,14 @@ function DaftarProduk() {
   };
 
   // click delete stock
-  const clickDeleteStock = async (id) => {
-    setinputStockDet(id);
-    console.log(inputStockDet.id, "id");
+  const clickDeleteStock = async (id, productId) => {
+    // setinputStockDet(id);
+    console.log(id, "id");
     try {
       Swal.fire({
+        customClass: {
+          container: "my-swal",
+        },
         title: "Apakah anda yakin?",
         text: "Produk tidak akan bisa dikembalikan!",
         icon: "warning",
@@ -399,17 +400,24 @@ function DaftarProduk() {
       }).then(async (result) => {
         if (result.isConfirmed) {
           let token = Cookies.get("token");
-          await axios.delete(
-            `${API_URL}/products/stock/delete/${inputStockDet.id}`,
-            {
-              headers: {
-                authorization: `Bearer ${token}`,
-              },
-            }
-          );
+          await axios.delete(`${API_URL}/products/stock/delete/${id}`, {
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
+          });
           console.log("sukses");
-          Swal.fire("Deleted!", "Berhasil dihapus!", "success");
+          Swal.fire({
+            customClass: {
+              container: "my-swal",
+            },
+
+            icon: "success",
+            title: "Deleted",
+            text: "Berhasil dihapus!",
+          });
+          // "Deleted!", "Berhasil dihapus!", "success"
         }
+        fetchStock(productStockId);
       });
     } catch (error) {
       console.log(error);
@@ -451,7 +459,7 @@ function DaftarProduk() {
     return (
       <div className="flex justify-between text-center items-center">
         <div className="flex items-center justify-center text-sm text-primary rounded-lg font-semibold py-1 px-2 border-[1px] mr-2 border-primary bg-white h-10 ">
-          Lihat Detail {productId}
+          Lihat Detail
         </div>
         {/* <div className="text-sm text-primary rounded-md font-semibold py-2 px border-[1px] border-primary bg-white"> */}
         <Menu>

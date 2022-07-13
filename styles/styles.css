@@ -124,3 +124,7 @@ img {
   flex: 1;
   background-color: pink;
 }
+
+.my-swal {
+  z-index: 100000 !important;
+}

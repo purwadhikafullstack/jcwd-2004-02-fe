@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { useEffect, useState } from "react";
 import Select from "react-select";
 import { DownloadIcon } from "@chakra-ui/icons";
@@ -18,13 +18,11 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import axios from "axios";
-
 import { API_URL } from "../../helpers";
 import { flushSync } from "react-dom";
 
 function ModalInputAdmin({ submitProduct }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(0);
   const [getData, setgetData] = useState({});
   const [selectedImage, setselectedImage] = useState([null, null, null]);

@@ -21,21 +21,15 @@ import {
   FormLabel,
   Stack,
 } from "@chakra-ui/react";
-import axios from "axios";
-
-import { API_URL } from "../../helpers";
 import { flushSync } from "react-dom";
-import AdminDeleteProduct from "./AdminDeleteProduct";
 import { DateConverter } from "../../helpers";
 
 function AdminEditStockTable({
-  submitProduct,
   isOpen,
   onClose,
   isOpen2,
   onClose2,
   isOpen3,
-  onOpen3,
   onClose3,
   inputStock,
   clickEditStockDetail,
@@ -128,12 +122,13 @@ function AdminEditStockTable({
           onClose={onClose2}
         >
           <ModalOverlay />
-          <ModalContent maxW="1000px" maxH="900px" pl={8} pt={4}>
-            <ModalHeader>Edit Stok</ModalHeader>
-            <ModalCloseButton />
+          {tab === 0 ? (
+            <ModalContent maxW="1000px" maxH="900px" pl={8} pt={4}>
+              <ModalHeader>Edit Stok</ModalHeader>
+              <ModalCloseButton />
 
-            {/* first tab */}
-            {tab === 0 ? (
+              {/* first tab */}
+
               <div>
                 <ModalBody pb={6}>
                   <FormControl mt={"1.5"} className="flex">
@@ -190,22 +185,29 @@ function AdminEditStockTable({
                   </Button>
                 </ModalFooter>
               </div>
-            ) : null}
+            </ModalContent>
+          ) : null}
 
-            {/* success tab */}
-            {tab === 5 ? (
+          {/* success tab */}
+          {tab === 5 ? (
+            <ModalContent pl={8} pt={4}>
+              <ModalHeader>Tambah Obat</ModalHeader>
+              <ModalCloseButton />
               <div>
-                <ModalBody
-                  className="flex items-center justify-center"
-                  h="600px"
-                >
-                  <div className="flex items-center justify-center">
-                    <img src={"/addProductSuccess.svg"} />
+                <ModalBody className="flex flex-col items-center justify-center">
+                  <div className="flex flex-col items-center justify-center">
+                    <img src={"/ProductSuccess.svg"} />
+                    <div className="text-primary font-semibold">
+                      Jumlah Stok Berhasil Diubah!
+                    </div>
+                    <div className="text-sky-900 text-sm">
+                      Stok akan diperbarui secara otomatis
+                    </div>
                   </div>
                 </ModalBody>
               </div>
-            ) : null}
-          </ModalContent>
+            </ModalContent>
+          ) : null}
         </Modal>
       </>
     );
@@ -221,12 +223,11 @@ function AdminEditStockTable({
           onClose={onClose3}
         >
           <ModalOverlay />
-          <ModalContent maxW="1000px" maxH="900px" pl={8} pt={4}>
-            <ModalHeader>Tambah Stok</ModalHeader>
-            <ModalCloseButton />
-
-            {/* first tab */}
-            {tab === 0 ? (
+          {/* first tab */}
+          {tab === 0 ? (
+            <ModalContent maxW="1000px" maxH="900px" pl={8} pt={4}>
+              <ModalHeader>Tambah Stok</ModalHeader>
+              <ModalCloseButton />
               <div>
                 <ModalBody pb={6}>
                   <FormControl mt={"1.5"} className="flex">
@@ -289,23 +290,30 @@ function AdminEditStockTable({
                     Simpan
                   </Button>
                 </ModalFooter>
-              </div>
-            ) : null}
+              </div>{" "}
+            </ModalContent>
+          ) : null}
 
-            {/* success tab */}
-            {tab === 5 ? (
+          {/* success tab */}
+          {tab === 5 ? (
+            <ModalContent pl={8} pt={4}>
+              <ModalHeader>Tambah Stok</ModalHeader>
+              <ModalCloseButton />
               <div>
-                <ModalBody
-                  className="flex items-center justify-center"
-                  h="600px"
-                >
-                  <div className="flex items-center justify-center">
-                    <div>sukses</div>
+                <ModalBody className="flex flex-col items-center justify-center">
+                  <div className="flex flex-col items-center justify-center">
+                    <img src={"/ProductSuccess.svg"} />
+                    <div className="text-primary font-semibold">
+                      Stok Berhasil Ditambah!
+                    </div>
+                    <div className="text-sky-900 text-sm">
+                      Stok akan diperbarui secara otomatis
+                    </div>
                   </div>
                 </ModalBody>
               </div>
-            ) : null}
-          </ModalContent>
+            </ModalContent>
+          ) : null}
         </Modal>
       </>
     );
@@ -341,9 +349,9 @@ function AdminEditStockTable({
                       </Tr>
                     </Thead>
                     <Tbody>
-                      {inputStock?.map((input) => (
+                      {inputStock?.map((input, index) => (
                         <Tr key={input.id}>
-                          <Td>{input.id}</Td>
+                          <Td>{index + 1}</Td>
                           <Td>
                             {new Date(input.expired).toLocaleDateString(
                               "id-ID",
@@ -368,7 +376,7 @@ function AdminEditStockTable({
                             <Button
                               colorScheme="purple"
                               onClick={() => {
-                                clickDeleteStock(input);
+                                clickDeleteStock(input.id);
                               }}
                               className="mr-3"
                             >
