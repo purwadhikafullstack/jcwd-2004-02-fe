@@ -65,7 +65,7 @@ function ModalInputAdmin({
   };
 
   const renderPhotos = (source) => {
-    console.log("source: ", source);
+    // console.log("source: ", source);
 
     return source.map((photo, index) => {
       if (photo.image) {

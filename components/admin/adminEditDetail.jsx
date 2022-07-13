@@ -76,7 +76,6 @@ function AdminEditDetail({
       console.log(error);
     }
   };
-
   // submit form
   const onSaveDataClick = async (e) => {
     e.preventDefault();
@@ -91,6 +90,9 @@ function AdminEditDetail({
       type_id: inputEdit.type_id.value,
       symptom: inputEdit.symptom.map((val) => val.value),
       category: inputEdit.category.map((val) => val.value),
+      unit: inputEdit.unit,
+      hargaJual: inputEdit.hargaJual,
+      hargaBeli: inputEdit.hargaBeli,
     };
     console.log(insertData, "insertdata");
     try {
@@ -152,6 +154,11 @@ function AdminEditDetail({
                     2
                   </div>
                   <div className="text-gray-400">Keterangan Obat</div>
+                  <div className="mx-2 font-semibold  ">{">"}</div>
+                  <div className="rounded-full w-5 bg-gray-400 text-center text-white mr-2">
+                    3
+                  </div>
+                  <div className="text-gray-400">Detail Kuantitas & Harga</div>
                 </div>
 
                 <FormControl className="flex" pt={2}>
@@ -269,12 +276,7 @@ function AdminEditDetail({
               </ModalBody>
 
               <ModalFooter>
-                <Button
-                  colorScheme="purple"
-                  mr={3}
-                  disabled={false}
-                  onClick={() => setTab(1)}
-                >
+                <Button colorScheme="purple" mr={3} onClick={() => setTab(1)}>
                   Lanjutkan
                 </Button>
               </ModalFooter>
@@ -295,6 +297,14 @@ function AdminEditDetail({
                     2
                   </div>
                   <div className="font-semibold ">Keterangan Obat</div>
+                  <div className="mx-2  font-semibold text-purple-600  ">
+                    {">"}
+                  </div>
+
+                  <div className="rounded-full w-5 bg-gray-400 text-center text-white mr-2">
+                    3
+                  </div>
+                  <div className="text-gray-400">Detail Kuantitas & Harga</div>
                 </div>
                 <FormControl mt={10} className="flex">
                   <FormLabel pt={2} fontSize="sm" w="175px">
@@ -482,9 +492,88 @@ function AdminEditDetail({
                   />
                 </FormControl>
               </ModalBody>
-
               <ModalFooter>
                 <Button onClick={() => setTab(0)} mr={3}>
+                  Kembali
+                </Button>
+                <Button colorScheme="purple" onClick={() => setTab(2)} mr={3}>
+                  Lanjutkan
+                </Button>
+              </ModalFooter>
+            </div>
+          ) : null}
+          {tab === 2 ? (
+            <div>
+              <ModalBody pb={6}>
+                <div className="flex mb-4 text-sm">
+                  <div className="rounded-full w-5 bg-gray-400 text-center text-white mr-2">
+                    1
+                  </div>
+                  <div className="text-gray-400"> Detail Obat</div>
+                  <div className="mx-2 font-semibold  ">{">"}</div>
+
+                  <div className="rounded-full w-5 bg-gray-400  text-center text-white mr-2">
+                    2
+                  </div>
+                  <div className="text-gray-400">Keterangan Obat</div>
+
+                  <div className="mx-2  font-semibold  ">{">"}</div>
+
+                  <div className="rounded-full w-5 bg-purple-600 text-center text-white mr-2">
+                    3
+                  </div>
+                  <div className="">Detail Kuantitas & Harga</div>
+                </div>
+
+                <FormControl mt={"3"} className="flex">
+                  <FormLabel pt={2} fontSize="sm" w="175px">
+                    Satuan
+                  </FormLabel>
+                  <Stack spacing={3}>
+                    <Input
+                      w="226px"
+                      h="40px"
+                      fontSize="sm"
+                      placeholder="Masukkan satuan"
+                      onChange={(e) => handleChange(e, "unit")}
+                      name="unit"
+                      value={inputEdit.unit}
+                    />
+                  </Stack>
+                </FormControl>
+
+                <FormControl mt={"3"} className="flex">
+                  <FormLabel pt={2} fontSize="sm" w="175px">
+                    Nilai Barang (Rp)
+                  </FormLabel>
+                  <Input
+                    w="226px"
+                    h="40px"
+                    fontSize="sm"
+                    placeholder="Masukkan nilai barang (Rp)"
+                    onChange={(e) => handleChange(e, "hargaBeli")}
+                    name="hargaBeli"
+                    value={inputEdit.hargaBeli}
+                  />
+                </FormControl>
+                <FormControl mt={"3"} className="flex">
+                  <FormLabel pt={2} fontSize="sm" w="175px">
+                    Nilai Jual (Rp)
+                  </FormLabel>
+                  <Input
+                    w="226px"
+                    h="40px"
+                    fontSize="sm"
+                    placeholder="Masukkan nilai jual (Rp)"
+                    onChange={(e) => handleChange(e, "hargaJual")}
+                    name="hargaJual"
+                    value={inputEdit.hargaJual}
+                  />
+                </FormControl>
+              </ModalBody>
+
+              <ModalFooter>
+                <Button onClick={() => setTab(1)} mr={3}>
                   Kembali
                 </Button>
                 <Button colorScheme="purple" mr={3} onClick={onSaveDataClick}>
