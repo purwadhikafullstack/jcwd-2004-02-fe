@@ -126,17 +126,12 @@ const BoxWithImage = ({id,name,price,unit, total, kuantitas,imageProduct,product
                     </div>
                     <div className="w-[150px] h-[38px]  bg-gray-200 rounded-xl ml-5 flex justify-between items-center">
                         {/* <img src={"./min.svg"}  />  */}
-                        <button disabled={quantity == 1} onClick={decrease}>-</button> 
+                        <button className="font-extrabold text-2xl text-purple-900 ml-7" disabled={quantity == 1} onClick={decrease}>-</button> 
                         {/* <input name="quantity" onChange={(value) => setquantity(value)} value={quantity} className="text-sm font-bold text-purple-900 ml-2 w-5 bg-gray-200"/> */}
                         <div className="mr-5 ml-4">{input.quantity}</div>
-                        <img src={"./plus.svg"} onClick={increase} />  
+                        {/* <img src={"./plus.svg"}  />   */}
                         {/* // quantity lebih atau = maka true */}
-                        {/* <button 
-                        onClick={() => {let count=parseInt(quantity)+1
-                        count = count + ""
-                        setquantity(count)} 
-                        }
-                        >+</button> */}
+                        <button className="font-bold text-2xl text-purple-900 mr-7" onClick={increase}>+</button> 
                     </div>
                 </div>
             </div>
