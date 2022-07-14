@@ -227,7 +227,7 @@ function ModalInputAdmin({ submitProduct }) {
       }, 800);
     }
   };
-
+  console.log(getData, "getdata");
   // untuk isi dari select dari database
   const categoryOptions = getData.category?.map((val) => {
     return { value: val.id, label: val.name };

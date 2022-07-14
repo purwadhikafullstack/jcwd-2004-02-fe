@@ -81,7 +81,6 @@ function DaftarProduk() {
   const [inputImage, setinputImage] = useState([]);
   // state product_id
   const [productStockId, setproductStockId] = useState(0);
-  const [stockId, setstockId] = useState({ id: 0 });
 
   const {
     isOpen: isEditOpen,
@@ -186,8 +185,6 @@ function DaftarProduk() {
     try {
       let res = await axios.get(`${API_URL}/products/stock/${id}`);
       setinputStock(res.data);
-      setstockId(res.data.id);
-      console.log("resdatastok", res.data.id);
     } catch (error) {
       console.log(error);
     }
