@@ -24,7 +24,8 @@ import { API_URL } from "../helpers"
 import { useRouter } from "next/router"; 
 import useCart from '../hooks/useCart'
 import { useEffect } from 'react' 
-import Rupiah from '../helpers/convertToRupiah'
+import Rupiah from '../helpers/convertToRupiah' 
+import { toast } from "react-toastify";
 
 
   const PaymentMethod = ({selectedAddress, selectBank, setSelectBank,bank, setBank, getBank}) => { 
@@ -63,23 +64,23 @@ import Rupiah from '../helpers/convertToRupiah'
                     authorization: `bearer ${token}`
                 }
             }) 
-            // toast.success("Konfirmasi Pembayaran Berhasil", {
-            //   position: "top-right",
-            //   autoClose: 1000,
-            //   closeOnClick: true,
-            //   draggable: true,
-            // }); 
+            toast.success("Berhasil Checkout", {
+              position: "top-right",
+              autoClose: 1000,
+              closeOnClick: true,
+              draggable: true,
+            }); 
 
             console.log('ini res data',res.data);
             router.push(`/payment/${res.data[0].id}`);
         } catch (error) {
             console.log(error);
-            // toast.error("Konfirmasi Pembayaran Gagal", {
-            //     position: "top-right",
-            //     autoClose: 1000,
-            //     closeOnClick: true,
-            //     draggable: true,
-            //   });
+            toast.error(error.response.data.message, {
+                position: "top-right",
+                autoClose: 1000,
+                closeOnClick: true,
+                draggable: true,
+              });
         }
       } 
 

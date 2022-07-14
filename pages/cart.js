@@ -144,7 +144,7 @@ const Cart = ({getCartAction}) => {
                             key={index}
                             id={cart.id} 
                             name={cart.product_name} 
-                            imageProduct={cart.image}
+                            imageProduct={cart.images}
                             price={cart.hargaJual} 
                             kuantitas={cart.quantityCart} 
                             unit={cart.unit}

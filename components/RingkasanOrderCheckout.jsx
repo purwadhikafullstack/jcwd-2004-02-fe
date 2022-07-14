@@ -1,6 +1,6 @@
 import Rupiah from "../helpers/convertToRupiah"
 
-const RingkasanOrder = ({id, name, price, unit, totalHarga,quantity, image}) => {
+const RingkasanOrderCheckout = ({id, name, price, unit, totalHarga,quantityCart, image}) => {
     return (
         <div>
             <div className="flex ml-2">
@@ -13,7 +13,7 @@ const RingkasanOrder = ({id, name, price, unit, totalHarga,quantity, image}) => 
                     <div className="flex justify-between w-full">
                         <div className="flex flex-col ml-8">
                             <span className="text-lg text-purple-900 font-semibold">{name}</span> 
-                            <span className="text-xs text-purple-900">{quantity} {unit}</span>
+                            <span className="text-xs text-purple-900">{quantityCart} {unit}</span>
                         </div> 
                         <div className="">
                             <span className="font-bold text-purple-900">{Rupiah(price)}</span>
@@ -24,4 +24,4 @@ const RingkasanOrder = ({id, name, price, unit, totalHarga,quantity, image}) => 
     )
 } 
 
-export default RingkasanOrder
+export default RingkasanOrderCheckout
