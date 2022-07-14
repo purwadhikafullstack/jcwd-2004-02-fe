@@ -28,13 +28,13 @@ const routes = [
     ],
   },
   {
-    path: "#",
+    path: "/admin/transaksi",
     name: "Transaksi",
     icon: "/transaction.png",
     coloredicon: "/transaction2.png",
     subroutes: [
       {
-        path: "#",
+        path: "/admin/transaksi",
         name: "Semua Pesanan",
       },
       {
