@@ -6,7 +6,9 @@ import { API_URL } from "../helpers"
 import { getCartAction } from "../redux/actions" 
 import { connect } from "react-redux" 
 import {BsFillTrashFill} from "react-icons/bs" 
-import Rupiah from "../helpers/convertToRupiah"
+import Rupiah from "../helpers/convertToRupiah" 
+import { toast } from "react-toastify";
+
 
 const BoxWithImage = ({id,name,price,unit, total, kuantitas,imageProduct,productId,getCartAction, total_stock}) => { 
 
@@ -47,7 +49,13 @@ const BoxWithImage = ({id,name,price,unit, total, kuantitas,imageProduct,product
                         authorization: `bearer ${token}`
                     }
                 }
-            ) 
+            )  
+            toast.success("Berhasil Delete Cart", {
+                position: "top-right",
+                autoClose: 1000,
+                closeOnClick: true,
+                draggable: true,
+            })
         } catch (error) {
             console.log(error)
         } finally {
@@ -65,7 +73,13 @@ const BoxWithImage = ({id,name,price,unit, total, kuantitas,imageProduct,product
                 }
             }) 
         } catch (error) {
-            console.log(error);
+            console.log(error); 
+            toast.error(error.response.data.message, {
+                position: "top-right",
+                autoClose: 1000,
+                closeOnClick: true,
+                draggable: true,
+            })
         } finally{
             getCartAction()
         }
@@ -81,7 +95,13 @@ const BoxWithImage = ({id,name,price,unit, total, kuantitas,imageProduct,product
                 }
             })
         } catch (error) {
-            console.log(error);
+            console.log(error); 
+            toast.error(error.response.data.message, {
+                position: "top-right",
+                autoClose: 1000,
+                closeOnClick: true,
+                draggable: true,
+            })
         }finally{
             getCartAction()
         }
@@ -105,7 +125,7 @@ const BoxWithImage = ({id,name,price,unit, total, kuantitas,imageProduct,product
                             {/* <input type={"checkbox"}/>  */}
                         </div> 
                         <div className="w-[86px] h-[86px]"> 
-                            <img src={'/bisolvon.jpg'}/>
+                            <img src={imageProduct || '/bisolvon.jpg'}/>
                         </div> 
                     </div> 
                     <div className="flex justify-between w-full">

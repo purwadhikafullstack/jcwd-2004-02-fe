@@ -15,7 +15,8 @@ import { toast } from "react-toastify";
 import useCart from "../../hooks/useCart"
 import { useState, useEffect } from 'react' 
 import { connect } from 'react-redux' 
-import { getCartAction } from "../../redux/actions" 
+import { getCartAction } from "../../redux/actions"  
+import Rupiah from "../../helpers/convertToRupiah"
 
 
 const Payment = ({getCartAction}) => {  
@@ -23,7 +24,8 @@ const Payment = ({getCartAction}) => {
 
     const {cart} = useCart() 
     console.log('yang ini cartnya',cart); 
-    const [data,setData] = useState([])
+    const [data,setData] = useState([]) 
+    const [order,setOrder] = useState([])
     const {transactionID} = router.query 
     transactionID=parseInt(transactionID)
     
@@ -74,16 +76,32 @@ const Payment = ({getCartAction}) => {
         
         const subTotal =()=>{
             let subTotal = 0
-            for (let i = 0; i < cart.length; i++) {
-                const quantity = cart[i].quantityCart;
-                const price = cart[i].hargaJual;
+            for (let i = 0; i < order.length; i++) {
+                const quantity = order[i].quantity;
+                const price = order[i].price;
                 subTotal = subTotal + quantity * price;
             }
             return subTotal
+        } 
+
+    const getTransaction = async () => {
+        let token = Cookies.get('token') 
+
+        try {
+            let res = await axios.get(`${API_URL}/transaction/waitingPayment/${transactionID}`, {
+                headers: {
+                    authorization: `bearer ${token}`
+                } 
+            }) 
+            setOrder(res.data)
+        } catch (error) {
+            console.log(error);
         }
+    }
         
         useEffect(()=>{
-            getCartAction()
+            // getCartAction() 
+            getTransaction()
         }, [])
         
         return (
@@ -113,13 +131,15 @@ const Payment = ({getCartAction}) => {
                                 productId={pay.product_id}
                                 />
                              })} */}
-                             {cart.map ((pay, index) => (
+                             {order.map ((pay, index) => (
                                 <RingkasanOrder  
                                 key={index} 
                                 id={pay.id} 
-                                name={pay.product_name} 
-                                price={pay.totalHarga} 
-                                unit={pay.unit}
+                                name={pay.name} 
+                                price={pay.price*pay.quantity} 
+                                unit={"pay.unit"}  
+                                quantity={pay.quantity} 
+                                image={pay.image}
                                 />
                                 ))}
                         </div>
@@ -127,7 +147,7 @@ const Payment = ({getCartAction}) => {
                         <Divider marginLeft="48" w="556px"/>
                         <div className='mt-4 w-[556px] ml-48 flex justify-between'>
                             <span>Subtotal</span> 
-                            <span>{subTotal()}</span>
+                            <span>{Rupiah(subTotal())}</span>
                         </div>
                     </div>
                     {/* <BoxPaymentProof/> */}

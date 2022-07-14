@@ -12,7 +12,8 @@ import { getCartAction } from "../redux/actions"
 import { connect } from "react-redux"
 import useCart from "../hooks/useCart"
 import useUser from "../hooks/useUser" 
-import Rupiah from "../helpers/convertToRupiah"
+import Rupiah from "../helpers/convertToRupiah" 
+import RingkasanOrderCheckout from "../components/RingkasanOrderCheckout"
 
 const Checkout = ({getCartAction}) => {  
     const [data, setData] = useState([]) 
@@ -103,12 +104,13 @@ const Checkout = ({getCartAction}) => {
                                 <img className="my-6" src={"/Line24.svg"}/>
                             </div>
                             {cart.map ((checkout, index) => (
-                                <RingkasanOrder  
+                                <RingkasanOrderCheckout  
                                 key={index} 
                                 id={checkout.id} 
                                 name={checkout.product_name} 
                                 price={checkout.totalHarga} 
                                 unit={checkout.unit}
+                                quantityCart={checkout.quantityCart}
                                 />
                                 ))}
                                 
