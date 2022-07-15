@@ -40,15 +40,9 @@ const Login = ({ loginActions }) => {
     },
   });
 
-<<<<<<< HEAD
-  if (isLogin && role_id == 'user') {
-    router.push("/");
-  } else if (isLogin && role_id == 'Admin') {
-=======
   if (isLogin && role_id == "user") {
     router.push("/");
   } else if (isLogin && role_id == "Admin") {
->>>>>>> 43418ca91d214e9fe65cc0bf2febd9e2b6531f16
     router.push("/admin/produk");
   }
 
