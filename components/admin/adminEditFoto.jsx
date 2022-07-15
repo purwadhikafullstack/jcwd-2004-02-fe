@@ -59,7 +59,7 @@ function ModalInputAdmin({ isOpen, onClose, fetchFoto, inputImage }) {
       if (photo.image) {
         return (
           <>
-            <div>
+            <div key={index}>
               <span
                 onClick={() => deletePhoto(index)}
                 className="cursor-pointer relative flex items-center justify-center bg-black bg-opacity-40 w-6 h-6 rounded-full text-white z-100 left-[185px] top-6 "

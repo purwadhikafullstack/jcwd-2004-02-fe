@@ -547,6 +547,7 @@ function AdminEditDetail({
                     Nilai Barang (Rp)
                   </FormLabel>
                   <Input
+                    type="number"
                     w="226px"
                     h="40px"
                     fontSize="sm"
@@ -561,6 +562,7 @@ function AdminEditDetail({
                     Nilai Jual (Rp)
                   </FormLabel>
                   <Input
+                    type="number"
                     w="226px"
                     h="40px"
                     fontSize="sm"

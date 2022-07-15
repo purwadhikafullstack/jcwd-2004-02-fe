@@ -95,7 +95,7 @@ function ModalInputAdmin({ submitProduct }) {
       if (photo) {
         return (
           <>
-            <div>
+            <div key={index}>
               <span
                 onClick={() => deletePhoto(index)}
                 className="cursor-pointer relative flex items-center justify-center bg-black bg-opacity-40 w-6 h-6 rounded-full text-white z-100 left-[185px] top-6 "
@@ -776,6 +776,7 @@ function ModalInputAdmin({ submitProduct }) {
                     Nilai Barang (Rp)
                   </FormLabel>
                   <Input
+                    type="number"
                     w="226px"
                     h="40px"
                     fontSize="sm"
@@ -790,6 +791,7 @@ function ModalInputAdmin({ submitProduct }) {
                     Nilai Jual (Rp)
                   </FormLabel>
                   <Input
+                    type="number"
                     w="226px"
                     h="40px"
                     fontSize="sm"
