@@ -160,7 +160,7 @@ img {
 }
 .container_statistik_md {
   margin-top: 36px;
-  padding-top: 36px;
+  padding-top: 28px;
   height: 250px;
   width: 535px;
   padding-left: 14px;
@@ -174,7 +174,7 @@ img {
 
 .container_statistik_lg {
   margin-top: 36px;
-  padding-top: 36px;
+  padding-top: 28px;
   height: 250px;
   width: 1100px;
   padding-left: 14px;
@@ -190,6 +190,12 @@ img {
   font-size: 0.875rem;
   line-height: 1.25rem;
   font-weight: 600;
+}
+.statistik_ket_md {
+  font-size: 1.3rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 16px;
 }
 
 .statistik_ket_no {

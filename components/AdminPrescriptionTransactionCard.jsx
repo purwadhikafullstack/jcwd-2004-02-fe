@@ -83,7 +83,16 @@ function AdminPrescriptionTransactionCard({ data }) {
 
   // handle
   const handleChange = (e, prop) => {
+    // if (prop === "quantity") {
+    //   if (e.target.value >= input.name.value.total_stock) {
+    //     setinput({ ...input, [prop]: input.name.value.total_stock });
+    //   } else {
+    //     setinput({ ...input, [prop]: e.target.value });
+    //   }
+    // } else {
     setinput({ ...input, [prop]: e.target.value });
+    console.log(prop, "prop");
+    // }
   };
 
   // handle select
@@ -136,21 +145,6 @@ function AdminPrescriptionTransactionCard({ data }) {
     // di push
   };
 
-  const deleteObatClick = async (e) => {
-    // fitur tambahin obat
-    console.log(input, "inpout");
-    setdataResep([
-      ...dataResep,
-      {
-        ...input.name.value,
-        quantity: input.quantity,
-        dosis: input.dosis,
-        unit: input.unit,
-      },
-    ]);
-    console.log(dataResep, "datres");
-  };
-  // fruits.splice(2, 0, "Lemon", "Kiwi");
   // submit form
   const onSaveDataClick = async (e) => {
     e.preventDefault();
@@ -171,7 +165,6 @@ function AdminPrescriptionTransactionCard({ data }) {
         setTab(5);
       });
       setinput({
-        // prescription_number: 0,
         nama_pasien: "",
         nama_dokter: "",
       });
@@ -747,7 +740,9 @@ function AdminPrescriptionTransactionCard({ data }) {
                                     colorScheme="purple"
                                     size="xs"
                                     onClick={() => {
-                                      clickDelete(index);
+                                      setdataResep(
+                                        dataResep.filter((e) => e !== data)
+                                      );
                                     }}
                                     className="mr-3"
                                     iconSpacing={0}

@@ -7,12 +7,18 @@ import axios from "axios";
 import { API_URL } from "../../../helpers";
 import Cookies from "js-cookie";
 import { Select } from "@chakra-ui/react";
-import { Line } from "react-chartjs-2";
-import { CategoryScale } from "chart.js";
+import { Line, Bar } from "react-chartjs-2";
+import {
+  CategoryScale,
+  Chart as Chartjs,
+  LineElement,
+  LinearScale,
+  PointElement,
+} from "chart.js";
 import Chart from "chart.js/auto";
-Chart.register(CategoryScale);
+Chart.register(CategoryScale, LineElement, LinearScale, PointElement);
 function Report() {
-  const data = {
+  const dataPenjualan = {
     labels: [
       "Jan",
       "Feb",
@@ -27,48 +33,90 @@ function Report() {
       "Nov",
       "Des",
     ],
-    // datasets is an array of objects where each object represents a set of data to display corresponding to the labels above. for brevity, we'll keep it at one object
+
     datasets: [
       {
         label: "Obat",
-        data: [55, 23, 96, 84, 67, 34, 55, 78, 34, 32, 11, 46],
-        // you can set indiviual colors for each bar
+        data: [550, 230, 960, 840, 670, 340, 550, 780, 340, 320, 110, 460],
         borderColor: ["rgba(107, 76, 146, 1)"],
+        backgroundColor: "transparent",
         borderWidth: 2,
         pointRadius: 0,
         hoverPointRadius: 0,
-        scales: {
-          x: {
-            grid: {
-              display: false,
-            },
-          },
-          y: {
-            grid: {
-              display: false,
-            },
-          },
-        },
+        tension: 0.5,
+      },
+    ],
+  };
+
+  const dataPendapatan = {
+    labels: [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "Mei",
+      "Jun",
+      "Jul",
+      "Ags",
+      "Sep",
+      "Okt",
+      "Nov",
+      "Des",
+    ],
+
+    datasets: [
+      {
+        label: "Obat",
+        data: [550, 230, 960, 840, 670, 340, 550, 780, 340, 320, 110, 460],
+        borderColor: ["rgba(107, 76, 146, 1)"],
+        backgroundColor: "transparent",
+        borderWidth: 2,
+        pointRadius: 0,
+        hoverPointRadius: 0,
+        tension: 0.5,
+      },
+    ],
+  };
+
+  const dataPembatalan = {
+    labels: ["Dibatalkan Otomatis", "Ditolak Apotik", "Permintaan Pembeli"],
+
+    datasets: [
+      {
+        label: "Obat",
+        data: [550, 230, 960],
+        borderColor: "transparent",
+        backgroundColor: [
+          "rgba(107, 76, 146, 1)",
+          "rgba(200, 110, 172, 1)",
+          ,
+          "rgba(224, 110, 172, 1)",
+        ],
       },
     ],
   };
   const options = {
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
     scales: {
-      xAxes: [
-        {
-          ticks: { beginAtZero: true },
-          gridLines: {
-            color: "rgba(0, 0, 0, 0)",
-          },
+      x: {
+        grid: {
+          display: false,
         },
-      ],
-      yAxes: [
-        {
-          gridLines: {
-            display: false,
-          },
+      },
+
+      y: {
+        grid: {
+          drawBorder: false,
         },
-      ],
+        ticks: {
+          stepSize: 250,
+          padding: 10,
+        },
+      },
     },
   };
   return (
@@ -81,7 +129,7 @@ function Report() {
       <div className="bg-admin px-[48px] pt-[32px] pb-[32px]  ">
         <div className="flex justify-between ">
           <div className="text-lg font-bold text-violet-900 tracking-wide">
-            Semua Pesanan
+            Ringkasan Statistik
           </div>
           <div className="flex ">
             <div className="flex border-2 rounded-lg items-center px-4 py-2 text-purple-600 border-purple-500">
@@ -148,17 +196,23 @@ function Report() {
         </div>
         <div className="flex container_statistik_lg">
           <div className="flex justify-between pr-3">
-            <div className="statistik_ket text-primary">Penjualan Obat</div>
-            <Select placeholder="Select option" size="xs" w={150}></Select>
+            <div className="statistik_ket_md text-primary">Penjualan Obat</div>
+            <Select placeholder="Select option" size="xs" w={150}>
+              <option value="Mingguan">Mingguan</option>
+              <option value="Bualan">Bualan</option>
+              <option value="Tahunan">Tahunan</option>
+            </Select>
           </div>
-          <div>
-            <div className="w-[700px]  bg-pink-100">
-              <Line
-                height="50px"
-                //   width={"1000px"}
-                options={options}
-                data={data}
-              />{" "}
+
+          <div className="w-[850px] h-[180px] flex justify-between">
+            <Line height="65px" options={options} data={dataPenjualan} />
+            <div>
+              <div className="flex container_statistik_sm">
+                <div className="statistik_ket text-primary">
+                  Avg.penjualan per bulan
+                </div>
+                <div className="statistik_ket_no">7</div>
+              </div>
             </div>
           </div>
         </div>
@@ -166,21 +220,33 @@ function Report() {
           <div className="flex justify-between">
             <div className="flex container_statistik_md ml-3">
               <div className="flex justify-between pr-3">
-                <div className="statistik_ket text-primary ">
+                <div className="statistik_ket_md text-primary ">
                   Tren Pendapatan
                 </div>
-                <Select placeholder="Select option" size="xs" w={150}></Select>
+                <Select placeholder="Select option" size="xs" w={150}>
+                  <option value="Mingguan">Mingguan</option>
+                  <option value="Bualan">Bualan</option>
+                  <option value="Tahunan">Tahunan</option>
+                </Select>
               </div>
-              <div>grapiknya</div>
+              <div className="h-[200px] pr-4">
+                <Line height="100px" options={options} data={dataPendapatan} />
+              </div>
             </div>
             <div className="flex container_statistik_md ml-3">
               <div className="flex justify-between pr-3">
-                <div className="statistik_ket text-primary ">
+                <div className="statistik_ket_md text-primary ">
                   Tren Pembatalan
                 </div>
-                <Select placeholder="Select option" size="xs" w={150}></Select>
+                <Select placeholder="Select option" size="xs" w={150}>
+                  <option value="Mingguan">Mingguan</option>
+                  <option value="Bualan">Bualan</option>
+                  <option value="Tahunan">Tahunan</option>
+                </Select>
               </div>
-              <div>grapiknya</div>
+              <div className="h-[200px] pr-4">
+                <Bar height="100px" options={options} data={dataPembatalan} />
+              </div>
             </div>
           </div>
         </div>
