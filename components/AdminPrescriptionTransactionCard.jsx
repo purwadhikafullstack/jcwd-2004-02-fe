@@ -1,5 +1,6 @@
 import { AiOutlineClockCircle } from "react-icons/ai";
 import { BsFillChatDotsFill } from "react-icons/bs";
+import { FaTrash } from "react-icons/fa";
 import Image from "next/image";
 import { API_URL } from "../helpers";
 import dayjs from "dayjs";
@@ -32,7 +33,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { flushSync } from "react-dom";
-import { DateConverter } from "../helpers";
+import Rupiah from "../helpers/convertToRupiah";
 import { toast } from "react-toastify";
 
 function AdminPrescriptionTransactionCard({ data }) {
@@ -115,11 +116,6 @@ function AdminPrescriptionTransactionCard({ data }) {
   const tambahObatClick = async (e) => {
     // fitur tambahin obat
     console.log(input, "inpout");
-    // data obat
-    // console.log(input.name.value, "name");
-    // console.log(input.quantity, "quantity");
-    // console.log(input.dosis, "dosis");
-    // console.log(input.unit, "unit");
     setdataResep([
       ...dataResep,
       {
@@ -129,6 +125,7 @@ function AdminPrescriptionTransactionCard({ data }) {
         unit: input.unit,
       },
     ]);
+    console.log(dataResep, "datres");
     setinput({
       ...input,
       quantity: 0,
@@ -138,6 +135,22 @@ function AdminPrescriptionTransactionCard({ data }) {
     });
     // di push
   };
+
+  const deleteObatClick = async (e) => {
+    // fitur tambahin obat
+    console.log(input, "inpout");
+    setdataResep([
+      ...dataResep,
+      {
+        ...input.name.value,
+        quantity: input.quantity,
+        dosis: input.dosis,
+        unit: input.unit,
+      },
+    ]);
+    console.log(dataResep, "datres");
+  };
+  // fruits.splice(2, 0, "Lemon", "Kiwi");
   // submit form
   const onSaveDataClick = async (e) => {
     e.preventDefault();
@@ -737,9 +750,9 @@ function AdminPrescriptionTransactionCard({ data }) {
                                       clickDelete(index);
                                     }}
                                     className="mr-3"
-                                  >
-                                    Hapus
-                                  </Button>
+                                    iconSpacing={0}
+                                    leftIcon={<FaTrash />}
+                                  ></Button>
                                 </Td>
                               </Tr>
                             );
@@ -800,7 +813,7 @@ function AdminPrescriptionTransactionCard({ data }) {
                         </div>
                         <div className="flex justify-between mt-1 w-5/12 text-xs text-primary">
                           <div>
-                            {data.quantity} x {data.hargaJual}
+                            {data.quantity} x {Rupiah(data.hargaJual)}
                           </div>
                           <div>{data.unit}</div>
                           <div>{data.dosis}</div>
@@ -810,22 +823,28 @@ function AdminPrescriptionTransactionCard({ data }) {
                   })}
                   <div className="ml-2 mt-6 font-bold text-sm flex justify-between">
                     <div> Total Harga</div>
-                    <div>Rp. {subTotal()}</div>
+                    <div>{Rupiah(subTotal())}</div>
                   </div>
                   <hr className="mt-5 rounded-lg" />
                 </div>
               </ModalBody>
 
-              <ModalFooter>
+              <ModalFooter className="-mt-2">
                 <Button
                   variant="outline"
                   colorScheme="purple"
+                  fontSize="sm"
                   mr={3}
                   onClick={() => setTab(0)}
                 >
                   Kembali
                 </Button>
-                <Button colorScheme="purple" mr={3} onClick={onSaveDataClick}>
+                <Button
+                  colorScheme="purple"
+                  fontSize="sm"
+                  mr={3}
+                  onClick={onSaveDataClick}
+                >
                   Terima Pesanan
                 </Button>
               </ModalFooter>
