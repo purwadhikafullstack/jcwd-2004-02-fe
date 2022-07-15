@@ -81,7 +81,6 @@ function DaftarProduk() {
   const [inputImage, setinputImage] = useState([]);
   // state product_id
   const [productStockId, setproductStockId] = useState(0);
-  const [stockId, setstockId] = useState({ id: 0 });
 
   const {
     isOpen: isEditOpen,
@@ -186,8 +185,6 @@ function DaftarProduk() {
     try {
       let res = await axios.get(`${API_URL}/products/stock/${id}`);
       setinputStock(res.data);
-      setstockId(res.data.id);
-      console.log("resdatastok", res.data.id);
     } catch (error) {
       console.log(error);
     }
@@ -625,7 +622,7 @@ function DaftarProduk() {
               </div>
             </div>
           </div>
-          <div className="p-[32px] mt-[34px] bg-white rounded-lg shadow-lg">
+          <div className="p-[32px] mt-[34px] bg-white rounded-lg shadow-lg ">
             <div className="flex justify-between">
               <div className="flex">
                 <div className="flex border-2 rounded-lg text-slate-400  border-slate-300 px-[12px] py-[11px] w-[328px] justify-between ">

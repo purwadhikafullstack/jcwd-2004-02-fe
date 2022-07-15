@@ -13,10 +13,6 @@ import Footer from "../components/Footer";
 
 const Prescription = () => {
   const router = useRouter();
-  // const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
-  //   console.log("accepted", acceptedFiles);
-  //   console.log("rejected", rejectedFiles);
-  // }, []);
 
   const { getRootProps, getInputProps, open, acceptedFiles } = useDropzone({
     // onDrop,
