@@ -17,8 +17,8 @@ function MyApp({ Component, pageProps }) {
         secondary: "#c86eac",
         orange: "##f99746",
         warning: "#fff5d3",
-        "warning-text": "##cbaf4e",
-        "hover-button": "#efebf2",
+        warningtext: "#cbaf4e",
+        hoverbutton: "#efebf2",
       },
     },
   });
