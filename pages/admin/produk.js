@@ -622,7 +622,7 @@ function DaftarProduk() {
               </div>
             </div>
           </div>
-          <div className="p-[32px] mt-[34px] bg-white rounded-lg shadow-lg">
+          <div className="p-[32px] mt-[34px] bg-white rounded-lg shadow-lg ">
             <div className="flex justify-between">
               <div className="flex">
                 <div className="flex border-2 rounded-lg text-slate-400  border-slate-300 px-[12px] py-[11px] w-[328px] justify-between ">
