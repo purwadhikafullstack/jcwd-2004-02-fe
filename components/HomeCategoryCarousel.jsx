@@ -1,12 +1,40 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import Slider from "react-slick";
 import { HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi";
 import Image from "next/image";
+import axios from "axios";
+import { API_URL } from "../helpers";
+import { Link } from "@chakra-ui/react";
 
 function HomeCategoryCarousel() {
+  const [categories, setCategories] = useState([]);
+  const IconArr = [
+    "/Obat.svg",
+    "/Nutrition.svg",
+    "/Herbal.svg",
+    "/Vitamin.svg",
+    "/Alat Kesehatan.svg",
+    "/Perawatan Tubuh.svg",
+    "/Perawatan Tubuh.svg",
+  ];
+
+  const getCategories = async () => {
+    try {
+      let res = await axios.get(`${API_URL}/products/getcategory`);
+      setCategories([...res.data]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getCategories();
+    console.log(categories);
+  }, []);
+
   function HomeCategoryCard({ icon, caption }) {
     return (
-      <div className="w-[195px] h-[119px] border-[1px] border-slate-100 shadow-lg shadow-slate-100 rounded-xl text-center my-5 ">
+      <div className="w-[195px] h-[119px] border-[2px] border-slate-100 shadow-lg hover:border-secondary shadow-slate-100 rounded-xl text-center my-5 ">
         <div className="h-[64px] w-[64px] mx-auto my-[8px] overflow-hidden relative">
           <Image src={icon} layout="fill" objectFit="cover" />
         </div>
@@ -52,39 +80,15 @@ function HomeCategoryCarousel() {
   return (
     <div className="w-[1244px]">
       <Slider {...settings}>
-        <div>
-          <HomeCategoryCard icon={"/Obat.svg"} caption={"Obat-obatan"} />
-        </div>
-        <div>
-          <HomeCategoryCard icon={"/Nutrition.svg"} caption={"Nutrisi"} />
-        </div>
-        <div>
-          <HomeCategoryCard icon={"/Herbal.svg"} caption={"Herbal"} />
-        </div>
-        <div>
-          <HomeCategoryCard
-            icon={"/Vitamin.svg"}
-            caption={"Vitamin & Suplemen"}
-          />
-        </div>
-        <div>
-          <HomeCategoryCard
-            icon={"/Alat Kesehatan.svg"}
-            caption={"Alat Kesehatan"}
-          />
-        </div>
-        <div>
-          <HomeCategoryCard
-            icon={"/Perawatan Tubuh.svg"}
-            caption={"Perawatan Tubuh"}
-          />
-        </div>
-        <div>
-          <HomeCategoryCard
-            icon={"/Perawatan Tubuh.svg"}
-            caption={"Ibu dan Anak"}
-          />
-        </div>
+        {categories.map(({ id, name }) => {
+          return (
+            <Link key={id} href={`/products/${id}`}>
+              <div>
+                <HomeCategoryCard icon={IconArr[id - 1]} caption={name} />
+              </div>
+            </Link>
+          );
+        })}
       </Slider>
     </div>
   );

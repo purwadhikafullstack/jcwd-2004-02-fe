@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { useEffect, useState } from "react";
 import Select from "react-select";
-import { DownloadIcon } from "@chakra-ui/icons";
 import {
   Modal,
   ModalOverlay,
@@ -10,7 +9,6 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  useDisclosure,
   Button,
   FormControl,
   FormLabel,
@@ -18,56 +16,45 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import axios from "axios";
-
 import { API_URL } from "../../helpers";
 import { flushSync } from "react-dom";
 
-function AdminEditDetail({ submitProduct2 }) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+function AdminEditDetail({
+  submitProductEdit,
+  isOpen,
+  onClose,
+  setinputEdit,
+  inputEdit,
+}) {
   const [tab, setTab] = useState(0);
   const [getData, setgetData] = useState({});
-  const [detailObat, setDetailObat] = useState({});
 
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
 
-  const [input, setinput] = useState({
-    name: detailObat.name,
-    no_obat: detailObat.no_obat,
-    no_BPOM: detailObat.no_bpom,
-    category: [],
-    brand_id: detailObat.brand_id,
-    type_id: detailObat.type_id,
-    symptom: [],
-
-    description: {},
-    warning: detailObat.warning,
-    usage: detailObat.usage,
-  });
-  console.log(detailObat, "hahahah");
   // handle
   const handleChange = (e, prop) => {
-    setinput({ ...input, [prop]: e.target.value });
+    setinputEdit({ ...inputEdit, [prop]: e.target.value });
   };
 
   // handle select
   // individu -> e.value, multi -> e
   const handleChangeSelect = (e, prop) => {
-    setinput({ ...input, [prop]: e });
-    console.log(e);
+    setinputEdit({ ...inputEdit, [prop]: e });
+    console.log(e, "ini");
   };
 
   // handle description
   const handleChangeDesc = (e, prop, param) => {
-    let description = input.description;
+    let description = inputEdit.description;
     description[param] = e.target.value;
-    setinput({ ...input, [prop]: description });
+    setinputEdit({ ...inputEdit, [prop]: description });
     console.log(e);
   };
 
+  // memanggil fetch komponen obat dan obat yang ditunjuk
   useEffect(() => {
     fetchComponentObat();
-    fetchObat();
   }, []);
 
   // get data symptom, category, dll
@@ -75,8 +62,7 @@ function AdminEditDetail({ submitProduct2 }) {
     // let token = Cookies.get('token')
     try {
       let res = await axios.get(
-        `${API_URL}/products/component`,
-        input
+        `${API_URL}/products/component`
         // {
         //   headers: {
         //     authorization: `bearer ${token}`,
@@ -90,70 +76,32 @@ function AdminEditDetail({ submitProduct2 }) {
       console.log(error);
     }
   };
-
-  const fetchObat = async () => {
-    // let token = Cookies.get('token')
-    try {
-      let res = await axios.get(
-        `${API_URL}/products/getselectedproduct/17`,
-        input
-
-        // {
-        //   headers: {
-        //     authorization: `bearer ${token}`,
-        //   },
-        // }
-      );
-      // console.log(res.data);
-      // console.log("resdata", res.data);
-      setDetailObat(res.data);
-
-      // setDetailObat([...res.data]);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   // submit form
   const onSaveDataClick = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
     let insertData = {
-      name: input.name,
-      no_obat: input.no_obat,
-      no_BPOM: input.no_BPOM,
-      description: input.description,
-      warning: input.warning,
-      usage: input.usage,
-      brand_id: input.brand_id.value,
-      type_id: input.type_id.value,
-      symptom: input.symptom.map((val) => val.value),
-      category: input.category.map((val) => val.value),
+      name: inputEdit.name,
+      no_obat: inputEdit.no_obat,
+      no_BPOM: inputEdit.no_BPOM,
+      description: inputEdit.description,
+      warning: inputEdit.warning,
+      usage: inputEdit.usage,
+      brand_id: inputEdit.brand_id.value,
+      type_id: inputEdit.type_id.value,
+      symptom: inputEdit.symptom.map((val) => val.value),
+      category: inputEdit.category.map((val) => val.value),
+      unit: inputEdit.unit,
+      hargaJual: inputEdit.hargaJual,
+      hargaBeli: inputEdit.hargaBeli,
     };
-    console.log(insertData);
-
-    formData.append("data", JSON.stringify(insertData));
-    console.log("iniformdata", formData);
+    console.log(insertData, "insertdata");
     try {
-      await submitProduct2(formData);
+      await submitProductEdit(insertData);
     } catch (error) {
       console.log(error);
     } finally {
       flushSync(() => {
         setTab(5);
-      });
-      setinput({
-        name: "",
-        no_obat: "",
-        no_BPOM: "",
-        category: [],
-        brand_id: 0,
-        type_id: 0,
-        symptom: [],
-
-        description: {},
-        warning: "",
-        usage: "",
       });
       setTimeout(() => {
         setTab(0);
@@ -181,10 +129,6 @@ function AdminEditDetail({ submitProduct2 }) {
 
   return (
     <>
-      <Button leftIcon={<DownloadIcon />} colorScheme="purple" onClick={onOpen}>
-        Edit Produk
-      </Button>
-
       <Modal
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}
@@ -210,6 +154,11 @@ function AdminEditDetail({ submitProduct2 }) {
                     2
                   </div>
                   <div className="text-gray-400">Keterangan Obat</div>
+                  <div className="mx-2 font-semibold  ">{">"}</div>
+                  <div className="rounded-full w-5 bg-gray-400 text-center text-white mr-2">
+                    3
+                  </div>
+                  <div className="text-gray-400">Detail Kuantitas & Harga</div>
                 </div>
 
                 <FormControl className="flex" pt={2}>
@@ -224,7 +173,7 @@ function AdminEditDetail({ submitProduct2 }) {
                     placeholder="Masukkan nama obat"
                     onChange={(e) => handleChange(e, "name")}
                     name="name"
-                    value={input.name}
+                    value={inputEdit.name}
                   />
                 </FormControl>
                 <FormControl mt={"3"} className="flex">
@@ -238,7 +187,7 @@ function AdminEditDetail({ submitProduct2 }) {
                     placeholder="Masukkan no. obat"
                     onChange={(e) => handleChange(e, "no_obat")}
                     name="no_obat"
-                    value={input.no_obat}
+                    value={inputEdit.no_obat}
                   />
                 </FormControl>
                 <FormControl mt={"3"} className="flex">
@@ -252,7 +201,7 @@ function AdminEditDetail({ submitProduct2 }) {
                     placeholder="Masukkan no. BPOM"
                     onChange={(e) => handleChange(e, "no_BPOM")}
                     name="no_BPOM"
-                    value={input.no_BPOM}
+                    value={inputEdit.no_BPOM}
                   />
                 </FormControl>
                 <FormControl mt={"3"} className="flex">
@@ -268,7 +217,7 @@ function AdminEditDetail({ submitProduct2 }) {
                       classNamePrefix="select"
                       onChange={(e) => handleChangeSelect(e, "category")}
                       name="category"
-                      value={input.category}
+                      value={inputEdit.category}
                     />
                   </Stack>
                 </FormControl>
@@ -286,7 +235,7 @@ function AdminEditDetail({ submitProduct2 }) {
                       placeholder="Pilih..."
                       options={brandOptions}
                       onChange={(e) => handleChangeSelect(e, "brand_id")}
-                      value={input.brand_id}
+                      value={inputEdit.brand_id}
                     />
                   </Stack>
                 </FormControl>
@@ -303,7 +252,7 @@ function AdminEditDetail({ submitProduct2 }) {
                       placeholder="Pilih..."
                       options={typeOptions}
                       onChange={(e) => handleChangeSelect(e, "type_id")}
-                      value={input.type_id}
+                      value={inputEdit.type_id}
                     />
                   </Stack>
                 </FormControl>
@@ -320,19 +269,14 @@ function AdminEditDetail({ submitProduct2 }) {
                       className="basic-multi-select"
                       classNamePrefix="select"
                       onChange={(e) => handleChangeSelect(e, "symptom")}
-                      value={input.symptom}
+                      value={inputEdit.symptom}
                     />
                   </Stack>
                 </FormControl>
               </ModalBody>
 
               <ModalFooter>
-                <Button
-                  colorScheme="purple"
-                  mr={3}
-                  disabled={false}
-                  onClick={() => setTab(1)}
-                >
+                <Button colorScheme="purple" mr={3} onClick={() => setTab(1)}>
                   Lanjutkan
                 </Button>
               </ModalFooter>
@@ -353,6 +297,14 @@ function AdminEditDetail({ submitProduct2 }) {
                     2
                   </div>
                   <div className="font-semibold ">Keterangan Obat</div>
+                  <div className="mx-2  font-semibold text-purple-600  ">
+                    {">"}
+                  </div>
+
+                  <div className="rounded-full w-5 bg-gray-400 text-center text-white mr-2">
+                    3
+                  </div>
+                  <div className="text-gray-400">Detail Kuantitas & Harga</div>
                 </div>
                 <FormControl mt={10} className="flex">
                   <FormLabel pt={2} fontSize="sm" w="175px">
@@ -369,7 +321,7 @@ function AdminEditDetail({ submitProduct2 }) {
                     onChange={(e) =>
                       handleChangeDesc(e, "description", "indikasi / kegunaan")
                     }
-                    value={input.description["indikasi / kegunaan"]}
+                    value={inputEdit.description["indikasi / kegunaan"]}
                   />
                 </FormControl>
                 <FormControl mt={"3"} className="flex">
@@ -391,7 +343,7 @@ function AdminEditDetail({ submitProduct2 }) {
                         "Kandungan / Komposisi"
                       )
                     }
-                    value={input.description["Kandungan / Komposisi"]}
+                    value={inputEdit.description["Kandungan / Komposisi"]}
                   />
                 </FormControl>
                 <FormControl mt={"3"} className="flex">
@@ -409,7 +361,7 @@ function AdminEditDetail({ submitProduct2 }) {
                     onChange={(e) =>
                       handleChangeDesc(e, "description", "Kemasan")
                     }
-                    value={input.description["Kemasan"]}
+                    value={inputEdit.description["Kemasan"]}
                   />
                 </FormControl>
                 <FormControl mt={"3"} className="flex">
@@ -427,7 +379,7 @@ function AdminEditDetail({ submitProduct2 }) {
                     onChange={(e) =>
                       handleChangeDesc(e, "description", "Golongan")
                     }
-                    value={input.description["Golongan"]}
+                    value={inputEdit.description["Golongan"]}
                   />
                 </FormControl>
                 <FormControl mt={"3"} className="flex">
@@ -445,7 +397,7 @@ function AdminEditDetail({ submitProduct2 }) {
                     onChange={(e) =>
                       handleChangeDesc(e, "description", "Butuh Resep")
                     }
-                    value={input.description["Butuh Resep"]}
+                    value={inputEdit.description["Butuh Resep"]}
                   />
                 </FormControl>
                 <FormControl mt={"3"} className="flex">
@@ -463,7 +415,7 @@ function AdminEditDetail({ submitProduct2 }) {
                     onChange={(e) =>
                       handleChangeDesc(e, "description", "Cara Penyimpanan")
                     }
-                    value={input.description["Cara Penyimpanan"]}
+                    value={inputEdit.description["Cara Penyimpanan"]}
                   />
                 </FormControl>
                 <FormControl mt={"3"} className="flex">
@@ -481,7 +433,7 @@ function AdminEditDetail({ submitProduct2 }) {
                     onChange={(e) =>
                       handleChangeDesc(e, "description", "Principal")
                     }
-                    value={input.description["Principal"]}
+                    value={inputEdit.description["Principal"]}
                   />
                 </FormControl>
                 <FormControl mt={"3"} className="flex">
@@ -503,7 +455,7 @@ function AdminEditDetail({ submitProduct2 }) {
                         "Nomor Ijin Edar (NIE)"
                       )
                     }
-                    value={input.description["Nomor Ijin Edar (NIE)"]}
+                    value={inputEdit.description["Nomor Ijin Edar (NIE)"]}
                   />
                 </FormControl>
 
@@ -520,7 +472,7 @@ function AdminEditDetail({ submitProduct2 }) {
                     className="w-1/2 text-sm pt-2 ml-4 pl-3"
                     placeholder="Masukkan Warning"
                     onChange={(e) => handleChange(e, "warning")}
-                    value={input.warning}
+                    value={inputEdit.warning}
                   />
                 </FormControl>
                 <FormControl mt={"3"} className="flex">
@@ -536,13 +488,92 @@ function AdminEditDetail({ submitProduct2 }) {
                     className="w-1/2 text-sm pt-2 ml-4 pl-3"
                     placeholder="Masukkan Usage"
                     onChange={(e) => handleChange(e, "usage")}
-                    value={input.usage}
+                    value={inputEdit.usage}
+                  />
+                </FormControl>
+              </ModalBody>
+              <ModalFooter>
+                <Button onClick={() => setTab(0)} mr={3}>
+                  Kembali
+                </Button>
+                <Button colorScheme="purple" onClick={() => setTab(2)} mr={3}>
+                  Lanjutkan
+                </Button>
+              </ModalFooter>
+            </div>
+          ) : null}
+          {tab === 2 ? (
+            <div>
+              <ModalBody pb={6}>
+                <div className="flex mb-4 text-sm">
+                  <div className="rounded-full w-5 bg-gray-400 text-center text-white mr-2">
+                    1
+                  </div>
+                  <div className="text-gray-400"> Detail Obat</div>
+                  <div className="mx-2 font-semibold  ">{">"}</div>
+
+                  <div className="rounded-full w-5 bg-gray-400  text-center text-white mr-2">
+                    2
+                  </div>
+                  <div className="text-gray-400">Keterangan Obat</div>
+
+                  <div className="mx-2  font-semibold  ">{">"}</div>
+
+                  <div className="rounded-full w-5 bg-purple-600 text-center text-white mr-2">
+                    3
+                  </div>
+                  <div className="">Detail Kuantitas & Harga</div>
+                </div>
+
+                <FormControl mt={"3"} className="flex">
+                  <FormLabel pt={2} fontSize="sm" w="175px">
+                    Satuan
+                  </FormLabel>
+                  <Stack spacing={3}>
+                    <Input
+                      w="226px"
+                      h="40px"
+                      fontSize="sm"
+                      placeholder="Masukkan satuan"
+                      onChange={(e) => handleChange(e, "unit")}
+                      name="unit"
+                      value={inputEdit.unit}
+                    />
+                  </Stack>
+                </FormControl>
+
+                <FormControl mt={"3"} className="flex">
+                  <FormLabel pt={2} fontSize="sm" w="175px">
+                    Nilai Barang (Rp)
+                  </FormLabel>
+                  <Input
+                    w="226px"
+                    h="40px"
+                    fontSize="sm"
+                    placeholder="Masukkan nilai barang (Rp)"
+                    onChange={(e) => handleChange(e, "hargaBeli")}
+                    name="hargaBeli"
+                    value={inputEdit.hargaBeli}
+                  />
+                </FormControl>
+                <FormControl mt={"3"} className="flex">
+                  <FormLabel pt={2} fontSize="sm" w="175px">
+                    Nilai Jual (Rp)
+                  </FormLabel>
+                  <Input
+                    w="226px"
+                    h="40px"
+                    fontSize="sm"
+                    placeholder="Masukkan nilai jual (Rp)"
+                    onChange={(e) => handleChange(e, "hargaJual")}
+                    name="hargaJual"
+                    value={inputEdit.hargaJual}
                   />
                 </FormControl>
               </ModalBody>
 
               <ModalFooter>
-                <Button onClick={() => setTab(0)} mr={3}>
+                <Button onClick={() => setTab(1)} mr={3}>
                   Kembali
                 </Button>
                 <Button colorScheme="purple" mr={3} onClick={onSaveDataClick}>

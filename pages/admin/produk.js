@@ -1,26 +1,30 @@
 import AdminNavbar from "../../components/AdminNavbar";
 import AdminSidebar from "../../components/AdminSidebar";
 import ModalInputAdmin from "../../components/admin/ModalInputAdmin";
-import AdminEditDetail from "../../components/admin/adminEditDetail";
-import AdminEditFoto from "../../components/admin/adminEditFoto";
-import AdminEditStok from "../../components/admin/adminEditStok";
-import AdminEditStockTableProduct from "../../components/admin/adminEditStockTableProduct";
+import AdminEditDetail from "../../components/admin/AdminEditDetail";
+import AdminEditFoto from "../../components/admin/AdminEditFoto";
+import AdminEditStockTable from "../../components/admin/adminEditStockTable";
 import { FiDownload } from "react-icons/fi";
 import { IoDocumentText } from "react-icons/io5";
-import { HiSearch } from "react-icons/hi";
+import { HiSearch, HiDotsVertical } from "react-icons/hi";
 import NewTable from "../../components/Table";
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-  useTransition,
-} from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../../helpers";
 import Pagination from "../../components/Pagination";
-import { flushSync } from "react-dom";
 import debounce from "lodash.debounce";
+import {
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  IconButton,
+  useDisclosure,
+  MenuDivider,
+} from "@chakra-ui/react";
+import Swal from "sweetalert2";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 function DaftarProduk() {
   const [page, setPage] = useState(0);
@@ -30,11 +34,101 @@ function DaftarProduk() {
   const [input, setInput] = useState({
     search: "",
     category: "",
+    order: "",
   });
   const [value, setLimit] = useState(10);
   const [comp, setComponent] = useState([]);
+  // state input edit
+  const [inputEdit, setinputEdit] = useState({
+    name: "",
+    no_obat: "",
+    no_BPOM: 0,
+    category: [],
+    brand_id: 0,
+    type_id: 0,
+    symptom: [],
 
+    description: {},
+    warning: "",
+    usage: "",
+    id: 0,
+    unit: "",
+    hargaJual: 0,
+    hargaBeli: 0,
+  });
+  // state input stock
+  const [inputStock, setinputStock] = useState([
+    {
+      stock: 0,
+      expired: "",
+      id: 0,
+    },
+  ]);
+  // state input edit stock
+  const [inputStockDet, setinputStockDet] = useState({
+    stock: 0,
+    expired: "",
+    id: 0, // id stock
+  });
+  // state input add stock
+  const [inputStockAdd, setinputStockAdd] = useState({
+    stock: 0,
+    expired: "",
+  });
+  // state delete stock
+  const [deleteStock, setdeleteStock] = useState({ stock: 0 });
+
+  const [inputImage, setinputImage] = useState([]);
+  // state product_id
+  const [productStockId, setproductStockId] = useState(0);
+  const [stockId, setstockId] = useState({ id: 0 });
+
+  const {
+    isOpen: isEditOpen,
+    onOpen: onEditOpen,
+    onClose: onEditClose,
+  } = useDisclosure();
+  const {
+    isOpen: isEditPhotoOpen,
+    onOpen: onEditPhotoOpen,
+    onClose: onEditPhotoClose,
+  } = useDisclosure();
+  const {
+    isOpen: isEditStockOpen,
+    onOpen: onEditStockOpen,
+    onClose: onEditStockClose,
+  } = useDisclosure();
+  const {
+    isOpen: isEditStockOpen2,
+    onOpen: onEditStockOpen2,
+    onClose: onEditStockClose2,
+  } = useDisclosure();
+  const {
+    isOpen: isEditStockOpen3,
+    onOpen: onEditStockOpen3,
+    onClose: onEditStockClose3,
+  } = useDisclosure();
   // const [pending, startTransition] = useTransition();
+
+  useEffect(() => {
+    getComponent();
+  }, []);
+  useEffect(() => {
+    if (isLoading) {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    debouncedFetchData(page, input, (res) => {
+      setTotalData(parseInt(res.headers["x-total-product"]));
+      setData([...res.data]);
+      setIsLoading(false);
+    });
+    console.log(totalData, "ini total data");
+  }, [page, input]);
 
   const updateLimit = (e) => {
     setLimit(parseInt(e.target.value));
@@ -43,7 +137,6 @@ function DaftarProduk() {
   const handleInput = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
     setPage(0);
-    // console.log(input);
   };
 
   const getComponent = async () => {
@@ -54,7 +147,7 @@ function DaftarProduk() {
   const getDaftarProduk = async (page, input, cb) => {
     // token + headers
     let res = await axios.get(
-      `${API_URL}/products/fetchdaftarproduk?page=${page}&search=${input.search}&category=${input.category}`
+      `${API_URL}/products/fetchdaftarproduk?page=${page}&search=${input.search}&category=${input.category}&order=${input.order}`
     ); // FIXME Dipersingkat querynya (dibuat conditional)
     cb(res);
   };
@@ -67,18 +160,51 @@ function DaftarProduk() {
     setData([...data, ...res.data]);
   };
 
+  // fetch detail obat untuk edit
+  const fetchDetailObat = async (id) => {
+    try {
+      let res = await axios.get(`${API_URL}/products/product/${id}`);
+      setinputEdit(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchFoto = async (id) => {
+    try {
+      let res = await axios.get(`${API_URL}/products/productpic/${id}`);
+      console.log("resdatafoto", res.data);
+
+      setinputImage(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // fetch detail obat untuk edit
+  const fetchStock = async (id) => {
+    try {
+      let res = await axios.get(`${API_URL}/products/stock/${id}`);
+      setinputStock(res.data);
+      setstockId(res.data.id);
+      console.log("resdatastok", res.data.id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const submitProduct = async (values) => {
     try {
-      // let token = Cookies.get("token");
+      let token = Cookies.get("token");
       await axios.post(`${API_URL}/products/addproduct`, values, {
-        // headers: {
-        //   // authorization: `Bearer ${token}`,
-        // },
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
       });
     } catch (error) {
       console.log(error);
     } finally {
-      getLastProduct();
+      // getLastProduct();
       setPage(0);
       setInput({
         search: "",
@@ -87,13 +213,109 @@ function DaftarProduk() {
     }
   };
 
-  const submitProduct2 = async (values) => {
+  const submitProductEdit = async (data) => {
     try {
-      // let token = Cookies.get("token");
-      await axios.put(`${API_URL}/products/17`, values, {
-        // headers: {
-        //   // authorization: `Bearer ${token}`,
-        // },
+      let token = Cookies.get("token");
+      await axios.put(`${API_URL}/products/${inputEdit.id}`, data, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(data, "vall");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      // getLastProduct();
+      setPage(0);
+      setInput({
+        search: "",
+        category: "",
+      });
+    }
+  };
+
+  const submitProductEditStock = async (data) => {
+    try {
+      let token = Cookies.get("token");
+      await axios.put(
+        `${API_URL}/products/stock/edit/${inputStockDet.id}`,
+        data,
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(data, "vall");
+      fetchStock(productStockId);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
+    }
+  };
+
+  const submitProductAddStock = async (data) => {
+    console.log(data, "data");
+    console.log(productStockId, "id nya");
+    try {
+      let token = Cookies.get("token");
+      await axios.post(
+        `${API_URL}/products/stock/add/${productStockId}`,
+        data,
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(data, "vall");
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1500,
+        closeOnClick: true,
+        draggable: true,
+      });
+    } finally {
+      // getLastProduct();
+      setPage(0);
+      setInput({
+        search: "",
+        category: "",
+      });
+    }
+  };
+
+  // delete feature
+  const clickDelete = async (id) => {
+    try {
+      Swal.fire({
+        customClass: {
+          container: "my-swal",
+        },
+        title: "Apakah anda yakin?",
+        text: "Produk tidak akan bisa dikembalikan!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#ac5df7",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Hapus",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          let token = Cookies.get("token");
+          await axios.patch(`${API_URL}/products/deleteproducts/${id}`, {
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
+          });
+          Swal.fire("Deleted!", "Berhasil dihapus!", "success");
+        }
       });
     } catch (error) {
       console.log(error);
@@ -114,27 +336,6 @@ function DaftarProduk() {
     []
   );
 
-  useEffect(() => {
-    getComponent();
-  }, []);
-
-  useEffect(() => {
-    if (isLoading) {
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 2000);
-    }
-  }, [isLoading]);
-
-  useEffect(() => {
-    debouncedFetchData(page, input, (res) => {
-      setTotalData(parseInt(res.headers["x-total-product"]));
-      setData([...res.data]);
-      setIsLoading(false);
-    });
-    console.log(totalData, "ini total data");
-  }, [page, input]);
-
   const Categories = ({ val }) => {
     return (
       <>
@@ -151,6 +352,160 @@ function DaftarProduk() {
           );
         })}
       </>
+    );
+  };
+  // click modal edit
+  const clickEdit = (productId) => {
+    fetchDetailObat(productId);
+    onEditOpen();
+  };
+  // click modal edit photo
+  const clickEditPhoto = (productId) => {
+    fetchFoto(productId);
+    onEditPhotoOpen();
+  };
+  // click modal edit stock
+  const clickEditStock = (productId) => {
+    fetchStock(productId);
+    setproductStockId(productId);
+    onEditStockOpen();
+  };
+  // click modal edit stock detail
+  const clickEditStockDetail = (inputselected) => {
+    setinputStockDet(inputselected);
+    onEditStockOpen2();
+  };
+  // click modal add stock
+  const clickAddStock = (inputselected) => {
+    setinputStockAdd(inputselected);
+    onEditStockOpen3();
+  };
+
+  // click delete stock
+  const clickDeleteStock = async (id, productId) => {
+    // setinputStockDet(id);
+    console.log(id, "id");
+    try {
+      Swal.fire({
+        customClass: {
+          container: "my-swal",
+        },
+        title: "Apakah anda yakin?",
+        text: "Produk tidak akan bisa dikembalikan!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#ac5df7",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Hapus",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          let token = Cookies.get("token");
+          await axios.delete(`${API_URL}/products/stock/delete/${id}`, {
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
+          });
+          console.log("sukses");
+          Swal.fire({
+            customClass: {
+              container: "my-swal",
+            },
+
+            icon: "success",
+            title: "Deleted",
+            text: "Berhasil dihapus!",
+          });
+          // "Deleted!", "Berhasil dihapus!", "success"
+        }
+        fetchStock(productStockId);
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      // getLastProduct();
+      setPage(0);
+      setInput({
+        search: "",
+        category: "",
+      });
+    }
+  };
+
+  // increment utk kuantitas stock
+  const incNum = () => {
+    let count = parseInt(inputStockDet.stock) + 1;
+    setinputStockDet({ ...inputStockDet, stock: count });
+  };
+
+  const decNum = () => {
+    let count = parseInt(inputStockDet.stock) - 1;
+    count = count < 1 ? 1 : count;
+    setinputStockDet({ ...inputStockDet, stock: count });
+  };
+
+  const incNumAdd = () => {
+    let count = parseInt(inputStockAdd.stock) + 1;
+    setinputStockAdd({ ...inputStockAdd, stock: count });
+  };
+
+  const decNumAdd = () => {
+    let count = parseInt(inputStockAdd.stock) - 1;
+    count = count < 1 ? 1 : count;
+    setinputStockAdd({ ...inputStockAdd, stock: count });
+  };
+
+  // console.log(inputEdit, "inputedit");
+  const DetailButton = ({ productId }) => {
+    return (
+      <div className="flex justify-between text-center items-center">
+        <div className="flex items-center justify-center text-sm text-primary rounded-lg font-semibold py-1 px-2 border-[1px] mr-2 border-primary bg-white h-10 ">
+          Lihat Detail
+        </div>
+        {/* <div className="text-sm text-primary rounded-md font-semibold py-2 px border-[1px] border-primary bg-white"> */}
+        <Menu>
+          <MenuButton
+            as={IconButton}
+            aria-label="Options"
+            icon={<HiDotsVertical />}
+            backgroundColor="white"
+            border="1px"
+            borderColor="border-primary"
+            textColor="purple.700"
+          />
+          <MenuList>
+            <MenuItem
+              onClick={() => {
+                clickEdit(productId);
+              }}
+            >
+              <div className="text-primary font-medium">Edit Produk</div>
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                clickEditStock(productId);
+              }}
+            >
+              <div className="text-primary font-medium">Edit Stok</div>
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                clickEditPhoto(productId);
+              }}
+            >
+              <div className="text-primary font-medium">Edit Foto</div>
+            </MenuItem>
+            <MenuDivider />
+            <MenuItem
+              onClick={() => {
+                clickDelete(productId);
+              }}
+            >
+              <div className="text-red-600 font-medium">Hapus Produk</div>
+            </MenuItem>
+          </MenuList>
+        </Menu>
+        {/* </div> */}
+      </div>
     );
   };
 
@@ -196,12 +551,60 @@ function DaftarProduk() {
     },
     {
       Header: "Atur",
+      // accessor: "id",
+      Cell: (data) => <DetailButton productId={data.row.original.id} />,
     },
   ]);
 
   return (
     <>
+      {/* kiri=props; kanan=value */}
       <div>
+        <AdminEditDetail
+          isOpen={isEditOpen}
+          onOpen={onEditOpen}
+          onClose={onEditClose}
+          submitProductEdit={submitProductEdit}
+          inputEdit={inputEdit}
+          setinputEdit={setinputEdit}
+        />
+        <AdminEditFoto
+          isOpen={isEditPhotoOpen}
+          onOpen={onEditPhotoOpen}
+          onClose={onEditPhotoClose}
+          submitProduct={submitProduct}
+          inputImage={inputImage}
+          setinputImage={setinputImage}
+          fetchFoto={fetchFoto}
+        />
+        <AdminEditStockTable
+          isOpen={isEditStockOpen}
+          onOpen={onEditStockOpen}
+          onClose={onEditStockClose}
+          isOpen2={isEditStockOpen2}
+          onOpen2={onEditStockOpen2}
+          onClose2={onEditStockClose2}
+          isOpen3={isEditStockOpen3}
+          onOpen3={onEditStockOpen3}
+          onClose3={onEditStockClose3}
+          submitProduct={submitProduct}
+          inputStock={inputStock}
+          setinputStock={setinputStock}
+          clickEditStockDetail={clickEditStockDetail}
+          inputStockDet={inputStockDet}
+          setinputStockDet={setinputStockDet}
+          incNum={incNum}
+          decNum={decNum}
+          incNumAdd={incNumAdd}
+          decNumAdd={decNumAdd}
+          submitProductEditStock={submitProductEditStock}
+          submitProductAddStock={submitProductAddStock}
+          inputStockAdd={inputStockAdd}
+          setinputStockAdd={setinputStockAdd}
+          clickAddStock={clickAddStock}
+          clickDeleteStock={clickDeleteStock}
+        />
+
         <AdminNavbar />
         <AdminSidebar />
       </div>
@@ -255,10 +658,6 @@ function DaftarProduk() {
                 </div>
               </div>
               <ModalInputAdmin submitProduct={submitProduct} />
-              <AdminEditDetail submitProduct2={submitProduct2} />
-              <AdminEditStok />
-              {/* <AdminEditFoto /> */}
-              <AdminEditStockTableProduct />
               {/* <div className="flex items-center rounded-lg bg-violet-900 p-[11px] text-white">
                 <FiDownload className="text-sm" />
                 <div className="text-xs font-semibold px-2 tracking-wide">
