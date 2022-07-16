@@ -2,7 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import UserProductSidebar from "../components/UserProductSidebar";
-import Navbar from "../components/navbar";
+import Navbar from "../components/Navbar";
 import { HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi";
 import { Button } from "@chakra-ui/react";
 import axios from "axios";
@@ -16,6 +16,10 @@ import HomeDiscount from "../components/HomeDiscount";
 import HomePopularProductCarousel from "../components/HomePopularProductCarousel";
 import HomeJaminanBanner from "../components/HomeJaminanBanner";
 import Footer from "../components/Footer";
+
+import Cookies from "js-cookie";
+
+import { toast } from "react-toastify";
 
 export default function Home() {
   const [data, setData] = useState([]);
@@ -37,6 +41,31 @@ export default function Home() {
     fetchDaftarProduk();
   }, []);
 
+  useEffect(() => {
+    getAlamat();
+  }, []);
+
+  const [alamat, setalamat] = useState([]);
+  const getAlamat = async () => {
+    try {
+      let token = Cookies.get("token");
+      const res = await axios.get(`${API_URL}/profile/address/`, {
+        headers: {
+          authorization: `bearer ${token}`,
+        },
+      });
+      setalamat(res.data);
+      console.log("alamat list ", res.data);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response?.data.message, {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
+    }
+  };
   return (
     <>
       <div>
@@ -47,7 +76,7 @@ export default function Home() {
         <HomeTitleCard />
 
         {/* Home Prescription Card */}
-        <HomePrescriptionCard />
+        <HomePrescriptionCard alamat={alamat} />
 
         {/* Category Carousel  */}
         <div className="flex justify-between mt-[50px] items-end ">

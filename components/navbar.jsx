@@ -1,11 +1,10 @@
-import useUser from "../hooks/useUser";
 import { ButtonPrimary, ButtonSecondary } from "./button";
 import { AiOutlineSearch } from "react-icons/ai";
-import { IoCart, IoPersonCircle } from "react-icons/io5";
+import { IoCart } from "react-icons/io5";
 import { BsBellFill } from "react-icons/bs";
 import Link from "next/link";
 import { Image } from "@chakra-ui/react";
-
+import useUser from "../hooks/useUser";
 import { API_URL } from "../helpers";
 const Navbar = () => {
   const { isLogin, name, profilepic } = useUser();
@@ -13,9 +12,11 @@ const Navbar = () => {
   return (
     <div className="flex justify-between h-[80px] bg-white shadow-lg shadow-purple-100 px-5">
       <div className="w-[250px] h-full  flex items-center justify-center">
-        <div className="w-[200px]">
-          <img src={"/logo.svg"} className="text-sm" />
-        </div>
+        <Link href="/">
+          <div className="w-[200px] cursor-pointer">
+            <img src={"/logo.svg"} className="text-sm" />
+          </div>
+        </Link>
       </div>
       <div className="w-[680px]">
         <div className="mt-5 h-10 border-[1px] rounded-md border-gray-300 flex bg-white">
@@ -34,13 +35,21 @@ const Navbar = () => {
         <div className="w-[270px] ml-10 flex items-center justify-center">
           <IoCart className="text-2xl text-purple-900" />
           <BsBellFill className="text-xl text-purple-900 mx-10" />
-          <Image
-            borderRadius="full"
-            boxSize="60px"
-            src={profpic}
-            alt="profilepic"
-          />
-          <span className="text-xs text-purple-800 truncate ...">{name}</span>
+          <Link href="/profile">
+            <div className="cursor-pointer">
+              <Image
+                borderRadius="full"
+                boxSize="60px"
+                src={profpic}
+                alt="profilepic"
+              />
+            </div>
+          </Link>
+          <Link href="/profile">
+            <span className="text-xs text-purple-800 truncate ... cursor-pointer">
+              {name}
+            </span>
+          </Link>
         </div>
       ) : (
         <div className="w-96 flex items-center justify-center">

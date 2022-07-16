@@ -343,8 +343,8 @@ function AdminEditStockTable({
                     <Thead>
                       <Tr>
                         <Th>No.</Th>
-                        <Th>Expired at</Th>
-                        <Th>Stock</Th>
+                        <Th>Kadaluwarsa</Th>
+                        <Th>Stok</Th>
                         <Th>Actions</Th>
                       </Tr>
                     </Thead>

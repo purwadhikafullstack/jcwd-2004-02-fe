@@ -107,7 +107,7 @@ const ProfileModalEditPhoto = () => {
               type="button"
               className="mx-5 h-h-[300px] w-[300px] border-dashed border-2 cursor-pointer flex items-center justify-center"
             >
-              {selectedImage.filePreview ? (
+              {selectedImage?.filePreview ? (
                 <img
                   src={selectedImage.filePreview}
                   alt=""
@@ -134,7 +134,7 @@ const ProfileModalEditPhoto = () => {
             <Button
               colorScheme="purple"
               mr={3}
-              isDisabled={!selectedImage.file}
+              isDisabled={!selectedImage?.file}
               onClick={onSaveDataClick}
             >
               Simpan

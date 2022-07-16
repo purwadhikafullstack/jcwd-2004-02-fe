@@ -441,12 +441,12 @@ function DaftarProduk() {
   };
 
   const incNumAdd = () => {
-    let count = parseInt(inputStockAdd.stock) + 1;
+    let count = parseInt(inputStockAdd?.stock) + 1;
     setinputStockAdd({ ...inputStockAdd, stock: count });
   };
 
   const decNumAdd = () => {
-    let count = parseInt(inputStockAdd.stock) - 1;
+    let count = parseInt(inputStockAdd?.stock) - 1;
     count = count < 1 ? 1 : count;
     setinputStockAdd({ ...inputStockAdd, stock: count });
   };
