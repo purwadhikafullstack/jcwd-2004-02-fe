@@ -1,6 +1,5 @@
-import React, { Component } from "react";
-import { useEffect, useState } from "react";
-import { DownloadIcon } from "@chakra-ui/icons";
+import React from "react";
+import { useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -9,79 +8,55 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  useDisclosure,
   Button,
   FormControl,
-  FormLabel,
-  Input,
   Stack,
 } from "@chakra-ui/react";
 import axios from "axios";
-
 import { API_URL } from "../../helpers";
-import { flushSync } from "react-dom";
 
-function ModalInputAdmin({ submitProduct }) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+function ModalInputAdmin({ isOpen, onClose, fetchFoto, inputImage }) {
   const [tab, setTab] = useState(0);
-  const [selectedImage, setselectedImage] = useState([null, null, null]);
 
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
 
-  useEffect(() => {
-    fetchFoto();
-  }, []);
+  // handle image
+  const handleImageChange = async (e) => {
+    console.log(e.target.files[0]);
 
-  // get data symptom, category, dll
+    if (e.target.files[0]) {
+      // axios disini
+      const formData = new FormData();
+      formData.append("products", e.target.files[0]);
+      // 17 (product id) ganti params
+      formData.append("data", JSON.stringify(inputImage[0].product_id));
+      try {
+        await axios.post(`${API_URL}/products/pic`, formData);
+        setTimeout(() => {
+          fetchFoto(inputImage[0].product_id);
+        }, 500);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
-  const fetchFoto = async () => {
-    // let token = Cookies.get('token')
+  const deletePhoto = async (index) => {
+    let photo_id = inputImage[index].id;
     try {
-      let res = await axios.get(
-        `${API_URL}/products/getselectedproductpicture/17`,
-        selectedImage
-
-        // {
-        //   headers: {
-        //     authorization: `bearer ${token}`,
-        //   },
-        // }
-      );
-      // console.log(res.data);
-      console.log("resdata", res.data);
-
-      setinput(res.data);
-      // setinput([...res.data]);
+      await axios.delete(`${API_URL}/products/pic/${photo_id}`);
+      setTimeout(() => {
+        fetchFoto(inputImage[0].product_id);
+      }, 500);
     } catch (error) {
       console.log(error);
     }
   };
 
-  // handle image
-  const handleImageChange = (e, index) => {
-    console.log(e.target.files[0]);
-
-    if (e.target.files[0]) {
-      let selectedImageMut = selectedImage;
-      selectedImageMut[index] = e.target.files[0];
-
-      setselectedImage([...selectedImageMut]);
-    }
-  };
-
-  const deletePhoto = (index) => {
-    let selectedImageMut = selectedImage;
-    selectedImageMut[index] = null;
-
-    setselectedImage([...selectedImageMut]);
-  };
-
   const renderPhotos = (source) => {
-    console.log("source: ", source);
-
     return source.map((photo, index) => {
-      if (photo) {
+      if (photo.image) {
         return (
           <>
             <div>
@@ -93,75 +68,28 @@ function ModalInputAdmin({ submitProduct }) {
               </span>
               <img
                 className="h-[210px] w-[210px] object-cover mb-6 "
-                src={URL.createObjectURL(photo)}
-                alt=""
+                src={`${API_URL}` + photo.image}
+                alt="image"
                 key={index}
               />
             </div>
           </>
         );
-      } else {
-        return (
-          <>
-            <input
-              style={{ display: "none" }}
-              type="file"
-              id={"file" + index}
-              onChange={(e) => handleImageChange(e, index)}
-            />
-            <label
-              className="mx-5 h-[185px] w-[185px] border-dashed border-2 cursor-pointer flex items-center justify-center"
-              htmlFor={"file" + index}
-            >
-              <i className="">
-                {index === 0 ? "Insert Main Image" : "Insert Image"}
-              </i>
-            </label>
-          </>
-        );
       }
     });
   };
-  // console.log(input);
 
   // submit form
-  const onSaveDataClick = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-
-    // if (selectedImage[0] === null) {
-    //   // agar coding berhenti, dikasih return (perlu diberi warning pakai toastify)
-    //   return;
-    // }
-
-    for (let i = 0; i < selectedImage.length; i++) {
-      if (selectedImage[i]) {
-        formData.append(`products`, selectedImage[i]);
-      }
-    }
-
-    try {
-      await submitProduct(formData);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      flushSync(() => {
-        setTab(5);
-      });
-      setselectedImage([null, null, null]);
-      setTimeout(() => {
-        setTab(0);
-        onClose();
-      }, 800);
-    }
+  const onSaveDataClick = (e) => {
+    setTab(5);
+    setTimeout(() => {
+      setTab(0);
+      // onClose();
+    }, 500);
   };
 
   return (
     <>
-      <Button leftIcon={<DownloadIcon />} colorScheme="purple" onClick={onOpen}>
-        Edit Foto
-      </Button>
-
       <Modal
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}
@@ -169,12 +97,11 @@ function ModalInputAdmin({ submitProduct }) {
         onClose={onClose}
       >
         <ModalOverlay />
-        <ModalContent maxW="1000px" maxH="900px" pl={8} pt={4}>
-          <ModalHeader>Edit Foto Obat</ModalHeader>
-          <ModalCloseButton />
+        {tab === 0 ? (
+          <ModalContent maxW="1000px" maxH="900px" pl={8} pt={4}>
+            <ModalHeader>Edit Foto Obat</ModalHeader>
+            <ModalCloseButton />
 
-          {/* fourth tab */}
-          {tab === 0 ? (
             <div>
               <ModalBody pb={6}>
                 <FormControl
@@ -183,12 +110,26 @@ function ModalInputAdmin({ submitProduct }) {
                 >
                   <Stack spacing={3}>
                     <div>
-                      <div className="result ">
-                        {renderPhotos(selectedImage)}
-                      </div>
+                      <div className="result ">{renderPhotos(inputImage)}</div>
                     </div>
                   </Stack>
                 </FormControl>
+                <div>
+                  <input
+                    style={{ display: "none" }}
+                    type="file"
+                    id={"productImage"}
+                    onChange={(e) => handleImageChange(e)}
+                  />
+                  <div className="flex items-center justify-center ">
+                    <label
+                      className="mx-5 h-12 w-48 cursor-pointer flex items-center justify-center bg-purple-700 text-white rounded-lg"
+                      htmlFor={"productImage"}
+                    >
+                      <i>Tambah Foto</i>
+                    </label>
+                  </div>
+                </div>
               </ModalBody>
 
               <ModalFooter>
@@ -197,18 +138,28 @@ function ModalInputAdmin({ submitProduct }) {
                 </Button>
               </ModalFooter>
             </div>
-          ) : null}
-          {/* success tab */}
-          {tab === 5 ? (
+          </ModalContent>
+        ) : null}
+        {tab === 5 ? (
+          <ModalContent pl={8} pt={4}>
+            <ModalHeader>Edit Foto Obat</ModalHeader>
+            <ModalCloseButton />
+
             <div>
-              <ModalBody className="flex items-center justify-center" h="600px">
-                <div className="flex items-center justify-center">
-                  <img src={"/addProductSuccess.svg"} />
+              <ModalBody className="flex flex-col items-center justify-center">
+                <div className="flex flex-col items-center justify-center">
+                  <img src={"/ProductSuccess.svg"} />
+                  <div className="text-primary font-semibold">
+                    Gambar Produk Berhasil Diubah!
+                  </div>
+                  <div className="text-sky-900 text-sm">
+                    Gambar Produk diperbarui secara otomatis
+                  </div>
                 </div>
               </ModalBody>
             </div>
-          ) : null}
-        </ModalContent>
+          </ModalContent>
+        ) : null}
       </Modal>
     </>
   );

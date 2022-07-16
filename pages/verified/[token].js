@@ -56,13 +56,13 @@ const Verified = () => {
         }
     } 
 
-    if(loading) {
-        return (
-            <div>
-                <div>loading .....</div>
-            </div>
-        )
-    }
+    // if(loading) {
+    //     return (
+    //         <div>
+    //             <div>loading .....</div>
+    //         </div>
+    //     )
+    // }
 
     if (status === 1){ 
         return ( 
