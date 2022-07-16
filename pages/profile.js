@@ -1,12 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { CgProfile } from "react-icons/cg";
-
-import { RiLockPasswordLine } from "react-icons/ri";
-import { MdLocationOn, MdArrowBackIosNew } from "react-icons/md";
 import {
   Divider,
-  Image,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -31,6 +26,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import HeaderMobile from "../components/HeaderMobile";
+import UserProfileSidebar from "../components/UserProfileSidebar";
 
 const Profile = () => {
   const { name, email, gender, birthdate, profilepic, id } = useUser();
@@ -79,7 +75,10 @@ const Profile = () => {
         <Navbar />
       </div>
       <div className="flex ">
-        <div className=" md:shadow-md md:rounded-lg md:block mt-10 mx-auto w-[300px] ml-[52px] h-[380px] hidden ">
+        <div className="hidden md:block mt-10 mx-auto">
+          <UserProfileSidebar />
+        </div>
+        {/* <div className=" md:shadow-md md:rounded-lg md:block mt-10 mx-auto w-[300px] ml-[52px] h-[380px] hidden ">
           <div className="flex ml-5">
             <div className="cursor-pointer">
               <Link href="/profile">
@@ -129,7 +128,7 @@ const Profile = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className="flex md:mx-auto md:w-7/12 md:ml-10 md:h-5/6 w-screen justify-center shadow-md rounded-lg mt-10 pb-14 h-screen ">
           <div>

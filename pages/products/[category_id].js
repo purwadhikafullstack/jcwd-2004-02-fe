@@ -1,7 +1,7 @@
 import Head from "next/head";
 import UserProductSidebar from "../../components/UserProductSidebar";
 import UserProductMainPage from "../../components/UserProductMainPage";
-import Navbar from "../../components/navbar";
+import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";

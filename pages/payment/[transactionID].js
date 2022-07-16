@@ -1,6 +1,6 @@
 import BoxTimePayment from "../../components/BoxTimePayment";
 import Footer from "../../components/Footer";
-import Navbar from "../../components/navbar";
+import Navbar from "../../components/Navbar";
 import RingkasanOrder from "../../components/ringkasanOrder";
 import { Divider, Button } from "@chakra-ui/react";
 import React, { Component, useCallback, createRef } from "react";
