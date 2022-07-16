@@ -4,10 +4,12 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { IoCart, IoPersonCircle } from "react-icons/io5";
 import { BsBellFill } from "react-icons/bs";
 import Link from "next/link";
+import { Image } from "@chakra-ui/react";
 
+import { API_URL } from "../helpers";
 const Navbar = () => {
-  const { isLogin } = useUser();
-
+  const { isLogin, name, profilepic } = useUser();
+  const profpic = profilepic ? `${API_URL + profilepic}` : `../no_pic.png`;
   return (
     <div className="flex justify-between h-[80px] bg-white shadow-lg shadow-purple-100 px-5">
       <div className="w-[250px] h-full  flex items-center justify-center">
@@ -32,8 +34,13 @@ const Navbar = () => {
         <div className="w-[270px] ml-10 flex items-center justify-center">
           <IoCart className="text-2xl text-purple-900" />
           <BsBellFill className="text-xl text-purple-900 mx-10" />
-          <IoPersonCircle className="text-xl text-purple-900 mr-2" />
-          <span className="text-xs text-purple-800">arunika kiara...</span>
+          <Image
+            borderRadius="full"
+            boxSize="60px"
+            src={profpic}
+            alt="profilepic"
+          />
+          <span className="text-xs text-purple-800 truncate ...">{name}</span>
         </div>
       ) : (
         <div className="w-96 flex items-center justify-center">

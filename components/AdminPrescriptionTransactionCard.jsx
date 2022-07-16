@@ -83,16 +83,18 @@ function AdminPrescriptionTransactionCard({ data }) {
 
   // handle
   const handleChange = (e, prop) => {
-    // if (prop === "quantity") {
-    //   if (e.target.value >= input.name.value.total_stock) {
-    //     setinput({ ...input, [prop]: input.name.value.total_stock });
-    //   } else {
-    //     setinput({ ...input, [prop]: e.target.value });
-    //   }
-    // } else {
-    setinput({ ...input, [prop]: e.target.value });
-    console.log(prop, "prop");
-    // }
+    if (prop === "quantity") {
+      console.log(e.target.value, "val");
+      console.log(input.name.value.total_stock, "totstok");
+      if (e.target.value >= input.name.value.total_stock) {
+        setinput({ ...input, [prop]: input.name.value.total_stock });
+      } else {
+        setinput({ ...input, [prop]: e.target.value });
+      }
+    } else {
+      setinput({ ...input, [prop]: e.target.value });
+      console.log(prop, "prop");
+    }
   };
 
   // handle select
