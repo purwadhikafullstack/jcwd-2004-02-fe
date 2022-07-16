@@ -30,6 +30,7 @@ import Cookies from "js-cookie";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import HeaderMobile from "../components/HeaderMobile";
 
 const Profile = () => {
   const { name, email, gender, birthdate, profilepic, id } = useUser();
@@ -133,12 +134,13 @@ const Profile = () => {
         <div className="flex md:mx-auto md:w-7/12 md:ml-10 md:h-5/6 w-screen justify-center shadow-md rounded-lg mt-10 pb-14 h-screen ">
           <div>
             {/* mobile */}
-            <div className="md:hidden flex w-screen h-12 pl-6  text-xl shadow-lg font-bold justify-start text-primary">
+            <HeaderMobile title={"Profile"} />
+            {/* <div className="md:hidden flex w-screen h-12 pl-6  text-xl shadow-lg font-bold justify-start text-primary">
               <div className="pt-1 mr-3 cursor-pointer">
                 <MdArrowBackIosNew onClick={() => router.push("/")} />
               </div>
               <div>Profil</div>
-            </div>
+            </div> */}
             {/* desktop */}
             <div className="hidden md:block">
               <div className="pt-5 ml-11 text-2xl font-bold">Profil</div>
