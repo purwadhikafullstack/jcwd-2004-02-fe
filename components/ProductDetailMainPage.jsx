@@ -168,7 +168,7 @@ function ProductDetailMainPage({
               onClick={() => {
                 try {
                   onBuyClick();
-                  // route.push("/cart")
+                  route.push("/cart");
                 } catch (error) {
                   console.log(error);
                 }
