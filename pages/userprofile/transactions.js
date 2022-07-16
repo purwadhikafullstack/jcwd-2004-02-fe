@@ -10,8 +10,7 @@ import { API_URL } from "../../helpers";
 import Cookies from "js-cookie";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { addDays } from "date-fns";
-import dayjs from "dayjs";
+import UserTransactionPrescriptionCard from "../../components/UserPrescriptionTransactionCard";
 
 function UserTransaction() {
   const [input, setInput] = useState({
@@ -194,6 +193,7 @@ function UserTransaction() {
                     return (
                       <div key={id}>
                         <UserTransactionCard data={val} />
+                        <UserTransactionPrescriptionCard data={val} />
                       </div>
                     );
                   })}
@@ -204,7 +204,10 @@ function UserTransaction() {
                       <div key={id}>
                         {val.status == "menunggu pembayaran" ||
                         val.status == "menunggu konfirmasi" ? (
-                          <UserTransactionCard data={val} />
+                          <>
+                            <UserTransactionCard data={val} />
+                            <UserTransactionPrescriptionCard data={val} />
+                          </>
                         ) : null}
                       </div>
                     );
@@ -215,7 +218,10 @@ function UserTransaction() {
                     return (
                       <div key={id}>
                         {val.status == "diproses" ? (
-                          <UserTransactionCard data={val} />
+                          <>
+                            <UserTransactionCard data={val} />
+                            <UserTransactionPrescriptionCard data={val} />
+                          </>
                         ) : null}
                       </div>
                     );
@@ -226,7 +232,10 @@ function UserTransaction() {
                     return (
                       <div key={id}>
                         {val.status == "dikirim" ? (
-                          <UserTransactionCard data={val} />
+                          <>
+                            <UserTransactionCard data={val} />
+                            <UserTransactionPrescriptionCard data={val} />
+                          </>
                         ) : null}
                       </div>
                     );
@@ -237,7 +246,10 @@ function UserTransaction() {
                     return (
                       <div key={id}>
                         {val.status == "selesai" ? (
-                          <UserTransactionCard data={val} />
+                          <>
+                            <UserTransactionCard data={val} />
+                            <UserTransactionPrescriptionCard data={val} />
+                          </>
                         ) : null}
                       </div>
                     );
@@ -248,7 +260,10 @@ function UserTransaction() {
                     return (
                       <div key={id}>
                         {val.status == "dibatalkan" ? (
-                          <UserTransactionCard data={val} />
+                          <>
+                            <UserTransactionCard data={val} />
+                            <UserTransactionPrescriptionCard data={val} />
+                          </>
                         ) : null}
                       </div>
                     );

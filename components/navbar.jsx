@@ -4,22 +4,30 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { IoCart, IoPersonCircle } from "react-icons/io5";
 import { BsBellFill } from "react-icons/bs";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Navbar = () => {
-  const { isLogin } = useUser();
+  const router = useRouter();
+  const { isLogin, name } = useUser();
 
   return (
-    <div className="flex justify-between h-[80px] bg-white shadow-lg shadow-purple-100 px-5">
-      <div className="w-[250px] h-full  flex items-center justify-center">
+    <div className="flex justify-between h-[80px] bg-white shadow-lg shadow-purple-100 px-[76px]">
+      <div
+        className="w-[250px] h-full  flex items-center justify-center"
+        onClick={() => {
+          router.push("/");
+        }}
+      >
         <div className="w-[200px]">
           <img src={"/logo.svg"} className="text-sm" />
         </div>
       </div>
+
       <div className="w-[680px]">
         <div className="mt-5 h-10 border-[1px] rounded-md border-gray-300 flex bg-white">
           <div className="w-full flex items-center">
             <input
-              placeholder="Cari Obat,Suplemen,Vitamin,Produk kesehatan"
+              placeholder="Cari Obat, Suplemen, Vitamin, Produk kesehatan"
               className="w-[595px] border-0 ml-2 focus:outline-none text-sm"
             />
           </div>
@@ -30,10 +38,22 @@ const Navbar = () => {
       </div>
       {isLogin ? (
         <div className="w-[270px] ml-10 flex items-center justify-center">
-          <IoCart className="text-2xl text-purple-900" />
-          <BsBellFill className="text-xl text-purple-900 mx-10" />
-          <IoPersonCircle className="text-xl text-purple-900 mr-2" />
-          <span className="text-xs text-purple-800">arunika kiara...</span>
+          <Link href={"/cart"}>
+            <div>
+              <IoCart className="text-2xl text-purple-900" />
+            </div>
+          </Link>
+          <div>
+            <BsBellFill className="text-xl text-purple-900 mx-10" />
+          </div>
+          <Link href={"/profile"}>
+            <div className="lg:max-w-[125px] flex items-center">
+              <IoPersonCircle className="text-2xl text-purple-900 mr-[14px]" />
+              <div className="text-xs lg:max-w-[89px] text-purple-800 truncate">
+                {name}
+              </div>
+            </div>
+          </Link>
         </div>
       ) : (
         <div className="w-96 flex items-center justify-center">
