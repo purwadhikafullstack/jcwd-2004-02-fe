@@ -138,56 +138,12 @@ const Cart = ({ getCartAction }) => {
   // input pindahin kesini
   //function handle pindahin kesini
 
-<<<<<<< HEAD
-    return (
-        <div> 
-            <Navbar/> 
-            <div className="py-14 px-20">
-                <span className="text-xl font-bold text-purple-900 ">Keranjang Saya </span>
-                <div className="flex">
-                    <div className="flex flex-col mt-5"> 
-                        {cart.map((cart,index)=> (
-                            <BoxWithImage  
-                            // {/* <BoxAddress/> */} 
-                            key={index}
-                            id={cart.id} 
-                            name={cart.product_name} 
-                            imageProduct={API_URL + cart.images.image}
-                            price={cart.hargaJual} 
-                            kuantitas={cart.quantityCart} 
-                            unit={cart.unit}
-                            total={cart.totalHarga}  
-                            index={index} 
-                            productId={cart.product_id}
-                            total_stock={cart.total_stock}
-                            /> 
-                        ))}  
-                    </div>
-                    <BoxTotalCart
-                    subTotal={subTotal}/> 
-                </div>
-            </div> 
-            <div className="py-14 px-20">
-                <div>
-                    <img src={"/Line6.svg"}/>
-                </div> 
-                <span className="text-xl font-bold text-purple-900 ">Produk Terkait</span> 
-                <div className="mt-5 grid grid-cols-5 gap-0"> 
-                    <CardHomeBottom/>
-                    <CardHomeBottom/>
-                    <CardHomeBottom/>
-                    <CardHomeBottom/>
-                    <CardHomeBottom/>
-                </div>
-            </div>
-=======
   return (
     <>
       <Navbar />
       <div className="user-container">
         <div className="text-xl font-bold text-purple-900 mb-[36px] mx-20">
           Keranjang Saya
->>>>>>> b20bb8b4209faa62760f9da3c5bcab564b337672
         </div>
         <div className="mx-20">
           <div className="flex justify-between">
