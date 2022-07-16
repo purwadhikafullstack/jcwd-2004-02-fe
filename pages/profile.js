@@ -1,8 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import { useEffect, useState } from "react";
 import { CgProfile } from "react-icons/cg";
-import { RiListUnordered, RiLockPasswordLine } from "react-icons/ri";
-import { MdPayments, MdLocationOn } from "react-icons/md";
+
+import { RiLockPasswordLine } from "react-icons/ri";
+import { MdLocationOn, MdArrowBackIosNew } from "react-icons/md";
 import {
   Divider,
   Image,
@@ -27,6 +28,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import Head from "next/head";
 
 const Profile = () => {
   const { name, email, gender, birthdate, profilepic, id } = useUser();
@@ -37,6 +40,7 @@ const Profile = () => {
     getAlamat();
   }, []);
 
+  const router = useRouter();
   const getAlamat = async () => {
     try {
       let token = Cookies.get("token");
@@ -60,9 +64,21 @@ const Profile = () => {
 
   return (
     <div>
-      <Navbar />
-      <div className="flex">
-        <div className=" shadow-md rounded-lg mt-10 mx-auto w-[300px] ml-[52px] h-[380px]">
+      <Head>
+        <title>Profile</title>
+        <meta
+          name="viewport"
+          content="initial-scale=1.0, width=device-width"
+          key="userprofile"
+        />
+
+        <link rel="icon" href="/Healthymed.svg" />
+      </Head>
+      <div className="hidden md:block">
+        <Navbar />
+      </div>
+      <div className="flex ">
+        <div className=" md:shadow-md md:rounded-lg md:block mt-10 mx-auto w-[300px] ml-[52px] h-[380px] hidden ">
           <div className="flex ml-5">
             <div className="cursor-pointer">
               <Link href="/profile">
@@ -114,23 +130,33 @@ const Profile = () => {
           </div>
         </div>
 
-        <div className="flex mx-auto shadow-md w-7/12 rounded-lg mt-10 pb-14 ml-10">
+        <div className="flex md:mx-auto md:w-7/12 md:ml-10 md:h-5/6 w-screen justify-center shadow-md rounded-lg mt-10 pb-14 h-screen ">
           <div>
-            <div className="pt-5 ml-11 text-2xl font-bold">Profil</div>
-            <div className="bg-slate-200">
-              <Divider className="mt-7" />
+            {/* mobile */}
+            <div className="md:hidden flex w-screen h-12 pl-6  text-xl shadow-lg font-bold justify-start text-primary">
+              <div className="pt-1 mr-3 cursor-pointer">
+                <MdArrowBackIosNew onClick={() => router.push("/")} />
+              </div>
+              <div>Profil</div>
             </div>
-            <div className="flex">
-              <div className="flex flex-col">
+            {/* desktop */}
+            <div className="hidden md:block">
+              <div className="pt-5 ml-11 text-2xl font-bold">Profil</div>
+              <div className="bg-slate-200">
+                <Divider className="mt-7 " />
+              </div>
+            </div>
+            <div className="flex flex-col md:flex-row">
+              <div className="flex flex-col items-center justify-center">
                 <img
-                  className="flex items-center ml-11 mt-10 rounded-2xl h-[300px] w-[300px]"
+                  className="flex items-center md:ml-11 mt-10 rounded-2xl h-[200px] w-[200px] md:h-[300px] md:w-[300px]"
                   src={profpic}
                 />
                 <ProfileModalEditPhoto />
               </div>
               <div>
-                <div>
-                  <div className="flex mt-12 ">
+                <div className="mx-32">
+                  <div className="flex md:mt-12 ">
                     <div className="profileTag">Nama Lengkap</div>
                     <div className="profileDesc ml-7">{name}</div>
                   </div>
@@ -153,6 +179,17 @@ const Profile = () => {
                 </div>
 
                 <ProfileModalEditProfile />
+              </div>
+              <div className="flex flex-col md:hidden mx-[168px] mt-3 text-[indigo] font-semibold">
+                <hr className="bg-purple-800 border-purple-800 rounded-xl border-1 mt-4" />
+                <div className="flex justify-between">
+                  <div className="mt-6 cursor-pointer" onClick={onOpen}>
+                    Daftar Alamat
+                  </div>
+                  <Link href="/forgotPassword">
+                    <div className="mt-6 cursor-pointer">Ganti Password</div>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>

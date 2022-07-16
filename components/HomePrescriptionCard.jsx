@@ -25,6 +25,7 @@ function HomePrescriptionCard({ alamat }) {
           boleh lebih dari 10 MB
         </div>
       </div>
+      {/* kalau ada alamat */}
       {alamat.length ? (
         <div className="my-auto mr-[28px]">
           <Link href={"/prescription"}>
@@ -39,17 +40,28 @@ function HomePrescriptionCard({ alamat }) {
           </Link>
         </div>
       ) : (
+        // kalau tidak ada alamat
         <div className="my-auto mr-[28px]">
-          <Link href={"/address"}>
-            <Button
-              height="48px"
-              width="274px"
-              textColor={"whiteAlpha.900"}
-              bgColor={"brand.primary"}
-            >
-              Unggah Resep
-            </Button>
-          </Link>
+          {/* <Link href={"/address"}> */}
+          <Button
+            height="48px"
+            width="274px"
+            textColor={"whiteAlpha.900"}
+            bgColor={"brand.primary"}
+            onClick={() => {
+              // kalau belum login
+              if (!isLogin) {
+                router.push("/login");
+              }
+              // kalau sudah login, ke address
+              else {
+                router.push("/address");
+              }
+            }}
+          >
+            Unggah Resep
+          </Button>
+          {/* </Link> */}
         </div>
       )}
     </div>

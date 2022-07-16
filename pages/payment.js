@@ -2,7 +2,7 @@ import BoxCheckout from "../components/boxCheckout";
 import BoxPayment from "../components/BoxPayment";
 import BoxPaymentProof from "../components/BoxPaymentProof";
 import BoxTimePayment from "../components/BoxTimePayment";
-import Footer from "../components/footer";
+import Footer from "../components/Footer";
 import Navbar from "../components/navbar";
 import RingkasanOrder from "../components/ringkasanOrder";
 import { Divider, Button } from "@chakra-ui/react";

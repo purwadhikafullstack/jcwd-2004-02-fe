@@ -10,6 +10,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import Footer from "../components/Footer";
+import { MdArrowBackIosNew } from "react-icons/md";
 
 const Prescription = () => {
   const router = useRouter();
@@ -51,11 +52,11 @@ const Prescription = () => {
   };
   return (
     <div>
-      <div className="hidden md:contents">
+      <div className="hidden md:block">
         <Navbar />
       </div>
       <div className="flex flex-col ">
-        <div className="hidden md:contents ml-12 mt-10 ">
+        <div className="hidden md:block ml-12 mt-10 ">
           <div className="text-2xl font-semibold md:ml-48 md:mt-10">
             Kirim Resep
           </div>
@@ -73,8 +74,11 @@ const Prescription = () => {
             Unggah Resep Dokter
           </div>
           {/* mobile nya */}
-          <div className="md:hidden w-full h-12 pl-6 text-xl shadow-lg font-bold justify-start text-primary md:text-gray-500">
-            {"<"} Unggah File
+          <div className="md:hidden flex w-full h-12 pl-6 text-xl shadow-lg font-bold justify-start text-primary md:text-gray-500">
+            <div className="pt-1 mr-3 cursor-pointer">
+              <MdArrowBackIosNew onClick={() => router.push("/")} />
+            </div>
+            <div>Unggah File</div>
           </div>
           <Divider className="hidden md:mt-2" />
           <div className="w-full h-screen md:h-[400px] flex flex-col items-center justify-center">
@@ -85,7 +89,7 @@ const Prescription = () => {
                 {...getRootProps()}
               >
                 <input {...getInputProps()} />
-                <div className="hidden md:contents md:mb-6 md:text-2xl">
+                <div className="hidden md:block md:mb-6 md:text-2xl">
                   Tarik & Letakkan File
                 </div>
                 <div className="hidden md:flex">
@@ -157,7 +161,7 @@ const Prescription = () => {
             </Button>
           </div>
         </div>
-        <div className="hidden md:contents">
+        <div className="hidden md:block">
           <Footer />
         </div>
       </div>
