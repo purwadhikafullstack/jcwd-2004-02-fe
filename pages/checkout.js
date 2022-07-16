@@ -110,7 +110,8 @@ const Checkout = ({getCartAction}) => {
                                 name={checkout.product_name} 
                                 price={checkout.totalHarga} 
                                 unit={checkout.unit}
-                                quantityCart={checkout.quantityCart}
+                                quantityCart={checkout.quantityCart} 
+                                image={API_URL + checkout.images.image}
                                 />
                                 ))}
                                 
