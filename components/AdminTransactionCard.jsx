@@ -1,6 +1,3 @@
-import { FiDownload } from "react-icons/fi";
-import { HiSearch, HiDotsVertical } from "react-icons/hi";
-import { IoDocumentText } from "react-icons/io5";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import { BsFillChatDotsFill } from "react-icons/bs";
 import { Checkbox } from "@chakra-ui/react";
@@ -39,10 +36,23 @@ function AdminTransactionCard({ data }) {
   } = data;
 
   const [show, setShow] = useState(false);
+
   const {
     isOpen: isOpenAccept,
     onOpen: onOpenAccept,
     onClose: onCloseAccept,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenDetail,
+    onOpen: onOpenDetail,
+    onClose: onCloseDetail,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenReject,
+    onOpen: onOpenReject,
+    onClose: onCloseReject,
   } = useDisclosure();
 
   const rupiah = (number) => {
@@ -57,7 +67,7 @@ function AdminTransactionCard({ data }) {
       {status == "menunggu pembayaran" ? null : (
         <>
           {!prescription_number ? (
-            <div className="bg-white mt-[32px] rounded-lg">
+            <div className="bg-white mt-[32px] rounded-lg cursor-default">
               <div className="py-[16px] px-[26px] border-l-4 rounded-t-lg border-b-2 items-center">
                 <div className="flex justify-between">
                   <div className="flex items-center">
@@ -156,18 +166,17 @@ function AdminTransactionCard({ data }) {
                                 <div className="flex mt-[10px]">
                                   <div className="w-[75px] h-[75px] rounded-lg border-2 mr-[24px] overflow-hidden relative">
                                     <Image
-                                      src={`${API_URL}/${products[id].image}`}
+                                      src={`${API_URL}/${val.image}`}
                                       layout="fill"
                                       objectFit="cover"
                                     />
                                   </div>
                                   <div className="w-[216px] text-sm">
                                     <div className="truncate pr-[32px] font-bold text-primary">
-                                      {products[id].name}
+                                      {val.name}
                                     </div>
                                     <div className="text-xs mt-[2px] text-slate-400">
-                                      {products[id].quantity} x{" "}
-                                      {rupiah(products[id].price)}
+                                      {val.quantity} x {rupiah(val.price)}
                                     </div>
                                   </div>
                                 </div>
@@ -224,7 +233,10 @@ function AdminTransactionCard({ data }) {
                           objectFit="cover"
                         />
                       </div>
-                      <div className="ml-[10px] font-medium text-sm">
+                      <div
+                        className="ml-[10px] font-medium text-sm"
+                        onClick={onOpenDetail}
+                      >
                         Detail Pesanan
                       </div>
                     </div>
@@ -232,7 +244,10 @@ function AdminTransactionCard({ data }) {
                   <div className="flex text-sm font-medium items-center">
                     {status == "menunggu konfirmasi" ? (
                       <>
-                        <div className="mr-[46px] text-primary">
+                        <div
+                          className="mr-[46px] text-primary"
+                          onClick={onOpenReject}
+                        >
                           Tolak Pesanan
                         </div>
                         <button
@@ -284,6 +299,7 @@ function AdminTransactionCard({ data }) {
         </>
       )}
 
+      {/* TERIMA PESANAN */}
       <Modal
         isOpen={isOpenAccept}
         scrollBehavior="inside"
@@ -293,7 +309,7 @@ function AdminTransactionCard({ data }) {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            <div className="flex justify-center mt-10">
+            <div className="flex justify-center mt-10 font-bold">
               <div>
                 <div className="text-center text-[20px] text-primary">
                   Terima Pesanan
@@ -306,8 +322,8 @@ function AdminTransactionCard({ data }) {
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <div className="w-full pb-5 flex justify-between items-center">
-              <div className="flex text-[14px] gap-2">
+            <div className="w-full pb-5 justify-between items-center text-primary">
+              <div className="flex text-[14px] gap-2 mb-[20px]">
                 <div className="font-bold">{recipient} / </div>
                 <div className=" font-bold pr-2">{transaction_number} /</div>
                 <div className="flex items-center gap-2">
@@ -317,12 +333,186 @@ function AdminTransactionCard({ data }) {
                   {dayjs(created_at).format("DD MMM YYYY, HH:mm WIB")}
                 </div>
               </div>
+
+              {products.map((val, id) => {
+                return (
+                  <div className="text-[14px] mb-[5px]" key={id}>
+                    <div className="font-semibold">{val.name}</div>
+                    <div className="flex text-slate-500">
+                      <p className="w-[120px]">
+                        {val.quantity} x {val.price}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+
+              <div className="w-full mt-[37px] h-[32px] px-[10px] py-[8px] bg-slate-200 font-bold rounded-md flex items-center justify-between">
+                <div>
+                  Total Harga{" "}
+                  <span className="font-medium text-sm">
+                    ({products.length} Obat){" "}
+                  </span>
+                </div>
+                <div>{rupiah(subtotal)}</div>
+              </div>
             </div>
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="purple" mr={3}>
+            <Button
+              onClick={onCloseAccept}
+              bgColor="gray.400"
+              colorScheme="black"
+              mr={3}
+            >
+              Kembali
+            </Button>
+            <Button bgColor="brand.secondary" colorScheme="black">
               Terima Pesanan
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      {/* DETAIL PESANAN */}
+      <Modal
+        isOpen={isOpenDetail}
+        scrollBehavior="inside"
+        onClose={onCloseDetail}
+        size="3xl"
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            <div className="flex font-bold justify-center mt-10">
+              <div className="text-center text-[20px] text-primary">
+                Ringkasan Pesanan
+              </div>
+            </div>
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <div className="w-full pb-5 justify-between items-center text-primary">
+              <div className="flex text-[14px] gap-2 mb-[20px]">
+                <div className="font-bold">{recipient} / </div>
+                <div className=" font-bold pr-2">{transaction_number} /</div>
+                <div className="flex items-center gap-2">
+                  <span>
+                    <AiOutlineClockCircle />
+                  </span>
+                  {dayjs(created_at).format("DD MMM YYYY, HH:mm WIB")}
+                </div>
+              </div>
+
+              {products.map((val, id) => {
+                return (
+                  <div className="text-[14px] mb-[5px]" key={id}>
+                    <div className="font-semibold">{val.name}</div>
+                    <div className="flex text-slate-500">
+                      <p className="w-[120px]">
+                        {val.quantity} x {val.price}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+
+              <div className="w-full mt-[37px] h-[32px] px-[10px] py-[8px] bg-slate-200 font-bold rounded-md flex items-center justify-between">
+                <div>
+                  Total Harga{" "}
+                  <span className="font-medium text-sm">
+                    ({products.length} Obat){" "}
+                  </span>
+                </div>
+                <div>{rupiah(subtotal)}</div>
+              </div>
+            </div>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button
+              onClick={onCloseDetail}
+              bgColor="gray.400"
+              colorScheme="black"
+            >
+              Kembali
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      {/* REJECT PESANAN */}
+      <Modal
+        isOpen={isOpenReject}
+        scrollBehavior="inside"
+        onClose={onCloseReject}
+        size="3xl"
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            <div className="flex justify-center mt-10 font-bold">
+              <div>
+                <div className="text-center text-[20px] text-primary">
+                  Tolak Pesanan
+                </div>
+                <div className="text-center text-[14px] font-medium text-primary">
+                  Apakah kamu yakin untuk menolak pesanan ini?
+                </div>
+              </div>
+            </div>
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <div className="w-full pb-5 justify-between items-center text-primary">
+              <div className="flex text-[14px] gap-2 mb-[20px]">
+                <div className="font-bold">{recipient} / </div>
+                <div className=" font-bold pr-2">{transaction_number} /</div>
+                <div className="flex items-center gap-2">
+                  <span>
+                    <AiOutlineClockCircle />
+                  </span>
+                  {dayjs(created_at).format("DD MMM YYYY, HH:mm WIB")}
+                </div>
+              </div>
+
+              {products.map((val, id) => {
+                return (
+                  <div className="text-[14px] mb-[5px]" key={id}>
+                    <div className="font-semibold">{val.name}</div>
+                    <div className="flex text-slate-500">
+                      <p className="w-[120px]">
+                        {val.quantity} x {val.price}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+
+              <div className="w-full mt-[37px] h-[32px] px-[10px] py-[8px] bg-slate-200 font-bold rounded-md flex items-center justify-between">
+                <div>
+                  Total Harga{" "}
+                  <span className="font-medium text-sm">
+                    ({products.length} Obat){" "}
+                  </span>
+                </div>
+                <div>{rupiah(subtotal)}</div>
+              </div>
+            </div>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button
+              onClick={onCloseReject}
+              bgColor="gray.400"
+              colorScheme="black"
+              mr={3}
+            >
+              Kembali
+            </Button>
+            <Button bgColor="brand.secondary" colorScheme="black">
+              Tolak Pesanan
             </Button>
           </ModalFooter>
         </ModalContent>

@@ -3,6 +3,19 @@ import { BsFillChatDotsFill } from "react-icons/bs";
 import { FaTrash } from "react-icons/fa";
 import Image from "next/image";
 import { API_URL } from "../helpers";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Button,
+  FormLabel,
+  Input,
+} from "@chakra-ui/react";
 import dayjs from "dayjs";
 import React from "react";
 import { useEffect, useState } from "react";
@@ -38,6 +51,7 @@ import { toast } from "react-toastify";
 
 function AdminPrescriptionTransactionCard({ data }) {
   const {
+    id,
     status,
     prescription_number,
     transaction_number,
@@ -54,6 +68,7 @@ function AdminPrescriptionTransactionCard({ data }) {
     id,
   } = data;
 
+<<<<<<< HEAD
   const [tab, setTab] = useState(0);
   // get list nama obat
   const [productList, setproductList] = useState([]);
@@ -222,6 +237,32 @@ function AdminPrescriptionTransactionCard({ data }) {
     return subTotal;
   };
 
+=======
+  const rupiah = (number) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+    }).format(number);
+  };
+
+  const {
+    isOpen: isOpenAccept,
+    onOpen: onOpenAccept,
+    onClose: onCloseAccept,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenDetail,
+    onOpen: onOpenDetail,
+    onClose: onCloseDetail,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenReject,
+    onOpen: onOpenReject,
+    onClose: onCloseReject,
+  } = useDisclosure();
+>>>>>>> 5df5d3562f0dbedfda6554c04cc6d47e1b46a584
   return (
     <>
       {prescription_number ? (
@@ -334,13 +375,21 @@ function AdminPrescriptionTransactionCard({ data }) {
                           objectFit="cover"
                         />
                       </div>
-                      <div className="ml-[10px] font-medium text-sm">
+                      <div
+                        className="ml-[10px] font-medium text-sm"
+                        onClick={onOpenDetail}
+                      >
                         Detail Pesanan
                       </div>
                     </div>
                   </div>
                   <div className="flex text-sm font-medium items-center">
-                    <div className="mr-[46px] text-primary">Tolak Pesanan</div>
+                    <div
+                      className="mr-[46px] text-primary"
+                      onClick={onOpenReject}
+                    >
+                      Tolak Pesanan
+                    </div>
                     <button
                       disabled
                       className="text-white bg-slate-400 w-[156px] rounded-md h-[32px] py-[5px] px-[25px]"
@@ -469,7 +518,10 @@ function AdminPrescriptionTransactionCard({ data }) {
                           objectFit="cover"
                         />
                       </div>
-                      <div className="ml-[10px] font-medium text-sm">
+                      <div
+                        className="ml-[10px] font-medium text-sm"
+                        onClick={onOpenDetail}
+                      >
                         Detail Pesanan
                       </div>
                     </div>
@@ -477,7 +529,10 @@ function AdminPrescriptionTransactionCard({ data }) {
                   <div className="flex text-sm font-medium items-center">
                     {status == "menunggu konfirmasi" ? (
                       <>
-                        <div className="mr-[46px] text-primary">
+                        <div
+                          className="mr-[46px] text-primary"
+                          onClick={onOpenReject}
+                        >
                           Tolak Pesanan
                         </div>
                         <button
@@ -529,6 +584,7 @@ function AdminPrescriptionTransactionCard({ data }) {
         </>
       ) : null}
 
+<<<<<<< HEAD
       {/* modal custom order resep */}
       <Modal
         initialFocusRef={initialRef}
@@ -861,6 +917,237 @@ function AdminPrescriptionTransactionCard({ data }) {
             </div>
           </ModalContent>
         ) : null}
+=======
+      {/* DETAIL PESANAN */}
+      <Modal
+        isOpen={isOpenDetail}
+        scrollBehavior="inside"
+        onClose={onCloseDetail}
+        size="3xl"
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            <div className="flex font-bold justify-center mt-10">
+              <div className="text-center text-[20px] text-primary">
+                Ringkasan Pesanan
+              </div>
+            </div>
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {products.length ? (
+              <div className="w-full pb-5 justify-between items-center text-primary">
+                <div className="flex text-[14px] gap-2 mb-[20px]">
+                  <div className="font-bold">{recipient} / </div>
+                  <div className=" font-bold pr-2">{transaction_number} /</div>
+                  <div className="flex items-center gap-2">
+                    <span>
+                      <AiOutlineClockCircle />
+                    </span>
+                    {dayjs(created_at).format("DD MMM YYYY, HH:mm WIB")}
+                  </div>
+                </div>
+
+                {products.map((val, id) => {
+                  return (
+                    <div className="text-[14px] mb-[5px]" key={id}>
+                      <div className="font-semibold">{val.name}</div>
+                      <div className="flex text-slate-500">
+                        <p className="w-[120px]">
+                          {val.quantity} x {val.price}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+
+                <div className="w-full mt-[37px] h-[32px] px-[10px] py-[8px] bg-slate-200 font-bold rounded-md flex items-center justify-between">
+                  <div>
+                    Total Harga{" "}
+                    <span className="font-medium text-sm">
+                      ({products.length} Obat){" "}
+                    </span>
+                  </div>
+                  <div>{rupiah(subtotal)}</div>
+                </div>
+              </div>
+            ) : (
+              <div className="text-center font-medium my-[60px] text-primary">
+                Pesanan untuk resep ini belum dibuat.
+              </div>
+            )}
+          </ModalBody>
+
+          <ModalFooter>
+            <Button
+              onClick={onCloseDetail}
+              bgColor="gray.400"
+              colorScheme="black"
+            >
+              Kembali
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      {/* REJECT PESANAN */}
+      <Modal
+        isOpen={isOpenReject}
+        scrollBehavior="inside"
+        onClose={onCloseReject}
+        size="3xl"
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            <div className="flex justify-center mt-10 font-bold">
+              <div>
+                <div className="text-center text-[20px] text-primary">
+                  Tolak Pesanan
+                </div>
+                <div className="text-center text-[14px] font-medium text-primary">
+                  Apakah kamu yakin untuk menolak pesanan ini?
+                </div>
+              </div>
+            </div>
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {products.length ? (
+              <div className="w-full pb-5 justify-between items-center text-primary">
+                <div className="flex text-[14px] gap-2 mb-[20px]">
+                  <div className="font-bold">{recipient} / </div>
+                  <div className=" font-bold pr-2">{transaction_number} /</div>
+                  <div className="flex items-center gap-2">
+                    <span>
+                      <AiOutlineClockCircle />
+                    </span>
+                    {dayjs(created_at).format("DD MMM YYYY, HH:mm WIB")}
+                  </div>
+                </div>
+
+                {products.map((val, id) => {
+                  return (
+                    <div className="text-[14px] mb-[5px]" key={id}>
+                      <div className="font-semibold">{val.name}</div>
+                      <div className="flex text-slate-500">
+                        <p className="w-[120px]">
+                          {val.quantity} x {val.price}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+
+                <div className="w-full mt-[37px] h-[32px] px-[10px] py-[8px] bg-slate-200 font-bold rounded-md flex items-center justify-between">
+                  <div>
+                    Total Harga{" "}
+                    <span className="font-medium text-sm">
+                      ({products.length} Obat){" "}
+                    </span>
+                  </div>
+                  <div>{rupiah(subtotal)}</div>
+                </div>
+              </div>
+            ) : (
+              <div className="text-center font-medium my-[60px] text-primary">
+                Pesanan untuk resep ini belum dibuat.
+              </div>
+            )}
+          </ModalBody>
+
+          <ModalFooter>
+            <Button
+              onClick={onCloseReject}
+              bgColor="gray.400"
+              colorScheme="black"
+              mr={3}
+            >
+              Kembali
+            </Button>
+            <Button bgColor="brand.secondary" colorScheme="black">
+              Tolak Pesanan
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      {/* TERIMA PESANAN */}
+      <Modal
+        isOpen={isOpenAccept}
+        scrollBehavior="inside"
+        onClose={onCloseAccept}
+        size="3xl"
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            <div className="flex justify-center mt-10 font-bold">
+              <div>
+                <div className="text-center text-[20px] text-primary">
+                  Terima Pesanan
+                </div>
+                <div className="text-center text-[14px] font-medium text-primary">
+                  Stok akan berkurang secara otomatis setelah pesanan diterima.
+                </div>
+              </div>
+            </div>
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <div className="w-full pb-5 justify-between items-center text-primary">
+              <div className="flex text-[14px] gap-2 mb-[20px]">
+                <div className="font-bold">{recipient} / </div>
+                <div className=" font-bold pr-2">{transaction_number} /</div>
+                <div className="flex items-center gap-2">
+                  <span>
+                    <AiOutlineClockCircle />
+                  </span>
+                  {dayjs(created_at).format("DD MMM YYYY, HH:mm WIB")}
+                </div>
+              </div>
+
+              {products.map((val, id) => {
+                return (
+                  <div className="text-[14px] mb-[5px]" key={id}>
+                    <div className="font-semibold">{val.name}</div>
+                    <div className="flex text-slate-500">
+                      <p className="w-[120px]">
+                        {val.quantity} x {val.price}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+
+              <div className="w-full mt-[37px] h-[32px] px-[10px] py-[8px] bg-slate-200 font-bold rounded-md flex items-center justify-between">
+                <div>
+                  Total Harga{" "}
+                  <span className="font-medium text-sm">
+                    ({products.length} Obat){" "}
+                  </span>
+                </div>
+                <div>{rupiah(subtotal)}</div>
+              </div>
+            </div>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button
+              onClick={onCloseAccept}
+              bgColor="gray.400"
+              colorScheme="black"
+              mr={3}
+            >
+              Kembali
+            </Button>
+            <Button bgColor="brand.secondary" colorScheme="black">
+              Terima Pesanan
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+>>>>>>> 5df5d3562f0dbedfda6554c04cc6d47e1b46a584
       </Modal>
     </>
   );

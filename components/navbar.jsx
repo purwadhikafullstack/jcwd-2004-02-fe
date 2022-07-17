@@ -18,11 +18,12 @@ const Navbar = () => {
           </div>
         </Link>
       </div>
+
       <div className="w-[680px]">
         <div className="mt-5 h-10 border-[1px] rounded-md border-gray-300 flex bg-white">
           <div className="w-full flex items-center">
             <input
-              placeholder="Cari Obat,Suplemen,Vitamin,Produk kesehatan"
+              placeholder="Cari Obat, Suplemen, Vitamin, Produk kesehatan"
               className="w-[595px] border-0 ml-2 focus:outline-none text-sm"
             />
           </div>
