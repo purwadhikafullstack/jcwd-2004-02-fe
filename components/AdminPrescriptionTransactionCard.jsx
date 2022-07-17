@@ -3,19 +3,7 @@ import { BsFillChatDotsFill } from "react-icons/bs";
 import { FaTrash } from "react-icons/fa";
 import Image from "next/image";
 import { API_URL } from "../helpers";
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  useDisclosure,
-  Button,
-  FormLabel,
-  Input,
-} from "@chakra-ui/react";
+
 import dayjs from "dayjs";
 import React from "react";
 import { useEffect, useState } from "react";
@@ -51,7 +39,6 @@ import { toast } from "react-toastify";
 
 function AdminPrescriptionTransactionCard({ data }) {
   const {
-    id,
     status,
     prescription_number,
     transaction_number,
@@ -68,7 +55,6 @@ function AdminPrescriptionTransactionCard({ data }) {
     id,
   } = data;
 
-<<<<<<< HEAD
   const [tab, setTab] = useState(0);
   // get list nama obat
   const [productList, setproductList] = useState([]);
@@ -237,7 +223,6 @@ function AdminPrescriptionTransactionCard({ data }) {
     return subTotal;
   };
 
-=======
   const rupiah = (number) => {
     return new Intl.NumberFormat("id-ID", {
       style: "currency",
@@ -262,7 +247,6 @@ function AdminPrescriptionTransactionCard({ data }) {
     onOpen: onOpenReject,
     onClose: onCloseReject,
   } = useDisclosure();
->>>>>>> 5df5d3562f0dbedfda6554c04cc6d47e1b46a584
   return (
     <>
       {prescription_number ? (
@@ -492,12 +476,14 @@ function AdminPrescriptionTransactionCard({ data }) {
 
                 <div className="mt-[19px] p-[16px] bg-slate-100 rounded-md flex justify-between">
                   <div className="font-bold text-primary">
-                    Total Harga
+                    Total Harga{" "}
                     <span className="text-xs font-normal text-slate-600">
-                      (4 Obat)
+                      ({products.length} Obat)
                     </span>
                   </div>
-                  <div className="font-bold text-primary">Rp 46.000</div>
+                  <div className="font-bold text-primary">
+                    {rupiah(subtotal)}
+                  </div>
                 </div>
 
                 <div className="mt-[28px] flex justify-between">
@@ -584,7 +570,6 @@ function AdminPrescriptionTransactionCard({ data }) {
         </>
       ) : null}
 
-<<<<<<< HEAD
       {/* modal custom order resep */}
       <Modal
         initialFocusRef={initialRef}
@@ -699,7 +684,7 @@ function AdminPrescriptionTransactionCard({ data }) {
                           </button>
                           <div className="">
                             <input
-                              className="w-6 pb-[6px] text-xs "
+                              className="w-6 pb-[6px] text-xs  focus:outline-none"
                               type="number"
                               onChange={(e) => handleChange(e, "quantity")}
                               value={input.quantity}
@@ -917,7 +902,8 @@ function AdminPrescriptionTransactionCard({ data }) {
             </div>
           </ModalContent>
         ) : null}
-=======
+      </Modal>
+
       {/* DETAIL PESANAN */}
       <Modal
         isOpen={isOpenDetail}
@@ -1147,7 +1133,6 @@ function AdminPrescriptionTransactionCard({ data }) {
             </Button>
           </ModalFooter>
         </ModalContent>
->>>>>>> 5df5d3562f0dbedfda6554c04cc6d47e1b46a584
       </Modal>
     </>
   );
