@@ -42,11 +42,7 @@ const routes = [
     name: "Metode Pembayaran",
     icon: <HiCash className="text-[28px]" />,
   },
-  {
-    path: "/",
-    name: "Alamat Pengiriman",
-    icon: <HiLocationMarker className="text-2xl" />,
-  },
+
   {
     path: "#",
     name: "Wishlist",

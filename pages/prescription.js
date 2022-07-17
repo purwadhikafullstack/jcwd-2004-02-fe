@@ -122,16 +122,11 @@ const Prescription = () => {
               <div className="container2 my-10 flex w-11/12 h-full ">
                 <div>
                   <div className="flex border-solid border-gray-200 rounded-lg border-2 px-5 py-2">
-                    <BsImage className="text-2xl text-purple-600 " />
+                    <BsImage className="text-2xl text-primary " />
                     <ul className="ml-6 text-sm">
                       <div className="flex ">
-                        <div key={acceptedFiles[0].path}>
-                          {acceptedFiles[0].path}
-                        </div>
-                        <div
-                          className="text-purple-600 ml-3"
-                          key={acceptedFiles[0].path}
-                        >
+                        <div>{acceptedFiles[0].path}</div>
+                        <div className="text-primary ml-3">
                           {acceptedFiles[0].size / 1000} KB
                         </div>
                       </div>

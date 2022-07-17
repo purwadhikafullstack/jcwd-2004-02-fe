@@ -10,7 +10,7 @@ import { MdMail } from "react-icons/md";
 
 const Footer = () => {
   return (
-    <div className=" mt-4 pt-4 flex flex-col bottom-0 w-full text-purple-800">
+    <div className=" mt-4 pt-4 flex flex-col bottom-0 w-full text-primary">
       <div className="flex justify-center">
         <div className="w-80 flex flex-col items-center mb-12">
           <div>

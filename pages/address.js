@@ -21,8 +21,8 @@ const Address = () => {
 
   const [addAddress, setAddAddress] = useState({
     address: "",
-    province_id: "",
-    city_id: "",
+    province_id: 0,
+    city_id: 0,
     firstname: "",
     lastname: "",
     phonenumber: "",
@@ -123,6 +123,7 @@ const Address = () => {
                 onChange={provinceHandleChange}
                 w="250px"
                 className="w-[150px] mt-2"
+                placeholder="Pilih Provinsi..."
               >
                 {province.map((val, index) => {
                   return (
@@ -142,6 +143,7 @@ const Address = () => {
                 onChange={addAddressHandleChange}
                 w="250px"
                 className="w-[250px] mt-2"
+                placeholder="Pilih Kota/Kabupaten..."
               >
                 {city.map((val, index) => {
                   return (
