@@ -13,12 +13,14 @@ import useCart from "../hooks/useCart";
 import useUser from "../hooks/useUser";
 import CardHomeBottom from "../components/CardHomeBottom";
 import HomePopularProductCarousel from "../components/HomePopularProductCarousel";
+import { useRouter } from "next/router";
 
 const Cart = ({ getCartAction }) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [totalPembayaran, setTotalPembayaran] = useState(0);
   const [quantity, setquantity] = useState([]);
+  const router = useRouter();
 
   const { isLogin } = useUser();
   const { cart } = useCart();
@@ -146,27 +148,42 @@ const Cart = ({ getCartAction }) => {
           Keranjang Saya
         </div>
         <div className="mx-20">
-          <div className="flex justify-between">
-            <div className="flex flex-col">
-              {cart.map((cart, index) => (
-                <BoxWithImage
-                  // {/* <BoxAddress/> */}
-                  key={index}
-                  id={cart.id}
-                  name={cart.product_name}
-                  imageProduct={cart.images[0]}
-                  price={cart.hargaJual}
-                  kuantitas={cart.quantityCart}
-                  unit={cart.unit}
-                  total={cart.totalHarga}
-                  index={index}
-                  productId={cart.product_id}
-                  total_stock={cart.total_stock}
-                />
-              ))}
+          {cart.length ? (
+            <div className="flex justify-between">
+              <div className="flex flex-col">
+                {cart.map((cart, index) => (
+                  <BoxWithImage
+                    // {/* <BoxAddress/> */}
+                    key={index}
+                    id={cart.id}
+                    name={cart.product_name}
+                    imageProduct={cart.images[0]}
+                    price={cart.hargaJual}
+                    kuantitas={cart.quantityCart}
+                    unit={cart.unit}
+                    total={cart.totalHarga}
+                    index={index}
+                    productId={cart.product_id}
+                    total_stock={cart.total_stock}
+                  />
+                ))}
+              </div>
+              <BoxTotalCart subTotal={subTotal} />
             </div>
-            <BoxTotalCart subTotal={subTotal} />
-          </div>
+          ) : (
+            <div className="text-primary text-xl font-semibold text-center">
+              <div>Tidak ada produk di cart.</div>
+              <div>Yuk tambahkan produk terlebih dahulu.</div>
+              <button
+                className="bg-secondary text-white font-semibold rounded-lg py-[10px] px-[15px] mt-[20px]"
+                onClick={() => {
+                  router.push("/");
+                }}
+              >
+                Kembali ke Beranda
+              </button>
+            </div>
+          )}
         </div>
         <div className="py-14 px-20">
           <div className="w-full border-b-2 border-slate mb-[28px]" />

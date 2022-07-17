@@ -113,6 +113,7 @@ function DaftarProduk() {
   useEffect(() => {
     getComponent();
   }, []);
+
   useEffect(() => {
     if (isLoading) {
       setTimeout(() => {

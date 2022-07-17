@@ -4,10 +4,11 @@ import { HiCash, HiLocationMarker } from "react-icons/hi";
 import { IoMail } from "react-icons/io5";
 import useUser from "../hooks/useUser";
 import { useRouter } from "next/router";
+import { Link } from "@chakra-ui/react";
 
 const routes = [
   {
-    path: "/userprofile",
+    path: "/profile",
     name: "Profile",
     icon: <FaUserCircle className="text-2xl" />,
   },
@@ -66,14 +67,16 @@ function UserProfileSidebar({ children }) {
                     <div className="pl-[50px] font-medium">{route.name}</div>
                   </div>
                 ) : (
-                  <div
-                    className={`flex pt-[34px] pl-[40px] items-center  ${
-                      index == routes.length - 1 ? "mb-[34px]" : null
-                    }`}
-                  >
-                    {route.icon}
-                    <div className="pl-[50px] font-medium">{route.name}</div>
-                  </div>
+                  <Link href={route.path}>
+                    <div
+                      className={`flex pt-[34px] pl-[40px] items-center  ${
+                        index == routes.length - 1 ? "mb-[34px]" : null
+                      }`}
+                    >
+                      {route.icon}
+                      <div className="pl-[50px] font-medium">{route.name}</div>
+                    </div>
+                  </Link>
                 )}
               </div>
             );
