@@ -137,7 +137,7 @@ const Payment = ({getCartAction}) => {
                                 id={pay.id} 
                                 name={pay.name} 
                                 price={pay.price*pay.quantity} 
-                                unit={"pay.unit"}  
+                                unit={pay.unit}  
                                 quantity={pay.quantity} 
                                 image={pay.image}
                                 />
