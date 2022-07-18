@@ -89,8 +89,8 @@ function Report() {
         backgroundColor: [
           "rgba(107, 76, 146, 1)",
           "rgba(200, 110, 172, 1)",
+          "rgba(226, 203, 245, 1)",
           ,
-          "rgba(224, 110, 172, 1)",
         ],
       },
     ],
@@ -197,9 +197,14 @@ function Report() {
         <div className="flex container_statistik_lg">
           <div className="flex justify-between pr-3">
             <div className="statistik_ket_md text-primary">Penjualan Obat</div>
-            <Select placeholder="Select option" size="xs" w={150}>
+            <Select
+              placeholder="Select option"
+              defaultValue={"Bulanan"}
+              size="xs"
+              w={150}
+            >
               <option value="Mingguan">Mingguan</option>
-              <option value="Bualan">Bualan</option>
+              <option value="Bulanan">Bulanan</option>
               <option value="Tahunan">Tahunan</option>
             </Select>
           </div>
@@ -223,9 +228,14 @@ function Report() {
                 <div className="statistik_ket_md text-primary ">
                   Tren Pendapatan
                 </div>
-                <Select placeholder="Select option" size="xs" w={150}>
+                <Select
+                  placeholder="Select option"
+                  defaultValue={"Bulanan"}
+                  size="xs"
+                  w={150}
+                >
                   <option value="Mingguan">Mingguan</option>
-                  <option value="Bualan">Bualan</option>
+                  <option value="Bulanan">Bulanan</option>
                   <option value="Tahunan">Tahunan</option>
                 </Select>
               </div>
@@ -238,9 +248,14 @@ function Report() {
                 <div className="statistik_ket_md text-primary ">
                   Tren Pembatalan
                 </div>
-                <Select placeholder="Select option" size="xs" w={150}>
+                <Select
+                  placeholder="Select option"
+                  defaultValue={"Bulanan"}
+                  size="xs"
+                  w={150}
+                >
                   <option value="Mingguan">Mingguan</option>
-                  <option value="Bualan">Bualan</option>
+                  <option value="Bulanan">Bulanan</option>
                   <option value="Tahunan">Tahunan</option>
                 </Select>
               </div>

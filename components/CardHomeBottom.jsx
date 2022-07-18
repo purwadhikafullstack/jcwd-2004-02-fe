@@ -9,7 +9,7 @@ function CardHomeBottom({ img, name, price, unit }) {
       </div>
       <div className="w-[116px] h-[173px] mx-[auto] mt-[12px] lg:w-[154px] lg:h-[243px] lg:mt-[20px]">
         <div className="lg:h-[143px] h-[76px] bg-slate-200 overflow-hidden relative">
-          <Image src={img} layout="fill" objectFit="cover"></Image>
+          <Image src={img || '/bisolvon.jpg'} layout="fill" objectFit="cover"></Image>
         </div>
         <div className="h-[34px] lg:h-[40px] text-xs lg:text-sm font-bold text-primary">
           {name}

@@ -39,7 +39,8 @@ function NewTable({ columns, data, isLoading }) {
                     textTransform={"capitalize"}
                     textColor={"white"}
                     isNumeric={column.isNumeric}
-                    className="truncate"
+                    className="truncate text-center"
+                    textAlign="center"
                   >
                     {" "}
                     <div className="flex jus">
@@ -61,8 +62,9 @@ function NewTable({ columns, data, isLoading }) {
                       key={id}
                       {...cell.getCellProps()}
                       maxWidth="300px"
-                      className="truncate"
+                      className="truncate text-center"
                       isNumeric={cell.column.isNumeric}
+                      textAlign="center"
                     >
                       {!isLoading ? (
                         <>{cell.render("Cell")}</>

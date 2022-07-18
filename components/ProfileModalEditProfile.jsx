@@ -47,14 +47,16 @@ const ProfileModalEditProfile = ({ editProfileActions }) => {
   };
   return (
     <>
-      <Button
-        onClick={onOpen}
-        className=" text-[14px] w-32 h-10 mt-6 ml-[140px]"
-        variant="outline"
-        colorScheme={"purple"}
-      >
-        Edit Profil
-      </Button>
+      <div className="flex items-center justify-center">
+        <Button
+          onClick={onOpen}
+          className=" text-[14px] w-32 h-10 mt-6 md:ml-[140px]"
+          variant="outline"
+          colorScheme={"purple"}
+        >
+          Edit Profil
+        </Button>
+      </div>
       <Modal
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}

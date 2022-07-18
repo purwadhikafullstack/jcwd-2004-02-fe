@@ -22,7 +22,7 @@ function Submenu({ route, isOpen, setIsOpen }) {
   return (
     <>
       {router.pathname == route.path ? (
-        <div className="flex menu-clicked" onClick={toggleMenu}>
+        <div className="flex menu-clicked cursor-pointer" onClick={toggleMenu}>
           <div className="menu-icon">
             <Image src={route.coloredicon} layout="fill" objectFit="cover" />
           </div>
@@ -34,7 +34,10 @@ function Submenu({ route, isOpen, setIsOpen }) {
           </div>
         </div>
       ) : (
-        <div className="flex menu-container" onClick={toggleMenu}>
+        <div
+          className="flex menu-container cursor-pointer"
+          onClick={toggleMenu}
+        >
           <div className="menu-icon">
             <Image src={route.icon} layout="fill" objectFit="cover" />
           </div>
@@ -58,12 +61,12 @@ function Submenu({ route, isOpen, setIsOpen }) {
               ? route.subroutes.map((subroute, i) => (
                   <>
                     {router.pathname == subroute.path ? (
-                      <div className="text-purple-400 submenu-container pt-3">
+                      <div className="text-purple-400 submenu-container pt-3 cursor-pointer">
                         {subroute.name}
                       </div>
                     ) : (
                       <Link href={subroute.path}>
-                        <div className="text-slate-400 submenu-container pt-3">
+                        <div className="text-slate-400 submenu-container pt-3 cursor-pointer">
                           {subroute.name}
                         </div>
                       </Link>

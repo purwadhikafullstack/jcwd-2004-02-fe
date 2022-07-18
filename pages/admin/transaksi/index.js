@@ -6,7 +6,7 @@ import { IoDocumentText } from "react-icons/io5";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import { BsFillChatDotsFill } from "react-icons/bs";
 import { Checkbox } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Pagination from "../../../components/AdminTransactionPagination";
 import Image from "next/image";
 import axios from "axios";
@@ -14,6 +14,10 @@ import { API_URL } from "../../../helpers";
 import Cookies from "js-cookie";
 import AdminTransactionCard from "../../../components/AdminTransactionCard";
 import AdminPrescriptionTransactionCard from "../../../components/AdminPrescriptionTransactionCard";
+import debounce from "lodash.debounce";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import dayjs from "dayjs";
 
 function SemuaPesanan() {
   const [checkedItems, setCheckedItems] = useState([false, false]);
@@ -30,24 +34,55 @@ function SemuaPesanan() {
     search: "",
   });
 
+  const [dateRange, setDateRange] = useState([null, null]);
+  const [startDate, endDate] = dateRange;
+
+  const handleInput = (e) => {
+    setInput({ ...input, [e.target.name]: e.target.value });
+    setPage(0);
+  };
+
   let token = Cookies.get("token");
-  const getAllTransaction = async () => {
+  const getAllTransaction = async (page, input, startDate, endDate, cb) => {
     try {
-      let res = await axios.get(`${API_URL}/transaction/getalltransaction`, {
-        headers: { authorization: `Bearer ${token}` },
-      });
-      setData([...res.data]);
-      setTotalData(parseInt(res.headers["x-total-transaction"]));
+      let res = await axios.get(
+        `${API_URL}/transaction/getalltransaction?page=${page}&filter=${
+          input.filter
+        }&sort=${input.sort}&search=${input.search}&from_date=${
+          startDate ? dayjs(startDate).format("YYYY-MM-DD HH:mm:ss") : ""
+        }&to_date=${
+          endDate ? dayjs(endDate).format("YYYY-MM-DD HH:mm:ss") : ""
+        }`,
+        {
+          headers: { authorization: `Bearer ${token}` },
+        }
+      );
+      cb(res);
     } catch (error) {
       console.log(error);
-    } finally {
-      setIsLoading(false);
     }
   };
+
+  const debouncedFetchData = useCallback(
+    debounce((page, input, startDate, endDate, cb) => {
+      getAllTransaction(page, input, startDate, endDate, cb);
+    }, 1000),
+    []
+  );
 
   useEffect(() => {
     getAllTransaction();
   }, []);
+
+  useEffect(() => {
+    debouncedFetchData(page, input, startDate, endDate, (res) => {
+      setTotalData(parseInt(res.headers["x-total-transaction"]));
+      setData([...res.data]);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
+    });
+  }, [page, input, startDate, endDate]);
 
   return (
     <>
@@ -79,20 +114,22 @@ function SemuaPesanan() {
                 className="text-sm font-medium outline-none w-[270px]"
                 placeholder="Cari nama obat"
                 name="search"
-                // value={input.search}
-                // onChange={(e) => handleInput(e)}
+                value={input.search}
+                onChange={(e) => handleInput(e)}
               ></input>
               <HiSearch className="text-xl" />
             </div>
-            <div className="border-2 rounded-lg bg-white text-slate-400 border-slate-300 px-[12px] py-[11px] w-[156px] ml-[16px]">
+            <div className="border-2 rounded-lg bg-white text-slate-400  border-slate-300 px-[12px] py-[11px] w-[156px] ml-[16px]">
               <select
                 className="text-sm font-medium outline-none w-full"
                 placeholder="Filter"
                 name="filter"
-                // value={input.category}
-                // onChange={(e) => handleInput(e)}
+                value={input.filter}
+                onChange={(e) => handleInput(e)}
               >
-                <option value="">Filter</option>
+                <option value="">Semua Obat</option>
+                <option value="resep">Obat Resep</option>
+                <option value="bebas">Obat Bebas</option>
               </select>
             </div>
             <div className="border-2 rounded-lg bg-white text-slate-400 border-slate-300 px-[12px] py-[11px] w-[156px] ml-[16px]">
@@ -100,11 +137,25 @@ function SemuaPesanan() {
                 className="text-sm font-medium outline-none w-full"
                 placeholder="Urutkan"
                 name="sort"
-                // value={input.category}
-                // onChange={(e) => handleInput(e)}
+                value={input.sort}
+                onChange={(e) => handleInput(e)}
               >
-                <option value="">Urutkan</option>
+                <option value="">Terbaru</option>
+                <option value="terlama">Terlama</option>
               </select>
+            </div>
+            <div className="flex text-center items-center ml-[16px]">
+              <DatePicker
+                className="w-[210px] border-2 rounded-lg bg-white text-slate-400 text-sm font-semibold  border-slate-300 px-[12px] py-[13px]"
+                selectsRange={true}
+                startDate={startDate}
+                endDate={endDate}
+                onChange={(update) => {
+                  setDateRange(update);
+                }}
+                isClearable={true}
+                placeholderText="Pilih Tanggal"
+              />
             </div>
           </div>
         </div>
@@ -125,7 +176,7 @@ function SemuaPesanan() {
           </div>
           <div>
             <Pagination
-              totalData={10}
+              totalData={totalData}
               dataPerPage={10}
               pageChangeHandler={setPage}
               totalPage={Math.ceil(10 / 24)}
@@ -133,7 +184,7 @@ function SemuaPesanan() {
           </div>
         </div>
 
-        {/* CARD HERE */}
+        {/* CARD */}
         {data.map((val, id) => {
           return (
             <div key={id}>
