@@ -7,6 +7,9 @@ import Navbar from "../../../components/navbar";
 import UserDetailTransactionCard from "../../../components/UserDetailTransactionCard";
 import axios from "axios";
 import { API_URL } from "../../../helpers";
+import healthymedlogo from "../../../public/healthymed-logo.svg";
+import useUser from "../../../hooks/useUser";
+import MetaDecorator from "../../../components/MetaDecorator";
 
 function UserDetailTransaction() {
   const route = useRouter();
@@ -41,11 +44,26 @@ function UserDetailTransaction() {
 
   return (
     <>
-      <Navbar />
-      <div className="user-container">
-        <UserDetailTransactionCard data={data} show={show} setShow={setShow} />
+      <div>
+        <MetaDecorator
+          title={`Detail Transaksi / Healthymed`}
+          description={
+            "Healthymed - Apotek Online Terpercaya. Beli obat yang kamu inginkan disini. 100% Asli, Produk BPOM, Uang Dijamin Kembali"
+          }
+          imageUrl={healthymedlogo}
+        />
       </div>
-      <Footer />
+      <>
+        <Navbar />
+        <div className="user-container">
+          <UserDetailTransactionCard
+            data={data}
+            show={show}
+            setShow={setShow}
+          />
+        </div>
+        <Footer />
+      </>
     </>
   );
 }

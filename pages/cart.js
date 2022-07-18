@@ -14,6 +14,8 @@ import useUser from "../hooks/useUser";
 import CardHomeBottom from "../components/CardHomeBottom";
 import HomePopularProductCarousel from "../components/HomePopularProductCarousel";
 import { useRouter } from "next/router";
+import MetaDecorator from "../components/MetaDecorator";
+import healthymedlogo from "../public/healthymed-logo.svg";
 
 const Cart = ({ getCartAction }) => {
   const [data, setData] = useState([]);
@@ -22,7 +24,7 @@ const Cart = ({ getCartAction }) => {
   const [quantity, setquantity] = useState([]);
   const router = useRouter();
 
-  const { isLogin } = useUser();
+  const { isLogin, name } = useUser();
   const { cart } = useCart();
 
   const fetchDaftarProduk = async () => {
@@ -142,56 +144,67 @@ const Cart = ({ getCartAction }) => {
 
   return (
     <>
-      <Navbar />
-      <div className="user-container">
-        <div className="text-xl font-bold text-purple-900 mb-[36px] mx-20">
-          Keranjang Saya
-        </div>
-        <div className="mx-20">
-          {cart.length ? (
-            <div className="flex justify-between">
-              <div className="flex flex-col">
-                {cart.map((cart, index) => (
-                  <BoxWithImage
-                    // {/* <BoxAddress/> */}
-                    key={index}
-                    id={cart.id}
-                    name={cart.product_name}
-                    imageProduct={cart.images[0]}
-                    price={cart.hargaJual}
-                    kuantitas={cart.quantityCart}
-                    unit={cart.unit}
-                    total={cart.totalHarga}
-                    index={index}
-                    productId={cart.product_id}
-                    total_stock={cart.total_stock}
-                  />
-                ))}
+      <div>
+        <MetaDecorator
+          title={`${name} / Cart`}
+          description={
+            "Healthymed - Apotek Online Terpercaya. Beli obat yang kamu inginkan disini. 100% Asli, Produk BPOM, Uang Dijamin Kembali"
+          }
+          imageUrl={healthymedlogo}
+        />
+      </div>
+      <div>
+        <Navbar />
+        <div className="user-container">
+          <div className="text-xl font-bold text-purple-900 mb-[36px] mx-20">
+            Keranjang Saya
+          </div>
+          <div className="mx-20">
+            {cart.length ? (
+              <div className="flex justify-between">
+                <div className="flex flex-col">
+                  {cart.map((cart, index) => (
+                    <BoxWithImage
+                      // {/* <BoxAddress/> */}
+                      key={index}
+                      id={cart.id}
+                      name={cart.product_name}
+                      imageProduct={cart.images[0]}
+                      price={cart.hargaJual}
+                      kuantitas={cart.quantityCart}
+                      unit={cart.unit}
+                      total={cart.totalHarga}
+                      index={index}
+                      productId={cart.product_id}
+                      total_stock={cart.total_stock}
+                    />
+                  ))}
+                </div>
+                <BoxTotalCart subTotal={subTotal} />
               </div>
-              <BoxTotalCart subTotal={subTotal} />
+            ) : (
+              <div className="text-primary text-xl font-semibold text-center">
+                <div>Tidak ada produk di cart.</div>
+                <div>Yuk tambahkan produk terlebih dahulu.</div>
+                <button
+                  className="bg-secondary text-white font-semibold rounded-lg py-[10px] px-[15px] mt-[20px]"
+                  onClick={() => {
+                    router.push("/");
+                  }}
+                >
+                  Kembali ke Beranda
+                </button>
+              </div>
+            )}
+          </div>
+          <div className="py-14 px-20">
+            <div className="w-full border-b-2 border-slate mb-[28px]" />
+            <span className="text-xl font-bold text-purple-900">
+              Produk Terkait
+            </span>
+            <div className="mt-[28px]">
+              <HomePopularProductCarousel data={data} />
             </div>
-          ) : (
-            <div className="text-primary text-xl font-semibold text-center">
-              <div>Tidak ada produk di cart.</div>
-              <div>Yuk tambahkan produk terlebih dahulu.</div>
-              <button
-                className="bg-secondary text-white font-semibold rounded-lg py-[10px] px-[15px] mt-[20px]"
-                onClick={() => {
-                  router.push("/");
-                }}
-              >
-                Kembali ke Beranda
-              </button>
-            </div>
-          )}
-        </div>
-        <div className="py-14 px-20">
-          <div className="w-full border-b-2 border-slate mb-[28px]" />
-          <span className="text-xl font-bold text-purple-900">
-            Produk Terkait
-          </span>
-          <div className="mt-[28px]">
-            <HomePopularProductCarousel data={data} />
           </div>
         </div>
       </div>
