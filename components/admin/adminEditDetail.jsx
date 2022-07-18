@@ -18,6 +18,7 @@ import {
 import axios from "axios";
 import { API_URL } from "../../helpers";
 import { flushSync } from "react-dom";
+import { toast } from "react-toastify";
 
 function AdminEditDetail({
   submitProductEdit,
@@ -74,6 +75,12 @@ function AdminEditDetail({
       console.log("resdata", res.data);
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
     }
   };
   // submit form
@@ -99,6 +106,12 @@ function AdminEditDetail({
       await submitProductEdit(insertData);
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
     } finally {
       flushSync(() => {
         setTab(5);

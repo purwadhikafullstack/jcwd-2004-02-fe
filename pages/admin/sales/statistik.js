@@ -1,7 +1,5 @@
 import AdminNavbar from "../../../components/AdminNavbar";
 import AdminSidebar from "../../../components/AdminSidebar";
-import { FiDownload } from "react-icons/fi";
-import { IoDocumentText } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../../../helpers";
@@ -19,14 +17,16 @@ import Chart from "chart.js/auto";
 import { toast } from "react-toastify";
 
 Chart.register(CategoryScale, LineElement, LinearScale, PointElement);
-function Report({ statistik }) {
+function Report({ statistik, chart }) {
   // filter mingguan dan bulanan
   const [filter, setfilter] = useState({
     filterPendapatan: "monthly",
     filterPenjualan: "monthly",
     filterStatistik: "monthly",
   });
+
   const [statistikState, setstatistikState] = useState([]);
+  const [chartState, setchartState] = useState([]);
 
   // looping mingguan penjualan obat
   const [dataPenjualanMonthly, setdataPenjualanMonthly] = useState([]);
@@ -50,6 +50,7 @@ function Report({ statistik }) {
   console.log(statistik, "statistik");
   useEffect(() => {
     getStatistik();
+    getChart();
     getDataPenjualanMonthly();
     getDataPenjualanWeekly();
     getDataPendapatanMonthly();
@@ -58,7 +59,7 @@ function Report({ statistik }) {
     // getDataPembatalanWeekly();
   }, [filter]);
 
-  // // get pesanan baru, siap dikirim, dll
+  //  get pesanan baru, siap dikirim, dll
   const getStatistik = async () => {
     try {
       let res = await axios.get(`${API_URL}/report/summary?filter=weekly`);
@@ -74,22 +75,43 @@ function Report({ statistik }) {
     }
   };
 
+  // get chart data
+  const getChart = async () => {
+    try {
+      let res = await axios.get(
+        `${API_URL}/report/summary/chart?filter=weekly`
+      );
+      setchartState(res.data);
+      console.log(chart, "chart");
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
+    }
+  };
+
   // looping data penjualan
   const getDataPenjualanMonthly = () => {
+    console.log(chart.penjualan.length, "pnjualan chart");
     let databulan = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    for (let i = 0; i < statistik.penjualan.length; i++) {
-      databulan[statistik.penjualan[i].bulan - 1] = parseInt(
-        statistik.penjualan[i].jumlah
+    for (let i = 0; i < chart.penjualan.length; i++) {
+      databulan[chart.penjualan[i].bulan - 1] = parseInt(
+        chart.penjualan[i].jumlah
       );
     }
     setdataPenjualanMonthly(databulan);
+    console.log(dataPenjualanMonthly, "getdatapenj");
   };
 
   const getDataPenjualanWeekly = () => {
     let dataminggu = [0, 0, 0, 0, 0, 0, 0];
-    for (let i = 0; i < statistikState.penjualan?.length; i++) {
-      dataminggu[statistikState.penjualan[i].hari - 1] = parseInt(
-        statistikState.penjualan[i].jumlah
+    for (let i = 0; i < chartState.penjualan?.length; i++) {
+      dataminggu[chartState.penjualan[i].hari - 1] = parseInt(
+        chartState.penjualan[i].jumlah
       );
     }
     setdataPenjualanWeekly(dataminggu);
@@ -100,9 +122,9 @@ function Report({ statistik }) {
   // looping data pendapatan
   const getDataPendapatanMonthly = () => {
     let databulan = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    for (let i = 0; i < statistik.pendapatan.length; i++) {
-      databulan[statistik.pendapatan[i].bulan - 1] = parseInt(
-        statistik.pendapatan[i].jumlah
+    for (let i = 0; i < chart.pendapatan.length; i++) {
+      databulan[chart.pendapatan[i].bulan - 1] = parseInt(
+        chart.pendapatan[i].jumlah
       );
     }
     setdataPendapatanMonthly(databulan);
@@ -110,9 +132,9 @@ function Report({ statistik }) {
 
   const getDataPendapatanWeekly = () => {
     let dataminggu = [0, 0, 0, 0, 0, 0, 0];
-    for (let i = 0; i < statistikState.pendapatan?.length; i++) {
-      dataminggu[statistikState.pendapatan[i].hari - 1] = parseInt(
-        statistikState.pendapatan[i].jumlah
+    for (let i = 0; i < chartState.pendapatan?.length; i++) {
+      dataminggu[chartState.pendapatan[i].hari - 1] = parseInt(
+        chartState.pendapatan[i].jumlah
       );
     }
     setdataPendapatanWeekly(dataminggu);
@@ -171,7 +193,7 @@ function Report({ statistik }) {
     ],
   };
   const dataPenjualanMingguan = {
-    labels: ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"],
+    labels: ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"],
 
     datasets: [
       {
@@ -287,7 +309,7 @@ function Report({ statistik }) {
           drawBorder: false,
         },
         ticks: {
-          stepSize: 250,
+          stepSize: 25,
           padding: 10,
         },
       },
@@ -323,33 +345,53 @@ function Report({ statistik }) {
           <div className="flex -ml-3 w-[1112px]">
             <div className="flex container_statistik_sm">
               <div className="statistik_ket text-primary">Pesanan Baru</div>
-              <div className="statistik_ket_no">
-                {statistik.pesananBaru[0]?.pesanan_baru}
-              </div>
+              {!statistik.pesananBaru[0]?.pesanan_baru ? (
+                <div className="statistik_ket_no"> 0</div>
+              ) : (
+                <div className="statistik_ket_no">
+                  {statistik.pesananBaru[0]?.pesanan_baru}
+                </div>
+              )}
             </div>
             <div className="flex container_statistik_sm">
               <div className="statistik_ket text-primary">Siap Dikirim</div>
-              <div className="statistik_ket_no">
-                {statistik.siapDikirim[0]?.siap_dikirim}
-              </div>
+              {!statistik.siapDikirim[0]?.siap_dikirim ? (
+                <div className="statistik_ket_no"> 0</div>
+              ) : (
+                <div className="statistik_ket_no">
+                  {statistik.siapDikirim[0]?.siap_dikirim}
+                </div>
+              )}
             </div>
             <div className="flex container_statistik_sm">
               <div className="statistik_ket text-primary">Sedang Dikirim</div>
-              <div className="statistik_ket_no">
-                {statistik.sedangDikirim[0]?.sedang_dikirim}
-              </div>
+              {!statistik.sedangDikirim[0]?.sedang_dikirim ? (
+                <div className="statistik_ket_no"> 0</div>
+              ) : (
+                <div className="statistik_ket_no">
+                  {statistik.sedangDikirim[0]?.sedang_dikirim}
+                </div>
+              )}
             </div>
             <div className="flex container_statistik_sm">
               <div className="statistik_ket text-primary">Selesai</div>
-              <div className="statistik_ket_no">
-                {statistik.selesai[0]?.selesai}
-              </div>
+              {!statistik.selesai[0]?.selesai ? (
+                <div className="statistik_ket_no"> 0</div>
+              ) : (
+                <div className="statistik_ket_no">
+                  {statistik.selesai[0]?.selesai}
+                </div>
+              )}
             </div>
             <div className="flex container_statistik_sm">
               <div className="statistik_ket text-primary">Dibatalkan</div>
-              <div className="statistik_ket_no">
-                {statistik.dibatalkan[0]?.dibatalkan}
-              </div>
+              {!statistik.siapDikirim[0]?.siap_dikirim ? (
+                <div className="statistik_ket_no"> 0</div>
+              ) : (
+                <div className="statistik_ket_no">
+                  {statistik.dibatalkan[0]?.dibatalkan}
+                </div>
+              )}
             </div>
             <div className="flex container_statistik_sm">
               <div className="statistik_ket text-primary">Chat Baru</div>
@@ -360,33 +402,53 @@ function Report({ statistik }) {
           <div className="flex -ml-3 w-[1112px]">
             <div className="flex container_statistik_sm">
               <div className="statistik_ket text-primary">Pesanan Baru</div>
-              <div className="statistik_ket_no">
-                {statistikState.pesananBaru[0]?.pesanan_baru}
-              </div>
+              {!statistikState.pesananBaru[0]?.pesanan_baru ? (
+                <div className="statistik_ket_no"> 0</div>
+              ) : (
+                <div className="statistik_ket_no">
+                  {statistikState.pesananBaru[0]?.pesanan_baru}
+                </div>
+              )}
             </div>
             <div className="flex container_statistik_sm">
               <div className="statistik_ket text-primary">Siap Dikirim</div>
-              <div className="statistik_ket_no">
-                {statistikState.siapDikirim[0]?.siap_dikirim}
-              </div>
+              {!statistikState.siapDikirim[0]?.siap_dikirim ? (
+                <div className="statistik_ket_no"> 0</div>
+              ) : (
+                <div className="statistik_ket_no">
+                  {statistikState.siapDikirim[0]?.siap_dikirim}
+                </div>
+              )}
             </div>
             <div className="flex container_statistik_sm">
               <div className="statistik_ket text-primary">Sedang Dikirim</div>
-              <div className="statistik_ket_no">
-                {statistikState.sedangDikirim[0]?.sedang_dikirim}
-              </div>
+              {!statistikState.sedangDikirim[0]?.sedang_dikirim ? (
+                <div className="statistik_ket_no"> 0</div>
+              ) : (
+                <div className="statistik_ket_no">
+                  {statistikState.sedangDikirim[0]?.sedang_dikirim}
+                </div>
+              )}
             </div>
             <div className="flex container_statistik_sm">
               <div className="statistik_ket text-primary">Selesai</div>
-              <div className="statistik_ket_no">
-                {statistikState.selesai[0]?.selesai}
-              </div>
+              {!statistikState.selesai[0]?.selesai ? (
+                <div className="statistik_ket_no"> 0</div>
+              ) : (
+                <div className="statistik_ket_no">
+                  {statistikState.selesai[0]?.selesai}
+                </div>
+              )}
             </div>
             <div className="flex container_statistik_sm">
               <div className="statistik_ket text-primary">Dibatalkan</div>
-              <div className="statistik_ket_no">
-                {statistikState.dibatalkan[0]?.dibatalkan}
-              </div>
+              {!statistikState.siapDikirim[0]?.siap_dikirim ? (
+                <div className="statistik_ket_no"> 0</div>
+              ) : (
+                <div className="statistik_ket_no">
+                  {statistikState.dibatalkan[0]?.dibatalkan}
+                </div>
+              )}
             </div>
             <div className="flex container_statistik_sm">
               <div className="statistik_ket text-primary">Chat Baru</div>
@@ -422,10 +484,7 @@ function Report({ statistik }) {
                   <div className="statistik_ket text-primary">
                     Avg. Penjualan per Bulan
                   </div>
-                  <div className="statistik_ket_no">
-                    {" "}
-                    {statistik.avgMonth[0]?.average}
-                  </div>
+                  <div className="statistik_ket_no">{chart.avgMonth}</div>
                 </div>
               </div>
             </div>
@@ -441,7 +500,7 @@ function Report({ statistik }) {
                   <div className="statistik_ket text-primary">
                     Avg. Penjualan per Minggu
                   </div>
-                  <div className="statistik_ket_no">7</div>
+                  <div className="statistik_ket_no">{chartState.avgWeek}</div>
                 </div>
               </div>
             </div>
@@ -535,11 +594,13 @@ export async function getServerSideProps(context) {
 
   try {
     const res1 = axios.get(`${API_URL}/report/summary`);
+    const res2 = axios.get(`${API_URL}/report/summary/chart`);
 
-    const [statistik] = await Promise.all([res1]);
+    const [statistik, chart] = await Promise.all([res1, res2]);
     return {
       props: {
         statistik: statistik.data,
+        chart: chart.data,
       },
     };
   } catch {

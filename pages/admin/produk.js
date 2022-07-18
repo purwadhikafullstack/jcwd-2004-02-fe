@@ -167,6 +167,12 @@ function DaftarProduk() {
       setinputEdit(res.data);
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1500,
+        closeOnClick: true,
+        draggable: true,
+      });
     }
   };
 
@@ -178,6 +184,12 @@ function DaftarProduk() {
       setinputImage(res.data);
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1500,
+        closeOnClick: true,
+        draggable: true,
+      });
     }
   };
 
@@ -188,6 +200,12 @@ function DaftarProduk() {
       setinputStock(res.data);
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1500,
+        closeOnClick: true,
+        draggable: true,
+      });
     }
   };
 
@@ -201,6 +219,12 @@ function DaftarProduk() {
       });
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1500,
+        closeOnClick: true,
+        draggable: true,
+      });
     } finally {
       // getLastProduct();
       setPage(0);
@@ -222,6 +246,12 @@ function DaftarProduk() {
       console.log(data, "vall");
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1500,
+        closeOnClick: true,
+        draggable: true,
+      });
     } finally {
       // getLastProduct();
       setPage(0);
@@ -317,6 +347,12 @@ function DaftarProduk() {
       });
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1500,
+        closeOnClick: true,
+        draggable: true,
+      });
     } finally {
       // getLastProduct();
       setPage(0);
@@ -419,6 +455,12 @@ function DaftarProduk() {
       });
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1500,
+        closeOnClick: true,
+        draggable: true,
+      });
     } finally {
       // getLastProduct();
       setPage(0);
