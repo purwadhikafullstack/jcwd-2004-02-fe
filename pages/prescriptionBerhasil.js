@@ -35,6 +35,8 @@ function PrescritpionBerhasil() {
             colorScheme={"purple"}
             className="w-[260px] mt-2"
             type="button"
+            size="sm"
+            fontSize="xs"
           >
             Lihat Progress Pemesanan
           </Button>
@@ -46,6 +48,8 @@ function PrescritpionBerhasil() {
             className="w-[260px] mt-2"
             type="button"
             variant="outline"
+            size="sm"
+            fontSize="xs"
           >
             Beranda
           </Button>

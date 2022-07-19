@@ -69,7 +69,7 @@ function Report() {
   const penjualanBersih = parseInt(profitloss?.penjualanBarang?.sum);
 
   // laba kotor
-  const labaKotor = penjualanBersih + parseInt(profitloss?.hargaPokok?.sum);
+  const labaKotor = penjualanBersih - parseInt(profitloss?.hargaPokok?.sum);
 
   // Pengeluaran Operasional
   const gaji = 2000000;
@@ -162,7 +162,7 @@ function Report() {
             </Select>
           </div>
         </div>
-        <div className="h-[1150px] p-[32px] mt-[24px] bg-white rounded-lg shadow-lg">
+        <div className="h-full p-[32px] mt-[24px] bg-white rounded-lg shadow-lg">
           <div className="flex flex-col justify-center items-center pt-5 ">
             <div className="font-bold text-2xl">Laporan Laba & Rugi</div>
             <div className="mt-3 text-xs">Periode Bulan Tahun 2022</div>
