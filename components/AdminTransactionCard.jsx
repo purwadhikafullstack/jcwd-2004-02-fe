@@ -18,9 +18,13 @@ import {
   Input,
 } from "@chakra-ui/react";
 import dayjs from "dayjs";
+import axios from "axios";
+import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 
-function AdminTransactionCard({ data }) {
+function AdminTransactionCard({ data, setIsLoading, isLoading }) {
   const {
+    id,
     status,
     prescription_number,
     transaction_number,
@@ -36,6 +40,61 @@ function AdminTransactionCard({ data }) {
   } = data;
 
   const [show, setShow] = useState(false);
+
+  const terimaPesanan = async () => {
+    try {
+      await axios.put(`${API_URL}/transaction/acceptPayment/${id}`);
+
+      setIsLoading(!isLoading);
+      toast.success(`Pesanan No. ${transaction_number} berhasil diterima.`, {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
+    } catch (error) {
+      console.log(error);
+
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
+    } finally {
+      setIsLoading(!isLoading);
+    }
+  };
+
+  let token = Cookies.get("token");
+  const tolakPesanan = async () => {
+    try {
+      await axios.put(`${API_URL}/transaction/rejectPayment/${id}`, {
+        headers: {
+          authorization: `bearer ${token}`,
+        },
+      });
+
+      setIsLoading(!isLoading);
+      toast.warning(`Pesanan No. ${transaction_number} berhasil ditolak.`, {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
+    } catch (error) {
+      console.log(error);
+
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
+    } finally {
+      setIsLoading(!isLoading);
+    }
+  };
 
   const {
     isOpen: isOpenAccept,
@@ -122,7 +181,7 @@ function AdminTransactionCard({ data }) {
                       >
                         <AiOutlineClockCircle className="ml-[2px] mr-[1px]" />
                         {dayjs(updated_at)
-                          .add(2, "day")
+                          .add(1, "day")
                           .format("DD MMMM YYYY hh:mm A")}
                       </div>
                     </div>
@@ -368,7 +427,14 @@ function AdminTransactionCard({ data }) {
             >
               Kembali
             </Button>
-            <Button bgColor="brand.secondary" colorScheme="black">
+            <Button
+              bgColor="brand.secondary"
+              colorScheme="black"
+              onClick={() => {
+                terimaPesanan();
+                onCloseAccept();
+              }}
+            >
               Terima Pesanan
             </Button>
           </ModalFooter>
@@ -511,7 +577,14 @@ function AdminTransactionCard({ data }) {
             >
               Kembali
             </Button>
-            <Button bgColor="brand.secondary" colorScheme="black">
+            <Button
+              bgColor="brand.secondary"
+              colorScheme="black"
+              onClick={() => {
+                tolakPesanan();
+                onCloseReject();
+              }}
+            >
               Tolak Pesanan
             </Button>
           </ModalFooter>

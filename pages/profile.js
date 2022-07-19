@@ -19,6 +19,8 @@ import Navbar from "../components/Navbar";
 import { API_URL } from "../helpers";
 import moment from "moment";
 import "moment/locale/id";
+import MetaDecorator from "../components/MetaDecorator";
+import healthymedlogo from "../public/healthymed-logo.svg";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
@@ -27,6 +29,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import HeaderMobile from "../components/HeaderMobile";
 import UserProfileSidebar from "../components/UserProfileSidebar";
+import { MdLocationOn } from "react-icons/md";
 
 const Profile = () => {
   const { name, email, gender, birthdate, profilepic, id } = useUser();
@@ -61,16 +64,15 @@ const Profile = () => {
 
   return (
     <div>
-      <Head>
-        <title>Profile</title>
-        <meta
-          name="viewport"
-          content="initial-scale=1.0, width=device-width"
-          key="userprofile"
+      <div>
+        <MetaDecorator
+          title={`${name} / Healthymed`}
+          description={
+            "Healthymed - Apotek Online Terpercaya. Beli obat yang kamu inginkan disini. 100% Asli, Produk BPOM, Uang Dijamin Kembali"
+          }
+          imageUrl={healthymedlogo}
         />
-
-        <link rel="icon" href="/Healthymed.svg" />
-      </Head>
+      </div>
       <div className="hidden md:block">
         <Navbar />
       </div>

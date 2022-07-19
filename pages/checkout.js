@@ -14,6 +14,8 @@ import useCart from "../hooks/useCart";
 import useUser from "../hooks/useUser";
 import Rupiah from "../helpers/convertToRupiah";
 import RingkasanOrderCheckout from "../components/RingkasanOrderCheckout";
+import MetaDecorator from "../components/MetaDecorator";
+import healthymedlogo from "../public/healthymed-logo.svg";
 
 const Checkout = ({ getCartAction }) => {
   const [data, setData] = useState([]);
@@ -35,22 +37,6 @@ const Checkout = ({ getCartAction }) => {
     }
   };
 
-  // const getDataCart = async () => {
-  //     let token = Cookies.get('token')
-  //     try {
-  //         const res = await axios.get(
-  //             `${API_URL}/transaction/getDataCart`,{
-  //                 headers: {
-  //                     authorization: `bearer ${token}`
-  //                 }
-  //             }
-  //         )
-  //         setData(res.data)
-  //         console.log('yang ini adalah res.data',res.data)
-  //     } catch (error) {
-  //         console.log(error)
-  //     }
-  // }
   const subTotal = () => {
     let subTotal = 0;
     for (let i = 0; i < cart.length; i++) {
@@ -84,6 +70,15 @@ const Checkout = ({ getCartAction }) => {
 
   return (
     <div>
+      <>
+        <MetaDecorator
+          title={"Checkout / Healthymed"}
+          description={
+            "Healthymed - Apotek Online Terpercaya. Beli obat yang kamu inginkan disini. 100% Asli, Produk BPOM, Uang Dijamin Kembali"
+          }
+          imageUrl={healthymedlogo}
+        />
+      </>
       <Navbar />
       <div className="flex px-[96px] pt-10 pb-14">
         <div className="flex flex-col">

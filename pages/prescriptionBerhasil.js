@@ -4,12 +4,23 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { Button } from "@chakra-ui/react";
 import Link from "next/link";
+import MetaDecorator from "../components/MetaDecorator";
+import healthymedlogo from "../public/healthymed-logo.svg";
 
 function PrescritpionBerhasil() {
   const router = useRouter();
 
   return (
     <div>
+      <div>
+        <MetaDecorator
+          title={"Resep / Healthymed"}
+          description={
+            "Healthymed - Apotek Online Terpercaya. Beli obat yang kamu inginkan disini. 100% Asli, Produk BPOM, Uang Dijamin Kembali"
+          }
+          imageUrl={healthymedlogo}
+        />
+      </div>
       <div className="hidden md:contents">
         <Navbar />
       </div>

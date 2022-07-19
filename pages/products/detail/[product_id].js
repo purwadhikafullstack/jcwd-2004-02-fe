@@ -9,6 +9,8 @@ import ProductDetailMainPage from "../../../components/ProductDetailMainPage";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import Link from "next/link";
+import healthymedlogo from "../../../public/healthymed-logo.svg";
+import MetaDecorator from "../../../components/MetaDecorator";
 
 function ProductDetail({ product, productTerkait }) {
   const route = useRouter();
@@ -110,43 +112,52 @@ function ProductDetail({ product, productTerkait }) {
 
   return (
     <>
-      <Navbar />
-
-      <div className="user-container">
-        {/* Breadcrumb */}
-        <div className="mb-[38px]">
-          <Link href="/">
-            <a className="text-secondary hover:text-primary">Beranda / </a>
-          </Link>
-          <Link href={`/products/${product.brand_id}`}>
-            <a className="text-secondary hover:text-primary">Kategori /</a>
-          </Link>
-          <span className="text-primary"> {product.name}</span>
-        </div>
-
-        {/* Product detail*/}
-        <ProductDetailMainPage
-          product={produk}
-          decrease={decrease}
-          increase={increase}
-          onBuyClick={onBuyClick}
-          description={description}
-          quantity={quantity}
-          handleChange={handleChange}
+      <div>
+        <MetaDecorator
+          title={`${product.name} / Healthymed`}
+          description={`${product.name} - ${product.description["Nomor Ijin Edar (NIE)"]} - ${product.description["indikasi / kegunaan"]}`}
+          imageUrl={healthymedlogo}
         />
-
-        <div className="border-b-2 mt-[50px]"></div>
-
-        {/* Product Terkait */}
-        <div className="mt-[60px] text-2xl text-primary font-bold">
-          Produk Terkait
-        </div>
-        <div className="mt-[28px]">
-          <HomePopularProductCarousel data={produkTerkait} />
-        </div>
       </div>
+      <>
+        <Navbar />
 
-      <Footer />
+        <div className="user-container">
+          {/* Breadcrumb */}
+          <div className="mb-[38px]">
+            <Link href="/">
+              <a className="text-secondary hover:text-primary">Beranda / </a>
+            </Link>
+            <Link href={`/products/${product.brand_id}`}>
+              <a className="text-secondary hover:text-primary">Kategori /</a>
+            </Link>
+            <span className="text-primary"> {product.name}</span>
+          </div>
+
+          {/* Product detail*/}
+          <ProductDetailMainPage
+            product={produk}
+            decrease={decrease}
+            increase={increase}
+            onBuyClick={onBuyClick}
+            description={description}
+            quantity={quantity}
+            handleChange={handleChange}
+          />
+
+          <div className="border-b-2 mt-[50px]"></div>
+
+          {/* Product Terkait */}
+          <div className="mt-[60px] text-2xl text-primary font-bold">
+            Produk Terkait
+          </div>
+          <div className="mt-[28px]">
+            <HomePopularProductCarousel data={produkTerkait} />
+          </div>
+        </div>
+
+        <Footer />
+      </>
     </>
   );
 }
