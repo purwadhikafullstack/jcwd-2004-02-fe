@@ -1,13 +1,15 @@
 import Head from "next/head";
 import UserProductSidebar from "../../components/UserProductSidebar";
 import UserProductMainPage from "../../components/UserProductMainPage";
-import Navbar from "../../components/navbar";
+import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../../helpers";
 import debounce from "lodash.debounce";
 import { Router, useRouter } from "next/router";
+import MetaDecorator from "../../components/MetaDecorator";
+import healthymedlogo from "../../public/healthymed-logo.svg";
 
 export default function UserProduct() {
   const route = useRouter();
@@ -116,34 +118,45 @@ export default function UserProduct() {
 
   return (
     <>
-      <Navbar />
-
-      <div className="user-container">
-        <div className="mb-[38px]">
-          <span className="text-secondary">Beranda / Kategori</span> /{" "}
-          {categorySelected}
-        </div>
-        <div className="flex">
-          <UserProductSidebar
-            component={component}
-            category_id={input.category}
-            input={input}
-            handleInput={handleInput}
-            handleCheckbox={handleCheckbox}
-            isLoading={isLoading}
-          />
-          <UserProductMainPage
-            categorySelected={categorySelected}
-            data={data}
-            input={input}
-            handleInput={handleInput}
-            totalData={totalData}
-            isLoading={isLoading}
-            pageChangeHandler={setPage}
-          />
-        </div>
+      <div>
+        <MetaDecorator
+          title={`${categorySelected} / Healthymed`}
+          description={
+            "Healthymed - Apotek Online Terpercaya. Beli obat yang kamu inginkan disini. 100% Asli, Produk BPOM, Uang Dijamin Kembali"
+          }
+          imageUrl={healthymedlogo}
+        />
       </div>
-      <Footer />
+      <div>
+        <Navbar />
+
+        <div className="user-container">
+          <div className="mb-[38px]">
+            <span className="text-secondary">Beranda / Kategori</span> /{" "}
+            {categorySelected}
+          </div>
+          <div className="flex">
+            <UserProductSidebar
+              component={component}
+              category_id={input.category}
+              input={input}
+              handleInput={handleInput}
+              handleCheckbox={handleCheckbox}
+              isLoading={isLoading}
+            />
+            <UserProductMainPage
+              categorySelected={categorySelected}
+              data={data}
+              input={input}
+              handleInput={handleInput}
+              totalData={totalData}
+              isLoading={isLoading}
+              pageChangeHandler={setPage}
+            />
+          </div>
+        </div>
+        <Footer />
+      </div>
     </>
   );
 }

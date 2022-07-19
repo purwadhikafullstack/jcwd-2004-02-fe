@@ -28,13 +28,13 @@ const routes = [
     ],
   },
   {
-    path: "#",
+    path: "/admin/transaksi",
     name: "Transaksi",
     icon: "/transaction.png",
     coloredicon: "/transaction2.png",
     subroutes: [
       {
-        path: "#",
+        path: "/admin/transaksi",
         name: "Semua Pesanan",
       },
       {
@@ -60,13 +60,13 @@ const routes = [
     ],
   },
   {
-    path: "#",
+    path: "/admin/sales",
     name: "Sales & Revenue",
     icon: "/vector.png",
     coloredicon: "/vector2.png",
     subroutes: [
       {
-        path: "#",
+        path: "/admin/sales/statistik",
         name: "Ringkasan Statistik",
       },
       {
@@ -74,7 +74,7 @@ const routes = [
         name: "Buku Kas",
       },
       {
-        path: "#",
+        path: "/admin/sales/report",
         name: "Laba dan Rugi",
       },
     ],
@@ -88,7 +88,7 @@ function AdminSidebar({ children }) {
 
   return (
     <>
-      <div className="h-full absolute top-0 bg-white w-[256px] shadow-xl">
+      <div className="h-full absolute top-0 bg-white w-[256px] shadow-xl cursor-pointer">
         <div className="h-[28px] w-[135px] mt-[15px] mb-[21px] mx-auto overflow-hidden relative">
           <Image src={"/logo1.png"} layout="fill" objectFit="cover" />
         </div>

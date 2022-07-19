@@ -17,9 +17,10 @@ export async function middleware(req) {
   // }
 
   if (req.nextUrl.pathname.includes("/admin")) {
-    if (role !== 1) {
+    if (role !== "Admin") {
       return NextResponse.redirect(new URL("/", req.url));
     }
   }
+
   return NextResponse.next();
 }
