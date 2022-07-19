@@ -62,7 +62,6 @@ const Cart = ({ getCartAction }) => {
     subTotal = subTotal + quantity * price;
   }
 
-
   useEffect(() => {
     getCartAction();
     fetchDaftarProduk();
@@ -75,10 +74,9 @@ const Cart = ({ getCartAction }) => {
     // hitungTotal()
   }, [quantity]);
 
-
   return (
-    <> 
-    <div>
+    <>
+      <div>
         <MetaDecorator
           title={`${name} / Cart`}
           description={
@@ -88,33 +86,12 @@ const Cart = ({ getCartAction }) => {
         />
       </div>
       <Navbar />
-      <div className="user-container">
+      <div className="">
         <div className="text-xl font-bold text-purple-900 mb-[36px] mx-20">
           Keranjang Saya
         </div>
         <div className="mx-20">
-          <div className="flex justify-between">
-            <div className="flex flex-col">
-              {cart.map((cart, index) => (
-                <BoxWithImage
-                  // {/* <BoxAddress/> */}
-                  key={index}
-                  id={cart.id}
-                  name={cart.product_name}
-                  imageProduct={API_URL + cart.images.image}
-                  price={cart.hargaJual}
-                  kuantitas={cart.quantityCart}
-                  unit={cart.unit}
-                  total={cart.totalHarga}
-                  index={index}
-                  productId={cart.product_id}
-                  total_stock={cart.total_stock}
-                />
-              ))}
-            </div>
-            <BoxTotalCart subTotal={subTotal} address={address} />
-          </div>
-          <div className="mx-20">
+          <div className="px-20">
             {cart.length ? (
               <div className="flex justify-between">
                 <div className="flex flex-col">
@@ -124,7 +101,7 @@ const Cart = ({ getCartAction }) => {
                       key={index}
                       id={cart.id}
                       name={cart.product_name}
-                      imageProduct={cart.images[0]}
+                      imageProduct={API_URL + cart.images.image}
                       price={cart.hargaJual}
                       kuantitas={cart.quantityCart}
                       unit={cart.unit}
@@ -135,7 +112,7 @@ const Cart = ({ getCartAction }) => {
                     />
                   ))}
                 </div>
-                <BoxTotalCart subTotal={subTotal} />
+                <BoxTotalCart subTotal={subTotal} address={address} />
               </div>
             ) : (
               <div className="text-primary text-xl font-semibold text-center">
@@ -152,6 +129,7 @@ const Cart = ({ getCartAction }) => {
               </div>
             )}
           </div>
+
           <div className="py-14 px-20">
             <div className="w-full border-b-2 border-slate mb-[28px]" />
             <span className="text-xl font-bold text-purple-900">

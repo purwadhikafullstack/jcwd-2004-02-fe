@@ -15,7 +15,7 @@ const RingkasanOrder = ({
       <div className="flex ml-2">
         <div className="flex items-center">
           <div className="w-[86px] h-[86px]">
-            <img src={`${API_URL}${image["image"]}`} />
+            <img src={image} />
           </div>
         </div>
         <div className="flex justify-between w-full">

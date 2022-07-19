@@ -6,6 +6,8 @@ import Rupiah from "../helpers/convertToRupiah";
 const BoxTotalCart = ({ subTotal, address }) => {
   const router = useRouter();
 
+  console.log("ini address", address);
+
   const handleCart = () => {
     router.push("/checkout");
   };
@@ -24,7 +26,7 @@ const BoxTotalCart = ({ subTotal, address }) => {
         <span className="font-bold text-purple-900">{Rupiah(subTotal)}</span>
       </div>
       {/* <Link href={"/checkout"}> */}
-      {address.length ? (
+      {address?.length ? (
         <button
           onClick={() => {
             router.push("/checkout");

@@ -104,7 +104,6 @@ const Payment = ({ getCartAction }) => {
       console.log(error);
     }
   };
-
   console.log("ini ordernya", order);
 
   useEffect(() => {
@@ -113,8 +112,8 @@ const Payment = ({ getCartAction }) => {
   }, []);
 
   return (
-    <div> 
-       <div>
+    <div>
+      <div>
         <MetaDecorator
           title={`Pembayaran / Healthymed`}
           description={
@@ -207,9 +206,7 @@ const Payment = ({ getCartAction }) => {
                         </div>
                       </ul>
                     </div>
-                    
                   </div>
-                  
                 </div>
               )}
             </div>
