@@ -35,7 +35,7 @@ function UserTransaction() {
   const getUserTransaction = async (page, input, startDate, endDate, cb) => {
     try {
       let res = await axios.get(
-        `${API_URL}/transaction/getusertransaction?order=${
+        `${API_URL}/transaction/getusertransaction?page=${page}&order=${
           input.order
         }&filter=${input.filter}&from_date=${
           startDate ? dayjs(startDate).format("YYYY-MM-DD HH:mm:ss") : ""
@@ -54,7 +54,7 @@ function UserTransaction() {
 
   const debouncedFetchData = useCallback(
     debounce((page, input, startDate, endDate, cb) => {
-      getAllTransaction(page, input, startDate, endDate, cb);
+      getUserTransaction(page, input, startDate, endDate, cb);
     }, 1000),
     []
   );

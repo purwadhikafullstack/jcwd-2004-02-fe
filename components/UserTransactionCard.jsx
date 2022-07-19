@@ -4,6 +4,7 @@ import { BsFillChatDotsFill } from "react-icons/bs";
 import { API_URL } from "../helpers";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 function UserTransactionCard({ data }) {
   const {
@@ -23,6 +24,8 @@ function UserTransactionCard({ data }) {
     pr_status,
     payment,
   } = data;
+
+  const router = useRouter();
 
   const rupiah = (number) => {
     return new Intl.NumberFormat("id-ID", {
@@ -169,6 +172,9 @@ function UserTransactionCard({ data }) {
                   <button
                     className="w-[157px] h-[30px] text-white text-sm font-medium
                         bg-secondary rounded-lg text-center"
+                    onClick={() => {
+                      router.push(`/payment/${id}`);
+                    }}
                   >
                     Bayar Sekarang
                   </button>
