@@ -1,6 +1,6 @@
 import BoxTimePayment from "../../components/BoxTimePayment";
+import Navbar from "../../components/navbar";
 import Footer from "../../components/Footer";
-import Navbar from "../../components/Navbar";
 import RingkasanOrder from "../../components/ringkasanOrder";
 import { Divider, Button } from "@chakra-ui/react";
 import React, { Component, useCallback, createRef } from "react";
@@ -16,6 +16,8 @@ import { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { getCartAction } from "../../redux/actions";
 import Rupiah from "../../helpers/convertToRupiah";
+import MetaDecorator from "../../components/MetaDecorator";
+import healthymedlogo from "../../public/healthymed-logo.svg";
 
 const Payment = ({ getCartAction }) => {
   const router = useRouter();
@@ -102,6 +104,7 @@ const Payment = ({ getCartAction }) => {
       console.log(error);
     }
   };
+  console.log("ini ordernya", order);
 
   useEffect(() => {
     // getCartAction()
@@ -110,6 +113,15 @@ const Payment = ({ getCartAction }) => {
 
   return (
     <div>
+      <div>
+        <MetaDecorator
+          title={`Pembayaran / Healthymed`}
+          description={
+            "Healthymed - Apotek Online Terpercaya. Beli obat yang kamu inginkan disini. 100% Asli, Produk BPOM, Uang Dijamin Kembali"
+          }
+          imageUrl={healthymedlogo}
+        />
+      </div>
       <Navbar />
       <div className="my-10">
         <span className="text-xl text-purple-900 text-left ml-[250px] font-bold ">
@@ -117,36 +129,28 @@ const Payment = ({ getCartAction }) => {
         </span>
       </div>
       <div className="flex flex-col items-center gap-y-10 ">
-        <BoxTimePayment />
+        {order.map((time, index) => (
+          <BoxTimePayment
+            key={index}
+            created_at={time.created_at}
+            expired_at={time.expired_at}
+          />
+        ))}
         <div className=" w-[800px] min-h-[260px] rounded-lg shadow-md p-6 font-bold text-purple-900">
           Ringkasan Order
           <div className="my-4">
             <Divider />
           </div>
           <div>
-            {/* {cart.map((pay, index) => {
-                                <RingkasanOrderPayment 
-                                key={index}
-                                id={pay.id} 
-                                name = {pay.product_name} 
-                                imageProduct={pay.image}
-                                price={pay.hargaJual} 
-                                kuantitas={pay.quantityCart} 
-                                unit={pay.unit}
-                                total={pay.totalHarga}  
-                                index={index} 
-                                productId={pay.product_id}
-                                />
-                             })} */}
             {order.map((pay, index) => (
               <RingkasanOrder
                 key={index}
                 id={pay.id}
                 name={pay.name}
                 price={pay.price * pay.quantity}
-                unit={"pay.unit"}
+                unit={pay.unit}
                 quantity={pay.quantity}
-                image={pay.image}
+                image={API_URL + pay.image}
               />
             ))}
           </div>
@@ -202,33 +206,6 @@ const Payment = ({ getCartAction }) => {
                         </div>
                       </ul>
                     </div>
-                    {/* <Button
-                                        colorScheme={"purple"}
-                                        className="w-[150px] mt-5 "
-                                        type="button"
-                                        onClick={open}
-                                    >
-                                        Unggah Resep
-                                </Button> */}
-                  </div>
-                  <div className="flex justify-end mr-6 mb-4  ">
-                    {/* <Button
-                                    variant={"outline"}
-                                    colorScheme={"purple"}
-                                    className="w-[100px] mt-3 mr-5 "
-                                    type="button"
-                                    // onClick={a}
-                                >
-                                    Cancel
-                                </Button> */}
-                    {/* <Button
-                                    colorScheme={"purple"}
-                                    className="w-[100px] mt-3 "
-                                    type="button"
-                                    onClick={onSaveDataClick}
-                                >
-                                    Unggah
-                                </Button> */}
                   </div>
                 </div>
               )}

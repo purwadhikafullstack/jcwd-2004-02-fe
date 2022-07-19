@@ -10,6 +10,8 @@ import { Select } from "@chakra-ui/react";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { useRouter, router } from "next/router";
+import MetaDecorator from "../components/MetaDecorator";
+import healthymedlogo from "../public/healthymed-logo.svg";
 
 const Address = () => {
   // const options = [
@@ -21,8 +23,8 @@ const Address = () => {
 
   const [addAddress, setAddAddress] = useState({
     address: "",
-    province_id: 0,
-    city_id: 0,
+    province_id: "",
+    city_id: "",
     firstname: "",
     lastname: "",
     phonenumber: "",
@@ -85,7 +87,16 @@ const Address = () => {
   };
 
   return (
-    <div>
+    <div> 
+      <div>
+        <MetaDecorator
+          title={"Address / Healthymed"}
+          description={
+            "Healthymed - Apotek Online Terpercaya. Beli obat yang kamu inginkan disini. 100% Asli, Produk BPOM, Uang Dijamin Kembali"
+          }
+          imageUrl={healthymedlogo}
+        />
+      </div>
       <Navbar />
       <div className="px-[380px] pt-[50px] mb-24 h-full">
         <span className="font-bold text-xl text-purple-900">

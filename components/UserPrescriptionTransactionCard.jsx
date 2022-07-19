@@ -3,6 +3,7 @@ import Image from "next/image";
 import { BsFillChatDotsFill } from "react-icons/bs";
 import { API_URL } from "../helpers";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 function UserTransactionPrescriptionCard({ data }) {
   const {
@@ -28,6 +29,39 @@ function UserTransactionPrescriptionCard({ data }) {
       style: "currency",
       currency: "IDR",
     }).format(number);
+  };
+
+  const [timer, setTimer] = useState(0);
+
+  useEffect(() => {
+    let time = setInterval(() => {
+      setTimer(new Date());
+    }, 1000);
+
+    return () => clearInterval(time);
+  }, []);
+
+  const countdown = (time, type) => {
+    let expired = new Date(expired_at).getTime();
+    let now = new Date(time).getTime();
+    let detik = Math.round((expired - now) / 1000);
+    if (detik < 0) {
+      return 0;
+    }
+
+    let jam = Math.floor(detik / 3600);
+    detik = detik % 3600;
+    if (type === "jam") {
+      return jam;
+    }
+
+    let menit = Math.floor(detik / 60);
+    detik = detik % 60;
+    if (type === "menit") {
+      return menit;
+    }
+
+    return detik;
   };
 
   return (
@@ -107,19 +141,19 @@ function UserTransactionPrescriptionCard({ data }) {
                   {!products.length ? (
                     <div className="flex">
                       <div className="w-[31px] h-[32px] text-white bg-red-400 font-semibold rounded-lg text-center py-[3px]">
-                        24
+                        {countdown(timer, "jam")}
                       </div>
                       <div className="text-xl font-bold text-red-400 mx-[11.6px]">
                         :
                       </div>
                       <div className="w-[31px] h-[32px] text-white bg-red-400 font-semibold rounded-lg text-center py-[3px]">
-                        45
+                        {countdown(timer, "menit")}
                       </div>
                       <div className="text-xl font-bold text-red-400 mx-[11.6px]">
                         :
                       </div>
                       <div className="w-[31px] h-[32px] text-white bg-red-400 font-semibold rounded-lg text-center py-[3px]">
-                        45
+                        {countdown(timer, "detik")}
                       </div>
                     </div>
                   ) : null}

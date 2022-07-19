@@ -14,6 +14,8 @@ import useCart from "../hooks/useCart";
 import useUser from "../hooks/useUser";
 import Rupiah from "../helpers/convertToRupiah";
 import RingkasanOrderCheckout from "../components/RingkasanOrderCheckout";
+import MetaDecorator from "../components/MetaDecorator";
+import healthymedlogo from "../public/healthymed-logo.svg";
 
 const Checkout = ({ getCartAction }) => {
   const [data, setData] = useState([]);
@@ -21,6 +23,7 @@ const Checkout = ({ getCartAction }) => {
   const [selectedAddress, setSelectedAddress] = useState({});
   const [selectBank, setSelectBank] = useState(null);
   const [bank, setBank] = useState([]);
+  const [ongkir, setOngkir] = useState(0);
 
   const { isLogin } = useUser();
   const { cart } = useCart();
@@ -35,22 +38,6 @@ const Checkout = ({ getCartAction }) => {
     }
   };
 
-  // const getDataCart = async () => {
-  //     let token = Cookies.get('token')
-  //     try {
-  //         const res = await axios.get(
-  //             `${API_URL}/transaction/getDataCart`,{
-  //                 headers: {
-  //                     authorization: `bearer ${token}`
-  //                 }
-  //             }
-  //         )
-  //         setData(res.data)
-  //         console.log('yang ini adalah res.data',res.data)
-  //     } catch (error) {
-  //         console.log(error)
-  //     }
-  // }
   const subTotal = () => {
     let subTotal = 0;
     for (let i = 0; i < cart.length; i++) {
@@ -75,6 +62,23 @@ const Checkout = ({ getCartAction }) => {
       console.log(error);
     }
   };
+  // console.log("ini data address", getUserAddress);
+  console.log("ini data address", selectedAddress);
+  const getOngkir = async () => {
+    let CityId = selectedAddress.city_id;
+    try {
+      let res = await axios.get(
+        `${API_URL}/transaction/getShippingCost?CityId=${CityId}`
+      );
+      setOngkir(res.data);
+    } catch (error) {
+      setOngkir({ ...ongkir, ongkos: 5000 });
+      console.log(error);
+    }
+  };
+
+  let total = parseInt(subTotal()) + parseInt(ongkir.ongkos);
+  console.log("ini ongkirnya", ongkir);
 
   useEffect(() => {
     getBank();
@@ -82,8 +86,21 @@ const Checkout = ({ getCartAction }) => {
     getAddress();
   }, []);
 
+  useEffect(() => {
+    getOngkir();
+  }, [selectedAddress]);
+
   return (
-    <div>
+    <div> 
+      <>
+        <MetaDecorator
+          title={"Checkout / Healthymed"}
+          description={
+            "Healthymed - Apotek Online Terpercaya. Beli obat yang kamu inginkan disini. 100% Asli, Produk BPOM, Uang Dijamin Kembali"
+          }
+          imageUrl={healthymedlogo}
+        />
+      </>
       <Navbar />
       <div className="flex px-[96px] pt-10 pb-14">
         <div className="flex flex-col">
@@ -94,7 +111,7 @@ const Checkout = ({ getCartAction }) => {
               getAddress={getUserAddress}
             />
           </div>
-          <div className=" w-[700px] min-h-[260px] rounded-lg mr-12 shadow-xl shadow-purple-100 p-6 text-purple-900 font-bold">
+          <div className=" w-[700px] min-h-[260px] rounded-lg mr-12 mt-[20px] shadow-lg shadow-purple-100 p-6 text-purple-900 font-bold">
             Ringkasan Order
             <div>
               <div className="ml-2">
@@ -108,6 +125,7 @@ const Checkout = ({ getCartAction }) => {
                   price={checkout.totalHarga}
                   unit={checkout.unit}
                   quantityCart={checkout.quantityCart}
+                  image={API_URL + checkout.images.image}
                 />
               ))}
 
@@ -136,6 +154,8 @@ const Checkout = ({ getCartAction }) => {
           bank={bank}
           setBank={setBank}
           getBank={getBank}
+          ongkir={ongkir}
+          total={total}
         />
       </div>
     </div>

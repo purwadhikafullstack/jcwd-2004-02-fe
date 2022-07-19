@@ -145,7 +145,7 @@ const BoxWithImage = ({
           <div className="flex items-center">
             <div>{/* <input type={"checkbox"}/>  */}</div>
             <div className="w-[86px] h-[86px]">
-              <img src={`${API_URL}${imageProduct["image"]}`} />
+              <img src={imageProduct} />
             </div>
           </div>
           <div className="flex justify-between w-full">
