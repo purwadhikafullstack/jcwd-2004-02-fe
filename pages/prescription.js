@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { Divider, Button, Image } from "@chakra-ui/react";
-import Navbar from "../components/Navbar";
+import { Divider, Box, Image, Button } from "@chakra-ui/react";
+import Navbar from "../components/navbar";
 import { API_URL } from "../helpers";
 import { useDropzone } from "react-dropzone";
 import { BsImage } from "react-icons/bs";

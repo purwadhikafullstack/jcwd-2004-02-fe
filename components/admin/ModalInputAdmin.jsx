@@ -21,6 +21,8 @@ import axios from "axios";
 import { API_URL } from "../../helpers";
 import { flushSync } from "react-dom";
 import { toast } from "react-toastify";
+import * as yup from "yup";
+// import { userSchema } from "./Validation";
 
 function ModalInputAdmin({ submitProduct }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
