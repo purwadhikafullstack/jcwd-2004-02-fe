@@ -29,6 +29,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import HeaderMobile from "../components/HeaderMobile";
 import UserProfileSidebar from "../components/UserProfileSidebar";
+import { MdLocationOn } from "react-icons/md";
 
 const Profile = () => {
   const { name, email, gender, birthdate, profilepic, id } = useUser();
@@ -125,54 +126,7 @@ const Profile = () => {
                   </div>
                 </div>
 
-                <div className="flex cursor-pointer">
-                  <MdLocationOn className="flex ml-10 mt-9 text-2xl items-center" />
-                  <div className="profileTag">Alamat Pengiriman</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex mx-auto shadow-md w-7/12 rounded-lg mt-10 pb-14 ml-10">
-            <div>
-              <div className="pt-5 ml-11 text-2xl font-bold">Profil</div>
-              <div className="bg-slate-200">
-                <Divider className="mt-7" />
-              </div>
-              <div className="flex">
-                <div className="flex flex-col">
-                  <img
-                    className="flex items-center ml-11 mt-10 rounded-2xl h-[300px] w-[300px]"
-                    src={profpic}
-                  />
-                  <ProfileModalEditPhoto />
-                </div>
-                <div>
-                  <div>
-                    <div className="flex mt-12 ">
-                      <div className="profileTag">Nama Lengkap</div>
-                      <div className="profileDesc ml-7">{name}</div>
-                    </div>
-                    <div className="flex">
-                      <div className="profileTag">Gender</div>
-                      <div className="profileDesc ml-[85px]">
-                        {gender ? gender : "-"}
-                      </div>
-                    </div>
-                    <div className="flex">
-                      <div className="profileTag">E-mail</div>
-                      <div className="profileDesc ml-[93px]">{email}</div>
-                    </div>
-                    <div className="flex">
-                      <div className="profileTag">Tanggal Lahir</div>
-                      <div className="profileDesc ml-[40px]">
-                        {birthdate ? moment(birthdate).format("LL") : "-"}
-                      </div>
-                    </div>
-                  </div>
-
-                  <ProfileModalEditProfile />
-                </div>
+                <ProfileModalEditProfile />
               </div>
               <div className="flex flex-col md:hidden mx-[168px] mt-3 text-[indigo] font-semibold">
                 <hr className="bg-purple-800 border-purple-800 rounded-xl border-1 mt-4" />

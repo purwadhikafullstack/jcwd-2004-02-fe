@@ -130,7 +130,7 @@ function UserDetailTransactionCard({ data, show, setShow }) {
             <div className="mt-[12px] mb-[34px] w-full border-b-2" />
             <div className="lg:flex lg:justify-between">
               <div className="flex">
-                <div className="w-[146px] h-[146px] rounded-lg bg-slate-200">
+                <div className="w-[146px] h-[146px] rounded-lg bg-slate-200 overflow-hidden relative">
                   <Image
                     src={`${API_URL}/${pr_image}`}
                     layout="fill"
@@ -158,21 +158,21 @@ function UserDetailTransactionCard({ data, show, setShow }) {
                   <div className="text-slate-500 text-[12px] w-[177px]">
                     Mohon menunggu balasan dari apoteker selama 5 menit
                   </div>
-                  <div className="flex mt-[14px] justify-end">
+                  <div className="flex items-center">
                     <div className="w-[31px] h-[32px] text-white bg-red-400 font-semibold rounded-lg text-center py-[3px]">
-                      24
+                      {countdown(timer, "jam")}
                     </div>
                     <div className="text-xl font-bold text-red-400 mx-[11.6px]">
                       :
                     </div>
                     <div className="w-[31px] h-[32px] text-white bg-red-400 font-semibold rounded-lg text-center py-[3px]">
-                      45
+                      {countdown(timer, "menit")}
                     </div>
                     <div className="text-xl font-bold text-red-400 mx-[11.6px]">
                       :
                     </div>
                     <div className="w-[31px] h-[32px] text-white bg-red-400 font-semibold rounded-lg text-center py-[3px]">
-                      45
+                      {countdown(timer, "detik")}
                     </div>
                   </div>
                 </div>
@@ -193,7 +193,7 @@ function UserDetailTransactionCard({ data, show, setShow }) {
           </div>
         ) : null}
 
-        {products ? (
+        {products?.length ? (
           <>
             <div className="px-[40px] py-[28px] w-full border-[1px] border-slate-100 shadow-lg rounded-xl">
               <div className="font-bold text-xl">Ringkasan Order</div>
@@ -202,16 +202,16 @@ function UserDetailTransactionCard({ data, show, setShow }) {
                 <div className="flex py-[12px] ">
                   <div className="w-[123.63px] h-[115.34px] bg-slate-200 rounded-lg overflow-hidden relative">
                     <Image
-                      src={`${API_URL}/${products[0].image}`}
+                      src={`${API_URL}/${products[0]?.image}`}
                       layout="fill"
                       objectFit="cover"
                     />
                   </div>
                   <div className=" ml-[50px]">
                     <div className="text-sm font-medium">
-                      <p className="text-base">{products[0].name}</p>
+                      <p className="text-base">{products[0]?.name}</p>
                       <p className=" mt-[2px]">
-                        {products[0].quantity} {products[0].unit}
+                        {products[0]?.quantity} {products[0]?.unit}
                       </p>
                       {products.length > 1 ? (
                         <div
@@ -225,7 +225,7 @@ function UserDetailTransactionCard({ data, show, setShow }) {
                   </div>
                 </div>
                 <div className="flex font-bold text-right mt-[12px]">
-                  {rupiah(products[0].price)}
+                  {rupiah(products[0]?.price)}
                 </div>
               </div>
               {show
