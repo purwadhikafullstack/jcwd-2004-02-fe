@@ -3,7 +3,7 @@ import { ButtonPrimary } from "./button";
 import { useRouter } from "next/router";
 import Rupiah from "../helpers/convertToRupiah";
 
-const BoxTotalCart = ({ subTotal }) => {
+const BoxTotalCart = ({ subTotal, address }) => {
   const router = useRouter();
 
   const handleCart = () => {
@@ -23,14 +23,27 @@ const BoxTotalCart = ({ subTotal }) => {
         <span className="font-medium text-purple-900">Total</span>
         <span className="font-bold text-purple-900">{Rupiah(subTotal)}</span>
       </div>
-      <Link href={"/checkout"}>
+      {/* <Link href={"/checkout"}> */}
+      {address.length ? (
         <button
-          onClick={handleCart}
+          onClick={() => {
+            router.push("/checkout");
+          }}
           className="w-full h-[45px] mt-10 bg-purple-900 text-white rounded-lg text-xs"
         >
           Bayar
         </button>
-      </Link>
+      ) : (
+        <button
+          onClick={() => {
+            router.push("/address");
+          }}
+          className="w-full h-[45px] mt-10 bg-purple-900 text-white rounded-lg text-xs"
+        >
+          Bayar
+        </button>
+      )}
+      {/* </Link> */}
     </div>
   );
 };

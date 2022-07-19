@@ -33,19 +33,16 @@ function AdminHome({ data, penjualan, profit }) {
   const dataperbulan = () => {
     let databulan = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     for (let i = 0; i < penjualan.length; i++) {
-      databulan[penjualan[i].bulan - 1] = parseInt(
-        penjualan[i].jumlah_penjualan
-      );
+      databulan[penjualan[i].bulan - 1] = parseInt(penjualan[i].jumlah);
     }
     setDataBulanan(databulan);
+    console.log("ini data bula", databulan);
   };
   // insert data penjualan perminggu
   const dataPerMinggu = () => {
     let dataMinggu = [0, 0, 0, 0, 0, 0, 0];
     for (let i = 0; i < penjualan2.length; i++) {
-      dataMinggu[penjualan2[i].hari - 1] = parseInt(
-        penjualan2[i].jumlah_penjualan
-      );
+      dataMinggu[penjualan2[i].hari - 1] = parseInt(penjualan2[i].jumlah);
     }
     setDataMingguan(dataMinggu);
   };
@@ -131,12 +128,12 @@ function AdminHome({ data, penjualan, profit }) {
         label: "Obat",
         data: profitBulanan,
         borderColor: "blue",
-        backgroundColor: "blue",
+        backgroundColor: "rgba(0, 95, 175, 1),rgba(33, 205, 192, 0.6)",
         borderWidth: 0,
         pointRadius: 1,
         hoverPointRadius: 0,
         tension: 10,
-        drawBorder: "fullyRounded",
+        borderRadius: 80,
       },
     ],
   };
@@ -147,12 +144,13 @@ function AdminHome({ data, penjualan, profit }) {
       {
         label: "Obat",
         data: profitMingguan,
-        borderColor: ["rgba(107, 76, 146, 1)"],
-        backgroundColor: "transparent",
-        borderWidth: 2,
+        borderColor: "blue",
+        backgroundColor: ["rgba(0, 95, 175, 1),rgba(33, 205, 192, 0.6)"],
+        borderWidth: 0,
         pointRadius: 0,
         hoverPointRadius: 0,
         tension: 0.5,
+        borderRadius: 100,
       },
     ],
   };
@@ -196,7 +194,7 @@ function AdminHome({ data, penjualan, profit }) {
         borderColor: ["rgba(107, 76, 146, 1)"],
         backgroundColor: "blue",
         borderWidth: 2,
-        pointRadius: 2,
+        pointRadius: 0,
         hoverPointRadius: 0,
         tension: 0.5,
       },
@@ -228,6 +226,7 @@ function AdminHome({ data, penjualan, profit }) {
   };
 
   console.log("ni coba ya", data);
+  console.log("ini penjualan", penjualan);
 
   return (
     <>
@@ -348,9 +347,7 @@ function AdminHome({ data, penjualan, profit }) {
             <div className="flex justify-between px-[10px] pt-[35px] mb-[60px]">
               <div className="flex flex-col">
                 <span>Profit</span>
-                <span className="text-xs">
-                  data dinyatakan dalam jutaan rupiah
-                </span>
+                <span className="text-xs">Data dinyatakan dalam rupiah</span>
               </div>
               <Select
                 // placeholder="Select option"

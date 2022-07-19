@@ -13,12 +13,14 @@ import useCart from "../hooks/useCart";
 import useUser from "../hooks/useUser";
 import CardHomeBottom from "../components/CardHomeBottom";
 import HomePopularProductCarousel from "../components/HomePopularProductCarousel";
+import Cookies from "js-cookie";
 
 const Cart = ({ getCartAction }) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [totalPembayaran, setTotalPembayaran] = useState(0);
   const [quantity, setquantity] = useState([]);
+  const [address, setAddress] = useState([]);
 
   const { isLogin } = useUser();
   const { cart } = useCart();
@@ -30,6 +32,20 @@ const Cart = ({ getCartAction }) => {
       setTimeout(() => {
         setIsLoading(false);
       }, 2000);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getAddress = async () => {
+    let token = Cookies.get("token");
+    try {
+      const res = await axios.get(`${API_URL}/transaction/getAllAddress`, {
+        headers: {
+          authorization: `bearer ${token}`,
+        },
+      });
+      setAddress(res.data);
     } catch (error) {
       console.log(error);
     }
@@ -102,26 +118,10 @@ const Cart = ({ getCartAction }) => {
   //     }
   // }
 
-  // `const increase = (index,id) => {
-  //     let count = parseInt(quantity[id]) + 1
-  //     let tempArr = quantity
-  //     tempArr[id] = count
-  //     setquantity(tempArr)
-  //     plusHandle(id)
-  // }
-
-  // const decrease = (index,id) => {
-  //     let count = parseInt(quantity[id]) - 1
-  //     count = count < 1 ? 1 : count
-  //     let tempArr = quantity
-  //     tempArr[id] = count
-  //     setquantity(tempArr)
-  //     minHandle(id)
-  // } `
-
   useEffect(() => {
     getCartAction();
     fetchDaftarProduk();
+    getAddress();
     // hitungqty()
   }, []);
   console.log("yang ini cart", cart);
@@ -165,7 +165,7 @@ const Cart = ({ getCartAction }) => {
                 />
               ))}
             </div>
-            <BoxTotalCart subTotal={subTotal} />
+            <BoxTotalCart subTotal={subTotal} address={address} />
           </div>
         </div>
         <div className="py-14 px-20">

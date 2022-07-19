@@ -36,22 +36,6 @@ const Checkout = ({ getCartAction }) => {
     }
   };
 
-  // const getDataCart = async () => {
-  //     let token = Cookies.get('token')
-  //     try {
-  //         const res = await axios.get(
-  //             `${API_URL}/transaction/getDataCart`,{
-  //                 headers: {
-  //                     authorization: `bearer ${token}`
-  //                 }
-  //             }
-  //         )
-  //         setData(res.data)
-  //         console.log('yang ini adalah res.data',res.data)
-  //     } catch (error) {
-  //         console.log(error)
-  //     }
-  // }
   const subTotal = () => {
     let subTotal = 0;
     for (let i = 0; i < cart.length; i++) {
@@ -76,27 +60,33 @@ const Checkout = ({ getCartAction }) => {
       console.log(error);
     }
   };
-  console.log("ini data address", getUserAddress);
+  // console.log("ini data address", getUserAddress);
+  console.log("ini data address", selectedAddress);
   const getOngkir = async () => {
-    let CityId = getUserAddress.city_id;
+    let CityId = selectedAddress.city_id;
     try {
       let res = await axios.get(
         `${API_URL}/transaction/getShippingCost?CityId=${CityId}`
       );
       setOngkir(res.data);
     } catch (error) {
-      setOngkir(5000);
+      setOngkir({ ...ongkir, ongkos: 5000 });
       console.log(error);
     }
   };
 
-  let total = subTotal() + parseInt(ongkir);
+  let total = parseInt(subTotal()) + parseInt(ongkir.ongkos);
+  console.log("ini ongkirnya", ongkir);
 
   useEffect(() => {
     getBank();
     getCartAction();
     getAddress();
   }, []);
+
+  useEffect(() => {
+    getOngkir();
+  }, [selectedAddress]);
 
   return (
     <div>
@@ -110,7 +100,7 @@ const Checkout = ({ getCartAction }) => {
               getAddress={getUserAddress}
             />
           </div>
-          <div className=" w-[700px] min-h-[260px] rounded-lg mr-12 shadow-xl shadow-purple-100 p-6 text-purple-900 font-bold">
+          <div className=" w-[700px] min-h-[260px] rounded-lg mr-12 mt-[20px] shadow-lg shadow-purple-100 p-6 text-purple-900 font-bold">
             Ringkasan Order
             <div>
               <div className="ml-2">
@@ -153,6 +143,8 @@ const Checkout = ({ getCartAction }) => {
           bank={bank}
           setBank={setBank}
           getBank={getBank}
+          ongkir={ongkir}
+          total={total}
         />
       </div>
     </div>
