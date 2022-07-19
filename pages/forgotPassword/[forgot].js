@@ -11,8 +11,6 @@ import { useFormik } from "formik";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import { ButtonPrimary } from "../../components/button";
 import { toast } from "react-toastify";
-import Input from "../../components/input";
-import InputPass from "../../components/inputPass";
 import { AiFillLock } from "react-icons/ai";
 import MetaDecorator from "../../components/MetaDecorator";
 import healthymedlogo from "../../public/healthymed-logo.svg";
