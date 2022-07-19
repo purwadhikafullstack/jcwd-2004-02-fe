@@ -13,6 +13,7 @@ import useCart from "../hooks/useCart";
 import useUser from "../hooks/useUser";
 import CardHomeBottom from "../components/CardHomeBottom";
 import HomePopularProductCarousel from "../components/HomePopularProductCarousel";
+import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import MetaDecorator from "../components/MetaDecorator";
 import healthymedlogo from "../public/healthymed-logo.svg";
@@ -22,6 +23,7 @@ const Cart = ({ getCartAction }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [totalPembayaran, setTotalPembayaran] = useState(0);
   const [quantity, setquantity] = useState([]);
+  const [address, setAddress] = useState([]);
   const router = useRouter();
 
   const { isLogin, name } = useUser();
@@ -39,32 +41,19 @@ const Cart = ({ getCartAction }) => {
     }
   };
 
-  // const getDataCart = async () => {
-  //   let token = Cookies.get("token");
-  //   try {
-  //     const res = await axios.get(`${API_URL}/transaction/getDataCart`, {
-  //       headers: {
-  //         authorization: `bearer ${token}`,
-  //       },
-  //     });
-  //     setData([...res.data]);
-  //     // console.log('yang ini adalah res.data',res.data)
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // let total = 0
-  // const hitungTotal = () => {
-  //     for (let i = 0; i < cart.length; i++) {
-  //         total += cart[i].totalHarga
-  //         // setTotalPembayaran(total)
-  //     }
-  //     // for loop resultnya, setiap loop nambahin total dari tiap totalHarga
-  //     // total += totalHarga
-  //     // setTotalPembayaran(total)
-  //     // masukin ke useEffect
-  // }
+  const getAddress = async () => {
+    let token = Cookies.get("token");
+    try {
+      const res = await axios.get(`${API_URL}/transaction/getAllAddress`, {
+        headers: {
+          authorization: `bearer ${token}`,
+        },
+      });
+      setAddress(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   let subTotal = 0;
   for (let i = 0; i < cart.length; i++) {
@@ -73,59 +62,10 @@ const Cart = ({ getCartAction }) => {
     subTotal = subTotal + quantity * price;
   }
 
-  // const hitungqty = () => {
-  //     for (let i = 0; i < cart.length; i++) {
-  //        setquantity([...quantity,cart[i].quantityCart])
-  //     }
-  // }
-
-  // const plusHandle = async (e) => {
-  //     let token = Cookies.get('token')
-  //     try {
-  //         const res = await axios.put(`${API_URL}/transaction/plusCart?product_id=${data[e].id}`,null,{
-  //             headers: {
-  //                 authorization: `bearer ${token}`
-  //             }
-  //         })
-  //     } catch (error) {
-  //         console.log(error);
-  //     }
-
-  // }
-
-  // const minHandle = async (e) => {
-  //     let token = Cookies.get('token')
-  //     try {
-  //         const res = await axios.put(`${API_URL}/transaction/minCart?product_id=${data[e].id}`,null,{
-  //             headers: {
-  //                 authorization: `bearer ${token}`
-  //             }
-  //         })
-  //     } catch (error) {
-  //         console.log(error);
-  //     }
-  // }
-
-  // `const increase = (index,id) => {
-  //     let count = parseInt(quantity[id]) + 1
-  //     let tempArr = quantity
-  //     tempArr[id] = count
-  //     setquantity(tempArr)
-  //     plusHandle(id)
-  // }
-
-  // const decrease = (index,id) => {
-  //     let count = parseInt(quantity[id]) - 1
-  //     count = count < 1 ? 1 : count
-  //     let tempArr = quantity
-  //     tempArr[id] = count
-  //     setquantity(tempArr)
-  //     minHandle(id)
-  // } `
-
   useEffect(() => {
     getCartAction();
     fetchDaftarProduk();
+    getAddress();
     // hitungqty()
   }, []);
   console.log("yang ini cart", cart);
@@ -133,14 +73,6 @@ const Cart = ({ getCartAction }) => {
   useEffect(() => {
     // hitungTotal()
   }, [quantity]);
-
-  // useEffect(()=>{
-  //     getDataCart()
-  //     hitungTotal()
-  //     hitungqty()
-  // },[quantity])
-  // input pindahin kesini
-  //function handle pindahin kesini
 
   return (
     <>
@@ -153,13 +85,13 @@ const Cart = ({ getCartAction }) => {
           imageUrl={healthymedlogo}
         />
       </div>
-      <div>
-        <Navbar />
-        <div className="user-container">
-          <div className="text-xl font-bold text-purple-900 mb-[36px] mx-20">
-            Keranjang Saya
-          </div>
-          <div className="mx-20">
+      <Navbar />
+      <div className="">
+        <div className="text-xl font-bold text-purple-900 mb-[36px] mx-20">
+          Keranjang Saya
+        </div>
+        <div className="mx-20">
+          <div className="px-20">
             {cart.length ? (
               <div className="flex justify-between">
                 <div className="flex flex-col">
@@ -169,7 +101,7 @@ const Cart = ({ getCartAction }) => {
                       key={index}
                       id={cart.id}
                       name={cart.product_name}
-                      imageProduct={cart.images[0]}
+                      imageProduct={API_URL + cart.images.image}
                       price={cart.hargaJual}
                       kuantitas={cart.quantityCart}
                       unit={cart.unit}
@@ -180,7 +112,7 @@ const Cart = ({ getCartAction }) => {
                     />
                   ))}
                 </div>
-                <BoxTotalCart subTotal={subTotal} />
+                <BoxTotalCart subTotal={subTotal} address={address} />
               </div>
             ) : (
               <div className="text-primary text-xl font-semibold text-center">
@@ -197,6 +129,7 @@ const Cart = ({ getCartAction }) => {
               </div>
             )}
           </div>
+
           <div className="py-14 px-20">
             <div className="w-full border-b-2 border-slate mb-[28px]" />
             <span className="text-xl font-bold text-purple-900">

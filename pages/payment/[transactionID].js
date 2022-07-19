@@ -104,6 +104,7 @@ const Payment = ({ getCartAction }) => {
       console.log(error);
     }
   };
+  console.log("ini ordernya", order);
 
   useEffect(() => {
     // getCartAction()
@@ -121,116 +122,106 @@ const Payment = ({ getCartAction }) => {
           imageUrl={healthymedlogo}
         />
       </div>
-      <>
-        <Navbar />
-        <div className="my-10">
-          <span className="text-xl text-purple-900 text-left ml-[250px] font-bold ">
-            Menunggu Pembayaran
-          </span>
+      <Navbar />
+      <div className="my-10">
+        <span className="text-xl text-purple-900 text-left ml-[250px] font-bold ">
+          Menunggu Pembayaran
+        </span>
+      </div>
+      <div className="flex flex-col items-center gap-y-10 ">
+        {order.map((time, index) => (
+          <BoxTimePayment
+            key={index}
+            created_at={time.created_at}
+            expired_at={time.expired_at}
+          />
+        ))}
+        <div className=" w-[800px] min-h-[260px] rounded-lg shadow-md p-6 font-bold text-purple-900">
+          Ringkasan Order
+          <div className="my-4">
+            <Divider />
+          </div>
+          <div>
+            {order.map((pay, index) => (
+              <RingkasanOrder
+                key={index}
+                id={pay.id}
+                name={pay.name}
+                price={pay.price * pay.quantity}
+                unit={pay.unit}
+                quantity={pay.quantity}
+                image={API_URL + pay.image}
+              />
+            ))}
+          </div>
+          <Divider marginLeft="48" w="556px" />
+          <div className="mt-4 w-[556px] ml-48 flex justify-between">
+            <span>Subtotal</span>
+            <span>{Rupiah(subTotal())}</span>
+          </div>
         </div>
-        <div className="flex flex-col items-center gap-y-10 ">
-          <BoxTimePayment />
-          <div className=" w-[800px] min-h-[260px] rounded-lg shadow-md p-6 font-bold text-purple-900">
-            Ringkasan Order
-            <div className="my-4">
-              <Divider />
-            </div>
+        {/* <BoxPaymentProof/> */}
+        <div className="w-[800px] h-[400px] rounded-lg shadow-md p-6 font-bold text-purple-900">
+          Upload Bukti Pembayaran
+          <div className="my-5">
+            <Divider />
             <div>
-              {/* {cart.map((pay, index) => {
-                                <RingkasanOrderPayment 
-                                key={index}
-                                id={pay.id} 
-                                name = {pay.product_name} 
-                                imageProduct={pay.image}
-                                price={pay.hargaJual} 
-                                kuantitas={pay.quantityCart} 
-                                unit={pay.unit}
-                                total={pay.totalHarga}  
-                                index={index} 
-                                productId={pay.product_id}
-                                />
-                             })} */}
-              {order.map((pay, index) => (
-                <RingkasanOrder
-                  key={index}
-                  id={pay.id}
-                  name={pay.name}
-                  price={pay.price * pay.quantity}
-                  unit={"pay.unit"}
-                  quantity={pay.quantity}
-                  image={pay.image}
-                />
-              ))}
-            </div>
-            <Divider marginLeft="48" w="556px" />
-            <div className="mt-4 w-[556px] ml-48 flex justify-between">
-              <span>Subtotal</span>
-              <span>{Rupiah(subTotal())}</span>
-            </div>
-          </div>
-          {/* <BoxPaymentProof/> */}
-          <div className="w-[800px] h-[400px] rounded-lg shadow-md p-6 font-bold text-purple-900">
-            Upload Bukti Pembayaran
-            <div className="my-5">
-              <Divider />
-              <div>
-                {!acceptedFiles[0] ? (
-                  <div
-                    className="containerx ml-6 my-2 flex items-center justify-center w-[700px] h-[300px]"
-                    {...getRootProps()}
+              {!acceptedFiles[0] ? (
+                <div
+                  className="containerx ml-6 my-2 flex items-center justify-center w-[700px] h-[300px]"
+                  {...getRootProps()}
+                >
+                  <input {...getInputProps()} />
+                  <div className="mb-6 text-2xl"> Tarik & Letakkan File</div>
+                  <div className="flex">
+                    <div className="hl"></div>
+                    <div className="mb-6 text-sm mx-2">atau</div>
+                    <div className="hl"></div>
+                  </div>
+                  <Button
+                    colorScheme={"purple"}
+                    className="w-[260px]"
+                    type="button"
+                    onClick={open}
                   >
-                    <input {...getInputProps()} />
-                    <div className="mb-6 text-2xl"> Tarik & Letakkan File</div>
-                    <div className="flex">
-                      <div className="hl"></div>
-                      <div className="mb-6 text-sm mx-2">atau</div>
-                      <div className="hl"></div>
-                    </div>
-                    <Button
-                      colorScheme={"purple"}
-                      className="w-[260px]"
-                      type="button"
-                      onClick={open}
-                    >
-                      Unggah Bukti Pembayaran
-                    </Button>
-                  </div>
-                ) : (
-                  <div>
-                    <div className="container2 ml-6 my-2 flex w-[700px] h-[300px]">
-                      <div className="flex border-solid border-gray-200 rounded-lg border-2 px-5 py-2">
-                        <BsImage className="text-2xl text-purple-600 " />
-                        <ul className="ml-6 text-sm">
-                          <div className="flex">
-                            <div key={acceptedFiles[0].path}>
-                              {acceptedFiles[0].path}
-                            </div>
-                            <div
-                              className="text-purple-600 ml-3"
-                              key={acceptedFiles[0].path}
-                            >
-                              {acceptedFiles[0].size / 1000} KB
-                            </div>
+                    Unggah Bukti Pembayaran
+                  </Button>
+                </div>
+              ) : (
+                <div>
+                  <div className="container2 ml-6 my-2 flex w-[700px] h-[300px]">
+                    <div className="flex border-solid border-gray-200 rounded-lg border-2 px-5 py-2">
+                      <BsImage className="text-2xl text-purple-600 " />
+                      <ul className="ml-6 text-sm">
+                        <div className="flex">
+                          <div key={acceptedFiles[0].path}>
+                            {acceptedFiles[0].path}
                           </div>
-                        </ul>
-                      </div>
+                          <div
+                            className="text-purple-600 ml-3"
+                            key={acceptedFiles[0].path}
+                          >
+                            {acceptedFiles[0].size / 1000} KB
+                          </div>
+                        </div>
+                      </ul>
                     </div>
                   </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-center mb-36">
-          <button
-            onClick={onSubmitPayment}
-            className="w-[500px] h-[45px] mt-10 bg-purple-900 text-white rounded-lg text-sm text-center"
-          >
-            Konfirmasi Pembayaran
-          </button>
-        </div>
-        <Footer />
-      </>
+      </div>
+      <div className="flex items-center justify-center mb-36">
+        <button
+          onClick={onSubmitPayment}
+          className="w-[500px] h-[45px] mt-10 bg-purple-900 text-white rounded-lg text-sm text-center"
+        >
+          Konfirmasi Pembayaran
+        </button>
+      </div>
+      <Footer />
     </div>
   );
 };

@@ -23,8 +23,8 @@ const Address = () => {
 
   const [addAddress, setAddAddress] = useState({
     address: "",
-    province_id: 0,
-    city_id: 0,
+    province_id: "",
+    city_id: "",
     firstname: "",
     lastname: "",
     phonenumber: "",
@@ -87,7 +87,7 @@ const Address = () => {
   };
 
   return (
-    <div>
+    <div> 
       <div>
         <MetaDecorator
           title={"Address / Healthymed"}
