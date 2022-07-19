@@ -1,6 +1,6 @@
 import BoxTimePayment from "../../components/BoxTimePayment";
-import Footer from "../../components/footer";
 import Navbar from "../../components/navbar";
+import Footer from "../../components/Footer";
 import RingkasanOrder from "../../components/ringkasanOrder";
 import { Divider, Button } from "@chakra-ui/react";
 import React, { Component, useCallback, createRef } from "react";
@@ -214,33 +214,6 @@ const Payment = ({ getCartAction }) => {
                           </div>
                         </ul>
                       </div>
-                      {/* <Button
-                                        colorScheme={"purple"}
-                                        className="w-[150px] mt-5 "
-                                        type="button"
-                                        onClick={open}
-                                    >
-                                        Unggah Resep
-                                </Button> */}
-                    </div>
-                    <div className="flex justify-end mr-6 mb-4  ">
-                      {/* <Button
-                                    variant={"outline"}
-                                    colorScheme={"purple"}
-                                    className="w-[100px] mt-3 mr-5 "
-                                    type="button"
-                                    // onClick={a}
-                                >
-                                    Cancel
-                                </Button> */}
-                      {/* <Button
-                                    colorScheme={"purple"}
-                                    className="w-[100px] mt-3 "
-                                    type="button"
-                                    onClick={onSaveDataClick}
-                                >
-                                    Unggah
-                                </Button> */}
                     </div>
                   </div>
                 )}

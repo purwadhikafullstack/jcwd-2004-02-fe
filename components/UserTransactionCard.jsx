@@ -127,23 +127,23 @@ function UserTransactionCard({ data }) {
             <div className="flex py-[12px] ">
               <div className="w-[91px] h-[80px] bg-slate-200 rounded-lg overflow-hidden relative">
                 <Image
-                  src={`${API_URL}/${products[0].image}`}
+                  src={`${API_URL}/${products[0]?.image}`}
                   layout="fill"
                   objectFit="cover"
                 />
               </div>
               <div className="flex ml-[17px] justify-between w-full">
                 <div className="text-xs font-medium">
-                  <p className="text-base">{products[0].name}</p>
+                  <p className="text-base">{products[0]?.name}</p>
                   <p className=" mt-[2px]">
-                    {products[0].quantity} {products[0].unit}
+                    {products[0]?.quantity} {products[0]?.unit}
                   </p>
                   <div className="mt-[22px] text-secondary">
                     Tampilkan Detail
                   </div>
                 </div>
                 <div className="flex font-bold">
-                  {rupiah(products[0].price)}
+                  {rupiah(products[0]?.price)}
                 </div>
               </div>
             </div>

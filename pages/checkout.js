@@ -37,22 +37,6 @@ const Checkout = ({ getCartAction }) => {
     }
   };
 
-  // const getDataCart = async () => {
-  //     let token = Cookies.get('token')
-  //     try {
-  //         const res = await axios.get(
-  //             `${API_URL}/transaction/getDataCart`,{
-  //                 headers: {
-  //                     authorization: `bearer ${token}`
-  //                 }
-  //             }
-  //         )
-  //         setData(res.data)
-  //         console.log('yang ini adalah res.data',res.data)
-  //     } catch (error) {
-  //         console.log(error)
-  //     }
-  // }
   const subTotal = () => {
     let subTotal = 0;
     for (let i = 0; i < cart.length; i++) {
@@ -86,7 +70,7 @@ const Checkout = ({ getCartAction }) => {
 
   return (
     <div>
-      <div>
+      <>
         <MetaDecorator
           title={"Checkout / Healthymed"}
           description={
@@ -94,63 +78,61 @@ const Checkout = ({ getCartAction }) => {
           }
           imageUrl={healthymedlogo}
         />
-      </div>
-      <>
-        <Navbar />
-        <div className="flex px-[96px] pt-10 pb-14">
-          <div className="flex flex-col">
+      </>
+      <Navbar />
+      <div className="flex px-[96px] pt-10 pb-14">
+        <div className="flex flex-col">
+          <div>
+            <BoxAddress
+              setSelectedAddress={setSelectedAddress}
+              selectedAddress={selectedAddress}
+              getAddress={getUserAddress}
+            />
+          </div>
+          <div className=" w-[700px] min-h-[260px] rounded-lg mr-12 shadow-xl shadow-purple-100 p-6 text-purple-900 font-bold">
+            Ringkasan Order
             <div>
-              <BoxAddress
-                setSelectedAddress={setSelectedAddress}
-                selectedAddress={selectedAddress}
-                getAddress={getUserAddress}
-              />
-            </div>
-            <div className=" w-[700px] min-h-[260px] rounded-lg mr-12 shadow-xl shadow-purple-100 p-6 text-purple-900 font-bold">
-              Ringkasan Order
-              <div>
-                <div className="ml-2">
-                  <img className="my-6" src={"/Line24.svg"} />
-                </div>
-                {cart.map((checkout, index) => (
-                  <RingkasanOrderCheckout
-                    key={index}
-                    id={checkout.id}
-                    name={checkout.product_name}
-                    price={checkout.totalHarga}
-                    unit={checkout.unit}
-                    quantityCart={checkout.quantityCart}
-                  />
-                ))}
+              <div className="ml-2">
+                <img className="my-6" src={"/Line24.svg"} />
+              </div>
+              {cart.map((checkout, index) => (
+                <RingkasanOrderCheckout
+                  key={index}
+                  id={checkout.id}
+                  name={checkout.product_name}
+                  price={checkout.totalHarga}
+                  unit={checkout.unit}
+                  quantityCart={checkout.quantityCart}
+                />
+              ))}
 
-                <div className="flex flex-col items-end justify-end">
-                  <div>
-                    <img src={"/Line17.svg"} />
-                  </div>
-                  <div className="flex justify-between w-[523px] mt-5">
-                    <span className="text-purple-900 text-md font-semibold">
-                      Subtotal
-                    </span>
-                    <span className="text-purple-900 text-md font-bold">
-                      {Rupiah(subTotal())}
-                    </span>
-                  </div>
+              <div className="flex flex-col items-end justify-end">
+                <div>
+                  <img src={"/Line17.svg"} />
+                </div>
+                <div className="flex justify-between w-[523px] mt-5">
+                  <span className="text-purple-900 text-md font-semibold">
+                    Subtotal
+                  </span>
+                  <span className="text-purple-900 text-md font-bold">
+                    {Rupiah(subTotal())}
+                  </span>
                 </div>
               </div>
             </div>
           </div>
-          <BoxTotalTransaction
-            subTotal={subTotal()}
-            address={getUserAddress}
-            selectedAddress={selectedAddress}
-            selectBank={selectBank}
-            setSelectBank={setSelectBank}
-            bank={bank}
-            setBank={setBank}
-            getBank={getBank}
-          />
         </div>
-      </>
+        <BoxTotalTransaction
+          subTotal={subTotal()}
+          address={getUserAddress}
+          selectedAddress={selectedAddress}
+          selectBank={selectBank}
+          setSelectBank={setSelectBank}
+          bank={bank}
+          setBank={setBank}
+          getBank={getBank}
+        />
+      </div>
     </div>
   );
 };

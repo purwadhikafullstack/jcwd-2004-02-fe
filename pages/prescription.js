@@ -1,6 +1,6 @@
-import React, { Component, useCallback, createRef } from "react";
+import React from "react";
 import { useEffect, useState } from "react";
-import { Divider, Box, Image, Button } from "@chakra-ui/react";
+import { Divider, Button, Image } from "@chakra-ui/react";
 import Navbar from "../components/Navbar";
 import { API_URL } from "../helpers";
 import { useDropzone } from "react-dropzone";
@@ -12,13 +12,10 @@ import { useRouter } from "next/router";
 import Footer from "../components/Footer";
 import MetaDecorator from "../components/MetaDecorator";
 import healthymedlogo from "../public/healthymed-logo.svg";
+import { MdArrowBackIosNew } from "react-icons/md";
 
 const Prescription = () => {
   const router = useRouter();
-  // const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
-  //   console.log("accepted", acceptedFiles);
-  //   console.log("rejected", rejectedFiles);
-  // }, []);
 
   const { getRootProps, getInputProps, open, acceptedFiles } = useDropzone({
     // onDrop,
@@ -46,7 +43,7 @@ const Prescription = () => {
       );
       router.push("/prescriptionBerhasil");
     } catch (error) {
-      console.log(error.response.data, "err");
+      console.log(error, "err");
       toast.error(error.response.data.message, {
         position: "top-right",
         autoClose: 1000,

@@ -83,7 +83,6 @@ function DaftarProduk() {
   const [inputImage, setinputImage] = useState([]);
   // state product_id
   const [productStockId, setproductStockId] = useState(0);
-  const [stockId, setstockId] = useState({ id: 0 });
 
   const {
     isOpen: isEditOpen,
@@ -189,8 +188,6 @@ function DaftarProduk() {
     try {
       let res = await axios.get(`${API_URL}/products/stock/${id}`);
       setinputStock(res.data);
-      setstockId(res.data.id);
-      console.log("resdatastok", res.data.id);
     } catch (error) {
       console.log(error);
     }
@@ -447,12 +444,12 @@ function DaftarProduk() {
   };
 
   const incNumAdd = () => {
-    let count = parseInt(inputStockAdd.stock) + 1;
+    let count = parseInt(inputStockAdd?.stock) + 1;
     setinputStockAdd({ ...inputStockAdd, stock: count });
   };
 
   const decNumAdd = () => {
-    let count = parseInt(inputStockAdd.stock) - 1;
+    let count = parseInt(inputStockAdd?.stock) - 1;
     count = count < 1 ? 1 : count;
     setinputStockAdd({ ...inputStockAdd, stock: count });
   };
@@ -570,6 +567,7 @@ function DaftarProduk() {
           imageUrl={healthymedlogo}
         />
       </div>
+<<<<<<< HEAD
       <>
         {/* kiri=props; kanan=value */}
         <div>
@@ -623,6 +621,26 @@ function DaftarProduk() {
         </div>
         <div className="bg-admin">
           <div className="px-[48px] pt-[32px] pb-[32px]">
+=======
+      <div className="bg-admin">
+        <div className="px-[48px] pt-[32px] pb-[32px]">
+          <div className="flex justify-between">
+            <div className="text-lg font-bold text-violet-900 tracking-wide">
+              Daftar Obat
+            </div>
+            <div className="flex">
+              <div className="flex border-2 rounded-lg items-center px-4 py-2 text-purple-600 border-purple-500">
+                <FiDownload className="text-sm" />
+                <div className="text-xs font-semibold px-2">Unduh PDF</div>
+              </div>
+              <div className="flex border-2 rounded-lg items-center px-4 py-2 text-purple-600 border-purple-500 ml-5">
+                <IoDocumentText className="text-sm" />
+                <div className="text-xs font-semibold px-2">Excel</div>
+              </div>
+            </div>
+          </div>
+          <div className="p-[32px] mt-[34px] bg-white rounded-lg shadow-lg ">
+>>>>>>> c149d9ac1bbe9f8117ee4152b511770c84a43188
             <div className="flex justify-between">
               <div className="text-lg font-bold text-violet-900 tracking-wide">
                 Daftar Obat

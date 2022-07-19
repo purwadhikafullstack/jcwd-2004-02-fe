@@ -1,7 +1,6 @@
-import useUser from "../hooks/useUser";
 import { ButtonPrimary, ButtonSecondary } from "./button";
 import { AiOutlineSearch } from "react-icons/ai";
-import { IoCart, IoPersonCircle } from "react-icons/io5";
+import { IoCart } from "react-icons/io5";
 import { BsBellFill } from "react-icons/bs";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -22,10 +21,12 @@ import {
   Button,
   useDisclosure,
 } from "@chakra-ui/react";
+import { Image } from "@chakra-ui/react";
+import useUser from "../hooks/useUser";
+import { API_URL } from "../helpers";
 
 const Navbar = () => {
   const router = useRouter();
-  const { isLogin, name } = useUser();
   const dispatch = useDispatch();
 
   const logoutAction = async () => {
@@ -40,17 +41,17 @@ const Navbar = () => {
     onClose: onCloseLogout,
   } = useDisclosure();
 
+  const { isLogin, name, profilepic } = useUser();
+  const profpic = profilepic ? `${API_URL + profilepic}` : `../no_pic.png`;
+
   return (
-    <div className="flex justify-between h-[80px] bg-white shadow-lg shadow-purple-100 px-[76px]">
-      <div
-        className="w-[250px] h-full  flex items-center justify-center"
-        onClick={() => {
-          router.push("/");
-        }}
-      >
-        <div className="w-[200px]">
-          <img src={"/logo.svg"} className="text-sm" />
-        </div>
+    <div className="flex justify-between h-[80px] bg-white shadow-lg shadow-purple-100 px-5">
+      <div className="w-[250px] h-full  flex items-center justify-center">
+        <Link href="/">
+          <div className="w-[200px] cursor-pointer">
+            <img src={"/logo.svg"} className="text-sm" />
+          </div>
+        </Link>
       </div>
 
       <div className="w-[680px]">
@@ -68,19 +69,17 @@ const Navbar = () => {
       </div>
       {isLogin ? (
         <div className="w-[270px] ml-10 flex items-center justify-center">
-          <Link href={"/cart"}>
-            <div>
-              <IoCart className="text-2xl text-purple-900" />
-            </div>
-          </Link>
-          <div>
-            <BsBellFill className="text-xl text-purple-900 mx-10" />
-          </div>
-
+          <IoCart className="text-2xl text-purple-900" />
+          <BsBellFill className="text-xl text-purple-900 mx-10" />
           <Menu isLazy>
             <MenuButton>
               <div className="lg:max-w-[125px] flex items-center">
-                <IoPersonCircle className="text-2xl text-purple-900 mr-[14px]" />
+                <Image
+                  borderRadius="full"
+                  boxSize="60px"
+                  src={profpic}
+                  alt="profilepic"
+                />
                 <div className="text-xs lg:max-w-[89px] text-purple-800 truncate">
                   {name}
                 </div>
