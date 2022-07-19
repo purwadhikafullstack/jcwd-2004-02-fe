@@ -18,8 +18,11 @@ import {
   Input,
 } from "@chakra-ui/react";
 import dayjs from "dayjs";
+import axios from "axios";
+import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 
-function AdminPrescriptionTransactionCard({ data, show, setShow }) {
+function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
   const {
     id,
     status,
@@ -61,6 +64,62 @@ function AdminPrescriptionTransactionCard({ data, show, setShow }) {
     onOpen: onOpenReject,
     onClose: onCloseReject,
   } = useDisclosure();
+
+  const terimaPesanan = async () => {
+    try {
+      await axios.put(`${API_URL}/transaction/acceptPayment/${id}`);
+
+      setIsLoading(!isLoading);
+      toast.success(`Pesanan No. ${transaction_number} berhasil diterima.`, {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
+    } catch (error) {
+      console.log(error);
+
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
+    } finally {
+      setIsLoading(!isLoading);
+    }
+  };
+
+  let token = Cookies.get("token");
+  const tolakPesanan = async () => {
+    try {
+      await axios.put(`${API_URL}/transaction/rejectPayment/${id}`, {
+        headers: {
+          authorization: `bearer ${token}`,
+        },
+      });
+
+      setIsLoading(!isLoading);
+      toast.warning(`Pesanan No. ${transaction_number} berhasil ditolak.`, {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
+    } catch (error) {
+      console.log(error);
+
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
+    } finally {
+      setIsLoading(!isLoading);
+    }
+  };
+
   return (
     <>
       {prescription_number ? (
@@ -240,8 +299,8 @@ function AdminPrescriptionTransactionCard({ data, show, setShow }) {
                     </div>
                     <div className="pl-[4px] text-slate-500 flex items-center">
                       <span className="text-slate-300">/</span>
-                      <AiOutlineClockCircle className="ml-[6px]" /> 10 Jan 2022,
-                      10:45 WIB
+                      <AiOutlineClockCircle className="ml-[6px]" />{" "}
+                      {dayjs(created_at).format("DD MMMM YYYY hh:mm A")}
                     </div>
                   </div>
                   <div className="flex items-center">
@@ -252,8 +311,10 @@ function AdminPrescriptionTransactionCard({ data, show, setShow }) {
                       className="w-[164px] h-[28px] rounded-md border-2 border-orange-300 
             text-orange-300 bg-warning text-xs flex items-center px-[10px] font-medium"
                     >
-                      <AiOutlineClockCircle className="ml-[2px]" /> 10 Jan 2022,
-                      10:45 WIB
+                      <AiOutlineClockCircle className="ml-[2px]" />
+                      {dayjs(updated_at)
+                        .add(1, "day")
+                        .format("DD MMMM YYYY hh:mm A")}
                     </div>
                   </div>
                 </div>
@@ -527,7 +588,14 @@ function AdminPrescriptionTransactionCard({ data, show, setShow }) {
             >
               Kembali
             </Button>
-            <Button bgColor="brand.secondary" colorScheme="black">
+            <Button
+              bgColor="brand.secondary"
+              colorScheme="black"
+              onClick={() => {
+                tolakPesanan();
+                onCloseReject();
+              }}
+            >
               Tolak Pesanan
             </Button>
           </ModalFooter>
@@ -603,7 +671,14 @@ function AdminPrescriptionTransactionCard({ data, show, setShow }) {
             >
               Kembali
             </Button>
-            <Button bgColor="brand.secondary" colorScheme="black">
+            <Button
+              bgColor="brand.secondary"
+              colorScheme="black"
+              onClick={() => {
+                terimaPesanan();
+                onCloseAccept();
+              }}
+            >
               Terima Pesanan
             </Button>
           </ModalFooter>

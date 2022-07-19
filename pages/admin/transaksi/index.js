@@ -52,10 +52,8 @@ function SemuaPesanan() {
         `${API_URL}/transaction/getalltransaction?page=${page}&filter=${
           input.filter
         }&sort=${input.sort}&search=${input.search}&from_date=${
-          startDate ? dayjs(startDate).format("YYYY-MM-DD HH:mm:ss") : ""
-        }&to_date=${
-          endDate ? dayjs(endDate).format("YYYY-MM-DD HH:mm:ss") : ""
-        }`,
+          startDate ? dayjs(startDate).format("YYYY-MM-DD") : ""
+        }&to_date=${endDate ? dayjs(endDate).format("YYYY-MM-DD") : ""}`,
         {
           headers: { authorization: `Bearer ${token}` },
         }
@@ -85,11 +83,7 @@ function SemuaPesanan() {
         setIsLoading(false);
       }, 2000);
     });
-  }, [page, input, startDate, endDate]);
-
-  useEffect(() => {
-    getAllTransaction();
-  }, [loadingStatus]);
+  }, [page, input, startDate, endDate, loadingStatus]);
 
   return (
     <>
@@ -196,7 +190,7 @@ function SemuaPesanan() {
                 totalData={totalData}
                 dataPerPage={10}
                 pageChangeHandler={setPage}
-                totalPage={Math.ceil(10 / 24)}
+                totalPage={Math.ceil(totalData / 10)}
               />
             </div>
           </div>
@@ -210,7 +204,11 @@ function SemuaPesanan() {
                   isLoading={loadingStatus}
                   setIsLoading={setLoadingStatus}
                 />
-                <AdminPrescriptionTransactionCard data={val} />
+                <AdminPrescriptionTransactionCard
+                  data={val}
+                  isLoading={loadingStatus}
+                  setIsLoading={setLoadingStatus}
+                />
               </div>
             );
           })}

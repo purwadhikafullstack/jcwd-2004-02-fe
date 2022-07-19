@@ -181,7 +181,7 @@ function AdminTransactionCard({ data, setIsLoading, isLoading }) {
                       >
                         <AiOutlineClockCircle className="ml-[2px] mr-[1px]" />
                         {dayjs(updated_at)
-                          .add(2, "day")
+                          .add(1, "day")
                           .format("DD MMMM YYYY hh:mm A")}
                       </div>
                     </div>

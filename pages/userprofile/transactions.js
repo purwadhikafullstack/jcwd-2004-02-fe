@@ -1,7 +1,7 @@
 import Footer from "../../components/Footer";
 import Navbar from "../../components/navbar";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Pagination from "../../components/UserTransactionPagianation";
 import UserTransactionCard from "../../components/UserTransactionCard";
 import UserProfileSidebar from "../../components/UserProfileSidebar";
@@ -14,18 +14,17 @@ import UserTransactionPrescriptionCard from "../../components/UserPrescriptionTr
 import MetaDecorator from "../../components/MetaDecorator";
 import healthymedlogo from "../../public/healthymed-logo.svg";
 import useUser from "../../hooks/useUser";
+import debounce from "lodash.debounce";
 
 function UserTransaction() {
   const [input, setInput] = useState({
     order: "",
     filter: "",
-    from_date: "",
-    to_date: "",
   });
 
-  let date = new Date();
-  const [startDate, setStartDate] = useState(date.setDate(date.getDate() - 7));
-  const [endDate, setEndDate] = useState(new Date());
+  const [dateRange, setDateRange] = useState([null, null]);
+  const [startDate, endDate] = dateRange;
+
   const [page, setPage] = useState(0);
   const [data, setData] = useState([]);
   const [totalData, setTotalData] = useState(0);
@@ -33,22 +32,32 @@ function UserTransaction() {
   const { name } = useUser();
 
   let token = Cookies.get("token");
-  const getUserTransaction = async () => {
+  const getUserTransaction = async (page, input, startDate, endDate, cb) => {
     try {
       let res = await axios.get(
-        `${API_URL}/transaction/getusertransaction?order=${input.order}&filter=${input.filter}`,
+        `${API_URL}/transaction/getusertransaction?order=${
+          input.order
+        }&filter=${input.filter}&from_date=${
+          startDate ? dayjs(startDate).format("YYYY-MM-DD HH:mm:ss") : ""
+        }&to_date=${
+          endDate ? dayjs(endDate).format("YYYY-MM-DD HH:mm:ss") : ""
+        }`,
         {
           headers: { authorization: `Bearer ${token}` },
         }
       );
-      setData([...res.data]);
-      setTotalData(parseInt(res.headers["x-total-transaction"]));
+      cb(res);
     } catch (error) {
       console.log(error);
-    } finally {
-      setIsLoading(false);
     }
   };
+
+  const debouncedFetchData = useCallback(
+    debounce((page, input, startDate, endDate, cb) => {
+      getAllTransaction(page, input, startDate, endDate, cb);
+    }, 1000),
+    []
+  );
 
   const handleInput = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -61,8 +70,14 @@ function UserTransaction() {
   }, []);
 
   useEffect(() => {
-    getUserTransaction();
-  }, [input]);
+    debouncedFetchData(page, input, startDate, endDate, (res) => {
+      setTotalData(parseInt(res.headers["x-total-transaction"]));
+      setData([...res.data]);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
+    });
+  }, [page, input, startDate, endDate]);
 
   return (
     <>
@@ -287,10 +302,14 @@ function UserTransaction() {
               </Tabs>
               <div>
                 <Pagination
-                  totalData={10}
+                  totalData={totalData}
                   dataPerPage={10}
                   pageChangeHandler={setPage}
-                  totalPage={Math.ceil(10 / 24)}
+                  totalPage={Math.ceil(totalData / 10)}
+                  startDate={startDate}
+                  endDate={endDate}
+                  dateRange={dateRange}
+                  setDateRange={setDateRange}
                 />
               </div>
             </div>

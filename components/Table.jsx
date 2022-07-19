@@ -64,7 +64,6 @@ function NewTable({ columns, data, isLoading }) {
                       maxWidth="300px"
                       className="truncate text-center"
                       isNumeric={cell.column.isNumeric}
-                      textAlign="center"
                     >
                       {!isLoading ? (
                         <>{cell.render("Cell")}</>
