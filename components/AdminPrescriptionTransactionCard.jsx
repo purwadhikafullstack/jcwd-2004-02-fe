@@ -19,7 +19,7 @@ import {
 } from "@chakra-ui/react";
 import dayjs from "dayjs";
 
-function AdminPrescriptionTransactionCard({ data }) {
+function AdminPrescriptionTransactionCard({ data, show, setShow }) {
   const {
     id,
     status,

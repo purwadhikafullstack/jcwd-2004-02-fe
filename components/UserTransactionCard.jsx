@@ -3,6 +3,7 @@ import Image from "next/image";
 import { BsFillChatDotsFill } from "react-icons/bs";
 import { API_URL } from "../helpers";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 function UserTransactionCard({ data }) {
   const {
@@ -28,6 +29,39 @@ function UserTransactionCard({ data }) {
       style: "currency",
       currency: "IDR",
     }).format(number);
+  };
+
+  const [timer, setTimer] = useState(0);
+
+  useEffect(() => {
+    let time = setInterval(() => {
+      setTimer(new Date());
+    }, 1000);
+
+    return () => clearInterval(time);
+  }, []);
+
+  const countdown = (time, type) => {
+    let expired = new Date(expired_at).getTime();
+    let now = new Date(time).getTime();
+    let detik = Math.round((expired - now) / 1000);
+    if (detik < 0) {
+      return 0;
+    }
+
+    let jam = Math.floor(detik / 3600);
+    detik = detik % 3600;
+    if (type === "jam") {
+      return jam;
+    }
+
+    let menit = Math.floor(detik / 60);
+    detik = detik % 60;
+    if (type === "menit") {
+      return menit;
+    }
+
+    return detik;
   };
 
   return (
