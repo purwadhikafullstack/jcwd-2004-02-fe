@@ -5,8 +5,6 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 function Pagination({ totalData, dataPerPage, pageChangeHandler, totalPage }) {
   const [currentPage, setCurrentPage] = useState(0);
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
 
   const [pageFirstRecord, setPageFirstRecord] = useState(1);
   const [pageLastRecord, setPageLastRecord] = useState(dataPerPage);

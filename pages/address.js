@@ -3,13 +3,15 @@ import Navbar from "../components/Navbar";
 import React, { Component, useEffect, useState } from "react";
 //  import Select from 'react-select'
 import { ButtonPrimary, ButtonSecondary } from "../components/button";
-import Footer from "../components/footer";
+import Footer from "../components/Footer";
 import axios from "axios";
 import { API_URL } from "../helpers";
 import { Select } from "@chakra-ui/react";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { useRouter, router } from "next/router";
+import MetaDecorator from "../components/MetaDecorator";
+import healthymedlogo from "../public/healthymed-logo.svg";
 
 const Address = () => {
   // const options = [
@@ -85,7 +87,16 @@ const Address = () => {
   };
 
   return (
-    <div>
+    <div> 
+      <div>
+        <MetaDecorator
+          title={"Address / Healthymed"}
+          description={
+            "Healthymed - Apotek Online Terpercaya. Beli obat yang kamu inginkan disini. 100% Asli, Produk BPOM, Uang Dijamin Kembali"
+          }
+          imageUrl={healthymedlogo}
+        />
+      </div>
       <Navbar />
       <div className="px-[380px] pt-[50px] mb-24 h-full">
         <span className="font-bold text-xl text-purple-900">
@@ -123,6 +134,7 @@ const Address = () => {
                 onChange={provinceHandleChange}
                 w="250px"
                 className="w-[150px] mt-2"
+                placeholder="Pilih Provinsi..."
               >
                 {province.map((val, index) => {
                   return (
@@ -142,6 +154,7 @@ const Address = () => {
                 onChange={addAddressHandleChange}
                 w="250px"
                 className="w-[250px] mt-2"
+                placeholder="Pilih Kota/Kabupaten..."
               >
                 {city.map((val, index) => {
                   return (

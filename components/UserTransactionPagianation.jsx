@@ -4,7 +4,16 @@ import "react-datepicker/dist/react-datepicker.css";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { add, addDays } from "date-fns";
 
-function Pagination({ totalData, dataPerPage, pageChangeHandler, totalPage }) {
+function Pagination({
+  totalData,
+  dataPerPage,
+  pageChangeHandler,
+  totalPage,
+  startDate,
+  endDate,
+  dateRange,
+  setDateRange,
+}) {
   const [currentPage, setCurrentPage] = useState(0);
   const [pageFirstRecord, setPageFirstRecord] = useState(1);
   const [pageLastRecord, setPageLastRecord] = useState(dataPerPage);
@@ -13,9 +22,8 @@ function Pagination({ totalData, dataPerPage, pageChangeHandler, totalPage }) {
   const onPrevPage = () => setCurrentPage(currentPage - 1);
   const onPageSelect = (page) => setCurrentPage(page);
 
-  let date = new Date();
-  const [startDate, setStartDate] = useState(date.setDate(date.getDate() - 7));
-  const [endDate, setEndDate] = useState(new Date());
+  // const [dateRange, setDateRange] = useState([null, null]);
+  // const [startDate, endDate] = dateRange;
 
   const [pagination, setPagination] = useState([]);
 
@@ -64,26 +72,15 @@ function Pagination({ totalData, dataPerPage, pageChangeHandler, totalPage }) {
           </div>
           <div className="flex">
             <DatePicker
-              className="w-[95px] px-[4px] border-2 rounded-lg border-secondary text-secondary cursor-pointer"
-              selected={startDate}
-              onChange={(date) => {
-                setStartDate(date);
-                setEndDate(addDays(date, 7));
-              }}
-              startDate={startDate}
-              onChangeRaw={(e) => e.preventDefault()}
-            />
-            <p className="mx-[5px] font-bold text-secondary">-</p>
-            <DatePicker
-              className="w-[95px] px-[4px] border-2 rounded-lg border-secondary text-secondary cursor-pointer"
-              selected={endDate}
-              onChange={(date) => setEndDate(date)}
+              className="w-[210px] border-2 rounded-lg bg-white text-slate-400 text-sm font-semibold  border-slate-300 px-[12px] py-[13px]"
+              selectsRange={true}
               startDate={startDate}
               endDate={endDate}
-              minDate={startDate}
-              maxDate={addDays(startDate, 7)}
-              onChangeRaw={(e) => e.preventDefault()}
-              showDisabledMonthNavigation
+              onChange={(update) => {
+                setDateRange(update);
+              }}
+              isClearable={true}
+              placeholderText="Pilih Tanggal"
             />
           </div>
           <div className="flex">

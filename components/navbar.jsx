@@ -1,26 +1,57 @@
-import useUser from "../hooks/useUser";
 import { ButtonPrimary, ButtonSecondary } from "./button";
 import { AiOutlineSearch } from "react-icons/ai";
-import { IoCart, IoPersonCircle } from "react-icons/io5";
+import { IoCart } from "react-icons/io5";
 import { BsBellFill } from "react-icons/bs";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
+import {
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Button,
+  useDisclosure,
+} from "@chakra-ui/react";
+import { Image } from "@chakra-ui/react";
+import useUser from "../hooks/useUser";
+import { API_URL } from "../helpers";
 
 const Navbar = () => {
   const router = useRouter();
-  const { isLogin, name } = useUser();
+  const dispatch = useDispatch();
+
+  const logoutAction = async () => {
+    Cookies.remove("token");
+    await router.push("/");
+    dispatch({ type: "LOGOUT" });
+  };
+
+  const {
+    isOpen: isOpenLogout,
+    onOpen: onOpenLogout,
+    onClose: onCloseLogout,
+  } = useDisclosure();
+
+  const { isLogin, name, profilepic } = useUser();
+  const profpic = profilepic ? `${API_URL + profilepic}` : `../no_pic.png`;
 
   return (
-    <div className="flex justify-between h-[80px] bg-white shadow-lg shadow-purple-100 px-[76px]">
-      <div
-        className="w-[250px] h-full  flex items-center justify-center"
-        onClick={() => {
-          router.push("/");
-        }}
-      >
-        <div className="w-[200px]">
-          <img src={"/logo.svg"} className="text-sm" />
-        </div>
+    <div className="flex justify-between h-[80px] bg-white shadow-lg shadow-purple-100 px-5">
+      <div className="w-[250px] h-full  flex items-center justify-center">
+        <Link href="/">
+          <div className="w-[200px] cursor-pointer">
+            <img src={"/logo.svg"} className="text-sm" />
+          </div>
+        </Link>
       </div>
 
       <div className="w-[680px]">
@@ -38,22 +69,34 @@ const Navbar = () => {
       </div>
       {isLogin ? (
         <div className="w-[270px] ml-10 flex items-center justify-center">
-          <Link href={"/cart"}>
-            <div>
-              <IoCart className="text-2xl text-purple-900" />
-            </div>
-          </Link>
-          <div>
-            <BsBellFill className="text-xl text-purple-900 mx-10" />
-          </div>
-          <Link href={"/profile"}>
-            <div className="lg:max-w-[125px] flex items-center">
-              <IoPersonCircle className="text-2xl text-purple-900 mr-[14px]" />
-              <div className="text-xs lg:max-w-[89px] text-purple-800 truncate">
-                {name}
+          <IoCart className="text-2xl text-purple-900" />
+          <BsBellFill className="text-xl text-purple-900 mx-10" />
+          <Menu isLazy>
+            <MenuButton>
+              <div className="lg:max-w-[125px] flex items-center">
+                <Image
+                  borderRadius="full"
+                  boxSize="60px"
+                  src={profpic}
+                  alt="profilepic"
+                />
+                <div className="text-xs lg:max-w-[89px] text-purple-800 truncate">
+                  {name}
+                </div>
               </div>
-            </div>
-          </Link>
+            </MenuButton>
+            <MenuList>
+              <MenuItem onClick={() => router.push("/profile")}>
+                Profile
+              </MenuItem>
+              <MenuItem
+                onClick={() => router.push("/userprofile/transactions")}
+              >
+                Transaksi
+              </MenuItem>
+              <MenuItem onClick={onOpenLogout}>Log Out</MenuItem>
+            </MenuList>
+          </Menu>
         </div>
       ) : (
         <div className="w-96 flex items-center justify-center">
@@ -69,6 +112,35 @@ const Navbar = () => {
           </Link>
         </div>
       )}
+
+      {/* LOGOUT MODAL */}
+
+      <Modal
+        closeOnOverlayClick={false}
+        isOpen={isOpenLogout}
+        onClose={onCloseLogout}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Log out</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>Kamu yakin ingin log out?</ModalBody>
+          <ModalFooter>
+            <Button
+              colorScheme={"purple"}
+              mr={3}
+              onClick={() => {
+                logoutAction();
+                router.push("/");
+                onCloseLogout();
+              }}
+            >
+              Log out
+            </Button>
+            <Button onClick={onCloseLogout}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </div>
   );
 };
