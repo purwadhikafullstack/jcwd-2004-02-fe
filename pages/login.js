@@ -126,7 +126,11 @@ const Login = ({ loginActions }) => {
               </div>
             </div>
             <div>
-              <ButtonPrimary type="submit" className="w-full h-12 xl:h-10">
+              <ButtonPrimary
+                type="submit"
+                disbled={isLogin}
+                className="w-full h-12 xl:h-10"
+              >
                 Masuk
               </ButtonPrimary>
             </div>

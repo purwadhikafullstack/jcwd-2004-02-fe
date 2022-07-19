@@ -83,6 +83,8 @@ const BoxTotalTransaction = ({
         bank={bank}
         setBank={setBank}
         getBank={getBank}
+        ongkir={ongkir}
+        total={total}
       />
     </div>
   );

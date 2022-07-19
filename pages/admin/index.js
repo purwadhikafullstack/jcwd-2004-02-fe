@@ -14,6 +14,8 @@ import {
   PointElement,
 } from "chart.js";
 import Chart from "chart.js/auto";
+import { CircularProgressbar } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 Chart.register(CategoryScale, LineElement, LinearScale, PointElement);
 
 function AdminHome({ data, penjualan, profit }) {
@@ -225,9 +227,7 @@ function AdminHome({ data, penjualan, profit }) {
     },
   };
 
-  console.log("ni coba ya", data);
-  console.log("ini penjualan", penjualan);
-
+  const value = 0.66;
   return (
     <>
       <div>
@@ -243,22 +243,46 @@ function AdminHome({ data, penjualan, profit }) {
         </div>
         <div className="flex justify-between my-5">
           <div className="w-[310px] h-[110px] rounded-lg bg-white flex flex-col px-3 py-3">
-            <span className="text-xs">Profit Hari Ini</span>
-            <span className="font-bold text-2xl">
-              {Rupiah(data.profit[0].profit) || "ganyampe bos"}
+            <span className="text-xs text-purple-900 font-bold">
+              Profit Hari Ini
             </span>
+            <div className="flex justify-between">
+              <span className="font-bold text-2xl text-purple-900">
+                {Rupiah(data.profit[0].profit) || "ganyampe bos"}
+              </span>
+              <div style={{ width: 50, height: 50 }} className="font-bold">
+                <CircularProgressbar value={value} text={`${value * 100}%`} />
+              </div>
+            </div>
+            <span className="text-[10px] font-bold">+ 2.500.000</span>
           </div>
           <div className="w-[310px] h-[110px] rounded-lg bg-white flex flex-col px-3 py-3">
-            <span className="text-xs">Total Pemesanan Hari Ini</span>
-            <span className="font-bold text-2xl">
-              {data.pesananHariIni[0]?.pesanan_hari_ini}
+            <span className="text-xs text-purple-900 font-bold">
+              Total Pemesanan Hari Ini
             </span>
+            <div className="flex justify-between">
+              <span className="font-bold text-2xl text-purple-900">
+                {data.pesananHariIni[0]?.pesanan_hari_ini}
+              </span>
+              <div style={{ width: 50, height: 50 }} className="font-bold">
+                <CircularProgressbar value={value} text={`${value * 100}%`} />
+              </div>
+            </div>
+            <span className="text-[10px] font-bold">+ 2.500.000</span>
           </div>
           <div className="w-[310px] h-[110px] rounded-lg bg-white flex flex-col px-3 py-3">
-            <span className="text-xs">Sisa Stok Hari Ini</span>
-            <span className="font-bold text-2xl">
-              {data.sisaStock[0]?.sisa_stock}
+            <span className="text-xs text-purple-900 font-bold">
+              Sisa Stok Hari Ini
             </span>
+            <div className="flex justify-between">
+              <span className="font-bold text-2xl text-purple-900">
+                {data.sisaStock[0]?.sisa_stock}
+              </span>
+              <div style={{ width: 50, height: 50 }} className="font-bold">
+                <CircularProgressbar value={value} text={`${value * 100}%`} />
+              </div>
+            </div>
+            <span className="text-[10px] font-bold">+ 2.500.000</span>
           </div>
         </div>
         <div className="flex mt-9">
@@ -274,40 +298,52 @@ function AdminHome({ data, penjualan, profit }) {
             </div>
             <div className="flex justify-between my-3">
               <div className="w-[150px] h-[80px] rounded-lg bg-white flex flex-col px-5 py-3">
-                <span className="text-xs font-semibold">Pesananan Baru</span>
-                <span className="font-bold text-2xl">
+                <span className="text-xs font-semibold text-purple-900">
+                  Pesananan Baru
+                </span>
+                <span className="font-bold text-2xl text-purple-900">
                   {data.pesananBaru[0]?.pesanan_baru}
                 </span>
               </div>
               <div className="w-[150px] h-[80px] rounded-lg bg-white flex flex-col px-5 py-3">
-                <span className="text-xs font-semibold">Siap Dikirim</span>
-                <span className="font-bold text-2xl">
+                <span className="text-xs font-semibold text-purple-900">
+                  Siap Dikirim
+                </span>
+                <span className="font-bold text-2xl text-purple-900">
                   {data.siapDikirim[0]?.siap_dikirim}
                 </span>
               </div>
               <div className="w-[150px] h-[80px] rounded-lg bg-white flex flex-col px-5 py-3">
-                <span className="text-xs font-semibold">Sedang Dikirim</span>
-                <span className="font-bold text-2xl">
+                <span className="text-xs font-semibold text-purple-900">
+                  Sedang Dikirim
+                </span>
+                <span className="font-bold text-2xl text-purple-900">
                   {data.sedangDikrim[0]?.sedang_dikirim}
                 </span>
               </div>
             </div>
             <div className="flex justify-between">
               <div className="w-[150px] h-[80px] rounded-lg bg-white flex flex-col px-5 py-3">
-                <span className="text-xs font-semibold">Selesai</span>
-                <span className="font-bold text-2xl">
+                <span className="text-xs font-semibold text-purple-900">
+                  Selesai
+                </span>
+                <span className="font-bold text-2xl text-purple-900">
                   {data.selesai[0]?.selesai}
                 </span>
               </div>
               <div className="w-[150px] h-[80px] rounded-lg bg-white flex flex-col px-5 py-3">
-                <span className="text-xs font-semibold">Dibatalkan</span>
-                <span className="font-bold text-2xl">
+                <span className="text-xs font-semibold text-purple-900">
+                  Dibatalkan
+                </span>
+                <span className="font-bold text-2xl text-purple-900">
                   {data.dibatalkan[0]?.dibatalkan}
                 </span>
               </div>
               <div className="w-[150px] h-[80px] rounded-lg bg-white flex flex-col px-5 py-3">
-                <span className="text-xs font-semibold">Chat Baru</span>
-                <span className="font-bold text-2xl">10</span>
+                <span className="text-xs font-semibold text-purple-900">
+                  Chat Baru
+                </span>
+                <span className="font-bold text-2xl text-purple-900">10</span>
               </div>
             </div>
           </div>
@@ -322,20 +358,26 @@ function AdminHome({ data, penjualan, profit }) {
             </div>
             <div className="h-[170px] w-[300px] bg-white rounded-lg my-3 px-3 py-7">
               <div className="flex justify-between">
-                <span className="font-bold">Telah Kadaluwarsa</span>
-                <span className="font-bold">
+                <span className="font-bold text-purple-900">
+                  Telah Kadaluwarsa
+                </span>
+                <span className="font-bold text-orange-700">
                   {data.telahExpired[0]?.telah_expired}
                 </span>
               </div>
               <div className="flex justify-between my-4">
-                <span className="font-bold">kadaluwarsa Bulan Ini</span>
-                <span className="font-bold">
+                <span className="font-bold text-purple-900">
+                  kadaluwarsa Bulan Ini
+                </span>
+                <span className="font-bold text-blue-500">
                   {data.expiredThisMonth[0]?.thismonth_expired}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="font-bold">kadaluwarsa 3 Bulan Kedepan</span>
-                <span className="font-bold">
+                <span className="font-bold text-purple-900">
+                  kadaluwarsa 3 Bulan Kedepan
+                </span>
+                <span className="font-bold text-purple-900">
                   {data.expired3Month[0]?.latermonth_expired}
                 </span>
               </div>
