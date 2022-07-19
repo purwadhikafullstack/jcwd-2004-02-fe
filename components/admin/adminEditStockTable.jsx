@@ -23,6 +23,7 @@ import {
 } from "@chakra-ui/react";
 import { flushSync } from "react-dom";
 import { DateConverter } from "../../helpers";
+import { toast } from "react-toastify";
 
 function AdminEditStockTable({
   isOpen,
@@ -75,6 +76,12 @@ function AdminEditStockTable({
       await submitProductEditStock(editStock);
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
     } finally {
       flushSync(() => {
         setTab(5);
@@ -99,6 +106,12 @@ function AdminEditStockTable({
       await submitProductAddStock(addStock);
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
     } finally {
       flushSync(() => {
         setTab(5);

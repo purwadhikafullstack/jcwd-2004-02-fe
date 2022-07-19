@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { API_URL } from "../../helpers";
+import { toast } from "react-toastify";
 
 function ModalInputAdmin({ isOpen, onClose, fetchFoto, inputImage }) {
   const [tab, setTab] = useState(0);
@@ -38,6 +39,12 @@ function ModalInputAdmin({ isOpen, onClose, fetchFoto, inputImage }) {
         }, 500);
       } catch (error) {
         console.log(error);
+        toast.error(error.response.data.message, {
+          position: "top-right",
+          autoClose: 1000,
+          closeOnClick: true,
+          draggable: true,
+        });
       }
     }
   };
@@ -51,6 +58,12 @@ function ModalInputAdmin({ isOpen, onClose, fetchFoto, inputImage }) {
       }, 500);
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
     }
   };
 

@@ -61,12 +61,18 @@ function Submenu({ route, isOpen, setIsOpen }) {
               ? route.subroutes.map((subroute, i) => (
                   <>
                     {router.pathname == subroute.path ? (
-                      <div className="text-purple-400 submenu-container pt-3 cursor-pointer">
+                      <div
+                        key={i}
+                        className="text-purple-400 submenu-container pt-3 cursor-pointer"
+                      >
                         {subroute.name}
                       </div>
                     ) : (
                       <Link href={subroute.path}>
-                        <div className="text-slate-400 submenu-container pt-3 cursor-pointer">
+                        <div
+                          key={i}
+                          className="text-slate-400 submenu-container pt-3 cursor-pointer"
+                        >
                           {subroute.name}
                         </div>
                       </Link>
