@@ -11,6 +11,7 @@ import {
   ModalCloseButton,
   Button,
   useDisclosure,
+  Image,
 } from "@chakra-ui/react";
 import useUser from "../hooks/useUser";
 import ProfileModalEditPhoto from "../components/ProfileModalEditPhoto";
@@ -77,16 +78,18 @@ const Profile = () => {
         <Navbar />
       </div>
 
-      <div className="user-container flex justify-between bg-pink-100">
+      <div className="md:user-container flex items-center justify-between">
         <div className="hidden md:block">
           <UserProfileSidebar />
         </div>
 
         {/* <div className="flex md:mx-auto md:w-7/12 md:ml-10 md:h-5/6 w-screen justify-center shadow-md rounded-lg mt-10 pb-14 h-screen "> */}
-        <div className="md:w-[900px] md:px-[40px] md:py-[28px] md:rounded-lg md:border-[1px] md:border-slate-100 md:shadow-lg md:text-primary md:bg-orange-100">
+        <div className="md:w-[900px] md:px-[40px] md:py-[28px] md:rounded-lg md:border-[1px] md:border-slate-100 md:shadow-lg md:text-primary">
           <div>
             {/* mobile */}
-            <HeaderMobile title={"Profile"} />
+            <div className="w-screen md:w-full">
+              <HeaderMobile title={"Profile"} />
+            </div>
             {/* desktop */}
             <div className="hidden md:block">
               <div className="text-xl font-bold">Profil</div>
@@ -94,26 +97,25 @@ const Profile = () => {
                 <Divider className="mt-7 " />
               </div>
             </div>
-            <div className="flex flex-col bg-purple-50 md:flex-row">
-              <div className="flex flex-col items-center justify-center bg-blue-100 maxW-[500px] ">
-                <img
-                  className="flex items-center md:ml-11 mt-10 rounded-2xl h-[200px] w-[200px] md:h-[300px] md:w-[300px]"
-                  src={profpic}
-                />
+            <div className="flex flex-col w-screen md:w-[900px]  md:flex-row">
+              <div className="flex flex-col items-center justify-center w-screen md:w-[500px]  ">
+                <div className="md:mt-3 md:w-[300px]">
+                  <Image alt={"profpic"} src={profpic} />
+                </div>
 
                 <ProfileModalEditPhoto />
               </div>
               {/* biodata */}
-              <div className="bg-red-100">
-                <div className="mx-32 bg-green-50">
+              <div className="w-screen flex flex-col">
+                <div className="  flex flex-col items-center justify-center">
                   <div className="flex md:mt-12">
-                    <div className="w-[150px]">
+                    <div className="w-[170px]">
                       <div className="profileTag">Nama Lengkap</div>
                       <div className="profileTag">Gender</div>
                       <div className="profileTag">E-Mail</div>
                       <div className="profileTag">Tanggal Lahir</div>
                     </div>
-                    <div className="ml-20">
+                    <div className="ml-24">
                       <div className="profileDesc">{name}</div>
                       <div className="profileDesc">{gender ? gender : "-"}</div>
                       <div className="profileDesc">{email}</div>
@@ -122,18 +124,21 @@ const Profile = () => {
                       </div>
                     </div>
                   </div>
+                  <div>
+                    <ProfileModalEditProfile />
+                  </div>
                 </div>
-
-                <ProfileModalEditProfile />
               </div>
-              <div className="flex flex-col md:hidden mx-[168px] mt-3 text-[indigo] font-semibold">
-                <hr className="bg-purple-800 border-purple-800 rounded-xl border-1 mt-4" />
-                <div className="flex justify-between">
-                  <div className="mt-6 cursor-pointer" onClick={onOpen}>
+              <div className="flex flex-col md:hidden justify-center items-center mt-3 text-[indigo] font-semibold">
+                <hr className="border-purple-800 rounded-xl border-1 mt-4 w-[300px]" />
+                <div className=" flex items-center justify-center w-full">
+                  <div className="mt-2 mr-3 cursor-pointer" onClick={onOpen}>
                     Daftar Alamat
                   </div>
                   <Link href="/forgotPassword">
-                    <div className="mt-6 cursor-pointer">Ganti Password</div>
+                    <div className="mt-2 ml-3 cursor-pointer">
+                      Ganti Password
+                    </div>
                   </Link>
                 </div>
               </div>

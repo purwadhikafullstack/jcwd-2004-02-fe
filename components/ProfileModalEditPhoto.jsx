@@ -78,7 +78,7 @@ const ProfileModalEditPhoto = () => {
     <>
       <Button
         onClick={onOpen}
-        className=" text-[14px] w-32 h-10 mt-4"
+        className=" text-[14px] w-32 h-10 mt-2"
         variant="outline"
         colorScheme={"purple"}
       >
