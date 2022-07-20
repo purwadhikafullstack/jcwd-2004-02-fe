@@ -13,7 +13,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../../helpers";
 import Pagination from "../../components/Pagination";
-import { flushSync } from "react-dom";
 import debounce from "lodash.debounce";
 import {
   Menu,
@@ -21,10 +20,14 @@ import {
   MenuList,
   MenuItem,
   IconButton,
-  Button,
+  useDisclosure,
+  MenuDivider,
 } from "@chakra-ui/react";
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
+import healthymedlogo from "../../public/healthymed-logo.svg";
+import MetaDecorator from "../../components/MetaDecorator";
 
 function DaftarProduk() {
   const [page, setPage] = useState(0);
@@ -38,8 +41,97 @@ function DaftarProduk() {
   });
   const [value, setLimit] = useState(10);
   const [comp, setComponent] = useState([]);
+  // state input edit
+  const [inputEdit, setinputEdit] = useState({
+    name: "",
+    no_obat: "",
+    no_BPOM: 0,
+    category: [],
+    brand_id: 0,
+    type_id: 0,
+    symptom: [],
 
+    description: {},
+    warning: "",
+    usage: "",
+    id: 0,
+    unit: "",
+    hargaJual: 0,
+    hargaBeli: 0,
+  });
+  // state input stock
+  const [inputStock, setinputStock] = useState([
+    {
+      stock: 0,
+      expired: "",
+      id: 0,
+    },
+  ]);
+  // state input edit stock
+  const [inputStockDet, setinputStockDet] = useState({
+    stock: 0,
+    expired: "",
+    id: 0, // id stock
+  });
+  // state input add stock
+  const [inputStockAdd, setinputStockAdd] = useState({
+    stock: 0,
+    expired: "",
+  });
+  // state delete stock
+  const [deleteStock, setdeleteStock] = useState({ stock: 0 });
+
+  const [inputImage, setinputImage] = useState([]);
+  // state product_id
+  const [productStockId, setproductStockId] = useState(0);
+
+  const {
+    isOpen: isEditOpen,
+    onOpen: onEditOpen,
+    onClose: onEditClose,
+  } = useDisclosure();
+  const {
+    isOpen: isEditPhotoOpen,
+    onOpen: onEditPhotoOpen,
+    onClose: onEditPhotoClose,
+  } = useDisclosure();
+  const {
+    isOpen: isEditStockOpen,
+    onOpen: onEditStockOpen,
+    onClose: onEditStockClose,
+  } = useDisclosure();
+  const {
+    isOpen: isEditStockOpen2,
+    onOpen: onEditStockOpen2,
+    onClose: onEditStockClose2,
+  } = useDisclosure();
+  const {
+    isOpen: isEditStockOpen3,
+    onOpen: onEditStockOpen3,
+    onClose: onEditStockClose3,
+  } = useDisclosure();
   // const [pending, startTransition] = useTransition();
+
+  useEffect(() => {
+    getComponent();
+  }, []);
+
+  useEffect(() => {
+    if (isLoading) {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    debouncedFetchData(page, input, (res) => {
+      setTotalData(parseInt(res.headers["x-total-product"]));
+      setData([...res.data]);
+      setIsLoading(false);
+    });
+    console.log(totalData, "ini total data");
+  }, [page, input]);
 
   const updateLimit = (e) => {
     setLimit(parseInt(e.target.value));
@@ -48,7 +140,6 @@ function DaftarProduk() {
   const handleInput = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
     setPage(0);
-    // console.log(input);
   };
 
   const getComponent = async () => {
@@ -72,16 +163,71 @@ function DaftarProduk() {
     setData([...data, ...res.data]);
   };
 
+  // fetch detail obat untuk edit
+  const fetchDetailObat = async (id) => {
+    try {
+      let res = await axios.get(`${API_URL}/products/product/${id}`);
+      setinputEdit(res.data);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1500,
+        closeOnClick: true,
+        draggable: true,
+      });
+    }
+  };
+
+  const fetchFoto = async (id) => {
+    try {
+      let res = await axios.get(`${API_URL}/products/productpic/${id}`);
+      console.log("resdatafoto", res.data);
+
+      setinputImage(res.data);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1500,
+        closeOnClick: true,
+        draggable: true,
+      });
+    }
+  };
+
+  // fetch detail obat untuk edit
+  const fetchStock = async (id) => {
+    try {
+      let res = await axios.get(`${API_URL}/products/stock/${id}`);
+      setinputStock(res.data);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1500,
+        closeOnClick: true,
+        draggable: true,
+      });
+    }
+  };
+
   const submitProduct = async (values) => {
     try {
-      // let token = Cookies.get("token");
+      let token = Cookies.get("token");
       await axios.post(`${API_URL}/products/addproduct`, values, {
-        // headers: {
-        //   // authorization: `Bearer ${token}`,
-        // },
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
       });
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1500,
+        closeOnClick: true,
+        draggable: true,
+      });
     } finally {
       // getLastProduct();
       setPage(0);
@@ -94,19 +240,79 @@ function DaftarProduk() {
 
   const submitProductEdit = async (data) => {
     try {
-      // let token = Cookies.get("token");
+      let token = Cookies.get("token");
+      await axios.put(`${API_URL}/products/${inputEdit.id}`, data, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(data, "vall");
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1500,
+        closeOnClick: true,
+        draggable: true,
+      });
+    } finally {
+      // getLastProduct();
+      setPage(0);
+      setInput({
+        search: "",
+        category: "",
+      });
+    }
+  };
+
+  const submitProductEditStock = async (data) => {
+    try {
+      let token = Cookies.get("token");
       await axios.put(
-        `${API_URL}/products/16`,
-        data
-        // {
-        // headers: {
-        //   // authorization: `Bearer ${token}`,
-        // },
-        // }
+        `${API_URL}/products/stock/edit/${inputStockDet.id}`,
+        data,
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(data, "vall");
+      fetchStock(productStockId);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
+    }
+  };
+
+  const submitProductAddStock = async (data) => {
+    console.log(data, "data");
+    console.log(productStockId, "id nya");
+    try {
+      let token = Cookies.get("token");
+      await axios.post(
+        `${API_URL}/products/stock/add/${productStockId}`,
+        data,
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
       );
       console.log(data, "vall");
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1500,
+        closeOnClick: true,
+        draggable: true,
+      });
     } finally {
       // getLastProduct();
       setPage(0);
@@ -121,13 +327,16 @@ function DaftarProduk() {
   const clickDelete = async (id) => {
     try {
       Swal.fire({
+        customClass: {
+          container: "my-swal",
+        },
         title: "Apakah anda yakin?",
         text: "Produk tidak akan bisa dikembalikan!",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
+        confirmButtonColor: "#ac5df7",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
+        confirmButtonText: "Hapus",
       }).then(async (result) => {
         if (result.isConfirmed) {
           let token = Cookies.get("token");
@@ -136,11 +345,17 @@ function DaftarProduk() {
               authorization: `Bearer ${token}`,
             },
           });
-          Swal.fire("Berhasil dihapus!", "success");
+          Swal.fire("Deleted!", "Berhasil dihapus!", "success");
         }
       });
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1500,
+        closeOnClick: true,
+        draggable: true,
+      });
     } finally {
       // getLastProduct();
       setPage(0);
@@ -157,27 +372,6 @@ function DaftarProduk() {
     }, 1000),
     []
   );
-
-  useEffect(() => {
-    getComponent();
-  }, []);
-
-  useEffect(() => {
-    if (isLoading) {
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 2000);
-    }
-  }, [isLoading]);
-
-  useEffect(() => {
-    debouncedFetchData(page, input, (res) => {
-      setTotalData(parseInt(res.headers["x-total-product"]));
-      setData([...res.data]);
-      setIsLoading(false);
-    });
-    console.log(totalData, "ini total data");
-  }, [page, input]);
 
   const Categories = ({ val }) => {
     return (
@@ -197,12 +391,118 @@ function DaftarProduk() {
       </>
     );
   };
+  // click modal edit
+  const clickEdit = (productId) => {
+    fetchDetailObat(productId);
+    onEditOpen();
+  };
+  // click modal edit photo
+  const clickEditPhoto = (productId) => {
+    fetchFoto(productId);
+    onEditPhotoOpen();
+  };
+  // click modal edit stock
+  const clickEditStock = (productId) => {
+    fetchStock(productId);
+    setproductStockId(productId);
+    onEditStockOpen();
+  };
+  // click modal edit stock detail
+  const clickEditStockDetail = (inputselected) => {
+    setinputStockDet(inputselected);
+    onEditStockOpen2();
+  };
+  // click modal add stock
+  const clickAddStock = (inputselected) => {
+    setinputStockAdd(inputselected);
+    onEditStockOpen3();
+  };
 
-  const DetailButton = ({ val }) => {
+  // click delete stock
+  const clickDeleteStock = async (id, productId) => {
+    // setinputStockDet(id);
+    console.log(id, "id");
+    try {
+      Swal.fire({
+        customClass: {
+          container: "my-swal",
+        },
+        title: "Apakah anda yakin?",
+        text: "Produk tidak akan bisa dikembalikan!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#ac5df7",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Hapus",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          let token = Cookies.get("token");
+          await axios.delete(`${API_URL}/products/stock/delete/${id}`, {
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
+          });
+          console.log("sukses");
+          Swal.fire({
+            customClass: {
+              container: "my-swal",
+            },
+
+            icon: "success",
+            title: "Deleted",
+            text: "Berhasil dihapus!",
+          });
+          // "Deleted!", "Berhasil dihapus!", "success"
+        }
+        fetchStock(productStockId);
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1500,
+        closeOnClick: true,
+        draggable: true,
+      });
+    } finally {
+      // getLastProduct();
+      setPage(0);
+      setInput({
+        search: "",
+        category: "",
+      });
+    }
+  };
+
+  // increment utk kuantitas stock
+  const incNum = () => {
+    let count = parseInt(inputStockDet.stock) + 1;
+    setinputStockDet({ ...inputStockDet, stock: count });
+  };
+
+  const decNum = () => {
+    let count = parseInt(inputStockDet.stock) - 1;
+    count = count < 1 ? 1 : count;
+    setinputStockDet({ ...inputStockDet, stock: count });
+  };
+
+  const incNumAdd = () => {
+    let count = parseInt(inputStockAdd?.stock) + 1;
+    setinputStockAdd({ ...inputStockAdd, stock: count });
+  };
+
+  const decNumAdd = () => {
+    let count = parseInt(inputStockAdd?.stock) - 1;
+    count = count < 1 ? 1 : count;
+    setinputStockAdd({ ...inputStockAdd, stock: count });
+  };
+
+  // console.log(inputEdit, "inputedit");
+  const DetailButton = ({ productId }) => {
     return (
       <div className="flex justify-between text-center items-center">
-        <div className="text-sm text-primary rounded-lg font-semibold py-1 px-2 border-[1px] mr-1 border-primary bg-white ">
-          Lihat Detail {val}
+        <div className="flex items-center justify-center text-sm text-primary rounded-lg font-semibold py-1 px-2 border-[1px] mr-2 border-primary bg-white h-10 ">
+          Lihat Detail
         </div>
         {/* <div className="text-sm text-primary rounded-md font-semibold py-2 px border-[1px] border-primary bg-white"> */}
         <Menu>
@@ -210,18 +510,40 @@ function DaftarProduk() {
             as={IconButton}
             aria-label="Options"
             icon={<HiDotsVertical />}
-            variant="solid"
-            colorScheme="whiteAlpha"
+            backgroundColor="white"
+            border="1px"
+            borderColor="border-primary"
+            textColor="purple.700"
           />
           <MenuList>
-            <MenuItem>Edit Produk</MenuItem>
-            <MenuItem>Edit Foto</MenuItem>
             <MenuItem
               onClick={() => {
-                clickDelete(val);
+                clickEdit(productId);
               }}
             >
-              Hapus Produk
+              <div className="text-primary font-medium">Edit Produk</div>
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                clickEditStock(productId);
+              }}
+            >
+              <div className="text-primary font-medium">Edit Stok</div>
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                clickEditPhoto(productId);
+              }}
+            >
+              <div className="text-primary font-medium">Edit Foto</div>
+            </MenuItem>
+            <MenuDivider />
+            <MenuItem
+              onClick={() => {
+                clickDelete(productId);
+              }}
+            >
+              <div className="text-red-600 font-medium">Hapus Produk</div>
             </MenuItem>
           </MenuList>
         </Menu>
@@ -273,96 +595,168 @@ function DaftarProduk() {
     {
       Header: "Atur",
       // accessor: "id",
-      Cell: (data) => <DetailButton val={data.row.original.id} />,
+      Cell: (data) => <DetailButton productId={data.row.original.id} />,
     },
   ]);
 
   return (
     <>
       <div>
-        <AdminNavbar />
-        <AdminSidebar />
+        <MetaDecorator
+          title={"Admin / Healthymed"}
+          description={
+            "Healthymed - Apotek Online Terpercaya. Beli obat yang kamu inginkan disini. 100% Asli, Produk BPOM, Uang Dijamin Kembali"
+          }
+          imageUrl={healthymedlogo}
+        />
       </div>
-      <div className="bg-admin">
-        <div className="px-[48px] pt-[32px] pb-[32px]">
-          <div className="flex justify-between">
-            <div className="text-lg font-bold text-violet-900 tracking-wide">
-              Daftar Obat
-            </div>
-            <div className="flex">
-              <div className="flex border-2 rounded-lg items-center px-4 py-2 text-purple-600 border-purple-500">
-                <FiDownload className="text-sm" />
-                <div className="text-xs font-semibold px-2">Unduh PDF</div>
-              </div>
-              <div className="flex border-2 rounded-lg items-center px-4 py-2 text-purple-600 border-purple-500 ml-5">
-                <IoDocumentText className="text-sm" />
-                <div className="text-xs font-semibold px-2">Excel</div>
-              </div>
-            </div>
-          </div>
-          <div className="p-[32px] mt-[34px] bg-white rounded-lg shadow-lg">
+      <>
+        {/* kiri=props; kanan=value */}
+        <div>
+          <AdminEditDetail
+            isOpen={isEditOpen}
+            onOpen={onEditOpen}
+            onClose={onEditClose}
+            submitProductEdit={submitProductEdit}
+            inputEdit={inputEdit}
+            setinputEdit={setinputEdit}
+          />
+          <AdminEditFoto
+            isOpen={isEditPhotoOpen}
+            onOpen={onEditPhotoOpen}
+            onClose={onEditPhotoClose}
+            submitProduct={submitProduct}
+            inputImage={inputImage}
+            setinputImage={setinputImage}
+            fetchFoto={fetchFoto}
+          />
+          <AdminEditStockTable
+            isOpen={isEditStockOpen}
+            onOpen={onEditStockOpen}
+            onClose={onEditStockClose}
+            isOpen2={isEditStockOpen2}
+            onOpen2={onEditStockOpen2}
+            onClose2={onEditStockClose2}
+            isOpen3={isEditStockOpen3}
+            onOpen3={onEditStockOpen3}
+            onClose3={onEditStockClose3}
+            submitProduct={submitProduct}
+            inputStock={inputStock}
+            setinputStock={setinputStock}
+            clickEditStockDetail={clickEditStockDetail}
+            inputStockDet={inputStockDet}
+            setinputStockDet={setinputStockDet}
+            incNum={incNum}
+            decNum={decNum}
+            incNumAdd={incNumAdd}
+            decNumAdd={decNumAdd}
+            submitProductEditStock={submitProductEditStock}
+            submitProductAddStock={submitProductAddStock}
+            inputStockAdd={inputStockAdd}
+            setinputStockAdd={setinputStockAdd}
+            clickAddStock={clickAddStock}
+            clickDeleteStock={clickDeleteStock}
+          />
+
+          <AdminNavbar />
+          <AdminSidebar />
+        </div>
+
+        <div className="bg-admin">
+          <div className="px-[48px] pt-[32px] pb-[32px]">
             <div className="flex justify-between">
+              <div className="text-lg font-bold text-violet-900 tracking-wide">
+                Daftar Obat
+              </div>
               <div className="flex">
-                <div className="flex border-2 rounded-lg text-slate-400  border-slate-300 px-[12px] py-[11px] w-[328px] justify-between ">
-                  <input
-                    className="text-sm font-medium outline-none w-[270px]"
-                    placeholder="Cari nama obat"
-                    name="search"
-                    value={input.search}
-                    onChange={(e) => handleInput(e)}
-                  ></input>
-                  <HiSearch className="text-xl" />
+                <div className="flex border-2 rounded-lg items-center px-4 py-2 text-purple-600 border-purple-500">
+                  <FiDownload className="text-sm" />
+                  <div className="text-xs font-semibold px-2">Unduh PDF</div>
                 </div>
-                <div className="border-2 rounded-lg text-slate-400 border-slate-300 px-[12px] py-[11px] w-[156px] ml-[16px]">
-                  <select
-                    className="text-sm font-medium outline-none w-full"
-                    placeholder="Filter"
-                    name="category"
-                    value={input.category}
-                    onChange={(e) => handleInput(e)}
-                  >
-                    <option value="">All</option>
-                    {comp.map(({ id, name }) => {
-                      return (
-                        <>
-                          <option value={id}>{name}</option>
-                        </>
-                      );
-                    })}
-                  </select>
+                <div className="flex border-2 rounded-lg items-center px-4 py-2 text-purple-600 border-purple-500 ml-5">
+                  <IoDocumentText className="text-sm" />
+                  <div className="text-xs font-semibold px-2">Excel</div>
                 </div>
               </div>
-              <ModalInputAdmin submitProduct={submitProduct} />
-
-              <AdminEditDetail submitProductEdit={submitProductEdit} />
-              <AdminEditStock />
-
-              <AdminEditFoto />
-              <AdminEditStockTableProduct />
-
-              {/* <div className="flex items-center rounded-lg bg-violet-900 p-[11px] text-white">
-                <FiDownload className="text-sm" />
-                <div className="text-xs font-semibold px-2 tracking-wide">
-                  Tambah Obat
-                </div>
-              </div> */}
             </div>
-            <div className="w-full border-b-2 mt-[38px]"></div>
-            <div className="mt-[32px] rounded-lg border-2">
-              <NewTable columns={columns} data={data} isLoading={isLoading} />
+            <div className="p-[32px] mt-[34px] bg-white rounded-lg shadow-lg ">
+              <div className="flex justify-between">
+                <div className="text-lg font-bold text-violet-900 tracking-wide">
+                  Daftar Obat
+                </div>
+                <div className="flex">
+                  <div className="flex border-2 rounded-lg items-center px-4 py-2 text-purple-600 border-purple-500">
+                    <FiDownload className="text-sm" />
+                    <div className="text-xs font-semibold px-2">Unduh PDF</div>
+                  </div>
+                  <div className="flex border-2 rounded-lg items-center px-4 py-2 text-purple-600 border-purple-500 ml-5">
+                    <IoDocumentText className="text-sm" />
+                    <div className="text-xs font-semibold px-2">Excel</div>
+                  </div>
+                </div>
+              </div>
+              <div className="p-[32px] mt-[34px] bg-white rounded-lg shadow-lg">
+                <div className="flex justify-between">
+                  <div className="flex">
+                    <div className="flex border-2 rounded-lg text-slate-400  border-slate-300 px-[12px] py-[11px] w-[328px] justify-between ">
+                      <input
+                        className="text-sm font-medium outline-none w-[270px]"
+                        placeholder="Cari nama obat"
+                        name="search"
+                        value={input.search}
+                        onChange={(e) => handleInput(e)}
+                      ></input>
+                      <HiSearch className="text-xl" />
+                    </div>
+                    <div className="border-2 rounded-lg text-slate-400 border-slate-300 px-[12px] py-[11px] w-[156px] ml-[16px]">
+                      <select
+                        className="text-sm font-medium outline-none w-full"
+                        placeholder="Filter"
+                        name="category"
+                        value={input.category}
+                        onChange={(e) => handleInput(e)}
+                      >
+                        <option value="">All</option>
+                        {comp.map(({ id, name }) => {
+                          return (
+                            <>
+                              <option value={id}>{name}</option>
+                            </>
+                          );
+                        })}
+                      </select>
+                    </div>
+                  </div>
+                  <ModalInputAdmin submitProduct={submitProduct} />
+                  {/* <div className="flex items-center rounded-lg bg-violet-900 p-[11px] text-white">
+                  <FiDownload className="text-sm" />
+                  <div className="text-xs font-semibold px-2 tracking-wide">
+                    Tambah Obat
+                  </div>
+                </div> */}
+                </div>
+                <div className="w-full border-b-2 mt-[38px]"></div>
+                <div className="mt-[32px] rounded-lg border-2">
+                  <NewTable
+                    columns={columns}
+                    data={data}
+                    isLoading={isLoading}
+                  />
 
-              <Pagination
-                totalData={totalData}
-                dataPerPage={10} // ganti value
-                pageChangeHandler={setPage}
-                updateLimit={updateLimit}
-                value={value}
-                totalPage={Math.ceil(totalData / 10)}
-              />
+                  <Pagination
+                    totalData={totalData}
+                    dataPerPage={10} // ganti value
+                    pageChangeHandler={setPage}
+                    updateLimit={updateLimit}
+                    value={value}
+                    totalPage={Math.ceil(totalData / 10)}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </>
     </>
   );
 }
