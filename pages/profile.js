@@ -15,7 +15,7 @@ import {
 import useUser from "../hooks/useUser";
 import ProfileModalEditPhoto from "../components/ProfileModalEditPhoto";
 import ProfileModalEditProfile from "../components/ProfileModalEditProfile";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/navbar";
 import { API_URL } from "../helpers";
 import moment from "moment";
 import "moment/locale/id";

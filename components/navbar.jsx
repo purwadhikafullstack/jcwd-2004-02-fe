@@ -69,7 +69,12 @@ const Navbar = () => {
       </div>
       {isLogin ? (
         <div className="w-[270px] ml-10 flex items-center justify-center">
-          <IoCart className="text-2xl text-purple-900" />
+          <IoCart
+            className="text-2xl text-purple-900"
+            onClick={() => {
+              router.push("/cart");
+            }}
+          />
           <BsBellFill className="text-xl text-purple-900 mx-10" />
           <Menu isLazy>
             <MenuButton>

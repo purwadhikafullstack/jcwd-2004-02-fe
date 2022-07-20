@@ -2,7 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import UserProductSidebar from "../components/UserProductSidebar";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/navbar";
 import { HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi";
 import { Button } from "@chakra-ui/react";
 import axios from "axios";

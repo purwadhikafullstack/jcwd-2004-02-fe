@@ -55,7 +55,7 @@ const routes = [
   },
 
   {
-    path: "/forgotPassword",
+    path: "/changePass",
     name: "Ganti Password",
     icon: <RiLockPasswordLine className="text-2xl" />,
   },

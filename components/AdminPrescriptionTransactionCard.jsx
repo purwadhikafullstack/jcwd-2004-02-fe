@@ -3,7 +3,6 @@ import { BsFillChatDotsFill } from "react-icons/bs";
 import { FaTrash } from "react-icons/fa";
 import Image from "next/image";
 import { API_URL } from "../helpers";
-
 import dayjs from "dayjs";
 import React from "react";
 import { useEffect, useState } from "react";
@@ -32,7 +31,6 @@ import {
   Td,
   TableContainer,
 } from "@chakra-ui/react";
-import dayjs from "dayjs";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { flushSync } from "react-dom";
@@ -165,6 +163,12 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
       await submitProduct(insertData);
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
     } finally {
       flushSync(() => {
         setTab(5);

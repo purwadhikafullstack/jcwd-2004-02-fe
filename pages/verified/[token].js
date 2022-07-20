@@ -5,8 +5,8 @@ import { useDispatch } from "react-redux";
 import useUser from "../../hooks/useUser";
 import { API_URL } from "../../helpers";
 import Link from "next/link";
-import MetaDecorator from "../components/MetaDecorator";
-import healthymedlogo from "../public/healthymed-logo.svg";
+import MetaDecorator from "../../components/MetaDecorator";
+import healthymedlogo from "../../public/healthymed-logo.svg";
 
 const Verified = () => {
   const router = useRouter();

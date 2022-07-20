@@ -60,13 +60,13 @@ const routes = [
     ],
   },
   {
-    path: "#",
+    path: "/admin/sales",
     name: "Sales & Revenue",
     icon: "/vector.png",
     coloredicon: "/vector2.png",
     subroutes: [
       {
-        path: "#",
+        path: "/admin/sales/statistik",
         name: "Ringkasan Statistik",
       },
       {
@@ -74,7 +74,7 @@ const routes = [
         name: "Buku Kas",
       },
       {
-        path: "#",
+        path: "/admin/sales/report",
         name: "Laba dan Rugi",
       },
     ],

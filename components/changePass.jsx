@@ -1,4 +1,4 @@
-import { ButtonSecondary, ButtonPrimary } from "../components/button";
+import { ButtonSecondary, ButtonPrimary } from "./button";
 import { FcGoogle } from "react-icons/fc";
 import { BsFacebook } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";

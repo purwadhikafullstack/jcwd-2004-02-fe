@@ -280,14 +280,14 @@ const PaymentMethod = ({
                   <div className="flex items-center">
                     <GoPrimitiveDot className="ml-1" />
                     <span className="text-sm ml-2 text-purple-900">
-                      Lalu pilih menu 'transaksi lainnya'
+                      Lalu pilih menu transaksi lainnya
                     </span>
                   </div>
                   <div className="flex ">
                     <GoPrimitiveDot className="ml-1" />
                     <span className="text-sm ml-2 text-purple-900">
-                      Kemudian pilih menu 'transfer' dan tekan opsi 'ke rek bank
-                      lain'
+                      Kemudian pilih menu transfer dan tekan opsi ke rek bank
+                      lain
                     </span>
                   </div>
                   <div className="flex">

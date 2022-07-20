@@ -1,6 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/navbar";
 import Footer from "../components/Footer";
 import { Button } from "@chakra-ui/react";
 import Link from "next/link";
@@ -46,6 +46,8 @@ function PrescritpionBerhasil() {
             colorScheme={"purple"}
             className="w-[260px] mt-2"
             type="button"
+            size="sm"
+            fontSize="xs"
           >
             Lihat Progress Pemesanan
           </Button>
@@ -57,6 +59,8 @@ function PrescritpionBerhasil() {
             className="w-[260px] mt-2"
             type="button"
             variant="outline"
+            size="sm"
+            fontSize="xs"
           >
             Beranda
           </Button>
