@@ -60,12 +60,12 @@ export default function Home() {
       console.log("alamat list ", res.data);
     } catch (error) {
       console.log(error);
-      toast.error(error.response?.data.message, {
-        position: "top-right",
-        autoClose: 1000,
-        closeOnClick: true,
-        draggable: true,
-      });
+      // toast.error(error.response?.data.message, {
+      //   position: "top-right",
+      //   autoClose: 1000,
+      //   closeOnClick: true,
+      //   draggable: true,
+      // });
     }
   };
   return (

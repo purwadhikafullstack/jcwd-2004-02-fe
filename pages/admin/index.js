@@ -229,7 +229,11 @@ function AdminHome({ data, penjualan, profit }) {
     },
   };
 
-  const value = 0.66;
+  console.log("ini ya data", data);
+
+  const value1 = data.progressProfit;
+  const value2 = data.progressPesanan;
+  // const value3 = data
   return (
     <>
       <div>
@@ -262,10 +266,12 @@ function AdminHome({ data, penjualan, profit }) {
                 {Rupiah(data.profit[0].profit) || "ganyampe bos"}
               </span>
               <div style={{ width: 50, height: 50 }} className="font-bold">
-                <CircularProgressbar value={value} text={`${value * 100}%`} />
+                <CircularProgressbar value={value1} text={`${value1 * 100}%`} />
               </div>
             </div>
-            <span className="text-[10px] font-bold">+ 2.500.000</span>
+            <span className="text-[10px] font-bold text-purple-900">
+              {data.progressProfit || 0}
+            </span>
           </div>
           <div className="w-[310px] h-[110px] rounded-lg bg-white flex flex-col px-3 py-3">
             <span className="text-xs text-purple-900 font-bold">
@@ -276,10 +282,12 @@ function AdminHome({ data, penjualan, profit }) {
                 {data.pesananHariIni[0]?.pesanan_hari_ini}
               </span>
               <div style={{ width: 50, height: 50 }} className="font-bold">
-                <CircularProgressbar value={value} text={`${value * 100}%`} />
+                <CircularProgressbar value={value2} text={`${value2 * 100}%`} />
               </div>
             </div>
-            <span className="text-[10px] font-bold">+ 2.500.000</span>
+            <span className="text-[10px] font-bold text-purple-900">
+              {data.progressProfit || 0}
+            </span>
           </div>
           <div className="w-[310px] h-[110px] rounded-lg bg-white flex flex-col px-3 py-3">
             <span className="text-xs text-purple-900 font-bold">
@@ -290,10 +298,12 @@ function AdminHome({ data, penjualan, profit }) {
                 {data.sisaStock[0]?.sisa_stock}
               </span>
               <div style={{ width: 50, height: 50 }} className="font-bold">
-                <CircularProgressbar value={value} text={`${value * 100}%`} />
+                {/* <CircularProgressbar value={value3} text={`${value3 * 100}%`} /> */}
               </div>
             </div>
-            <span className="text-[10px] font-bold">+ 2.500.000</span>
+            <span className="text-[10px] font-bold text-purple-900">
+              {data.progressProfit || 0}
+            </span>
           </div>
         </div>
         <div className="flex mt-9">

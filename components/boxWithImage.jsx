@@ -125,7 +125,7 @@ const BoxWithImage = ({
   };
 
   return (
-    <div className=" w-[783px] h-[210px] mb-[26px] rounded-lg border-[1px] border-slate-100 shadow-lg shadow-slate-200 px-[41px]">
+    <div className=" w-[783px] h-[240px] mb-[26px] rounded-lg border-[1px] border-slate-100 shadow-lg shadow-slate-200 px-[41px]">
       <div>
         <div className="ml-2">
           {/* <input type={"checkbox"} className="mr-2"/> */}
