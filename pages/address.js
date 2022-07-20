@@ -1,5 +1,5 @@
 import Input from "../components/input";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/navbar";
 import React, { Component, useEffect, useState } from "react";
 //  import Select from 'react-select'
 import { ButtonPrimary, ButtonSecondary } from "../components/button";
@@ -87,7 +87,7 @@ const Address = () => {
   };
 
   return (
-    <div> 
+    <div>
       <div>
         <MetaDecorator
           title={"Address / Healthymed"}
