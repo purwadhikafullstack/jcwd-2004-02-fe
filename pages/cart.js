@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import BoxWithImage from "../components/boxWithImage";
 import BoxTotalCart from "../components/boxTotalCart";
 // import BoxTotalTransaction from "../components/boxTotalTransaction";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/navbar";
 import BoxAddress from "../components/boxAddress";
 // import Cookies from "js-cookie";
 import axios from "axios";

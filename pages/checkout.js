@@ -2,7 +2,7 @@ import { AiFillCheckCircle } from "react-icons/ai";
 import BoxAddress from "../components/boxAddress";
 import BoxCheckout from "../components/boxCheckout";
 import BoxTotalTransaction from "../components/boxTotalTransaction";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/navbar";
 import RingkasanOrder from "../components/ringkasanOrder";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
@@ -91,7 +91,7 @@ const Checkout = ({ getCartAction }) => {
   }, [selectedAddress]);
 
   return (
-    <div> 
+    <div>
       <>
         <MetaDecorator
           title={"Checkout / Healthymed"}

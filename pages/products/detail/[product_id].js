@@ -2,7 +2,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Footer from "../../../components/Footer";
-import Navbar from "../../../components/Navbar";
+import Navbar from "../../../components/navbar";
 import { API_URL } from "../../../helpers";
 import HomePopularProductCarousel from "../../../components/HomePopularProductCarousel";
 import ProductDetailMainPage from "../../../components/ProductDetailMainPage";
