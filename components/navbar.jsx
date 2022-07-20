@@ -31,7 +31,7 @@ const Navbar = () => {
 
   const logoutAction = async () => {
     Cookies.remove("token");
-    await router.push("/");
+    await router.push("/home");
     dispatch({ type: "LOGOUT" });
   };
 
@@ -47,7 +47,7 @@ const Navbar = () => {
   return (
     <div className="flex justify-between h-[80px] bg-white shadow-lg shadow-purple-100 px-5">
       <div className="w-[250px] h-full  flex items-center justify-center">
-        <Link href="/">
+        <Link href="/home">
           <div className="w-[200px] cursor-pointer">
             <img src={"/logo.svg"} className="text-sm" />
           </div>
@@ -136,7 +136,7 @@ const Navbar = () => {
               mr={3}
               onClick={() => {
                 logoutAction();
-                router.push("/");
+                router.push("/home");
                 onCloseLogout();
               }}
             >

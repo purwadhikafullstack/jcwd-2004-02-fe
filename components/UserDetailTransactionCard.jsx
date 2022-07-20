@@ -288,7 +288,7 @@ function UserDetailTransactionCard({ data, show, setShow }) {
         ) : null}
 
         <div className="mt-[56px] grid grid-cols-2 text-center font-semibold gap-4">
-          <Link href={"/"}>
+          <Link href={"/home"}>
             <div className="col-span-1 py-[16px] border-2 rounded-lg text-secondary cursor-pointer border-secondary hover:bg-hover-button">
               Kembali ke Beranda
             </div>
