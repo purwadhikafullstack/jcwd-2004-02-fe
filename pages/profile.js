@@ -76,52 +76,50 @@ const Profile = () => {
       <div className="hidden md:block">
         <Navbar />
       </div>
-      <div className="flex ">
-        <div className="hidden md:block mt-10 mx-auto">
+
+      <div className="user-container flex justify-between bg-pink-100">
+        <div className="hidden md:block">
           <UserProfileSidebar />
         </div>
 
-        <div className="flex md:mx-auto md:w-7/12 md:ml-10 md:h-5/6 w-screen justify-center shadow-md rounded-lg mt-10 pb-14 h-screen ">
+        {/* <div className="flex md:mx-auto md:w-7/12 md:ml-10 md:h-5/6 w-screen justify-center shadow-md rounded-lg mt-10 pb-14 h-screen "> */}
+        <div className="md:w-[900px] md:px-[40px] md:py-[28px] md:rounded-lg md:border-[1px] md:border-slate-100 md:shadow-lg md:text-primary md:bg-orange-100">
           <div>
             {/* mobile */}
             <HeaderMobile title={"Profile"} />
             {/* desktop */}
             <div className="hidden md:block">
-              <div className="pt-5 ml-11 text-2xl font-bold">Profil</div>
+              <div className="text-xl font-bold">Profil</div>
               <div className="bg-slate-200">
                 <Divider className="mt-7 " />
               </div>
             </div>
-            <div className="flex flex-col md:flex-row">
-              <div className="flex flex-col items-center justify-center">
+            <div className="flex flex-col bg-purple-50 md:flex-row">
+              <div className="flex flex-col items-center justify-center bg-blue-100 maxW-[500px] ">
                 <img
                   className="flex items-center md:ml-11 mt-10 rounded-2xl h-[200px] w-[200px] md:h-[300px] md:w-[300px]"
                   src={profpic}
                 />
+
                 <ProfileModalEditPhoto />
               </div>
-
               {/* biodata */}
-              <div>
-                <div className="mx-32">
-                  <div className="flex md:mt-12 ">
-                    <div className="profileTag">Nama Lengkap</div>
-                    <div className="profileDesc ml-7">{name}</div>
-                  </div>
-                  <div className="flex">
-                    <div className="profileTag">Gender</div>
-                    <div className="profileDesc ml-[85px]">
-                      {gender ? gender : "-"}
+              <div className="bg-red-100">
+                <div className="mx-32 bg-green-50">
+                  <div className="flex md:mt-12">
+                    <div className="w-[150px]">
+                      <div className="profileTag">Nama Lengkap</div>
+                      <div className="profileTag">Gender</div>
+                      <div className="profileTag">E-Mail</div>
+                      <div className="profileTag">Tanggal Lahir</div>
                     </div>
-                  </div>
-                  <div className="flex">
-                    <div className="profileTag">E-mail</div>
-                    <div className="profileDesc ml-[93px]">{email}</div>
-                  </div>
-                  <div className="flex">
-                    <div className="profileTag">Tanggal Lahir</div>
-                    <div className="profileDesc ml-[40px]">
-                      {birthdate ? moment(birthdate).format("LL") : "-"}
+                    <div className="ml-20">
+                      <div className="profileDesc">{name}</div>
+                      <div className="profileDesc">{gender ? gender : "-"}</div>
+                      <div className="profileDesc">{email}</div>
+                      <div className="profileDesc">
+                        {birthdate ? moment(birthdate).format("LL") : "-"}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -142,45 +140,45 @@ const Profile = () => {
             </div>
           </div>
         </div>
-      </div>
-      <div>
-        <Modal isOpen={isOpen} onClose={onClose}>
-          <ModalOverlay />
-          <ModalContent w="700px" minH="500px">
-            <ModalHeader>Alamat</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <div>
-                {alamat.map((alamat, index) => (
-                  <div key={index} className="text-primary">
-                    <div className=" h-[150px] flex flex-col rounded-lg shadow-md p-3 mt-2">
-                      <div className="mb-5">
-                        <div className="flex justify-between">
-                          <span className="font-bold">
-                            {alamat.firstname} {alamat.lastname}
+        <div>
+          <Modal isOpen={isOpen} onClose={onClose}>
+            <ModalOverlay />
+            <ModalContent w="700px" minH="500px">
+              <ModalHeader>Alamat</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                <div>
+                  {alamat.map((alamat, index) => (
+                    <div key={index} className="text-primary">
+                      <div className=" h-[150px] flex flex-col rounded-lg shadow-md p-3 mt-2">
+                        <div className="mb-5">
+                          <div className="flex justify-between">
+                            <span className="font-bold">
+                              {alamat.firstname} {alamat.lastname}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex flex-col">
+                          <span>{alamat.phonenumber}</span>
+                          <span>{alamat.address}</span>
+                          <span>
+                            {alamat.city}, {alamat.province}
                           </span>
                         </div>
                       </div>
-                      <div className="flex flex-col">
-                        <span>{alamat.phonenumber}</span>
-                        <span>{alamat.address}</span>
-                        <span>
-                          {alamat.city}, {alamat.province}
-                        </span>
-                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-            </ModalBody>
+                  ))}
+                </div>
+              </ModalBody>
 
-            <ModalFooter>
-              <Button colorScheme="purple" mr={3} onClick={onClose}>
-                Close
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
+              <ModalFooter>
+                <Button colorScheme="purple" mr={3} onClick={onClose}>
+                  Close
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
+        </div>
       </div>
     </div>
   );
