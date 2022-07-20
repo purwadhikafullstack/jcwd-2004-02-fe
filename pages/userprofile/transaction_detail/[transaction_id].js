@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { BsFillChatDotsFill } from "react-icons/bs";
 import Footer from "../../../components/Footer";
-import Navbar from "../../../components/Navbar";
+import Navbar from "../../../components/navbar";
 import UserDetailTransactionCard from "../../../components/UserDetailTransactionCard";
 import axios from "axios";
 import { API_URL } from "../../../helpers";
