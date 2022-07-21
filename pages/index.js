@@ -17,7 +17,7 @@ import HomePopularProductCarousel from "../components/HomePopularProductCarousel
 import HomeJaminanBanner from "../components/HomeJaminanBanner";
 import Footer from "../components/Footer";
 import MetaDecorator from "../components/MetaDecorator";
-import healthymedlogo from "../public/healthymed-logo.svg";
+// import healthymedlogo from "../public/healthymed-logo.svg";
 
 import Cookies from "js-cookie";
 
@@ -75,7 +75,7 @@ export default function Home() {
         description={
           "Healthymed - Apotek Online Terpercaya. Beli obat yang kamu inginkan disini. 100% Asli, Produk BPOM, Uang Dijamin Kembali"
         }
-        imageUrl={healthymedlogo}
+        imageUrl={"/healthymed-logo.svg"}
       />
       <div>
         <Navbar />

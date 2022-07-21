@@ -116,7 +116,7 @@ function ProductDetail({ product, productTerkait }) {
         <MetaDecorator
           title={`${product.name} / Healthymed`}
           description={`${product.name} - ${product.description["Nomor Ijin Edar (NIE)"]} - ${product.description["indikasi / kegunaan"]}`}
-          imageUrl={healthymedlogo}
+          imageUrl={product.images[0].image}
         />
       </div>
       <>
