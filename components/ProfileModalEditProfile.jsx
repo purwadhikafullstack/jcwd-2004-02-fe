@@ -50,7 +50,7 @@ const ProfileModalEditProfile = ({ editProfileActions }) => {
       <div className="flex items-center justify-center">
         <Button
           onClick={onOpen}
-          className=" text-[14px] w-32 h-10 mt-6 md:ml-[140px]"
+          className=" text-[14px] w-32 h-10 mt-10 "
           variant="outline"
           colorScheme={"purple"}
         >

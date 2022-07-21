@@ -65,7 +65,7 @@ const Payment = ({ getCartAction }) => {
         closeOnClick: true,
         draggable: true,
       });
-      router.push("/");
+      router.push("/home");
     } catch (error) {
       console.log(error);
       toast.error("Konfirmasi Pembayaran Gagal", {

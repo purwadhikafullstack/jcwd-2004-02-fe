@@ -91,7 +91,7 @@ const Verified = () => {
             </div>
             <img src={"/clap.gif"} />
           </div>
-          <Link href="/" className="flex justify-center items-center">
+          <Link href="/home" className="flex justify-center items-center">
             <button className="w-56 h-12 self-center rounded-xl border-0 bg-green-500 text-white text-xl font-medium cursor-pointer">
               Go To HomePage
             </button>
