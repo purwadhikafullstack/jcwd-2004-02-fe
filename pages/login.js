@@ -43,7 +43,7 @@ const Login = ({ loginActions }) => {
   });
 
   if (isLogin && role_id == "user") {
-    router.push("/");
+    router.push("/home");
   } else if (isLogin && role_id == "Admin") {
     router.push("/admin/produk");
   }

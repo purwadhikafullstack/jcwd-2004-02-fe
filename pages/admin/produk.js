@@ -678,79 +678,59 @@ function DaftarProduk() {
                 </div>
               </div>
             </div>
-            <div className="p-[32px] mt-[34px] bg-white rounded-lg shadow-lg ">
+
+            <div className="p-[32px] mt-[34px] bg-white rounded-lg shadow-lg">
               <div className="flex justify-between">
-                <div className="text-lg font-bold text-violet-900 tracking-wide">
-                  Daftar Obat
-                </div>
                 <div className="flex">
-                  <div className="flex border-2 rounded-lg items-center px-4 py-2 text-purple-600 border-purple-500">
-                    <FiDownload className="text-sm" />
-                    <div className="text-xs font-semibold px-2">Unduh PDF</div>
+                  <div className="flex border-2 rounded-lg text-slate-400  border-slate-300 px-[12px] py-[11px] w-[328px] justify-between ">
+                    <input
+                      className="text-sm font-medium outline-none w-[270px]"
+                      placeholder="Cari nama obat"
+                      name="search"
+                      value={input.search}
+                      onChange={(e) => handleInput(e)}
+                    ></input>
+                    <HiSearch className="text-xl" />
                   </div>
-                  <div className="flex border-2 rounded-lg items-center px-4 py-2 text-purple-600 border-purple-500 ml-5">
-                    <IoDocumentText className="text-sm" />
-                    <div className="text-xs font-semibold px-2">Excel</div>
+                  <div className="border-2 rounded-lg text-slate-400 border-slate-300 px-[12px] py-[11px] w-[156px] ml-[16px]">
+                    <select
+                      className="text-sm font-medium outline-none w-full"
+                      placeholder="Filter"
+                      name="category"
+                      value={input.category}
+                      onChange={(e) => handleInput(e)}
+                    >
+                      <option value="">All</option>
+                      {comp.map(({ id, name }) => {
+                        return (
+                          <>
+                            <option value={id}>{name}</option>
+                          </>
+                        );
+                      })}
+                    </select>
                   </div>
                 </div>
-              </div>
-              <div className="p-[32px] mt-[34px] bg-white rounded-lg shadow-lg">
-                <div className="flex justify-between">
-                  <div className="flex">
-                    <div className="flex border-2 rounded-lg text-slate-400  border-slate-300 px-[12px] py-[11px] w-[328px] justify-between ">
-                      <input
-                        className="text-sm font-medium outline-none w-[270px]"
-                        placeholder="Cari nama obat"
-                        name="search"
-                        value={input.search}
-                        onChange={(e) => handleInput(e)}
-                      ></input>
-                      <HiSearch className="text-xl" />
-                    </div>
-                    <div className="border-2 rounded-lg text-slate-400 border-slate-300 px-[12px] py-[11px] w-[156px] ml-[16px]">
-                      <select
-                        className="text-sm font-medium outline-none w-full"
-                        placeholder="Filter"
-                        name="category"
-                        value={input.category}
-                        onChange={(e) => handleInput(e)}
-                      >
-                        <option value="">All</option>
-                        {comp.map(({ id, name }) => {
-                          return (
-                            <>
-                              <option value={id}>{name}</option>
-                            </>
-                          );
-                        })}
-                      </select>
-                    </div>
-                  </div>
-                  <ModalInputAdmin submitProduct={submitProduct} />
-                  {/* <div className="flex items-center rounded-lg bg-violet-900 p-[11px] text-white">
+                <ModalInputAdmin submitProduct={submitProduct} />
+                {/* <div className="flex items-center rounded-lg bg-violet-900 p-[11px] text-white">
                   <FiDownload className="text-sm" />
                   <div className="text-xs font-semibold px-2 tracking-wide">
                     Tambah Obat
                   </div>
                 </div> */}
-                </div>
-                <div className="w-full border-b-2 mt-[38px]"></div>
-                <div className="mt-[32px] rounded-lg border-2">
-                  <NewTable
-                    columns={columns}
-                    data={data}
-                    isLoading={isLoading}
-                  />
+              </div>
+              <div className="w-full border-b-2 mt-[38px]"></div>
+              <div className="mt-[32px] rounded-lg border-2">
+                <NewTable columns={columns} data={data} isLoading={isLoading} />
 
-                  <Pagination
-                    totalData={totalData}
-                    dataPerPage={10} // ganti value
-                    pageChangeHandler={setPage}
-                    updateLimit={updateLimit}
-                    value={value}
-                    totalPage={Math.ceil(totalData / 10)}
-                  />
-                </div>
+                <Pagination
+                  totalData={totalData}
+                  dataPerPage={10} // ganti value
+                  pageChangeHandler={setPage}
+                  updateLimit={updateLimit}
+                  value={value}
+                  totalPage={Math.ceil(totalData / 10)}
+                />
               </div>
             </div>
           </div>

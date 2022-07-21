@@ -121,7 +121,7 @@ const Cart = ({ getCartAction }) => {
                 <button
                   className="bg-secondary text-white font-semibold rounded-lg py-[10px] px-[15px] mt-[20px]"
                   onClick={() => {
-                    router.push("/");
+                    router.push("/home");
                   }}
                 >
                   Kembali ke Beranda

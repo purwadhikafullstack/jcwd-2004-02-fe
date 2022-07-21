@@ -24,7 +24,7 @@ function AdminNavbar() {
 
   const logoutAction = async () => {
     Cookies.remove("token");
-    await router.push("/");
+    await router.push("/home");
     dispatch({ type: "LOGOUT" });
   };
 
@@ -67,7 +67,7 @@ function AdminNavbar() {
               mr={3}
               onClick={() => {
                 logoutAction();
-                router.push("/");
+                router.push("/home");
                 onCloseLogout();
               }}
             >
