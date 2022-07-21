@@ -6,7 +6,8 @@ import { API_URL } from "../helpers";
 import { useDisclosure } from "@chakra-ui/react";
 
 const BoxChooseAddress = ({ terpilih, addressa, setSelectedAddress }) => {
-  const { id, firstname, lastname, address, phonenumber } = addressa;
+  const { id, firstname, lastname, address, phonenumber, city, province } =
+    addressa;
   const { onClose } = useDisclosure();
 
   const defaultAddress = async () => {
@@ -36,7 +37,9 @@ const BoxChooseAddress = ({ terpilih, addressa, setSelectedAddress }) => {
         </div>
         <div className="flex flex-col">
           <span>{phonenumber}</span>
-          <span>{address}</span>
+          <span>
+            {address}, {city}, {province}
+          </span>
         </div>
       </div>
     </div>
