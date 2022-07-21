@@ -53,7 +53,7 @@ function PrescritpionBerhasil() {
           </Button>
         </Link>
 
-        <Link href={"/"}>
+        <Link href={"/home"}>
           <Button
             colorScheme={"purple"}
             className="w-[260px] mt-2"

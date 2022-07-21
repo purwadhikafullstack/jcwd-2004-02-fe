@@ -64,91 +64,115 @@ const Prescription = () => {
         />
       </div>
       <>
-        <Navbar />
-        <div className="flex flex-col ">
-          <div className="ml-48 mt-10">
-            <div className="text-2xl font-semibold">Kirim Resep</div>
-            <div className="text-sm flex">
-              <div>
-                Tak perlu antre & obat langsung dikirimkan ke lokasi anda!
-              </div>
-              <div className="ml-1 font-semibold">
-                Foto tidak boleh lebih dari 10MB.
-              </div>
-            </div>
+        <div>
+          <div className="hidden md:block">
+            <Navbar />
           </div>
-          <div className="flex mx-auto flex-col shadow-md w-9/12 rounded-lg mt-10 ">
-            <div className="mx-12 mt-3 text-sm font-semibold justify-start text-gray-500">
-              Unggah Resep Dokter
-            </div>
-            <Divider className="mt-2" />
-            <div className="w-full h-[400px] flex flex-col items-center justify-center">
-              {/* page 1 */}
-              {!acceptedFiles[0] ? (
-                <div
-                  className="containerx my-10 flex justify-center w-11/12 h-full"
-                  {...getRootProps()}
-                >
-                  <input {...getInputProps()} />
-                  <div className="mb-6 text-2xl"> Tarik & Letakkan File</div>
-                  <div className="flex">
-                    <div className="hl"></div>
-                    <div className="mb-6 text-sm mx-2">atau</div>
-                    <div className="hl"></div>
-                  </div>
-                  <Button
-                    colorScheme={"purple"}
-                    className="w-[260px]"
-                    type="button"
-                    onClick={open}
-                  >
-                    Unggah Resep
-                  </Button>
+          <div className="flex flex-col ">
+            <div className="hidden md:block ml-12 mt-10 ">
+              <div className="text-2xl font-semibold md:ml-24 md:mt-10">
+                Kirim Resep
+              </div>
+              <div className="text-sm flex md:ml-24">
+                <div>
+                  Tak perlu antre & obat langsung dikirimkan ke lokasi anda!
                 </div>
-              ) : (
-                <div className="container2 my-10 flex w-11/12 h-full ">
-                  <div>
-                    <div className="flex border-solid border-gray-200 rounded-lg border-2 px-5 py-2">
-                      <BsImage className="text-2xl text-purple-600 " />
-                      <ul className="ml-6 text-sm">
-                        <div className="flex ">
-                          <div key={acceptedFiles[0].path}>
-                            {acceptedFiles[0].path}
-                          </div>
-                          <div
-                            className="text-purple-600 ml-3"
-                            key={acceptedFiles[0].path}
-                          >
-                            {acceptedFiles[0].size / 1000} KB
-                          </div>
-                        </div>
-                      </ul>
+                <div className="ml-1 font-semibold">
+                  Foto tidak boleh lebih dari 2MB.
+                </div>
+              </div>
+            </div>
+            <div className="flex mx-auto flex-col shadow-md w-full rounded-lg mt-10  ">
+              <div className="mx-12 mt-3 text-sm font-semibold justify-start hidden md:text-gray-500">
+                Unggah Resep Dokter
+              </div>
+              {/* mobile nya */}
+              <div className="md:hidden flex w-full h-12 pl-6 text-xl shadow-lg font-bold justify-start text-primary md:text-gray-500">
+                <div className="pt-1 mr-3 cursor-pointer">
+                  <MdArrowBackIosNew onClick={() => router.push("/home")} />
+                </div>
+                <div>Unggah File</div>
+              </div>
+              <Divider className="hidden md:mt-2" />
+              <div className="w-full h-screen md:h-[400px] flex flex-col items-center justify-center">
+                {/* page 1 */}
+                {!acceptedFiles[0] ? (
+                  <div
+                    className="containerx_sm md:containerx my-10 flex justify-center w-11/12 h-full"
+                    {...getRootProps()}
+                  >
+                    <input {...getInputProps()} />
+                    <div className="hidden md:block md:mb-6 md:text-2xl">
+                      Tarik & Letakkan File
                     </div>
+                    <div className="hidden md:flex">
+                      <div className="hl"></div>
+                      <div className="mb-6 text-sm mx-2">atau</div>
+                      <div className="hl"></div>
+                    </div>
+                    <div className="md:hidden">
+                      <Image
+                        src={"/awan.svg"}
+                        layout="fill"
+                        objectFit="cover"
+                        width={200}
+                      />
+                    </div>
+                    <div className="my-2 md:hidden">
+                      Foto tidak boleh lebih dari 2MB.
+                    </div>
+
                     <Button
                       colorScheme={"purple"}
-                      className="w-[150px] mt-5 "
+                      className="w-[260px]"
                       type="button"
                       onClick={open}
                     >
                       Unggah Resep
                     </Button>
                   </div>
-                </div>
-              )}
+                ) : (
+                  <div className="container2 my-10 flex w-11/12 h-full ">
+                    <div>
+                      <div className="flex border-solid border-gray-200 rounded-lg border-2 px-5 py-2">
+                        <BsImage className="text-2xl text-primary " />
+                        <ul className="ml-6 text-sm">
+                          <div className="flex ">
+                            <div>{acceptedFiles[0].path}</div>
+                            <div className="text-primary ml-3">
+                              {acceptedFiles[0].size / 1000} KB
+                            </div>
+                          </div>
+                        </ul>
+                      </div>
+                      <Button
+                        colorScheme={"purple"}
+                        className="w-[150px] mt-5 "
+                        type="button"
+                        onClick={open}
+                      >
+                        Unggah Resep
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </div>
+              <div className="flex justify-end mr-6 mb-4">
+                <Button
+                  colorScheme={"purple"}
+                  className="w-[100px] "
+                  type="button"
+                  onClick={onSaveDataClick}
+                  disabled={!acceptedFiles[0]}
+                >
+                  Unggah
+                </Button>
+              </div>
             </div>
-            <div className="flex justify-end mr-6 mb-4">
-              <Button
-                colorScheme={"purple"}
-                className="w-[100px] "
-                type="button"
-                onClick={onSaveDataClick}
-                disabled={!acceptedFiles[0]}
-              >
-                Unggah
-              </Button>
+            <div className="hidden md:block">
+              <Footer />
             </div>
           </div>
-          <Footer />
         </div>
       </>
     </div>
