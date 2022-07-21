@@ -93,12 +93,12 @@ function UserTransaction() {
       <>
         <Navbar />
 
-        <div className="user-container flex justify-between">
+        <div className="user-container flex justify-between bg-pink-100">
           {/* User sidebar */}
           <UserProfileSidebar />
 
           {/* User main page */}
-          <div className="w-[900px] px-[40px] py-[28px] rounded-lg border-[1px] border-slate-100 shadow-lg text-primary">
+          <div className="w-[900px] px-[40px] py-[28px] rounded-lg border-[1px] border-slate-100 shadow-lg text-primary ">
             <div className="text-xl font-bold">Daftar Pemesanan</div>
             <div className="pt-[10px]">
               <Tabs isFitted textColor={"brand.primary"}>
