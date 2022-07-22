@@ -52,7 +52,7 @@ function AdminProductLog() {
   const columns = useMemo(() => [
     {
       Header: "No",
-      accessor: "id",
+      accessor: "no",
       isNumeric: true,
     },
     {
@@ -125,8 +125,10 @@ function AdminProductLog() {
         />
       </div>
       <>
-        <AdminNavbar />
-        <AdminSidebar />
+        <div>
+          <AdminNavbar />
+          <AdminSidebar />
+        </div>
         <div className="bg-admin">
           <div className="px-[48px] pt-[32px] pb-[32px]">
             <div className="flex justify-between">
@@ -141,7 +143,7 @@ function AdminProductLog() {
               </div>
             </div>
             <div className="p-[32px] mt-[34px] bg-white rounded-lg shadow-lg">
-              <div className="flex justify-between">
+              <div className="flex justify-between items-end">
                 <div className="flex">
                   <div>
                     <div className=" pb-[10px] font-semibold text-primary">
@@ -175,6 +177,9 @@ function AdminProductLog() {
                       </select>
                     </div>
                   </div>
+                </div>
+                <div className="text-primary font-semibold text-lg pr-4">
+                  Total Stock: <span>{totalStock}</span>
                 </div>
               </div>
               <div className="w-full border-b-2 mt-[38px]"></div>

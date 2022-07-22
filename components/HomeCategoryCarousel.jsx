@@ -5,8 +5,10 @@ import Image from "next/image";
 import axios from "axios";
 import { API_URL } from "../helpers";
 import { Link } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
 function HomeCategoryCarousel() {
+  const router = useRouter();
   const [categories, setCategories] = useState([]);
   const IconArr = [
     "/Obat.svg",
@@ -82,11 +84,15 @@ function HomeCategoryCarousel() {
       <Slider {...settings}>
         {categories.map(({ id, name }) => {
           return (
-            <Link key={id} href={`/products/${id}`}>
-              <div>
-                <HomeCategoryCard icon={IconArr[id - 1]} caption={name} />
-              </div>
-            </Link>
+            <div
+              key={id}
+              className="cursor-pointer"
+              onClick={() => {
+                router.push(`/products/${id}`);
+              }}
+            >
+              <HomeCategoryCard icon={IconArr[id - 1]} caption={name} />
+            </div>
           );
         })}
       </Slider>

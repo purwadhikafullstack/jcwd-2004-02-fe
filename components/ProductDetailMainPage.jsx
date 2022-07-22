@@ -67,6 +67,13 @@ function ProductDetailMainPage({
     ),
   };
 
+  const rupiah = (number) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+    }).format(number);
+  };
+
   return (
     <>
       <div className="flex">
@@ -99,14 +106,14 @@ function ProductDetailMainPage({
           <div className="flex mt-[24px]">
             <div
               className="flex justify-between text-center items-center lg:w-[145px] lg:h-[46px]
-       text-xs tracking-wide font-medium bg-secondary rounded-full text-white px-[24px]"
+       text-xs tracking-wide font-medium bg-secondary rounded-full text-white px-[24px] cursor-pointer"
             >
               <BsFillChatDotsFill className="text-xl" />
               <span>Chat Admin</span>
             </div>
             <div
               className="flex justify-between text-center items-center lg:w-[145px] lg:h-[46px]
-       text-xs tracking-wide font-medium bg-secondary rounded-full text-white px-[35px] ml-[10px]"
+       text-xs tracking-wide font-medium bg-secondary rounded-full text-white px-[35px] ml-[10px] cursor-pointer"
             >
               <IoShareSocial className="text-xl" />
               <span>Bagikan</span>
@@ -122,13 +129,13 @@ function ProductDetailMainPage({
           <div className="text-2xl text-primary mt-[5px]">{product.name}</div>
           <div className="text-primary items-center flex mt-[20px]">
             <span className="text-2xl font-bold mr-[12px]">
-              Rp.{product.hargaJual}
+              {rupiah(product.hargaJual)}
             </span>
             <span className="text-sm">/ {product.unit}</span>
           </div>
           <div className="flex items-center tracking-wide mb-[24px] lg:h-[24px] mt-[11px] text-sm">
             <div className="pr-2 line-through decoration-1 decoration-slate-400 text-slate-400">
-              Rp. 65.000
+              {rupiah(65000)}
             </div>
             <div className="border-2 border-orange-300 text-orange-300 rounded-md px-1 font-semibold">
               17%
@@ -157,14 +164,14 @@ function ProductDetailMainPage({
           </div>
           <div className="flex justify-between w-[427px]">
             <div
-              className="flex items-center w-[194px] h-[47px] border-2 border-secondary rounded-lg text-secondary hover:bg-hover-button"
+              className="flex items-center w-[194px] h-[47px] border-2 border-secondary rounded-lg text-secondary hover:bg-hover-button cursor-pointer"
               onClick={() => onBuyClick()}
             >
               <FaCartPlus className="text-xl ml-[40px]" />
               <span className="text-sm font-semibold ml-[20px]">Keranjang</span>
             </div>
             <div
-              className="flex items-center w-[153px] h-[47px] bg-secondary rounded-lg text-white"
+              className="flex items-center w-[153px] h-[47px] bg-secondary rounded-lg text-white cursor-pointer"
               onClick={() => {
                 try {
                   onBuyClick();

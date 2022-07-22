@@ -93,7 +93,7 @@ function UserTransaction() {
       <>
         <Navbar />
 
-        <div className="user-container flex justify-between bg-pink-100">
+        <div className="user-container flex justify-between ">
           {/* User sidebar */}
           <UserProfileSidebar />
 

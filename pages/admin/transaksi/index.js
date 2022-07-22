@@ -196,7 +196,7 @@ function SemuaPesanan() {
           </div>
 
           {/* CARD */}
-          {data.map((val, id) => {
+          {data?.map((val, id) => {
             return (
               <div key={id}>
                 <AdminTransactionCard
