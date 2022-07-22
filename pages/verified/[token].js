@@ -7,6 +7,7 @@ import { API_URL } from "../../helpers";
 import Link from "next/link";
 import MetaDecorator from "../../components/MetaDecorator";
 import healthymedlogo from "../../public/healthymed-logo.svg";
+import { toast } from "react-toastify";
 
 const Verified = () => {
   const router = useRouter();
@@ -16,6 +17,14 @@ const Verified = () => {
   const { isLogin, name, id, email } = useUser();
   const dispatch = useDispatch();
   const mounted = useRef(false);
+
+  useEffect(() => {
+    // if (mounted.current) {
+    accVerified();
+    // }
+    // mounted.current = true;
+    // return () => {};
+  }, []);
 
   const accVerified = async () => {
     try {
@@ -34,20 +43,19 @@ const Verified = () => {
     }
   };
 
-  useEffect(() => {
-    if (mounted.current) {
-      accVerified();
-    }
-    mounted.current = true;
-    return () => {};
-  }, []);
-
   const sendEmail = async () => {
     try {
       setloading(true);
       await axios.post(`${API_URL}/auth/sendemail-verified`, {
         id: id,
         name,
+        email,
+      });
+      toast.success("Please Check Your Email", {
+        position: "top-right",
+        autoClose: 3000,
+        closeOnClick: true,
+        draggable: true,
       });
     } catch (error) {
       console.log(error);

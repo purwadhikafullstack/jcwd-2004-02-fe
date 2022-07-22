@@ -19,7 +19,8 @@ import { API_URL } from "../helpers";
 import { data } from "autoprefixer";
 
 const BoxAddress = ({ setSelectedAddress, selectedAddress, getAddress }) => {
-  let { id, firstname, lastname, address, phonenumber } = selectedAddress;
+  let { id, firstname, lastname, address, phonenumber, city, province } =
+    selectedAddress;
   const { isOpen, onOpen, onClose } = useDisclosure();
   // const [getAddress, setGetAddress] = useState([])
 
@@ -110,16 +111,18 @@ const BoxAddress = ({ setSelectedAddress, selectedAddress, getAddress }) => {
           <span className="text-xs">
             {firstname} {lastname}
           </span>
-          <span className="text-xs">{address}</span>
+          <span className="text-xs">
+            {address}, {city}, {province}
+          </span>
         </div>
         <img className="mt-5" src={"/Line24.svg"} />
         <div className="flex">
           <Link href={"/address"}>
-            <button className="w-[24px] h-[24px] bg-white shadow-md shadow-gray-200 text-center rounded-full mt-2 pb-2 font-extrabold text-base text-purple-900">
+            <button className="w-[24px] h-[24px] bg-white shadow-md shadow-gray-200 text-center rounded-full  pb-2 font-extrabold text-base text-purple-900">
               +
             </button>
           </Link>
-          <span className="font-bold text-purple-900 mt-2 ml-2">
+          <span className="font-bold text-purple-900  ml-2">
             Tambahkan Alamat Baru
           </span>
         </div>
