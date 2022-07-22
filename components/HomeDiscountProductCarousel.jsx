@@ -4,8 +4,12 @@ import { HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi";
 import Image from "next/image";
 import CardHomeTop from "./CartHomeTop";
 import { API_URL } from "../helpers";
+import { Link } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
 function HomeDiscountProductCarousel({ data }) {
+  const router = useRouter();
+
   function NextArrow({ onClick }) {
     return (
       <div
@@ -45,7 +49,13 @@ function HomeDiscountProductCarousel({ data }) {
       <Slider {...settings}>
         {data.map((val, ind) => {
           return (
-            <div key={ind} className="py-2">
+            <div
+              key={ind}
+              className="py-2 cursor-pointer"
+              onClick={() => {
+                router.push(`/products/detail/${val.id}`);
+              }}
+            >
               <CardHomeTop
                 img={`${API_URL}${val.images[0].image}`}
                 name={val.name}

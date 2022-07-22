@@ -27,8 +27,10 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import healthymedlogo from "../../public/healthymed-logo.svg";
 import MetaDecorator from "../../components/MetaDecorator";
+import { useRouter } from "next/router";
 
 function DaftarProduk() {
+  const route = useRouter();
   const [page, setPage] = useState(0);
   const [data, setData] = useState([]);
   const [totalData, setTotalData] = useState(0);
@@ -499,8 +501,11 @@ function DaftarProduk() {
   // console.log(inputEdit, "inputedit");
   const DetailButton = ({ productId }) => {
     return (
-      <div className="flex justify-between text-center items-center">
-        <div className="flex items-center justify-center text-sm text-primary rounded-lg font-semibold py-1 px-2 border-[1px] mr-2 border-primary bg-white h-10 ">
+      <div className="flex justify-between text-center items-center cursor-pointer">
+        <div
+          className="flex items-center justify-center text-sm text-primary rounded-lg font-semibold py-1 px-2 border-[1px] mr-2 border-primary bg-white h-10 "
+          onClick={() => route.push(`/admin/produk/${productId}`)}
+        >
           Lihat Detail
         </div>
         {/* <div className="text-sm text-primary rounded-md font-semibold py-2 px border-[1px] border-primary bg-white"> */}
@@ -554,7 +559,7 @@ function DaftarProduk() {
   const columns = useMemo(() => [
     {
       Header: "No",
-      accessor: "id",
+      accessor: "no",
       isNumeric: true,
     },
     {
