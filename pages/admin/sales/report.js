@@ -8,7 +8,6 @@ import { Select } from "@chakra-ui/react";
 
 function subtractMonths(numOfMonths, date = new Date()) {
   date.setMonth(date.getMonth() - numOfMonths);
-
   return date;
 }
 
@@ -18,28 +17,10 @@ function Report() {
     bulan: subtractMonths(1).getMonth() + 1,
     tahun: subtractMonths(1).getFullYear(),
   });
-
-  console.log(profitloss, "pnl");
-  console.log(filter.tahun, "tahun");
   const [profitloss, setprofitloss] = useState([]);
-
-  // mau nya adalah apabila month yang dipencet(profitloss.penjualan) lebih dari sama dengan current month(newdate), tampilannya "data tidak ada"
-
-  const ayaya = () => {
-    if (parseInt(filter.bulan) - 1 > subtractMonths(1).getMonth() + 1) {
-      return console.log("berhasil");
-    } else {
-      return console.log("gagal");
-    }
-  };
-  //
-  console.log(profitloss.penjualanBarang?.bulan, " juli = 7");
-  console.log(new Date().getMonth(), "getmont juli = 6");
 
   useEffect(() => {
     getProfitloss();
-    ayaya();
-    console.log(filter, "filter");
   }, [filter]);
 
   //  get pesanan baru, siap dikirim, dll
@@ -49,7 +30,6 @@ function Report() {
         `${API_URL}/report/report?filter=${filter.filter}&tahun=${filter.tahun}&bulan=${filter.bulan}`
       );
       setprofitloss(res.data);
-      console.log("masuk", profitloss);
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message, {
