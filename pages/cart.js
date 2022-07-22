@@ -87,14 +87,14 @@ const Cart = ({ getCartAction }) => {
       </div>
       <Navbar />
       <div className="">
-        <div className="text-xl font-bold text-purple-900 mb-[36px] mx-20">
+        <div className="text-xl font-bold text-purple-900 mb-[36px] mx-20 mt-[30px]">
           Keranjang Saya
         </div>
-        <div className="mx-20">
-          <div className="px-20">
+        <div className="mx-[40px]">
+          <div className="px-[40px]">
             {cart.length ? (
               <div className="flex justify-between">
-                <div className="flex flex-col">
+                <div className="flex flex-col mr-[60px]">
                   {cart.map((cart, index) => (
                     <BoxWithImage
                       // {/* <BoxAddress/> */}
@@ -121,7 +121,7 @@ const Cart = ({ getCartAction }) => {
                 <button
                   className="bg-secondary text-white font-semibold rounded-lg py-[10px] px-[15px] mt-[20px]"
                   onClick={() => {
-                    router.push("/");
+                    router.push("/home");
                   }}
                 >
                   Kembali ke Beranda

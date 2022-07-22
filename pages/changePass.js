@@ -14,6 +14,8 @@ import { API_URL } from "../helpers";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import Navbar from "../components/navbar";
+import UserProfileSidebar from "../components/UserProfileSidebar";
 
 const ChangePass = () => {
   const [show1, setShow1] = useState(false);
@@ -87,105 +89,113 @@ const ChangePass = () => {
   });
 
   return (
-    <div className="flex items-center justify-center">
-      <div className="px-8 xl:w-1/2 xl:h-screen xl:px-20 xl:pt-10">
-        <div className="mt-20 flex flex-col xl:mt-3 mb-5 text-2xl">
-          <div>
-            Change Password
-            <span className="font-bold inline-block xl:hidden text-2xl xl:text-2xl"></span>
-          </div>
+    <>
+      <Navbar />
+      <div className="flex px-0">
+        <div className="hidden md:block mt-10 ml-[80px]">
+          <UserProfileSidebar />
         </div>
-        <div>
-          <form onSubmit={formik.handleSubmit}>
-            <div className="flex flex-col relative mb-4 xl:mb-2">
-              <p className="text-sm text-purple-800 mb-1 xl:text-xs">
-                Old Password
-              </p>
-              <input
-                name="oldPassword"
-                type={show3 ? "text" : "password"}
-                className="border-2 xl:h-10 xl:pl-10 h-12 pl-8 pb-1 w-full rounded-xl focus:outline-none xl:text-sm"
-                onChange={formik.handleChange}
-                value={formik.values.oldPassword}
-                onBlur={formik.handleBlur}
-                required
-              ></input>
-              {formik.touched.oldPassword && formik.errors.oldPassword ? (
-                <p className="text-sm ml-2 text-red-600">
-                  {formik.errors.oldPassword}
-                </p>
-              ) : null}
-              <div className="absolute xl:bottom-3  top-8 ml-3 text-purple-800 text-lg"></div>
-              <div
-                className="absolute xl:bottom-3 top-8 ml-[278px] xl:ml-[440px] text-purple-800 text-lg"
-                onClick={handleClick3}
-              >
-                {show3 ? <BsEyeFill /> : <BsEyeSlashFill />}
-              </div>
+        {/* <div className="flex items-center justify-center"> */}
+        <div className="px-8 xl:w-1/2 xl:h-screen xl:px-20 xl:pt-10">
+          <div className="mt-20 flex flex-col xl:mt-3 mb-5 text-2xl text-purple-900">
+            <div>
+              Change Password
+              <span className="font-bold inline-block xl:hidden text-2xl xl:text-2xl"></span>
             </div>
-            <div className="flex flex-col relative mb-4 xl:mb-3">
-              <p className="text-sm text-purple-800 mb-1 xl:text-xs">
-                New Password
-              </p>
-              <input
-                name="newPassword"
-                type={show2 ? "text" : "password"}
-                className="border-2 xl:h-10 h-12 pl-8 pb-1 w-full xl:pl-10 rounded-xl focus:outline-none xl:text-sm"
-                onChange={formik.handleChange}
-                value={formik.values.newPassword}
-                onBlur={formik.handleBlur}
-                required
-              ></input>
-              {formik.touched.newPassword && formik.errors.newPassword ? (
-                <p className="text-sm ml-2 text-red-600">
-                  {formik.errors.newPassword}
+          </div>
+          <div>
+            <form onSubmit={formik.handleSubmit}>
+              <div className="flex flex-col relative mb-4 xl:mb-2">
+                <p className="text-sm text-purple-800 mb-1 xl:text-xs">
+                  Old Password
                 </p>
-              ) : null}
-              <div className="absolute xl:bottom-3 top-8 ml-3 text-purple-800 text-lg"></div>
-              <div
-                className="absolute xl:bottom-3 top-8 ml-[278px] xl:ml-[440px] text-purple-800 text-lg"
-                onClick={handleClick2}
-              >
-                {show2 ? <BsEyeFill /> : <BsEyeSlashFill />}
+                <input
+                  name="oldPassword"
+                  type={show3 ? "text" : "password"}
+                  className="border-2 xl:h-10 xl:pl-10 h-12 pl-8 pb-1 w-full rounded-xl focus:outline-none xl:text-sm"
+                  onChange={formik.handleChange}
+                  value={formik.values.oldPassword}
+                  onBlur={formik.handleBlur}
+                  required
+                ></input>
+                {formik.touched.oldPassword && formik.errors.oldPassword ? (
+                  <p className="text-sm ml-2 text-red-600">
+                    {formik.errors.oldPassword}
+                  </p>
+                ) : null}
+                <div className="absolute xl:bottom-3  top-8 ml-3 text-purple-800 text-lg"></div>
+                <div
+                  className="absolute xl:bottom-3 top-8 ml-[278px] xl:ml-[500px] text-purple-800 text-lg"
+                  onClick={handleClick3}
+                >
+                  {show3 ? <BsEyeFill /> : <BsEyeSlashFill />}
+                </div>
               </div>
-            </div>
-            <div className="flex flex-col relative mb-5">
-              <p className="text-sm text-purple-800 mb-1 xl:text-xs">
-                Confirm New Password
-              </p>
-              <input
-                name="confirmNewPassword"
-                type={show1 ? "text" : "password"}
-                className="border-2 xl:h-10 h-12 pl-8 pr-8 xl:pr-10 pb-1 w-full rounded-xl focus:outline-none xl:text-sm"
-                onChange={formik.handleChange}
-                value={formik.values.confirmNewPassword}
-                onBlur={formik.handleBlur}
-                required
-              ></input>
-              {formik.touched.confirmNewPassword &&
-              formik.errors.confirmNewPassword ? (
-                <p className="text-sm ml-2 text-red-600">
-                  {formik.errors.confirmNewPassword}
+              <div className="flex flex-col relative mb-4 xl:mb-3">
+                <p className="text-sm text-purple-800 mb-1 xl:text-xs">
+                  New Password
                 </p>
-              ) : null}
-              {/* <div className="absolute xl:bottom-3 bottom-4 ml-3 text-purple-800 text-lg"><AiFillLock/></div> */}
-              <div
-                className="absolute xl:bottom-3 top-8 ml-[278px] xl:ml-[440px] text-purple-800 text-lg"
-                onClick={handleClick1}
-              >
-                {show1 ? <BsEyeFill /> : <BsEyeSlashFill />}
+                <input
+                  name="newPassword"
+                  type={show2 ? "text" : "password"}
+                  className="border-2 xl:h-10 h-12 pl-8 pb-1 w-full xl:pl-10 rounded-xl focus:outline-none xl:text-sm"
+                  onChange={formik.handleChange}
+                  value={formik.values.newPassword}
+                  onBlur={formik.handleBlur}
+                  required
+                ></input>
+                {formik.touched.newPassword && formik.errors.newPassword ? (
+                  <p className="text-sm ml-2 text-red-600">
+                    {formik.errors.newPassword}
+                  </p>
+                ) : null}
+                <div className="absolute xl:bottom-3 top-8 ml-3 text-purple-800 text-lg"></div>
+                <div
+                  className="absolute xl:bottom-3 top-8 ml-[278px] xl:ml-[500px] text-purple-800 text-lg"
+                  onClick={handleClick2}
+                >
+                  {show2 ? <BsEyeFill /> : <BsEyeSlashFill />}
+                </div>
               </div>
-            </div>
+              <div className="flex flex-col relative mb-5">
+                <p className="text-sm text-purple-800 mb-1 xl:text-xs">
+                  Confirm New Password
+                </p>
+                <input
+                  name="confirmNewPassword"
+                  type={show1 ? "text" : "password"}
+                  className="border-2 xl:h-10 h-12 pl-8 pr-8 xl:pr-10 pb-1 w-full rounded-xl focus:outline-none xl:text-sm"
+                  onChange={formik.handleChange}
+                  value={formik.values.confirmNewPassword}
+                  onBlur={formik.handleBlur}
+                  required
+                ></input>
+                {formik.touched.confirmNewPassword &&
+                formik.errors.confirmNewPassword ? (
+                  <p className="text-sm ml-2 text-red-600">
+                    {formik.errors.confirmNewPassword}
+                  </p>
+                ) : null}
+                {/* <div className="absolute xl:bottom-3 bottom-4 ml-3 text-purple-800 text-lg"><AiFillLock/></div> */}
+                <div
+                  className="absolute xl:bottom-3 top-8 ml-[278px] xl:ml-[500px] text-purple-800 text-lg"
+                  onClick={handleClick1}
+                >
+                  {show1 ? <BsEyeFill /> : <BsEyeSlashFill />}
+                </div>
+              </div>
 
-            <div className="flex items-center justify-center">
-              <ButtonPrimary type="submit" className="w-1/2 h-12 xl:h-10">
-                Update Password
-              </ButtonPrimary>
-            </div>
-          </form>
+              <div className="flex items-center justify-center">
+                <ButtonPrimary type="submit" className="w-1/2 h-12 xl:h-10">
+                  Update Password
+                </ButtonPrimary>
+              </div>
+            </form>
+          </div>
+          {/* </div> */}
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

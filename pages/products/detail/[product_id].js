@@ -125,7 +125,7 @@ function ProductDetail({ product, productTerkait }) {
         <div className="user-container">
           {/* Breadcrumb */}
           <div className="mb-[38px]">
-            <Link href="/">
+            <Link href="/home">
               <a className="text-secondary hover:text-primary">Beranda / </a>
             </Link>
             <Link href={`/products/${product.brand_id}`}>
