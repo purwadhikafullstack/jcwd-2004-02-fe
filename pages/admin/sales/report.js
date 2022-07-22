@@ -5,6 +5,8 @@ import axios from "axios";
 import { API_URL } from "../../../helpers";
 import Rupiah from "../../../helpers/convertToRupiah";
 import { Select } from "@chakra-ui/react";
+import dayjs from "dayjs";
+import "dayjs/locale/id";
 
 function subtractMonths(numOfMonths, date = new Date()) {
   date.setMonth(date.getMonth() - numOfMonths);
@@ -75,6 +77,20 @@ function Report() {
 
   const labaBersih = parseInt(labaKotor) - parseInt(pengeluaranOperasional);
 
+  let convertMonth = [
+    "Januari",
+    "Februari",
+    "Maret",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Agustus",
+    "September",
+    "Oktober",
+    "November",
+    "Desember",
+  ];
   return (
     <>
       <div>
@@ -145,8 +161,14 @@ function Report() {
         <div className="h-full p-[32px] mt-[24px] bg-white rounded-lg shadow-lg">
           <div className="flex flex-col justify-center items-center pt-5 ">
             <div className="font-bold text-2xl">Laporan Laba & Rugi</div>
-            <div className="mt-3 text-xs">Periode Bulan Tahun 2022</div>
-            <div className="text-xs">Terbit:</div>
+            <div className="mt-3 text-xs">
+              Periode Bulan {convertMonth[filter.bulan - 1]} Tahun{" "}
+              {filter.tahun}
+            </div>
+            <div className="text-xs">
+              Terbit:{" "}
+              {dayjs(Date.now()).locale("id").format("DD MMMM YYYY hh:mm A")}
+            </div>
           </div>
 
           {parseInt(filter.bulan) > subtractMonths(1).getMonth() + 1 ||
