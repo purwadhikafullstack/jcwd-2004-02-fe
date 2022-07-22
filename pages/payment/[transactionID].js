@@ -129,13 +129,10 @@ const Payment = ({ getCartAction }) => {
         </span>
       </div>
       <div className="flex flex-col items-center gap-y-10 ">
-        {order.map((time, index) => (
-          <BoxTimePayment
-            key={index}
-            created_at={time.created_at}
-            expired_at={time.expired_at}
-          />
-        ))}
+        <BoxTimePayment
+          created_at={order[0].created_at}
+          expired_at={order[0].expired_at}
+        />
         <div className=" w-[800px] min-h-[260px] rounded-lg shadow-md p-6 font-bold text-purple-900">
           Ringkasan Order
           <div className="my-4">

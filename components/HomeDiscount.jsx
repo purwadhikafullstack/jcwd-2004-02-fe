@@ -1,5 +1,6 @@
 import Image from "next/image";
 import HomeDiscountProductCarousel from "./HomeDiscountProductCarousel";
+import { Link } from "@chakra-ui/react";
 
 function HomeDiscount({ data }) {
   return (

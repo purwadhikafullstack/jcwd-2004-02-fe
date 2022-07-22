@@ -6,7 +6,7 @@ import { Spinner } from "@chakra-ui/react";
 const AuthProvider = ({ children }) => {
   const dispatch = useDispatch();
 
-  const [loading, setloading] = useState(true);
+  // const [loading, setloading] = useState(true);
 
   const keepLogin = async () => {
     try {
@@ -23,7 +23,7 @@ const AuthProvider = ({ children }) => {
     } catch (error) {
       console.log("error");
     } finally {
-      setloading(false);
+      // setloading(false);
     }
   };
 
@@ -31,19 +31,19 @@ const AuthProvider = ({ children }) => {
     keepLogin();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="h-screen w-fit mt-64 mx-auto">
-        <Spinner
-          thickness="4px"
-          speed="0.65s"
-          emptyColor="gray.200"
-          color="brand.primary"
-          size="xl"
-        />
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="h-screen w-fit mt-64 mx-auto">
+  //       <Spinner
+  //         thickness="4px"
+  //         speed="0.65s"
+  //         emptyColor="gray.200"
+  //         color="brand.primary"
+  //         size="xl"
+  //       />
+  //     </div>
+  //   );
+  // }
   return children;
 };
 

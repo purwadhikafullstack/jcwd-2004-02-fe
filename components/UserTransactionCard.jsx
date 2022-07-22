@@ -77,7 +77,7 @@ function UserTransactionCard({ data }) {
               {status == "menunggu konfirmasi" ? (
                 <div
                   className="w-[156px] h-[26px] rounded-sm border-2 border-orange-300 
-                  text-orange-300 bg-warning text-xs flex items-center px-[14px]"
+                  text-orange-300 bg-warning text-xs pt-[2.5px] text-center"
                 >
                   Menunggu Konfirmasi
                 </div>
@@ -85,7 +85,7 @@ function UserTransactionCard({ data }) {
               {status == "menunggu pembayaran" ? (
                 <div
                   className="w-[156px] h-[26px] rounded-sm border-2 border-orange-300 
-                      text-orange-300 bg-warning text-xs flex items-center px-[10px]"
+                      text-orange-300 bg-warning text-xs pt-[2.5px] text-center"
                 >
                   Menunggu Pembayaran
                 </div>
@@ -93,7 +93,7 @@ function UserTransactionCard({ data }) {
               {status == "dikirim" ? (
                 <div
                   className="w-[156px] h-[26px] rounded-sm border-2 border-green-500 
-                      text-green-500 bg-green-200 text-xs flex items-center px-[22px]"
+                      text-green-500 bg-green-200 text-xs pt-[2.5px] text-center"
                 >
                   Sedang Pengiriman
                 </div>
@@ -101,7 +101,7 @@ function UserTransactionCard({ data }) {
               {status == "diproses" ? (
                 <div
                   className="w-[156px] h-[26px] rounded-sm border-2 border-green-500 
-                      text-green-500 bg-green-200 text-xs flex items-center px-[28px]"
+                      text-green-500 bg-green-200 text-xs pt-[2.5px] text-center"
                 >
                   Pesanan Diproses
                 </div>
@@ -109,7 +109,7 @@ function UserTransactionCard({ data }) {
               {status == "selesai" ? (
                 <div
                   className="w-[156px] h-[26px] rounded-sm border-2 border-green-500 
-                      text-green-500 bg-green-200 text-xs flex items-center px-[28px]"
+                      text-green-500 bg-green-200 text-xs pt-[2.5px] text-center"
                 >
                   Pesanan Diterima
                 </div>
@@ -117,7 +117,7 @@ function UserTransactionCard({ data }) {
               {status == "dibatalkan" ? (
                 <div
                   className="w-[156px] h-[26px] rounded-sm border-2 border-red-400 
-                      text-red-400 bg-red-200 text-xs flex items-center px-[22px]"
+                      text-red-400 bg-red-200 text-xs pt-[2.5px] text-center"
                 >
                   Pesanan Dibatalkan
                 </div>
