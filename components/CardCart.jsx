@@ -2,8 +2,14 @@ import { FaHeart } from "react-icons/fa";
 import Image from "next/image";
 
 function CardCart({ img, name, price, unit }) {
+  const rupiah = (number) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+    }).format(number);
+  };
   return (
-    <div className="w-[158px] h-[247px] lg:w-[213px] lg:h-[331px] border-[1px] border-slate-100 rounded-xl shadow-md relative cursor-pointer hover:-translate-y-2">
+    <div className="w-[158px] h-[247px] lg:w-[213px] lg:h-[331px] border-[1px] border-slate-100 rounded-xl shadow-md relative cursor-pointer hover:-translate-y-2 hover:no-underline no-underline">
       <div className="absolute top-2 right-2 lg:top-5 lg:right-5 z-10 border-2 bg-white border-slate-100 text-slate-300 text-sm lg:text-lg p-1 lg:p-2 rounded-full shadow-lg">
         <FaHeart />
       </div>
@@ -19,11 +25,11 @@ function CardCart({ img, name, price, unit }) {
             17%
           </div>
           <div className="pl-2 line-through decoration-1 decoration-slate-600 text-slate-500">
-            Rp. 65.000
+            {rupiah(65000)}
           </div>
         </div>
         <div className="flex justify-between text-sm items-center text-primary">
-          <div className="font-bold">Rp. {price}</div>
+          <div className="font-bold">{rupiah(price)}</div>
           <div className="text-xs lg:text-sm font-semibold">/ {unit}</div>
         </div>
       </div>
