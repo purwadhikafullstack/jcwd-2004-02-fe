@@ -25,8 +25,8 @@ function Report({ statistik, chart }) {
     filterStatistik: "monthly",
   });
 
-  const [statistikState, setstatistikState] = useState([]);
-  const [chartState, setchartState] = useState([]);
+  const [statistikState, setstatistikState] = useState({});
+  const [chartState, setchartState] = useState({});
 
   // looping mingguan penjualan obat
   const [dataPenjualanMonthly, setdataPenjualanMonthly] = useState([]);
@@ -66,7 +66,7 @@ function Report({ statistik, chart }) {
       setstatistikState(res.data);
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message, {
+      toast.error(error.response.data?.message, {
         position: "top-right",
         autoClose: 1000,
         closeOnClick: true,
@@ -82,10 +82,10 @@ function Report({ statistik, chart }) {
         `${API_URL}/report/summary/chart?filter=weekly`
       );
       setchartState(res.data);
-      console.log(chart, "chart");
+      // console.log(chart, "chart");
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message, {
+      toast.error(error.response.data?.message, {
         position: "top-right",
         autoClose: 1000,
         closeOnClick: true,
@@ -96,21 +96,21 @@ function Report({ statistik, chart }) {
 
   // looping data penjualan
   const getDataPenjualanMonthly = () => {
-    console.log(chart.penjualan.length, "pnjualan chart");
+    // console.log(chart?.penjualan.length, "pnjualan chart");
     let databulan = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    for (let i = 0; i < chart.penjualan.length; i++) {
+    for (let i = 0; i < chart?.penjualan.length; i++) {
       databulan[chart.penjualan[i].bulan - 1] = parseInt(
         chart.penjualan[i].jumlah
       );
     }
     setdataPenjualanMonthly(databulan);
-    console.log(dataPenjualanMonthly, "getdatapenj");
+    // console.log(dataPenjualanMonthly, "getdatapenj");
   };
 
   const getDataPenjualanWeekly = () => {
     let dataminggu = [0, 0, 0, 0, 0, 0, 0];
-    for (let i = 0; i < chartState.penjualan?.length; i++) {
-      dataminggu[chartState.penjualan[i].hari - 1] = parseInt(
+    for (let i = 0; i < chartState?.penjualan?.length; i++) {
+      dataminggu[chartState.penjualan[i].hari] = parseInt(
         chartState.penjualan[i].jumlah
       );
     }
@@ -122,7 +122,7 @@ function Report({ statistik, chart }) {
   // looping data pendapatan
   const getDataPendapatanMonthly = () => {
     let databulan = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    for (let i = 0; i < chart.pendapatan.length; i++) {
+    for (let i = 0; i < chart?.pendapatan.length; i++) {
       databulan[chart.pendapatan[i].bulan - 1] = parseInt(
         chart.pendapatan[i].jumlah
       );
@@ -132,7 +132,7 @@ function Report({ statistik, chart }) {
 
   const getDataPendapatanWeekly = () => {
     let dataminggu = [0, 0, 0, 0, 0, 0, 0];
-    for (let i = 0; i < chartState.pendapatan?.length; i++) {
+    for (let i = 0; i < chartState?.pendapatan?.length; i++) {
       dataminggu[chartState.pendapatan[i].hari - 1] = parseInt(
         chartState.pendapatan[i].jumlah
       );
@@ -345,51 +345,51 @@ function Report({ statistik, chart }) {
           <div className="flex -ml-3 w-[1112px]">
             <div className="flex container_statistik_sm">
               <div className="statistik_ket text-primary">Pesanan Baru</div>
-              {!statistik.pesananBaru[0]?.pesanan_baru ? (
+              {!statistik?.pesananBaru[0]?.pesanan_baru ? (
                 <div className="statistik_ket_no"> 0</div>
               ) : (
                 <div className="statistik_ket_no">
-                  {statistik.pesananBaru[0]?.pesanan_baru}
+                  {statistik?.pesananBaru[0]?.pesanan_baru}
                 </div>
               )}
             </div>
             <div className="flex container_statistik_sm">
               <div className="statistik_ket text-primary">Siap Dikirim</div>
-              {!statistik.siapDikirim[0]?.siap_dikirim ? (
+              {!statistik?.siapDikirim[0]?.siap_dikirim ? (
                 <div className="statistik_ket_no"> 0</div>
               ) : (
                 <div className="statistik_ket_no">
-                  {statistik.siapDikirim[0]?.siap_dikirim}
+                  {statistik?.siapDikirim[0]?.siap_dikirim}
                 </div>
               )}
             </div>
             <div className="flex container_statistik_sm">
               <div className="statistik_ket text-primary">Sedang Dikirim</div>
-              {!statistik.sedangDikirim[0]?.sedang_dikirim ? (
+              {!statistik?.sedangDikirim[0]?.sedang_dikirim ? (
                 <div className="statistik_ket_no"> 0</div>
               ) : (
                 <div className="statistik_ket_no">
-                  {statistik.sedangDikirim[0]?.sedang_dikirim}
+                  {statistik?.sedangDikirim[0]?.sedang_dikirim}
                 </div>
               )}
             </div>
             <div className="flex container_statistik_sm">
               <div className="statistik_ket text-primary">Selesai</div>
-              {!statistik.selesai[0]?.selesai ? (
+              {!statistik?.selesai[0]?.selesai ? (
                 <div className="statistik_ket_no"> 0</div>
               ) : (
                 <div className="statistik_ket_no">
-                  {statistik.selesai[0]?.selesai}
+                  {statistik?.selesai[0]?.selesai}
                 </div>
               )}
             </div>
             <div className="flex container_statistik_sm">
               <div className="statistik_ket text-primary">Dibatalkan</div>
-              {!statistik.siapDikirim[0]?.siap_dikirim ? (
+              {!statistik?.siapDikirim[0]?.siap_dikirim ? (
                 <div className="statistik_ket_no"> 0</div>
               ) : (
                 <div className="statistik_ket_no">
-                  {statistik.dibatalkan[0]?.dibatalkan}
+                  {statistik?.dibatalkan[0]?.dibatalkan}
                 </div>
               )}
             </div>
@@ -402,51 +402,51 @@ function Report({ statistik, chart }) {
           <div className="flex -ml-3 w-[1112px]">
             <div className="flex container_statistik_sm">
               <div className="statistik_ket text-primary">Pesanan Baru</div>
-              {!statistikState.pesananBaru[0]?.pesanan_baru ? (
+              {!statistikState?.pesananBaru[0]?.pesanan_baru ? (
                 <div className="statistik_ket_no"> 0</div>
               ) : (
                 <div className="statistik_ket_no">
-                  {statistikState.pesananBaru[0]?.pesanan_baru}
+                  {statistikState?.pesananBaru[0]?.pesanan_baru}
                 </div>
               )}
             </div>
             <div className="flex container_statistik_sm">
               <div className="statistik_ket text-primary">Siap Dikirim</div>
-              {!statistikState.siapDikirim[0]?.siap_dikirim ? (
+              {!statistikState?.siapDikirim[0]?.siap_dikirim ? (
                 <div className="statistik_ket_no"> 0</div>
               ) : (
                 <div className="statistik_ket_no">
-                  {statistikState.siapDikirim[0]?.siap_dikirim}
+                  {statistikState?.siapDikirim[0]?.siap_dikirim}
                 </div>
               )}
             </div>
             <div className="flex container_statistik_sm">
               <div className="statistik_ket text-primary">Sedang Dikirim</div>
-              {!statistikState.sedangDikirim[0]?.sedang_dikirim ? (
+              {!statistikState?.sedangDikirim[0]?.sedang_dikirim ? (
                 <div className="statistik_ket_no"> 0</div>
               ) : (
                 <div className="statistik_ket_no">
-                  {statistikState.sedangDikirim[0]?.sedang_dikirim}
+                  {statistikState?.sedangDikirim[0]?.sedang_dikirim}
                 </div>
               )}
             </div>
             <div className="flex container_statistik_sm">
               <div className="statistik_ket text-primary">Selesai</div>
-              {!statistikState.selesai[0]?.selesai ? (
+              {!statistikState?.selesai[0]?.selesai ? (
                 <div className="statistik_ket_no"> 0</div>
               ) : (
                 <div className="statistik_ket_no">
-                  {statistikState.selesai[0]?.selesai}
+                  {statistikState?.selesai[0]?.selesai}
                 </div>
               )}
             </div>
             <div className="flex container_statistik_sm">
               <div className="statistik_ket text-primary">Dibatalkan</div>
-              {!statistikState.siapDikirim[0]?.siap_dikirim ? (
+              {!statistikState?.siapDikirim[0]?.siap_dikirim ? (
                 <div className="statistik_ket_no"> 0</div>
               ) : (
                 <div className="statistik_ket_no">
-                  {statistikState.dibatalkan[0]?.dibatalkan}
+                  {statistikState?.dibatalkan[0]?.dibatalkan}
                 </div>
               )}
             </div>
@@ -484,7 +484,7 @@ function Report({ statistik, chart }) {
                   <div className="statistik_ket text-primary">
                     Avg. Penjualan per Bulan
                   </div>
-                  <div className="statistik_ket_no">{chart.avgMonth}</div>
+                  <div className="statistik_ket_no">{chart?.avgMonth}</div>
                 </div>
               </div>
             </div>
@@ -500,7 +500,7 @@ function Report({ statistik, chart }) {
                   <div className="statistik_ket text-primary">
                     Avg. Penjualan per Minggu
                   </div>
-                  <div className="statistik_ket_no">{chartState.avgWeek}</div>
+                  <div className="statistik_ket_no">{chartState?.avgWeek}</div>
                 </div>
               </div>
             </div>
