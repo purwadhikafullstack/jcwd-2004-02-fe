@@ -53,8 +53,12 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
     courier,
     pr_status,
     id,
+    nama_pasien,
+    nama_dokter,
   } = data;
-
+  console.log(pr_image, "primage");
+  console.log(nama_pasien, "nama pasien");
+  console.log(data, "data");
   const [tab, setTab] = useState(0);
   // get list nama obat
   const [productList, setproductList] = useState([]);
@@ -73,6 +77,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
     name: "",
   });
   const [dataResep, setdataResep] = useState([]);
+  const [dataPrescUser, setdataPrescUser] = useState({});
 
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
@@ -113,7 +118,6 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
     try {
       let res = await axios.get(`${API_URL}/transaction/product`);
       setproductList(res.data);
-      console.log("resdata", res.data);
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message, {
@@ -124,10 +128,31 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
       });
     }
   };
+
+  const fetchPrescription = async () => {
+    try {
+      let res = await axios.get(`${API_URL}/transaction/pic/${id}`);
+      setdataPrescUser(res.data);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
+    }
+  };
+
+  const onclickpr = (id) => {
+    fetchPrescription(id);
+    onOpenPrescription();
+    console.log(dataPrescUser, "a");
+  };
+  console.log(dataPrescUser, "a");
   // add obat
   const tambahObatClick = async (e) => {
     // fitur tambahin obat
-    console.log(input, "inpout");
     setdataResep([
       ...dataResep,
       {
@@ -254,6 +279,11 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
     onClose: onCloseReject,
   } = useDisclosure();
 
+  const {
+    isOpen: isOpenPrescription,
+    onOpen: onOpenPrescription,
+    onClose: onClosePrescription,
+  } = useDisclosure();
   const terimaPesanan = async () => {
     try {
       await axios.put(`${API_URL}/transaction/acceptPayment/${id}`);
@@ -518,7 +548,10 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                     <div className="truncate pr-[32px] font-bold text-primary">
                       Resep Dokter
                     </div>
-                    <button className="text-center mt-[10px] w-[123px] h-[32px] border-secondary  hover:bg-hover-button rounded-md font-medium text-secondary border-2 text-xs">
+                    <button
+                      onClick={() => onclickpr(id)}
+                      className="text-center mt-[10px] w-[123px] h-[32px] border-secondary  hover:bg-hover-button rounded-md font-medium text-secondary border-2 text-xs"
+                    >
                       Lihat Salinan Resep
                     </button>
                   </div>
@@ -1210,6 +1243,129 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
               Terima Pesanan
             </Button>
           </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      {/* DETAIL PRESCRIPT PESANAN */}
+      <Modal
+        initialFocusRef={initialRef}
+        finalFocusRef={finalRef}
+        isOpen={isOpenPrescription}
+        onClose={onClosePrescription}
+      >
+        <ModalOverlay />
+        <ModalContent maxW="1000px" maxH="900px" pl={8} pt={4}>
+          <ModalHeader>Salinan Resep</ModalHeader>
+          <ModalCloseButton />
+
+          <div>
+            <ModalBody pb={6}>
+              <div className="flex">
+                {/*yg bungkus */}
+                <div className="mr-10 items-center justify-center flex">
+                  <img src={`${API_URL + pr_image}`} />
+                </div>
+                <div className="w-[450px]">
+                  <div className="flex">
+                    <FormControl mt={"3"} className="">
+                      <FormLabel pt={2} fontSize="sm" w="175px">
+                        No. Pemesanan
+                      </FormLabel>
+                      <Stack spacing={3}>
+                        <Input
+                          className="text-gray-400"
+                          w="210px"
+                          h="30px"
+                          fontSize="xs"
+                          placeholder="AB000569D"
+                          onChange={(e) => handleChange(e, "no_pemesanan")}
+                          name="no_pemesanan"
+                          value={prescription_number}
+                        />
+                      </Stack>
+                    </FormControl>
+
+                    <FormControl mt={"3"} className="ml-7">
+                      <FormLabel pt={2} fontSize="xs" w="175px">
+                        Tgl. Pemesanan
+                      </FormLabel>
+                      <input
+                        style={{
+                          border: "1px solid #ccc",
+                          borderRadius: "4px",
+                        }}
+                        className="h-[30px] px-3 mt-[3px] text-xs text-gray-400 w-[210px]"
+                        type="string"
+                        value={dayjs(created_at).format("DD-MM-YYYY")}
+                      />
+                    </FormControl>
+                  </div>
+                  <FormControl mt={"3"} className="">
+                    <FormLabel pt={2} fontSize="xs" w="175px">
+                      Nama Pasien
+                    </FormLabel>
+                    <input
+                      style={{
+                        border: "1px solid #ccc",
+                        borderRadius: "4px",
+                      }}
+                      className="h-[30px] px-3 mt-[3px] text-xs text-gray-400 w-[450px]"
+                      type="string"
+                      value={dataPrescUser?.prescription?.nama_pasien}
+                    />
+                  </FormControl>
+                  <FormControl mt={"3"} className="">
+                    <FormLabel pt={2} fontSize="xs" w="175px">
+                      Nama Dokter
+                    </FormLabel>
+                    <input
+                      style={{
+                        border: "1px solid #ccc",
+                        borderRadius: "4px",
+                      }}
+                      className="h-[30px] px-3 mt-[3px] text-xs text-gray-400 w-[450px]"
+                      type="string"
+                      value={dataPrescUser?.prescription?.nama_dokter}
+                    />
+                  </FormControl>
+                  <hr className="mt-5" />
+                  <div className="mt-3 text-sm ">List Obat</div>
+                  <hr className="bg-purple-800 border-purple-800 rounded-xl border-2 max-w-[82px] mt-[2px]" />
+                  <TableContainer className="mb-4">
+                    <Table
+                      mt={3}
+                      variant="striped"
+                      size="sm"
+                      colorScheme="purple"
+                    >
+                      <Thead>
+                        <Tr>
+                          <Th>No.</Th>
+                          <Th>Nama Obat</Th>
+                          <Th>Kuantitas</Th>
+                          <Th>Satuan</Th>
+                          <Th>Dosis</Th>
+                        </Tr>
+                      </Thead>
+                      <Tbody>
+                        {dataPrescUser?.prescriptiond?.map((data, index) => {
+                          return (
+                            <Tr key={index}>
+                              <Td>{index + 1}</Td>
+                              <Td>{data.name}</Td>
+                              <Td>{data.quantity}</Td>
+                              <Td>{data.unit}</Td>
+                              <Td>{data.dosis}</Td>
+                            </Tr>
+                          );
+                        })}
+                      </Tbody>
+                    </Table>
+                  </TableContainer>
+                </div>
+              </div>
+            </ModalBody>
+          </div>
         </ModalContent>
       </Modal>
     </>
