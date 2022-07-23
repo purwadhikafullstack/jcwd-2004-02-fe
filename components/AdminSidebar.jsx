@@ -21,10 +21,6 @@ const routes = [
         path: "/admin/produk",
         name: "Daftar Produk",
       },
-      {
-        path: "#",
-        name: "Tambah Produk",
-      },
     ],
   },
   {
@@ -68,10 +64,6 @@ const routes = [
       {
         path: "/admin/sales/statistik",
         name: "Ringkasan Statistik",
-      },
-      {
-        path: "#",
-        name: "Buku Kas",
       },
       {
         path: "/admin/sales/report",

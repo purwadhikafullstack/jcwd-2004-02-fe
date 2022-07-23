@@ -109,7 +109,7 @@ const Profile = () => {
               <div className="w-screen flex flex-col">
                 <div className="  flex flex-col items-center justify-center">
                   <div className="flex md:mt-12">
-                    <div className="w-[170px]">
+                    <div className="w-full">
                       <div className="profileTag">Nama Lengkap</div>
                       <div className="profileTag">Gender</div>
                       <div className="profileTag">E-Mail</div>

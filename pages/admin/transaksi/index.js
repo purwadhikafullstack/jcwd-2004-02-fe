@@ -84,7 +84,7 @@ function SemuaPesanan() {
       }, 2000);
     });
   }, [page, input, startDate, endDate, loadingStatus]);
-
+  console.log(data, "data");
   return (
     <>
       <div>
