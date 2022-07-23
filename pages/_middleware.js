@@ -83,9 +83,9 @@ export async function middleware(req) {
   }
 
   // if token undefine
-  if (req.nextUrl.pathname == "/forgotPassword" && !token) {
-    return NextResponse.redirect(new URL("/home", req.url));
-  }
+  // if (req.nextUrl.pathname == "/forgotPassword" && !token) {
+  //   return NextResponse.redirect(new URL("/home", req.url));
+  // }
 
   if (req.nextUrl.pathname == "/payment" && !token) {
     return NextResponse.redirect(new URL("/home", req.url));
