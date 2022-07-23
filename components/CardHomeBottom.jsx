@@ -34,7 +34,7 @@ function CardHomeBottom({ img, name, price, unit }) {
         </div>
         <div className="flex justify-between text-sm items-center text-primary">
           <div className="font-bold">{rupiah(price)}</div>
-          <div className="text-xs lg:text-sm font-semibold">/ {unit}</div>
+          <div className="text-xs lg:text-sm font-semibold">/{unit}</div>
         </div>
       </div>
       <div className="border-2 rounded-md border-pritext-primary w-[116px] h-[32px] mx-auto mt-[12px] lg:w-[154px] lg:h-[30px] lg:mt-[18px] text-center py-1 text-primary text-xs font-semibold">

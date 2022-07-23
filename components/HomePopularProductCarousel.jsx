@@ -51,7 +51,9 @@ function HomePopularProductCarousel({ data }) {
               key={ind}
               className="pb-[20px] cursor-pointer"
               onClick={() => {
-                router.push(`/products/detail/${val.id}`);
+                router.push(
+                  `/products/detail/${val.id}?brand=${val.brand_name}`
+                );
               }}
             >
               <CardHomeBottom
