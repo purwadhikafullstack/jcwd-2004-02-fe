@@ -1377,69 +1377,70 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                 <div className="w-[450px]">
                   <div className="flex">
                     <FormControl mt={"3"} className="">
-                      <FormLabel pt={2} fontSize="sm" w="175px">
+                      <FormLabel pt={2} fontSize="xs" w="175px">
                         No. Pemesanan
                       </FormLabel>
-                      <Stack spacing={3}>
-                        <Input
-                          className="text-gray-400"
-                          w="210px"
-                          h="30px"
-                          fontSize="xs"
-                          placeholder="AB000569D"
-                          onChange={(e) => handleChange(e, "no_pemesanan")}
-                          name="no_pemesanan"
-                          value={prescription_number}
-                        />
-                      </Stack>
+                      <div
+                        style={{
+                          border: "1px solid #ccc",
+                          borderRadius: "4px",
+                        }}
+                        className="h-[30px] px-3 pt-[6px] mt-[3px] text-xs text-gray-400 w-[210px]"
+                        type="string"
+                      >
+                        {prescription_number}
+                      </div>
                     </FormControl>
 
                     <FormControl mt={"3"} className="ml-7">
                       <FormLabel pt={2} fontSize="xs" w="175px">
                         Tgl. Pemesanan
                       </FormLabel>
-                      <input
+                      <div
                         style={{
                           border: "1px solid #ccc",
                           borderRadius: "4px",
                         }}
-                        className="h-[30px] px-3 mt-[3px] text-xs text-gray-400 w-[210px]"
+                        className="h-[30px] px-3 pt-[6px] mt-[3px] text-xs text-gray-400 w-[210px]"
                         type="string"
-                        value={dayjs(created_at).format("DD-MM-YYYY")}
-                      />
+                      >
+                        {dayjs(created_at).format("DD-MM-YYYY")}
+                      </div>
                     </FormControl>
                   </div>
                   <FormControl mt={"3"} className="">
                     <FormLabel pt={2} fontSize="xs" w="175px">
                       Nama Pasien
                     </FormLabel>
-                    <input
+                    <div
                       style={{
                         border: "1px solid #ccc",
                         borderRadius: "4px",
                       }}
-                      className="h-[30px] px-3 mt-[3px] text-xs text-gray-400 w-[450px]"
+                      className="h-[30px] px-3 pt-[6px] mt-[3px] text-xs text-gray-400 w-[450px]"
                       type="string"
-                      value={dataPrescUser?.prescription?.nama_pasien}
-                    />
+                    >
+                      {dataPrescUser?.prescription?.nama_pasien}
+                    </div>
                   </FormControl>
                   <FormControl mt={"3"} className="">
                     <FormLabel pt={2} fontSize="xs" w="175px">
                       Nama Dokter
                     </FormLabel>
-                    <input
+                    <div
                       style={{
                         border: "1px solid #ccc",
                         borderRadius: "4px",
                       }}
-                      className="h-[30px] px-3 mt-[3px] text-xs text-gray-400 w-[450px]"
+                      className="h-[30px] px-3 pt-[6px] mt-[3px] text-xs text-gray-400 w-[450px]"
                       type="string"
-                      value={dataPrescUser?.prescription?.nama_dokter}
-                    />
+                    >
+                      {dataPrescUser?.prescription?.nama_dokter}
+                    </div>
                   </FormControl>
                   <hr className="mt-5" />
                   <div className="mt-3 text-sm ">List Obat</div>
-                  <hr className="bg-purple-800 border-purple-800 rounded-xl border-2 max-w-[82px] mt-[2px]" />
+                  <hr className="bg-purple-800 border-purple-800 rounded-xl border-2 max-w-[60px] mt-[2px]" />
                   <TableContainer className="mb-4">
                     <Table
                       mt={3}

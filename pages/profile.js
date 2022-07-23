@@ -78,7 +78,7 @@ const Profile = () => {
         <Navbar />
       </div>
 
-      <div className="md:user-container flex items-center justify-between">
+      <div className="md:user-container flex items-center justify-between md:mx-[96px] bg-pink-100 md:w-full">
         <div className="hidden md:block">
           <UserProfileSidebar />
         </div>
