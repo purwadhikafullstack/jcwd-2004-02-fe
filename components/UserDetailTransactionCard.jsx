@@ -98,9 +98,7 @@ function UserDetailTransactionCard({ data, show, setShow }) {
                   Batas Akhir Pembayaran
                 </div>
                 <div className="font-semibold text-sm">
-                  {dayjs(updated_at)
-                    .add(2, "day")
-                    .format("DD MMMM YYYY hh:mm A")}
+                  {dayjs(expired_at).format("DD MMMM YYYY hh:mm A")}
                 </div>
               </div>
               <div className="flex items-center">
@@ -146,7 +144,7 @@ function UserDetailTransactionCard({ data, show, setShow }) {
                     Tanggal Pengajuan
                   </div>
                   <div className=" text-sm">
-                    {new Date(created_at).toUTCString()}
+                    {dayjs(created_at).format("DD MMMM YYYY hh:mm A")}
                   </div>
                   <div className="text-secondary text-sm font-medium mt-[20px]">
                     Perbesar Gambar
@@ -195,7 +193,7 @@ function UserDetailTransactionCard({ data, show, setShow }) {
 
         {products?.length ? (
           <>
-            <div className="px-[40px] py-[28px] w-full border-[1px] border-slate-100 shadow-lg rounded-xl">
+            <div className="px-[40px] py-[28px] mt-[15px] w-full border-[1px] border-slate-100 shadow-lg rounded-xl">
               <div className="font-bold text-xl">Ringkasan Order</div>
               <div className="mt-[12px] w-full border-b-2" />
               <div className="flex justify-between">

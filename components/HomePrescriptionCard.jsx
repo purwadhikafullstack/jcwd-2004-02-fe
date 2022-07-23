@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 
 function HomePrescriptionCard({ alamat }) {
   const { isLogin } = useUser();
-  console.log(alamat, "al");
+  // console.log(alamat, "al");
   const router = useRouter();
 
   return (

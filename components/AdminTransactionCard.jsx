@@ -96,6 +96,35 @@ function AdminTransactionCard({ data, setIsLoading, isLoading }) {
     }
   };
 
+  const kirimPesanan = async () => {
+    try {
+      await axios.put(`${API_URL}/transaction/sendorder/${id}`, {
+        headers: {
+          authorization: `bearer ${token}`,
+        },
+      });
+
+      setIsLoading(!isLoading);
+      toast.warning(`Pesanan No. ${transaction_number} berhasil dikirim.`, {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
+    } catch (error) {
+      console.log(error);
+
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
+    } finally {
+      setIsLoading(!isLoading);
+    }
+  };
+
   const {
     isOpen: isOpenAccept,
     onOpen: onOpenAccept,
@@ -112,6 +141,12 @@ function AdminTransactionCard({ data, setIsLoading, isLoading }) {
     isOpen: isOpenReject,
     onOpen: onOpenReject,
     onClose: onCloseReject,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenSend,
+    onOpen: onOpenSend,
+    onClose: onCloseSend,
   } = useDisclosure();
 
   const rupiah = (number) => {
@@ -320,33 +355,24 @@ function AdminTransactionCard({ data, setIsLoading, isLoading }) {
 
                     {status == "diproses" ? (
                       <button
-                        disabled
+                        onClick={onOpenSend}
                         className="text-white bg-slate-400 w-[156px] rounded-md h-[32px] "
                       >
                         Minta Penjemputan
                       </button>
                     ) : null}
                     {status == "dikirim" ? (
-                      <button
-                        disabled
-                        className="text-white bg-slate-400 w-[156px] rounded-md h-[32px] py-[5px] px-[25px]"
-                      >
+                      <button className="text-white bg-slate-400 w-[156px] rounded-md h-[32px] py-[5px] px-[25px]">
                         Lihat Rincian
                       </button>
                     ) : null}
                     {status == "selesai" ? (
-                      <button
-                        disabled
-                        className="text-white bg-slate-400 w-[156px] rounded-md h-[32px] py-[5px] px-[25px]"
-                      >
+                      <button className="text-white bg-slate-400 w-[156px] rounded-md h-[32px] py-[5px] px-[25px]">
                         Lihat Rincian
                       </button>
                     ) : null}
                     {status == "dibatalkan" ? (
-                      <button
-                        disabled
-                        className="text-white bg-slate-400 w-[156px] rounded-md h-[32px] py-[5px] px-[25px]"
-                      >
+                      <button className="text-white bg-slate-400 w-[156px] rounded-md h-[32px] py-[5px] px-[25px]">
                         Lihat Rincian
                       </button>
                     ) : null}
@@ -586,6 +612,89 @@ function AdminTransactionCard({ data, setIsLoading, isLoading }) {
               }}
             >
               Tolak Pesanan
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      {/* KIRIM PESANAN */}
+      <Modal
+        isOpen={isOpenSend}
+        scrollBehavior="inside"
+        onClose={onCloseSend}
+        size="3xl"
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            <div className="flex justify-center mt-10 font-bold">
+              <div>
+                <div className="text-center text-[20px] text-primary">
+                  Kirim Pesanan
+                </div>
+                <div className="text-center text-[14px] font-medium text-primary">
+                  Apakah kamu yakin untuk mengirim pesanan ini?
+                </div>
+              </div>
+            </div>
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <div className="w-full pb-5 justify-between items-center text-primary">
+              <div className="flex text-[14px] gap-2 mb-[20px]">
+                <div className="font-bold">{recipient} / </div>
+                <div className=" font-bold pr-2">{transaction_number} /</div>
+                <div className="flex items-center gap-2">
+                  <span>
+                    <AiOutlineClockCircle />
+                  </span>
+                  {dayjs(created_at).format("DD MMM YYYY, HH:mm WIB")}
+                </div>
+              </div>
+
+              {products.map((val, id) => {
+                return (
+                  <div className="text-[14px] mb-[5px]" key={id}>
+                    <div className="font-semibold">{val.name}</div>
+                    <div className="flex text-slate-500">
+                      <p className="w-[120px]">
+                        {val.quantity} x {val.price}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+
+              <div className="w-full mt-[37px] h-[32px] px-[10px] py-[8px] bg-slate-200 font-bold rounded-md flex items-center justify-between">
+                <div>
+                  Total Harga{" "}
+                  <span className="font-medium text-sm">
+                    ({products.length} Obat){" "}
+                  </span>
+                </div>
+                <div>{rupiah(subtotal)}</div>
+              </div>
+            </div>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button
+              onClick={onCloseSend}
+              bgColor="gray.400"
+              colorScheme="black"
+              mr={3}
+            >
+              Kembali
+            </Button>
+            <Button
+              bgColor="brand.secondary"
+              colorScheme="black"
+              onClick={() => {
+                kirimPesanan();
+                onCloseSend();
+              }}
+            >
+              Kirim Pesanan
             </Button>
           </ModalFooter>
         </ModalContent>
