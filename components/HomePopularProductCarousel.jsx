@@ -4,8 +4,10 @@ import { HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi";
 import Image from "next/image";
 import { API_URL } from "../helpers";
 import CardHomeBottom from "./CardHomeBottom";
+import { useRouter } from "next/router";
 
 function HomePopularProductCarousel({ data }) {
+  const router = useRouter();
   function NextArrow({ onClick }) {
     return (
       <div
@@ -45,7 +47,13 @@ function HomePopularProductCarousel({ data }) {
       <Slider {...settings}>
         {data.map((val, ind) => {
           return (
-            <div key={val.id} className="pb-[20px]">
+            <div
+              key={ind}
+              className="pb-[20px] cursor-pointer"
+              onClick={() => {
+                router.push(`/products/detail/${val.id}`);
+              }}
+            >
               <CardHomeBottom
                 img={`${API_URL}${val.images[0].image}`}
                 name={val.name}

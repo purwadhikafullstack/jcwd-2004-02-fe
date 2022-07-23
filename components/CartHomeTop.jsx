@@ -3,6 +3,12 @@ import Image from "next/image";
 import { API_URL } from "../helpers";
 
 function CardHomeTop({ img, name, price, unit }) {
+  const rupiah = (number) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+    }).format(number);
+  };
   return (
     <div className="w-[121px] h-[253px] lg:w-[195px] lg:h-[331px] border-2 border-slate-100 rounded-xl shadow-md relative bg-white">
       <div className="absolute top-2 right-2 lg:top-5 lg:right-5 z-10 border-2 bg-white border-slate-100 text-slate-300 text-sm lg:text-lg p-1 lg:p-2 rounded-full shadow-lg">
@@ -20,11 +26,11 @@ function CardHomeTop({ img, name, price, unit }) {
             17%
           </div>
           <div className="pl-2 line-through decoration-1 decoration-slate-600 text-slate-500">
-            Rp. 65.000
+            {rupiah(65000)}
           </div>
         </div>
         <div className="grid grid-flow-row-dense grid-cols-2 grid-rows-2 lg:grid-cols-3 text-sm text-purple-800">
-          <div className="col-span-2 font-bold">Rp. {price}</div>
+          <div className="col-span-2 font-bold">{rupiah(price)}</div>
           <div className="text-xs lg:text-sm font-semibold lg:text-right">
             / {unit}
           </div>
