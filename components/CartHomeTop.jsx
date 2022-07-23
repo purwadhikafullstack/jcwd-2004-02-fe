@@ -32,7 +32,7 @@ function CardHomeTop({ img, name, price, unit }) {
         <div className="grid grid-flow-row-dense grid-cols-2 grid-rows-2 lg:grid-cols-3 text-sm text-purple-800">
           <div className="col-span-2 font-bold">{rupiah(price)}</div>
           <div className="text-xs lg:text-sm font-semibold lg:text-right">
-            / {unit}
+            /{unit}
           </div>
         </div>
       </div>

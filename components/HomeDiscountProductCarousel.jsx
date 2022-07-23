@@ -53,7 +53,9 @@ function HomeDiscountProductCarousel({ data }) {
               key={ind}
               className="py-2 cursor-pointer"
               onClick={() => {
-                router.push(`/products/detail/${val.id}`);
+                router.push(
+                  `/products/detail/${val.id}?brand=${val.brand_name}`
+                );
               }}
             >
               <CardHomeTop
