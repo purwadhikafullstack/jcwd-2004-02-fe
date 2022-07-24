@@ -249,7 +249,7 @@ function AdminHome({ data, penjualan, profit }) {
         <AdminNavbar />
         <AdminSidebar />
       </div>
-      <div className="bg-admin p-5">
+      <div className="bg-admin px-[48px] pt-[32px] pb-[32px]">
         <div className="flex flex-col">
           <span className="font-bold text-lg text-slate-700">
             Analisis Produk & Toko

@@ -130,8 +130,8 @@ const Payment = ({ getCartAction }) => {
       </div>
       <div className="flex flex-col items-center gap-y-10 ">
         <BoxTimePayment
-          created_at={order[0].created_at}
-          expired_at={order[0].expired_at}
+          created_at={order[0]?.created_at}
+          expired_at={order[0]?.expired_at}
         />
         <div className=" w-[800px] min-h-[260px] rounded-lg shadow-md p-6 font-bold text-purple-900">
           Ringkasan Order

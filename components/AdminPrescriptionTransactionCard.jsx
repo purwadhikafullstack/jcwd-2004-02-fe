@@ -290,6 +290,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
     onOpen: onOpenPrescription,
     onClose: onClosePrescription,
   } = useDisclosure();
+
   const terimaPesanan = async () => {
     try {
       await axios.put(`${API_URL}/transaction/acceptPayment/${id}`);
@@ -318,14 +319,14 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
   let token = Cookies.get("token");
   const tolakPesanan = async () => {
     try {
-      await axios.put(`${API_URL}/transaction/rejectPayment/${id}`, {
+      await axios.post(`${API_URL}/transaction/rejectPayment/${id}`, {
         headers: {
-          authorization: `bearer ${token}`,
+          authorization: `Bearer ${token}`,
         },
       });
 
       setIsLoading(!isLoading);
-      toast.warning(`Pesanan No. ${transaction_number} berhasil ditolak.`, {
+      toast.success(`Pesanan No. ${transaction_number} berhasil ditolak.`, {
         position: "top-right",
         autoClose: 1000,
         closeOnClick: true,
@@ -347,14 +348,14 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
 
   const kirimPesanan = async () => {
     try {
-      await axios.put(`${API_URL}/transaction/sendorder/${id}`, {
+      await axios.patch(`${API_URL}/transaction/sendorder/${id}`, {
         headers: {
-          authorization: `bearer ${token}`,
+          authorization: `Bearer ${token}`,
         },
       });
 
       setIsLoading(!isLoading);
-      toast.warning(`Pesanan No. ${transaction_number} berhasil dikirim.`, {
+      toast.success(`Pesanan No. ${transaction_number} berhasil dikirim.`, {
         position: "top-right",
         autoClose: 1000,
         closeOnClick: true,
@@ -426,7 +427,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                 <div className="flex">
                   <div className="w-[75px] h-[75px] rounded-lg border-2 mr-[24px] overflow-hidden relative">
                     <Image
-                      src={`${API_URL}/${pr_image}`}
+                      src={`${API_URL}${pr_image}`}
                       layout="fill"
                       objectFit="cover"
                     />
@@ -487,7 +488,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                         />
                       </div>
                       <div
-                        className="ml-[10px] font-medium text-sm"
+                        className="ml-[10px] font-medium text-sm cursor-pointer"
                         onClick={onOpenDetail}
                       >
                         Detail Pesanan
@@ -496,7 +497,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                   </div>
                   <div className="flex text-sm font-medium items-center">
                     <div
-                      className="mr-[46px] text-primary"
+                      className="mr-[46px] text-primary cursor-pointer"
                       onClick={onOpenReject}
                     >
                       Tolak Pesanan
@@ -578,7 +579,13 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
               </div>
               <div className="py-[19px] px-[32px]">
                 <div className="flex">
-                  <div className="w-[75px] h-[75px] rounded-lg border-2 mr-[24px]"></div>
+                  <div className="w-[75px] h-[75px] rounded-lg border-2 mr-[24px] overflow-hidden relative">
+                    <Image
+                      src={`${API_URL}${pr_image}`}
+                      layout="fill"
+                      objectFit="cover"
+                    />
+                  </div>
                   <div className="w-[216px] border-r-2 text-sm">
                     <div className="truncate pr-[32px] font-bold text-primary">
                       Resep Dokter
@@ -606,17 +613,19 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                   </div>
                 </div>
 
-                <div className="mt-[19px] p-[16px] bg-slate-100 rounded-md flex justify-between">
-                  <div className="font-bold text-primary">
-                    Total Harga{" "}
-                    <span className="text-xs font-normal text-slate-600">
-                      ({products.length} Obat)
-                    </span>
+                {products.length < 1 ? null : (
+                  <div className="mt-[19px] p-[16px] bg-slate-100 rounded-md flex justify-between">
+                    <div className="font-bold text-primary">
+                      Total Harga{" "}
+                      <span className="text-xs font-normal text-slate-600">
+                        ({products.length} Obat)
+                      </span>
+                    </div>
+                    <div className="font-bold text-primary">
+                      {rupiah(subtotal)}
+                    </div>
                   </div>
-                  <div className="font-bold text-primary">
-                    {rupiah(subtotal)}
-                  </div>
-                </div>
+                )}
 
                 <div className="mt-[28px] flex justify-between">
                   <div className="flex text-primary">
@@ -637,7 +646,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                         />
                       </div>
                       <div
-                        className="ml-[10px] font-medium text-sm"
+                        className="ml-[10px] font-medium text-sm cursor-pointer"
                         onClick={onOpenDetail}
                       >
                         Detail Pesanan
@@ -1112,7 +1121,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
           <ModalHeader>
             <div className="flex justify-center mt-10 font-bold">
               <div>
-                <div className="text-center text-[20px] text-primary">
+                <div className="text-center text-[20px] text-primary cursor-pointer">
                   Tolak Pesanan
                 </div>
                 <div className="text-center text-[14px] font-medium text-primary">

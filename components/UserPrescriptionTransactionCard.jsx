@@ -138,14 +138,15 @@ function UserTransactionPrescriptionCard({ data }) {
                   <p className="text-base mt-[2px]">{prescription_number}</p>
                   <div
                     className="mt-[22px] text-secondary cursor-pointer"
-                    onClick={router.push(
-                      `/userprofile/transaction_detail/${id}`
-                    )}
+                    onClick={() =>
+                      router.push(`/userprofile/transaction_detail/${id}`)
+                    }
                   >
                     Tampilkan Detail
                   </div>
                 </div>
-                {!products.length ? (
+                {status === "menunggu konfirmasi" ||
+                status === "menunggu pembayaran" ? (
                   <div className="flex">
                     <div className="w-[31px] h-[32px] text-white bg-red-400 font-semibold rounded-lg text-center py-[3px]">
                       {countdown(timer, "jam")}

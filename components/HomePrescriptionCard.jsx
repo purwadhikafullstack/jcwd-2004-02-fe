@@ -12,26 +12,26 @@ function HomePrescriptionCard({ alamat }) {
   return (
     <div className="flex mt-[56px] rounded-xl shadow-lg shadow-slate-100 border-[0.1px] border-slate-50 justify-between">
       <div className="rounded-xl">
-        <div className="lg:h-[170px] lg:w-[511px] h-[76px] overflow-hidden relative rounded-xl ">
+        <div className="lg:h-[150px] lg:w-[451px] h-[76px] overflow-hidden relative rounded-xl ">
           <Image src={"/home2.svg"} layout="fill" objectFit="cover"></Image>
         </div>
       </div>
-      <div className="w-[352px] ml-[11px] my-auto">
-        <div className="text-2xl font-bold tracking-wide text-primary">
+      <div className="w-[300px] ml-[11px] my-auto">
+        <div className="text-lg font-bold tracking-wide text-primary">
           Punya Resep Dokter?
         </div>
-        <div className="text-sm font-medium tracking-wide text-slate-700 mt-[12px]">
+        <div className="text-xs font-medium tracking-wide text-slate-700 mt-[12px]">
           Tak perlu antre & obat langsung dikirimkan ke lokasi anda! Foto tidak
           boleh lebih dari 10 MB
         </div>
       </div>
       {/* kalau ada alamat */}
       {alamat.length ? (
-        <div className="my-auto mr-[28px]">
+        <div className="my-auto">
           <Link href={"/prescription"}>
             <Button
-              height="48px"
-              width="274px"
+              height="40px"
+              width="180px"
               textColor={"whiteAlpha.900"}
               bgColor={"brand.primary"}
             >
@@ -44,8 +44,8 @@ function HomePrescriptionCard({ alamat }) {
         <div className="my-auto mr-[28px]">
           {/* <Link href={"/address"}> */}
           <Button
-            height="48px"
-            width="274px"
+            height="40px"
+            width="180px"
             textColor={"whiteAlpha.900"}
             bgColor={"brand.primary"}
             onClick={() => {
