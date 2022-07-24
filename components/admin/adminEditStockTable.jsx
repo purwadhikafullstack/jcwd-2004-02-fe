@@ -54,13 +54,11 @@ function AdminEditStockTable({
   // handle change edit
   const handleChange = (e, prop) => {
     setinputStockDet({ ...inputStockDet, [prop]: e.target.value });
-    console.log(inputStockDet, "input edit");
   };
 
   // handle change add
   const handleChangeAdd = (e, prop) => {
     setinputStockAdd({ ...inputStockAdd, [prop]: e.target.value });
-    console.log(inputStockAdd, "input add");
   };
 
   // submit form edit stock
@@ -71,7 +69,6 @@ function AdminEditStockTable({
       expired: DateConverter(inputStockDet.expired),
       stock: inputStockDet.stock,
     };
-    console.log("mau dikirim", editStock);
     try {
       await submitProductEditStock(editStock);
     } catch (error) {
@@ -101,7 +98,6 @@ function AdminEditStockTable({
       expired: DateConverter(inputStockAdd.expired),
       stock: inputStockAdd.stock,
     };
-    console.log("mau dikirim", addStock);
     try {
       await submitProductAddStock(addStock);
     } catch (error) {

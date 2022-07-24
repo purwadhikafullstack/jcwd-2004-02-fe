@@ -27,10 +27,8 @@ import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import Head from "next/head";
 import HeaderMobile from "../components/HeaderMobile";
 import UserProfileSidebar from "../components/UserProfileSidebar";
-import { MdLocationOn } from "react-icons/md";
 
 const Profile = () => {
   const { name, email, gender, birthdate, profilepic, id } = useUser();
