@@ -5,6 +5,7 @@ import Image from "next/image";
 import { API_URL } from "../helpers";
 import CardHomeBottom from "./CardHomeBottom";
 import { useRouter } from "next/router";
+import CardHomeTop from "./CartHomeTop";
 
 function HomePopularProductCarousel({ data }) {
   const router = useRouter();
@@ -12,7 +13,7 @@ function HomePopularProductCarousel({ data }) {
     return (
       <div
         onClick={onClick}
-        className="p-2 rounded-full bg-white drop-shadow-lg text-2xl absolute bottom-[175px] -right-5 "
+        className="p-2 rounded-full bg-white drop-shadow-lg text-2xl absolute bottom-[150px] -right-5 "
       >
         <HiOutlineChevronRight className="text-3xl text-primary" />
       </div>
@@ -23,7 +24,7 @@ function HomePopularProductCarousel({ data }) {
     return (
       <div
         onClick={onClick}
-        className="p-2 rounded-full bg-white drop-shadow-lg text-2xl absolute z-50 bottom-[175px] -left-5 "
+        className="p-2 rounded-full bg-white drop-shadow-lg text-2xl absolute z-50 bottom-[150px] -left-5 "
       >
         <HiOutlineChevronLeft className="text-3xl text-primary" />
       </div>

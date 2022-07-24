@@ -89,17 +89,17 @@ export default function Home() {
 
         {/* Category Carousel  */}
         <div className="flex justify-between mt-[50px] items-end ">
-          <div className="font-bold text-2xl text-primary">Kategori</div>
+          <div className="font-bold text-xl text-primary">Kategori</div>
           <div className="font-bold text-md text-secondary">Lihat Semua</div>
         </div>
-        <div className="mt-[28px]">
+        <div className="mt-[20px]">
           <HomeCategoryCarousel />
         </div>
 
         {/* Discount Products */}
-        <div className="mt-[56px] border-b-2" />
-        <div className="flex justify-between mt-[48px] items-end ">
-          <div className="font-bold text-2xl text-primary">
+        <div className="mt-[30px] border-b-2" />
+        <div className="flex justify-between mt-[38px] items-end ">
+          <div className="font-bold text-xl text-primary">
             Kejar Diskon Hari Ini
           </div>
           <div className="font-bold text-md text-secondary">Lihat Semua</div>
@@ -107,20 +107,22 @@ export default function Home() {
         <HomeDiscount data={data} />
 
         {/* Event Banner */}
-        <div className="mt-[48px] border-b-2" />
-        <div className="mt-[48px] flex justify-between">
-          <div className="lg:h-[212px] lg:w-[616px] overflow-hidden relative rounded-xl ">
-            <Image src={"/home4.svg"} layout="fill" objectFit="cover"></Image>
-          </div>
-          <div className="lg:h-[212px] lg:w-[616px] overflow-hidden relative rounded-xl ">
-            <Image src={"/home5.svg"} layout="fill" objectFit="cover"></Image>
+        <div>
+          <div className="mt-[20px] border-b-2" />
+          <div className="mt-[48px] flex justify-between">
+            <div className="lg:h-[180px] lg:w-[500px] overflow-hidden relative rounded-xl ">
+              <Image src={"/home4.svg"} layout="fill" objectFit="cover"></Image>
+            </div>
+            <div className="lg:h-[180px] lg:w-[500px] overflow-hidden relative rounded-xl ">
+              <Image src={"/home5.svg"} layout="fill" objectFit="cover"></Image>
+            </div>
           </div>
         </div>
 
         {/* Popular Products */}
         <div className="mt-[48px] border-b-2" />
         <div className="flex justify-between mt-[48px] items-end ">
-          <div className="font-bold text-2xl text-primary">Popular Product</div>
+          <div className="font-bold text-xl text-primary">Popular Product</div>
           <div className="font-bold text-md text-secondary">Lihat Semua</div>
         </div>
         <div className="mt-[28px]">
