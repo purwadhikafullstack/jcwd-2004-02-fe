@@ -116,7 +116,10 @@ const PaymentMethod = ({
         <ModalContent w="500px" minH="500px">
           <ModalHeader textAlign="center">
             Metode Pembayaran
-            <IoIosArrowBack onClick={() => setTab(0)} />
+            <IoIosArrowBack
+              onClick={() => setTab(0)}
+              className="cursor-pointer"
+            />
             <div className="w-[400px] h-[70px] mt-5 rounded-lg shadow-md flex items-start justify-between p-2">
               <div className="flex flex-col">
                 <span className="text-sm">Total Harga</span>
@@ -145,7 +148,7 @@ const PaymentMethod = ({
                         setTab(1), setSelectBank(bank[0].id);
                       }}
                     >
-                      <IoIosArrowForward className="mt-2 ml-40" />
+                      <IoIosArrowForward className="mt-2 ml-40 cursor-pointer" />
                     </button>
                   </div>
                 </div>
@@ -161,7 +164,7 @@ const PaymentMethod = ({
                     onClick={() => {
                       setTab(2), setSelectBank(bank[1].id);
                     }}
-                    className="mt-2 ml-[137px]"
+                    className="mt-2 ml-[137px] cursor-pointer"
                   />
                 </div>
                 <img src={"/Line18.png"} className="w-full" />
@@ -179,26 +182,8 @@ const PaymentMethod = ({
                     onClick={() => {
                       setTab(3), setSelectBank(bank[2].id);
                     }}
-                    className="mt-2 ml-[100px]"
+                    className="mt-2 ml-[100px] cursor-pointer"
                   />
-                </div>
-                <img src={"/Line18.png"} className="w-full" />
-                <div className="w-[400px] h-[30px] flex ">
-                  <div className="w-[80px] h-[15px] flex items-center mt-2">
-                    <img src={"/gopay.png"} />
-                  </div>
-                  <span className="mt-1 ml-3 text-sm text-purple-900">
-                    GoPay
-                  </span>
-                  <IoIosArrowForward className="mt-2 ml-[230px]" />
-                </div>
-                <img src={"/Line18.png"} className="w-full" />
-                <div className="w-[400px] h-[30px] flex ">
-                  <div className="w-[80px] h-[15px] ml-5 font-bold text-xl text-purple-900">
-                    ovo
-                  </div>
-                  <span className="mt-1 text-sm text-purple-900">OVO</span>
-                  <IoIosArrowForward className="mt-2 ml-[230px]" />
                 </div>
                 <img src={"/Line18.png"} className="w-full" />
               </div>
@@ -243,7 +228,7 @@ const PaymentMethod = ({
                     <GoPrimitiveDot className="ml-[6px] mt-1" />
                     <span className="text-sm ml-2 text-purple-900">
                       masukkan kode bank {bank[0]?.kode_bank} diikuti dengan
-                      nomor rekening {bank[0].kode_bank}
+                      nomor rekening {bank[0].no_rekening}
                     </span>
                   </div>
                   <div className="flex">
