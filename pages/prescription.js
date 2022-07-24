@@ -27,8 +27,6 @@ const Prescription = () => {
   const onSaveDataClick = async () => {
     let token = Cookies.get("token");
     const formData = new FormData();
-
-    console.log(acceptedFiles, "acc");
     formData.append("prescription", acceptedFiles[0]);
 
     try {

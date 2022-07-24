@@ -24,13 +24,10 @@ function ModalInputAdmin({ isOpen, onClose, fetchFoto, inputImage }) {
 
   // handle image
   const handleImageChange = async (e) => {
-    console.log(e.target.files[0]);
-
     if (e.target.files[0]) {
       // axios disini
       const formData = new FormData();
       formData.append("products", e.target.files[0]);
-      // 17 (product id) ganti params
       formData.append("data", JSON.stringify(inputImage[0].product_id));
       try {
         await axios.post(`${API_URL}/products/pic`, formData);
@@ -97,7 +94,6 @@ function ModalInputAdmin({ isOpen, onClose, fetchFoto, inputImage }) {
     setTab(5);
     setTimeout(() => {
       setTab(0);
-      // onClose();
     }, 500);
   };
 
