@@ -270,7 +270,7 @@ function AdminHome({ data, penjualan, profit }) {
               </div>
             </div>
             <span className="text-[10px] font-bold text-purple-900">
-              {data.progressProfit || 0}
+              {data.selisihProfit || 0}
             </span>
           </div>
           <div className="w-[310px] h-[110px] rounded-lg bg-white flex flex-col px-3 py-3">
@@ -286,7 +286,7 @@ function AdminHome({ data, penjualan, profit }) {
               </div>
             </div>
             <span className="text-[10px] font-bold text-purple-900">
-              {data.progressProfit || 0}
+              {data.selisihPesanan || 0}
             </span>
           </div>
           <div className="w-[310px] h-[110px] rounded-lg bg-white flex flex-col px-3 py-3">

@@ -122,7 +122,11 @@ const Address = () => {
             </div>
           </div>
           <div className="w-[300px]">
-            <Input name="phonenumber" onChange={addAddressHandleChange}>
+            <Input
+              name="phonenumber"
+              onChange={addAddressHandleChange}
+              placeholder="contoh: 0812xxxx"
+            >
               Nomor HP
             </Input>
           </div>
