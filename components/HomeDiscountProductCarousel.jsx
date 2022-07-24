@@ -14,7 +14,7 @@ function HomeDiscountProductCarousel({ data }) {
     return (
       <div
         onClick={onClick}
-        className="p-2 rounded-full bg-white drop-shadow-lg text-2xl absolute top-[150px] -right-1 z-10 "
+        className="p-2 rounded-full bg-white drop-shadow-lg text-2xl absolute top-[120px] -right-1 z-10 "
       >
         <HiOutlineChevronRight className="text-3xl text-primary" />
       </div>
@@ -51,7 +51,7 @@ function HomeDiscountProductCarousel({ data }) {
           return (
             <div
               key={ind}
-              className="py-2 cursor-pointer"
+              className="py-2 px-[3px] cursor-pointer"
               onClick={() => {
                 router.push(
                   `/products/detail/${val.id}?brand=${val.brand_name}`

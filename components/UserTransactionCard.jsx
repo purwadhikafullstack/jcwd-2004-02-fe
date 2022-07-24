@@ -139,7 +139,9 @@ function UserTransactionCard({ data }) {
                 </p>
                 <div
                   className="mt-[22px] text-secondary cursor-pointer"
-                  onClick={router.push(`/userprofile/transaction_detail/${id}`)}
+                  onClick={() =>
+                    router.push(`/userprofile/transaction_detail/${id}`)
+                  }
                 >
                   Tampilkan Detail
                 </div>
