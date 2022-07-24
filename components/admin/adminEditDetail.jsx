@@ -42,7 +42,6 @@ function AdminEditDetail({
   // individu -> e.value, multi -> e
   const handleChangeSelect = (e, prop) => {
     setinputEdit({ ...inputEdit, [prop]: e });
-    console.log(e, "ini");
   };
 
   // handle description
@@ -50,7 +49,6 @@ function AdminEditDetail({
     let description = inputEdit.description;
     description[param] = e.target.value;
     setinputEdit({ ...inputEdit, [prop]: description });
-    console.log(e);
   };
 
   // memanggil fetch komponen obat dan obat yang ditunjuk
@@ -60,19 +58,9 @@ function AdminEditDetail({
 
   // get data symptom, category, dll
   const fetchComponentObat = async () => {
-    // let token = Cookies.get('token')
     try {
-      let res = await axios.get(
-        `${API_URL}/products/component`
-        // {
-        //   headers: {
-        //     authorization: `bearer ${token}`,
-        //   },
-        // }
-      );
-      // console.log(res.data);
+      let res = await axios.get(`${API_URL}/products/component`);
       setgetData(res.data);
-      console.log("resdata", res.data);
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message, {
@@ -101,7 +89,6 @@ function AdminEditDetail({
       hargaJual: inputEdit.hargaJual,
       hargaBeli: inputEdit.hargaBeli,
     };
-    console.log(insertData, "insertdata");
     try {
       await submitProductEdit(insertData);
     } catch (error) {

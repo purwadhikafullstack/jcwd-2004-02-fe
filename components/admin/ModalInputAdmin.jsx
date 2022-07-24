@@ -61,7 +61,6 @@ function ModalInputAdmin({ submitProduct }) {
   // individu -> e.value, multi -> e
   const handleChangeSelect = (e, prop) => {
     setinput({ ...input, [prop]: e });
-    console.log(e);
   };
 
   // handle description
@@ -69,13 +68,10 @@ function ModalInputAdmin({ submitProduct }) {
     let description = input.description;
     description[param] = e.target.value;
     setinput({ ...input, [prop]: description });
-    console.log(e);
   };
 
   // handle image
   const handleImageChange = (e, index) => {
-    console.log(e.target.files[0]);
-
     if (e.target.files[0]) {
       let selectedImageMut = selectedImage;
       selectedImageMut[index] = e.target.files[0];
@@ -92,8 +88,6 @@ function ModalInputAdmin({ submitProduct }) {
   };
 
   const renderPhotos = (source) => {
-    console.log("source: ", source);
-
     return source.map((photo, index) => {
       if (photo) {
         return (
@@ -136,7 +130,6 @@ function ModalInputAdmin({ submitProduct }) {
       }
     });
   };
-  // console.log(input);
 
   useEffect(() => {
     fetchComponentObat();
@@ -144,20 +137,10 @@ function ModalInputAdmin({ submitProduct }) {
 
   // get data symptom, category, dll
   const fetchComponentObat = async () => {
-    // let token = Cookies.get('token')
     try {
-      let res = await axios.get(
-        `${API_URL}/products/component`,
-        input
-        // {
-        //   headers: {
-        //     authorization: `bearer ${token}`,
-        //   },
-        // }
-      );
-      // console.log(res.data);
+      let res = await axios.get(`${API_URL}/products/component`, input);
+
       setgetData(res.data);
-      console.log("resdata", res.data);
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message, {
@@ -190,11 +173,6 @@ function ModalInputAdmin({ submitProduct }) {
       category: input.category.map((val) => val.value),
       stock: input.stock,
     };
-    console.log(insertData);
-    // if (selectedImage[0] === null) {
-    //   // agar coding berhenti, dikasih return (perlu diberi warning pakai toastify)
-    //   return;
-    // }
 
     for (let i = 0; i < selectedImage.length; i++) {
       if (selectedImage[i]) {
@@ -202,7 +180,6 @@ function ModalInputAdmin({ submitProduct }) {
       }
     }
     formData.append("data", JSON.stringify(insertData));
-    console.log("iniformdata", formData);
     try {
       await submitProduct(formData);
     } catch (error) {
@@ -242,7 +219,6 @@ function ModalInputAdmin({ submitProduct }) {
       }, 800);
     }
   };
-  console.log(getData, "getdata");
   // untuk isi dari select dari database
   const categoryOptions = getData.category?.map((val) => {
     return { value: val.id, label: val.name };
