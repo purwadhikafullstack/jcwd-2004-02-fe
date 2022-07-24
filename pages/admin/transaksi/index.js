@@ -1,10 +1,8 @@
 import AdminNavbar from "../../../components/AdminNavbar";
 import AdminSidebar from "../../../components/AdminSidebar";
 import { FiDownload } from "react-icons/fi";
-import { HiSearch, HiDotsVertical } from "react-icons/hi";
+import { HiSearch } from "react-icons/hi";
 import { IoDocumentText } from "react-icons/io5";
-import { AiOutlineClockCircle } from "react-icons/ai";
-import { BsFillChatDotsFill } from "react-icons/bs";
 import { Checkbox } from "@chakra-ui/react";
 import { useCallback, useEffect, useState } from "react";
 import Pagination from "../../../components/AdminTransactionPagination";
@@ -84,7 +82,7 @@ function SemuaPesanan() {
       }, 2000);
     });
   }, [page, input, startDate, endDate, loadingStatus]);
-  console.log(data, "data");
+
   return (
     <>
       <div>

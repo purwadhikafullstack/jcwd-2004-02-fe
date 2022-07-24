@@ -46,7 +46,7 @@ function AdminHome({ data, penjualan, profit }) {
   const dataPerMinggu = () => {
     let dataMinggu = [0, 0, 0, 0, 0, 0, 0];
     for (let i = 0; i < penjualan2.length; i++) {
-      dataMinggu[penjualan2[i].hari - 1] = parseInt(penjualan2[i].jumlah);
+      dataMinggu[penjualan2[i].hari] = parseInt(penjualan2[i].jumlah);
     }
     setDataMingguan(dataMinggu);
   };
@@ -62,7 +62,7 @@ function AdminHome({ data, penjualan, profit }) {
   const profitperminggu = () => {
     let profitMinggu = [0, 0, 0, 0, 0, 0, 0];
     for (let i = 0; i < profit2.length; i++) {
-      profitMinggu[profit2[i].hari - 1] = parseInt(profit2[i].profit);
+      profitMinggu[profit2[i].hari] = parseInt(profit2[i].profit);
     }
     setprofitMingguan(profitMinggu);
   };
@@ -198,7 +198,7 @@ function AdminHome({ data, penjualan, profit }) {
         borderColor: ["rgba(107, 76, 146, 1)"],
         backgroundColor: "blue",
         borderWidth: 2,
-        pointRadius: 0,
+        pointRadius: 1,
         hoverPointRadius: 0,
         tension: 0.5,
       },
@@ -270,7 +270,7 @@ function AdminHome({ data, penjualan, profit }) {
               </div>
             </div>
             <span className="text-[10px] font-bold text-purple-900">
-              {data.progressProfit || 0}
+              {data.selisihProfit || 0}
             </span>
           </div>
           <div className="w-[310px] h-[110px] rounded-lg bg-white flex flex-col px-3 py-3">
@@ -286,7 +286,7 @@ function AdminHome({ data, penjualan, profit }) {
               </div>
             </div>
             <span className="text-[10px] font-bold text-purple-900">
-              {data.progressProfit || 0}
+              {data.selisihPesanan || 0}
             </span>
           </div>
           <div className="w-[310px] h-[110px] rounded-lg bg-white flex flex-col px-3 py-3">

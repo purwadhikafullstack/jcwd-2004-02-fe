@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import MetaDecorator from "../components/MetaDecorator";
 import healthymedlogo from "../public/healthymed-logo.svg";
+import Link from "next/link";
 
 const ForgotPassword = () => {
   const [inputEmail, setInputEmail] = useState({
@@ -82,9 +83,11 @@ const ForgotPassword = () => {
           </div>
           <div className="mt-8 xl:flex xl:items-center xl:justify-center ">
             <span className="xl:text-sm">Belum Punya Akun?</span>
-            <span className="text-purple-800 xl:text-sm font-semibold xl:ml-1 cursor-pointer">
-              Daftar
-            </span>
+            <Link href={"/register"}>
+              <span className="text-purple-800 xl:text-sm font-semibold xl:ml-1 cursor-pointer">
+                Daftar
+              </span>
+            </Link>
           </div>
         </div>
       </div>

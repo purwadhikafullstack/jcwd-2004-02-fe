@@ -18,6 +18,7 @@ import { getCartAction } from "../../redux/actions";
 import Rupiah from "../../helpers/convertToRupiah";
 import MetaDecorator from "../../components/MetaDecorator";
 import healthymedlogo from "../../public/healthymed-logo.svg";
+import { Suspense } from "react";
 
 const Payment = ({ getCartAction }) => {
   const router = useRouter();
@@ -27,7 +28,7 @@ const Payment = ({ getCartAction }) => {
   const [data, setData] = useState([]);
   const [order, setOrder] = useState([]);
   const { transactionID } = router.query;
-  transactionID = parseInt(transactionID);
+  // transactionID = parseInt(transactionID);
 
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
     console.log("accepted", acceptedFiles);
@@ -112,6 +113,7 @@ const Payment = ({ getCartAction }) => {
   }, []);
 
   return (
+    // <Suspense fallback={<div>Loading...</div>}>
     <div>
       <div>
         <MetaDecorator
@@ -220,6 +222,7 @@ const Payment = ({ getCartAction }) => {
       </div>
       <Footer />
     </div>
+    // </Suspense>
   );
 };
 

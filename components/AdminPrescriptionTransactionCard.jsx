@@ -30,6 +30,12 @@ import {
   Th,
   Td,
   TableContainer,
+  HStack,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
 } from "@chakra-ui/react";
 import Cookies from "js-cookie";
 import axios from "axios";
@@ -56,28 +62,23 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
     nama_pasien,
     nama_dokter,
   } = data;
-  console.log(pr_image, "primage");
-  console.log(nama_pasien, "nama pasien");
-  console.log(data, "data");
+
   const [tab, setTab] = useState(0);
   // get list nama obat
   const [productList, setproductList] = useState([]);
   const [input, setinput] = useState({
     nama_pasien: "",
     nama_dokter: "",
-    // tgl pemesanan
-
-    // kuantitas,
     quantity: 0,
-    // satuan
     unit: "",
-    // dosis
     dosis: "",
-    // nama obat
     name: "",
   });
+
   const [dataResep, setdataResep] = useState([]);
   const [dataPrescUser, setdataPrescUser] = useState({});
+
+  const [quantity, setquantity] = useState(0);
 
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
@@ -86,12 +87,9 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
     onOpen: onOpenCustomOrder,
     onClose: onCloseCustomOrder,
   } = useDisclosure();
-
   // handle
   const handleChange = (e, prop) => {
     if (prop === "quantity") {
-      console.log(e.target.value, "val");
-      console.log(input.name.value.total_stock, "totstok");
       if (e.target.value >= input.name.value.total_stock) {
         setinput({ ...input, [prop]: input.name.value.total_stock });
       } else {
@@ -99,8 +97,10 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
       }
     } else {
       setinput({ ...input, [prop]: e.target.value });
-      console.log(prop, "prop");
     }
+  };
+  const handleChangeQty = (e) => {
+    setquantity(e);
   };
 
   // handle select
@@ -147,9 +147,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
   const onclickpr = (id) => {
     fetchPrescription(id);
     onOpenPrescription();
-    console.log(dataPrescUser, "a");
   };
-  console.log(dataPrescUser, "a");
   // add obat
   const tambahObatClick = async (e) => {
     // fitur tambahin obat
@@ -157,12 +155,12 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
       ...dataResep,
       {
         ...input.name.value,
-        quantity: input.quantity,
+        quantity: quantity,
         dosis: input.dosis,
         unit: input.unit,
       },
     ]);
-    console.log(dataResep, "datres");
+    // console.log(dataResep, "added Data to table");
     setinput({
       ...input,
       quantity: 0,
@@ -182,7 +180,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
       nama_dokter: input.nama_dokter,
       dataResep: dataResep,
     };
-    console.log(insertData);
+    // console.log(insertData, "inserted data");
 
     try {
       await submitProduct(insertData);
@@ -204,7 +202,6 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
       });
       setdataResep({ quantity: 0, unit: "", dosis: "", name: null });
       setTimeout(() => {
-        // setTab(0);
         onCloseCustomOrder();
       }, 1000);
     }
@@ -229,20 +226,17 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
   const nameOptions = productList.product?.map((val) => {
     return { value: val, label: val.name };
   });
+  // const incNum = () => {
+  //   let count = parseInt(input.quantity) + 1;
+  //   // count = count >= productList.total_stock ? productList.total_stock : count;
+  //   setinput({ ...input, quantity: count });
+  // };
 
-  const incNum = () => {
-    let count = parseInt(input.quantity) + 1;
-    // count = count >= productList.total_stock ? productList.total_stock : count;
-    setinput({ ...input, quantity: count });
-  };
-
-  const decNum = () => {
-    let count = parseInt(input.quantity) - 1;
-    count = count < 1 ? 1 : count;
-    setinput({ ...input, quantity: count });
-  };
-
-  console.log(input, "input");
+  // const decNum = () => {
+  //   let count = parseInt(input.quantity) - 1;
+  //   count = count < 1 ? 1 : count;
+  //   setinput({ ...input, quantity: count });
+  // };
 
   const subTotal = () => {
     let subTotal = 0;
@@ -724,7 +718,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                   </div>
                   <div className="w-[450px]">
                     <div className="flex">
-                      <FormControl mt={"3"} className="">
+                      <FormControl mt={"3"}>
                         <FormLabel pt={2} fontSize="sm" w="175px">
                           No. Pemesanan
                         </FormLabel>
@@ -757,7 +751,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                         />
                       </FormControl>
                     </div>
-                    <FormControl mt={"3"} className="">
+                    <FormControl mt={"3"}>
                       <FormLabel pt={2} fontSize="xs" w="175px">
                         Nama Pasien
                       </FormLabel>
@@ -771,7 +765,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                         value={input.nama_pasien}
                       />
                     </FormControl>
-                    <FormControl mt={"3"} className="">
+                    <FormControl mt={"3"}>
                       <FormLabel pt={2} fontSize="xs" w="175px">
                         Nama Dokter
                       </FormLabel>
@@ -788,7 +782,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                     <hr className="mt-5" />
                     <div className="mt-3 text-sm ">Tambah Obat</div>
                     <hr className="bg-purple-800 border-purple-800 rounded-xl border-2 max-w-[82px] mt-[2px]" />
-                    <FormControl mt={"3"} className="">
+                    <FormControl mt={"3"}>
                       <FormLabel pt={2} fontSize="xs" w="175px">
                         Nama Obat
                       </FormLabel>
@@ -803,7 +797,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                       />
                     </FormControl>
                     <div className="flex w-[450px]">
-                      <FormControl mt={"3"} className="">
+                      {/* <FormControl mt={"3"}>
                         <FormLabel pt={2} fontSize="xs">
                           Kuantitas
                         </FormLabel>
@@ -814,7 +808,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                           >
                             -
                           </button>
-                          <div className="">
+                          <div>
                             <input
                               className="w-6 pb-[6px] text-xs  focus:outline-none"
                               type="number"
@@ -833,9 +827,29 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                             +
                           </button>
                         </div>
+                      </FormControl> */}
+                      <FormControl mt={"3"}>
+                        <FormLabel pt={2} fontSize="xs" w="100px">
+                          Kuantitas
+                        </FormLabel>
+                        <NumberInput
+                          size="sm"
+                          maxW="100px"
+                          defaultValue={0}
+                          min={0}
+                          max={input?.name?.value?.total_stock}
+                          value={quantity}
+                          onChange={handleChangeQty}
+                        >
+                          <NumberInputField />
+                          <NumberInputStepper>
+                            <NumberIncrementStepper />
+                            <NumberDecrementStepper />
+                          </NumberInputStepper>
+                        </NumberInput>
                       </FormControl>
 
-                      <FormControl mt={"3"} className="">
+                      <FormControl mt={"3"}>
                         <FormLabel pt={2} fontSize="xs" w="170px">
                           Satuan
                         </FormLabel>
@@ -850,7 +864,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                         />
                       </FormControl>
 
-                      <FormControl mt={"3"} className="">
+                      <FormControl mt={"3"}>
                         <FormLabel pt={2} fontSize="xs" w="170px">
                           Dosis
                         </FormLabel>
@@ -875,7 +889,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                           !input.nama_dokter ||
                           !input.nama_pasien ||
                           !input.name ||
-                          !input.quantity ||
+                          !quantity ||
                           !input.unit ||
                           !input.dosis
                         }
@@ -1385,70 +1399,71 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                 </div>
                 <div className="w-[450px]">
                   <div className="flex">
-                    <FormControl mt={"3"} className="">
-                      <FormLabel pt={2} fontSize="sm" w="175px">
+                    <FormControl mt={"3"}>
+                      <FormLabel pt={2} fontSize="xs" w="175px">
                         No. Pemesanan
                       </FormLabel>
-                      <Stack spacing={3}>
-                        <Input
-                          className="text-gray-400"
-                          w="210px"
-                          h="30px"
-                          fontSize="xs"
-                          placeholder="AB000569D"
-                          onChange={(e) => handleChange(e, "no_pemesanan")}
-                          name="no_pemesanan"
-                          value={prescription_number}
-                        />
-                      </Stack>
+                      <div
+                        style={{
+                          border: "1px solid #ccc",
+                          borderRadius: "4px",
+                        }}
+                        className="h-[30px] px-3 pt-[6px] mt-[3px] text-xs text-gray-400 w-[210px]"
+                        type="string"
+                      >
+                        {prescription_number}
+                      </div>
                     </FormControl>
 
                     <FormControl mt={"3"} className="ml-7">
                       <FormLabel pt={2} fontSize="xs" w="175px">
                         Tgl. Pemesanan
                       </FormLabel>
-                      <input
+                      <div
                         style={{
                           border: "1px solid #ccc",
                           borderRadius: "4px",
                         }}
-                        className="h-[30px] px-3 mt-[3px] text-xs text-gray-400 w-[210px]"
+                        className="h-[30px] px-3 pt-[6px] mt-[3px] text-xs text-gray-400 w-[210px]"
                         type="string"
-                        value={dayjs(created_at).format("DD-MM-YYYY")}
-                      />
+                      >
+                        {dayjs(created_at).format("DD-MM-YYYY")}
+                      </div>
                     </FormControl>
                   </div>
-                  <FormControl mt={"3"} className="">
+                  <FormControl mt={"3"}>
                     <FormLabel pt={2} fontSize="xs" w="175px">
                       Nama Pasien
                     </FormLabel>
-                    <input
+                    <div
                       style={{
                         border: "1px solid #ccc",
                         borderRadius: "4px",
                       }}
-                      className="h-[30px] px-3 mt-[3px] text-xs text-gray-400 w-[450px]"
+                      className="h-[30px] px-3 pt-[6px] mt-[3px] text-xs text-gray-400 w-[450px]"
                       type="string"
-                      value={dataPrescUser?.prescription?.nama_pasien}
-                    />
+                    >
+                      {dataPrescUser?.prescription?.nama_pasien}
+                    </div>
                   </FormControl>
-                  <FormControl mt={"3"} className="">
+                  <FormControl mt={"3"}>
                     <FormLabel pt={2} fontSize="xs" w="175px">
                       Nama Dokter
                     </FormLabel>
-                    <input
+                    <div
                       style={{
                         border: "1px solid #ccc",
                         borderRadius: "4px",
                       }}
-                      className="h-[30px] px-3 mt-[3px] text-xs text-gray-400 w-[450px]"
+                      className="h-[30px] px-3 pt-[6px] mt-[3px] text-xs text-gray-400 w-[450px]"
                       type="string"
-                      value={dataPrescUser?.prescription?.nama_dokter}
-                    />
+                    >
+                      {dataPrescUser?.prescription?.nama_dokter}
+                    </div>
                   </FormControl>
                   <hr className="mt-5" />
                   <div className="mt-3 text-sm ">List Obat</div>
-                  <hr className="bg-purple-800 border-purple-800 rounded-xl border-2 max-w-[82px] mt-[2px]" />
+                  <hr className="bg-purple-800 border-purple-800 rounded-xl border-2 max-w-[60px] mt-[2px]" />
                   <TableContainer className="mb-4">
                     <Table
                       mt={3}
