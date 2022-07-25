@@ -24,6 +24,7 @@ function UserProductSidebar({
   handleCheckbox,
   isLoading,
   input,
+  setInput,
 }) {
   return (
     <div className="w-[300px] mr-[48px]">
@@ -100,6 +101,9 @@ function UserProductSidebar({
             width="211px"
             textColor={"whiteAlpha.900"}
             bgColor={"gray.400"}
+            onClick={() => {
+              setInput({ ...input, type: [], symptom: [], brand: [] });
+            }}
           >
             Hapus semua filter
           </Button>
@@ -155,6 +159,7 @@ function UserProductSidebar({
                           name="symptom"
                           colorScheme="purple"
                           value={val.id}
+                          isChecked={input.symptom.includes(val.id)}
                           onChange={(e) => handleCheckbox(e, "symptom")}
                         >
                           {val.name}
@@ -296,6 +301,7 @@ function UserProductSidebar({
                           borderColor={"gray.600"}
                           colorScheme="purple"
                           value={val.id}
+                          isChecked={input.type.includes(val.id)}
                           onChange={(e) => handleCheckbox(e, "type")}
                         >
                           {val.name}
@@ -384,6 +390,7 @@ function UserProductSidebar({
                         <Checkbox
                           borderColor={"gray.600"}
                           colorScheme="purple"
+                          isChecked={input.brand.includes(val.id)}
                           value={val.id}
                           onChange={(e) => handleCheckbox(e, "brand")}
                         >

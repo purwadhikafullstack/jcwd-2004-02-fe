@@ -140,6 +140,7 @@ export default function UserProduct() {
               component={component}
               category_id={input.category}
               input={input}
+              setInput={setInput}
               handleInput={handleInput}
               handleCheckbox={handleCheckbox}
               isLoading={isLoading}

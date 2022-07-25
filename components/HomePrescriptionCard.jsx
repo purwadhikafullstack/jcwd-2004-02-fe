@@ -67,35 +67,13 @@ function HomePrescriptionCard({ alamat }) {
         )}
       </div>
 
-      <div className="lg:hidden mt-[32px]">
-        <div className="text-primary font-bold text-xl">
+      <div className="lg:hidden mt-[22px]">
+        <div className="text-primary font-bold text-lg">
           Punya resep dokter ?
         </div>
-        ) : ( // kalau tidak ada alamat
         <div className="my-auto mr-[28px]">
-          {/* <Link href={"/address"}> */}
-          <Button
-            height="40px"
-            width="180px"
-            textColor={"whiteAlpha.900"}
-            bgColor={"brand.primary"}
-            onClick={() => {
-              // kalau belum login
-              if (!isLogin) {
-                router.push("/login");
-              }
-              // kalau sudah login, ke address
-              else {
-                router.push("/addresspresc");
-              }
-            }}
-          >
-            Unggah Resep
-          </Button>
-          {/* </Link> */}
-
           <div className="rounded-xl mt-[12px]">
-            <div className="h-[87px] overflow-hidden border-[1px] border-slate-50 shadow-slate-100 shadow-sm relative rounded-xl ">
+            <div className="h-[87px] w-[327px] overflow-hidden border-[1px] border-slate-50 shadow-slate-100 shadow-sm relative rounded-xl ">
               <Image
                 src={"/resep-mobile-banner.svg"}
                 layout="fill"
