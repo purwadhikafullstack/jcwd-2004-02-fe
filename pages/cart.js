@@ -86,14 +86,14 @@ const Cart = ({ getCartAction }) => {
         />
       </div>
       <Navbar />
-      <div className="px-[20px] pt-[32px] pb-[32px]">
+      <div className="md:px-[20px] md:pt-[32px] md:pb-[32px] ml-3">
         <span className="text-xl font-bold text-purple-900  ml-[80px] mt-[30px]">
           Keranjang Saya
         </span>
         <div className="mx-[40px] mt-10">
           <div className="px-[40px]">
             {cart.length ? (
-              <div className="flex justify-between">
+              <div className="md:flex justify-between">
                 <div className="flex flex-col mr-[60px]">
                   {cart.map((cart, index) => (
                     <BoxWithImage
@@ -130,7 +130,7 @@ const Cart = ({ getCartAction }) => {
             )}
           </div>
 
-          <div className="py-14 px-20">
+          <div className="py-14 px-20 md:inline-block hidden">
             <div className="w-full border-b-2 border-slate mb-[28px]" />
             <span className="text-xl font-bold text-purple-900">
               Produk Terkait

@@ -44,7 +44,7 @@ function HomePopularProductCarousel({ data }) {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full md:w-[1244px]">
       <Slider {...settings}>
         {data.map((val, ind) => {
           return (

@@ -10,7 +10,7 @@ const MetaDecorator = ({ title, description, imageUrl }) => (
     <meta property="og:description" content={description} key="ogdesc" />
     <meta
       property="og:image"
-      content={metaDecorator.hostname + imageUrl}
+      content={metaDecorator.jcwd200402api.purwadhikabootcamp.com + imageUrl}
       key="ogimg"
     />
     <meta property="og:url" content={"https://healthymed.url"} key="ogurl" />

@@ -263,7 +263,11 @@ function UserTransaction() {
                           {val.status == "dikirim" ? (
                             <>
                               <UserTransactionCard data={val} />
-                              <UserTransactionPrescriptionCard data={val} />
+                              <UserTransactionPrescriptionCard
+                                data={val}
+                                setIsLoading={setIsLoading}
+                                isLoading={isLoading}
+                              />
                             </>
                           ) : null}
                         </div>
