@@ -95,25 +95,29 @@ export default function Home() {
         <div className="mt-[20px]">
           <HomeCategoryCarousel />
         </div>
+      </div>
 
-        {/* Discount Products */}
-        <div className="mt-[30px] border-b-2" />
-        <div className="flex justify-between mt-[38px] items-end ">
-          <div className="font-bold text-xl text-primary">
-            Kejar Diskon Hari Ini
-          </div>
-          <div className="font-bold text-md text-secondary">Lihat Semua</div>
+      {/* Discount Products */}
+      <div className="mt-[30px] border-b-2 lg:w-[1024px] lg:mx-auto" />
+      <div className="flex justify-between mt-[38px] items-end lg:w-[1024px] w-[327px] mx-auto">
+        <div className="font-bold text-xl text-primary ">
+          Kejar Diskon Hari Ini
         </div>
+        <div className="font-bold text-md text-secondary">Lihat Semua</div>
+      </div>
+      <div className="lg:w-[1024px] lg:mx-auto">
         <HomeDiscount data={data} />
+      </div>
+      <div className="mt-[40px] border-b-2" />
 
+      <div className="user-container">
         {/* Event Banner */}
         <div>
-          <div className="mt-[20px] border-b-2" />
-          <div className="mt-[48px] flex justify-between">
-            <div className="lg:h-[180px] lg:w-[500px] overflow-hidden relative rounded-xl ">
+          <div className="mt-[48px] grid lg:grid-cols-2 gap-6">
+            <div className="lg:h-[180px] lg:w-[500px] h-[124px] w-[326px] col-span-1 overflow-hidden relative rounded-xl ">
               <Image src={"/home4.svg"} layout="fill" objectFit="cover"></Image>
             </div>
-            <div className="lg:h-[180px] lg:w-[500px] overflow-hidden relative rounded-xl ">
+            <div className="lg:h-[180px] lg:w-[500px] h-[124px] w-[326px] col-span-1 overflow-hidden relative rounded-xl ">
               <Image src={"/home5.svg"} layout="fill" objectFit="cover"></Image>
             </div>
           </div>
@@ -142,7 +146,7 @@ export default function Home() {
       </div>
 
       {/* Metode Pembayaran */}
-      <div className="min-w-fit lg:h-[160px] bg-hover-button mt-[110px]">
+      <div className="min-w-fit hidden lg:block lg:h-[160px] bg-hover-button mt-[110px]">
         <div className="text-center text-primary font-semibold pt-[24px] ">
           Metode Pembayaran
         </div>
@@ -156,7 +160,7 @@ export default function Home() {
       </div>
 
       {/* Footer */}
-      <div>
+      <div className="hidden lg:inline">
         <Footer />
       </div>
     </>
