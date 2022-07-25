@@ -28,6 +28,7 @@ function UserTransaction() {
   const [page, setPage] = useState(0);
   const [data, setData] = useState([]);
   const [totalData, setTotalData] = useState(0);
+  const [loadingStatus, setLoadingStatus] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const { name } = useUser();
 
@@ -77,7 +78,7 @@ function UserTransaction() {
         setIsLoading(false);
       }, 2000);
     });
-  }, [page, input, startDate, endDate]);
+  }, [page, input, startDate, endDate, loadingStatus]);
 
   return (
     <>
@@ -221,8 +222,16 @@ function UserTransaction() {
                     {data.map((val, id) => {
                       return (
                         <div key={id}>
-                          <UserTransactionCard data={val} />
-                          <UserTransactionPrescriptionCard data={val} />
+                          <UserTransactionCard
+                            data={val}
+                            isLoading={loadingStatus}
+                            setIsLoading={setLoadingStatus}
+                          />
+                          <UserTransactionPrescriptionCard
+                            data={val}
+                            isLoading={loadingStatus}
+                            setIsLoading={setLoadingStatus}
+                          />
                         </div>
                       );
                     })}
@@ -234,8 +243,16 @@ function UserTransaction() {
                           {val.status == "menunggu pembayaran" ||
                           val.status == "menunggu konfirmasi" ? (
                             <>
-                              <UserTransactionCard data={val} />
-                              <UserTransactionPrescriptionCard data={val} />
+                              <UserTransactionCard
+                                data={val}
+                                isLoading={loadingStatus}
+                                setIsLoading={setLoadingStatus}
+                              />
+                              <UserTransactionPrescriptionCard
+                                data={val}
+                                isLoading={loadingStatus}
+                                setIsLoading={setLoadingStatus}
+                              />
                             </>
                           ) : null}
                         </div>
@@ -248,8 +265,16 @@ function UserTransaction() {
                         <div key={id}>
                           {val.status == "diproses" ? (
                             <>
-                              <UserTransactionCard data={val} />
-                              <UserTransactionPrescriptionCard data={val} />
+                              <UserTransactionCard
+                                data={val}
+                                isLoading={loadingStatus}
+                                setIsLoading={setLoadingStatus}
+                              />
+                              <UserTransactionPrescriptionCard
+                                data={val}
+                                isLoading={loadingStatus}
+                                setIsLoading={setLoadingStatus}
+                              />
                             </>
                           ) : null}
                         </div>
@@ -262,11 +287,15 @@ function UserTransaction() {
                         <div key={id}>
                           {val.status == "dikirim" ? (
                             <>
-                              <UserTransactionCard data={val} />
+                              <UserTransactionCard
+                                data={val}
+                                isLoading={loadingStatus}
+                                setIsLoading={setLoadingStatus}
+                              />
                               <UserTransactionPrescriptionCard
                                 data={val}
-                                setIsLoading={setIsLoading}
-                                isLoading={isLoading}
+                                isLoading={loadingStatus}
+                                setIsLoading={setLoadingStatus}
                               />
                             </>
                           ) : null}
@@ -280,8 +309,16 @@ function UserTransaction() {
                         <div key={id}>
                           {val.status == "selesai" ? (
                             <>
-                              <UserTransactionCard data={val} />
-                              <UserTransactionPrescriptionCard data={val} />
+                              <UserTransactionCard
+                                data={val}
+                                isLoading={loadingStatus}
+                                setIsLoading={setLoadingStatus}
+                              />
+                              <UserTransactionPrescriptionCard
+                                data={val}
+                                isLoading={loadingStatus}
+                                setIsLoading={setLoadingStatus}
+                              />
                             </>
                           ) : null}
                         </div>
@@ -294,8 +331,16 @@ function UserTransaction() {
                         <div key={id}>
                           {val.status == "dibatalkan" ? (
                             <>
-                              <UserTransactionCard data={val} />
-                              <UserTransactionPrescriptionCard data={val} />
+                              <UserTransactionCard
+                                data={val}
+                                isLoading={loadingStatus}
+                                setIsLoading={setLoadingStatus}
+                              />
+                              <UserTransactionPrescriptionCard
+                                data={val}
+                                isLoading={loadingStatus}
+                                setIsLoading={setLoadingStatus}
+                              />
                             </>
                           ) : null}
                         </div>

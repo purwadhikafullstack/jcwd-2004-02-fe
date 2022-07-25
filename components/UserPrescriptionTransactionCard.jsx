@@ -5,8 +5,10 @@ import { API_URL } from "../helpers";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Router, { useRouter } from "next/router";
+import axios from "axios";
+import Cookies from "js-cookie";
 
-function UserTransactionPrescriptionCard({ data }) {
+function UserTransactionPrescriptionCard({ data, setIsLoading, isLoading }) {
   const {
     id,
     status,
@@ -65,6 +67,36 @@ function UserTransactionPrescriptionCard({ data }) {
     }
 
     return detik;
+  };
+
+  let token = Cookies.get("token");
+  const barangDiterima = async () => {
+    try {
+      await axios.patch(`${API_URL}/transaction/receiveorder/${id}`, null, {
+        headers: {
+          authorization: `bearer ${token}`,
+        },
+      });
+
+      setIsLoading(!isLoading);
+      toast.success(`Pesanan No. ${transaction_number} berhasil diterima.`, {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
+    } catch (error) {
+      console.log(error);
+
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
+    } finally {
+      setIsLoading(!isLoading);
+    }
   };
 
   return (
@@ -215,6 +247,9 @@ function UserTransactionPrescriptionCard({ data }) {
                   <button
                     className="w-[157px] h-[30px] text-white text-sm font-medium
                         bg-secondary rounded-lg text-center"
+                    onClick={() => {
+                      barangDiterima();
+                    }}
                   >
                     Pesanan Diterima
                   </button>

@@ -5,8 +5,10 @@ import { API_URL } from "../helpers";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import axios from "axios";
+import Cookies from "js-cookie";
 
-function UserTransactionCard({ data }) {
+function UserTransactionCard({ data, setIsLoading, isLoading }) {
   const {
     id,
     status,
@@ -67,6 +69,7 @@ function UserTransactionCard({ data }) {
     return detik;
   };
 
+  let token = Cookies.get("token");
   const barangDiterima = async () => {
     try {
       await axios.patch(`${API_URL}/transaction/receiveorder/${id}`, null, {
@@ -76,13 +79,12 @@ function UserTransactionCard({ data }) {
       });
 
       setIsLoading(!isLoading);
-      toast.success(`Pesanan No. ${transaction_number} berhasil dikirim.`, {
+      toast.success(`Pesanan No. ${transaction_number} berhasil diterima.`, {
         position: "top-right",
         autoClose: 1000,
         closeOnClick: true,
         draggable: true,
       });
-      // onCloseSend();
     } catch (error) {
       console.log(error);
 
@@ -240,6 +242,7 @@ function UserTransactionCard({ data }) {
                 <button
                   className="w-[157px] h-[30px] text-white text-sm font-medium
                         bg-secondary rounded-lg text-center py-[4px]"
+                  onClick={() => router.push("/home")}
                 >
                   Beli Lagi
                 </button>
