@@ -53,7 +53,7 @@ const ProfileModalEditProfile = ({ editProfileActions }) => {
       <div className="flex items-center justify-center">
         <Button
           onClick={onopenEdit}
-          className=" text-[14px] w-32 h-10 mt-10 "
+          className=" text-[14px] w-32 h-10 mt-[76px] "
           variant="outline"
           colorScheme={"purple"}
         >
@@ -134,7 +134,12 @@ const ProfileModalEditProfile = ({ editProfileActions }) => {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="purple" mr={3} onClick={onSaveDataClick}>
+            <Button
+              colorScheme="purple"
+              mr={3}
+              onClick={onSaveDataClick}
+              disabled={!input.name || !input.gender || !input.birthdate}
+            >
               Simpan
             </Button>
           </ModalFooter>
