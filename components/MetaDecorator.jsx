@@ -11,7 +11,7 @@ const MetaDecorator = ({ title, description, imageUrl }) => (
     <meta
       property="og:image"
       // content={metaDecorator + imageUrl}
-      content={jcwd200402api.purwadhikabootcamp.com + imageUrl}
+      content={"https://jcwd200402api.purwadhikabootcamp.com" + imageUrl}
       key="ogimg"
     />
     <meta
