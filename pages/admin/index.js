@@ -257,7 +257,7 @@ function AdminHome({ data, penjualan, profit }) {
           <span className="text-xs">Update Terakhir: 20 Juli 2022</span>
         </div>
         <div className="flex justify-between my-5">
-          <div className="w-[310px] h-[110px] rounded-lg bg-white flex flex-col px-3 py-3">
+          <div className="w-[300px] h-[110px] rounded-lg bg-white flex flex-col px-3 py-3">
             <span className="text-xs text-purple-900 font-bold">
               Profit Hari Ini
             </span>
@@ -273,7 +273,7 @@ function AdminHome({ data, penjualan, profit }) {
               {data.selisihProfit || 0}
             </span>
           </div>
-          <div className="w-[310px] h-[110px] rounded-lg bg-white flex flex-col px-3 py-3">
+          <div className="w-[300px] h-[110px] rounded-lg bg-white flex flex-col px-3 py-3">
             <span className="text-xs text-purple-900 font-bold">
               Total Pemesanan Hari Ini
             </span>
@@ -289,7 +289,7 @@ function AdminHome({ data, penjualan, profit }) {
               {data.selisihPesanan || 0}
             </span>
           </div>
-          <div className="w-[310px] h-[110px] rounded-lg bg-white flex flex-col px-3 py-3">
+          <div className="w-[300px] h-[110px] rounded-lg bg-white flex flex-col px-3 py-3">
             <span className="text-xs text-purple-900 font-bold">
               Sisa Stok Hari Ini
             </span>
@@ -307,7 +307,7 @@ function AdminHome({ data, penjualan, profit }) {
           </div>
         </div>
         <div className="flex mt-9">
-          <div className="w-[475px] mr-2">
+          <div className="w-[445px] mr-2">
             <div className="flex flex-col">
               <span className="font-bold text-lg text-slate-700">
                 Penting Hari Ini
@@ -318,7 +318,7 @@ function AdminHome({ data, penjualan, profit }) {
               </span>
             </div>
             <div className="flex justify-between my-3">
-              <div className="w-[150px] h-[80px] rounded-lg bg-white flex flex-col px-5 py-3">
+              <div className="w-[140px] h-[80px] rounded-lg bg-white flex flex-col px-5 py-3">
                 <span className="text-xs font-semibold text-purple-900">
                   Pesananan Baru
                 </span>
@@ -326,7 +326,7 @@ function AdminHome({ data, penjualan, profit }) {
                   {data.pesananBaru[0]?.pesanan_baru}
                 </span>
               </div>
-              <div className="w-[150px] h-[80px] rounded-lg bg-white flex flex-col px-5 py-3">
+              <div className="w-[140px] h-[80px] rounded-lg bg-white flex flex-col px-5 py-3">
                 <span className="text-xs font-semibold text-purple-900">
                   Siap Dikirim
                 </span>
@@ -334,7 +334,7 @@ function AdminHome({ data, penjualan, profit }) {
                   {data.siapDikirim[0]?.siap_dikirim}
                 </span>
               </div>
-              <div className="w-[150px] h-[80px] rounded-lg bg-white flex flex-col px-5 py-3">
+              <div className="w-[140px] h-[80px] rounded-lg bg-white flex flex-col px-5 py-3">
                 <span className="text-xs font-semibold text-purple-900">
                   Sedang Dikirim
                 </span>
@@ -344,7 +344,7 @@ function AdminHome({ data, penjualan, profit }) {
               </div>
             </div>
             <div className="flex justify-between">
-              <div className="w-[150px] h-[80px] rounded-lg bg-white flex flex-col px-5 py-3">
+              <div className="w-[140px] h-[80px] rounded-lg bg-white flex flex-col px-5 py-3">
                 <span className="text-xs font-semibold text-purple-900">
                   Selesai
                 </span>
@@ -352,7 +352,7 @@ function AdminHome({ data, penjualan, profit }) {
                   {data.selesai[0]?.selesai}
                 </span>
               </div>
-              <div className="w-[150px] h-[80px] rounded-lg bg-white flex flex-col px-5 py-3">
+              <div className="w-[140px] h-[80px] rounded-lg bg-white flex flex-col px-5 py-3">
                 <span className="text-xs font-semibold text-purple-900">
                   Dibatalkan
                 </span>
@@ -360,7 +360,7 @@ function AdminHome({ data, penjualan, profit }) {
                   {data.dibatalkan[0]?.dibatalkan}
                 </span>
               </div>
-              <div className="w-[150px] h-[80px] rounded-lg bg-white flex flex-col px-5 py-3">
+              <div className="w-[140px] h-[80px] rounded-lg bg-white flex flex-col px-5 py-3">
                 <span className="text-xs font-semibold text-purple-900">
                   Chat Baru
                 </span>
@@ -406,7 +406,7 @@ function AdminHome({ data, penjualan, profit }) {
           </div>
         </div>
         <div className="flex justify-between my-5">
-          <div className="w-[475px] h-[350px] bg-white rounded-lg">
+          <div className="w-[445px] h-[350px] bg-white rounded-lg">
             <div className="flex justify-between px-[10px] pt-[35px] mb-[60px]">
               <div className="flex flex-col">
                 <span>Profit</span>
@@ -430,7 +430,7 @@ function AdminHome({ data, penjualan, profit }) {
               <Bar height="125px" options={options} data={dataProfitMingguan} />
             )}
           </div>
-          <div className="w-[475px] h-[350px] bg-white rounded-lg">
+          <div className="w-[445px] h-[350px] bg-white rounded-lg">
             <div className="flex justify-between px-[10px] pt-[35px] mb-[75px]">
               <span>Penjualan Obat</span>
               <Select

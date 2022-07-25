@@ -116,7 +116,9 @@ const ForgotPass = () => {
                     {formik.errors.newPassword}
                   </p>
                 ) : null}
-                <div className="absolute xl:bottom-3  bottom-4 ml-3 text-purple-800 text-lg"></div>
+                <div className="absolute xl:bottom-3  bottom-4 ml-3 text-purple-800 text-lg">
+                  <AiFillLock />
+                </div>
                 <div
                   className="absolute xl:bottom-3 bottom-4 ml-[278px] xl:ml-[440px] text-purple-800 text-lg"
                   onClick={handleClick2}

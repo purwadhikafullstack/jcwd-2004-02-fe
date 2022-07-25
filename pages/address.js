@@ -6,7 +6,7 @@ import { ButtonPrimary, ButtonSecondary } from "../components/button";
 import Footer from "../components/Footer";
 import axios from "axios";
 import { API_URL } from "../helpers";
-import { Select } from "@chakra-ui/react";
+import { Select, Button } from "@chakra-ui/react";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { useRouter, router } from "next/router";
@@ -251,12 +251,38 @@ const Address = () => {
             <span className="text-xs ">Simpan sebagai alamat utama</span>
           </div> */}
           <div className="flex justify-between">
-            <ButtonSecondary className="md:w-[240px] md:h-[40px] w-[380px] h-[50px]">
+            {/* <ButtonSecondary className="md:w-[240px] md:h-[40px] w-[380px] h-[50px]">
               Batalkan
-            </ButtonSecondary>
-            <ButtonPrimary className="md:w-[240px] md:h-[40px] w-[380px] h-[50px]">
+            </ButtonSecondary> */}
+            <button
+              className="py-2 border-[1.5px] text-xs font-medium border-purple-800 rounded-lg bg-white text-purple-800 hover:bg-purple-100 md:w-[240px] md:h-[40px] w-[380px] h-[50px]"
+              disabled={addAddress.length == 0}
+            >
+              Batalkan
+            </button>
+            {/* <ButtonPrimary className="md:w-[240px] md:h-[40px] w-[380px] h-[50px]">
               Simpan Alamat
-            </ButtonPrimary>
+            </ButtonPrimary> */}
+            {/* <button
+              className="py-2 rounded-lg text-xs font-medium bg-purple-800 text-white hover:bg-purple-900 md:w-[240px] md:h-[40px] w-[380px] h-[50px]"
+              disabled={addAddress.length == 0}
+            >
+              Simpan Alamat
+            </button> */}
+            <Button
+              colorScheme="purple"
+              width="240px"
+              fontSize="12px"
+              type="submit"
+              disabled={
+                !addAddress.address ||
+                !addAddress.phonenumber ||
+                !addAddress.firstname ||
+                !addAddress.city_id
+              }
+            >
+              Simpan Alamat
+            </Button>
           </div>
         </form>
       </div>
