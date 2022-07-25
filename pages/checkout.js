@@ -16,6 +16,7 @@ import Rupiah from "../helpers/convertToRupiah";
 import RingkasanOrderCheckout from "../components/RingkasanOrderCheckout";
 import MetaDecorator from "../components/MetaDecorator";
 import healthymedlogo from "../public/healthymed-logo.svg";
+import { Divider } from "@chakra-ui/react";
 
 const Checkout = ({ getCartAction }) => {
   const [data, setData] = useState([]);
@@ -102,7 +103,7 @@ const Checkout = ({ getCartAction }) => {
         />
       </>
       <Navbar />
-      <div className="flex px-[96px] pt-10 pb-14">
+      <div className="flex md:flex-row flex-col px-[96px] pt-10 pb-14">
         <div className="flex flex-col">
           <div>
             <BoxAddress
@@ -111,8 +112,10 @@ const Checkout = ({ getCartAction }) => {
               getAddress={getUserAddress}
             />
           </div>
-          <div className=" w-[700px] min-h-[260px] rounded-lg mr-12 mt-[20px] shadow-lg shadow-purple-100 p-6 text-purple-900 font-bold">
+          <Divider className="md:hidden inline-block my-6" />
+          <div className=" md:w-[700px] md:min-h-[260px] w-[900px] md:rounded-lg md:mr-12 md:mt-[20px] md:shadow-lg md:shadow-purple-100 md:p-6 md:text-base text-2xl text-purple-900 font-bold">
             Ringkasan Order
+            <Divider className="md:hidden inline-block my-6" />
             <div>
               <div className="ml-2">
                 <img className="my-6" src={"/Line24.svg"} />
@@ -130,14 +133,15 @@ const Checkout = ({ getCartAction }) => {
               ))}
 
               <div className="flex flex-col items-end justify-end">
-                <div>
+                <div className="md:inline hidden">
                   <img src={"/Line17.svg"} />
                 </div>
-                <div className="flex justify-between w-[523px] mt-5">
-                  <span className="text-purple-900 text-md font-semibold">
+                <Divider className="my-5 md:hidden inline-block" />
+                <div className=" flex justify-between w-[523px] mt-5">
+                  <span className="md:inline-block hidden text-purple-900 text-md font-semibold">
                     Subtotal
                   </span>
-                  <span className="text-purple-900 text-md font-bold">
+                  <span className="md:inline-block hidden text-purple-900 text-md font-bold">
                     {Rupiah(subTotal())}
                   </span>
                 </div>

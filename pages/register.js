@@ -120,7 +120,7 @@ const Register = ({ registerActions }) => {
                     {formik.errors.name}
                   </p>
                 ) : null}
-                <div className="absolute xl:bottom-3 top-8 ml-3 text-purple-800 text-lg">
+                <div className="absolute xl:bottom-3 top-10 xl:top-8 ml-3 text-purple-800 text-lg">
                   <CgProfile />
                 </div>
               </div>
@@ -141,7 +141,7 @@ const Register = ({ registerActions }) => {
                     {formik.errors.email}
                   </p>
                 ) : null}
-                <div className="absolute xl:bottom-3 top-8 ml-3 text-purple-800 text-lg">
+                <div className="absolute xl:bottom-3 top-10 xl:top-8 ml-3 text-purple-800 text-lg">
                   <MdEmail />
                 </div>
               </div>
@@ -163,11 +163,11 @@ const Register = ({ registerActions }) => {
                     {formik.errors.password}
                   </p>
                 ) : null}
-                <div className="absolute xl:bottom-3 top-8 ml-3 text-purple-800 text-lg">
+                <div className="absolute xl:bottom-3 top-10 xl:top-8 ml-3 text-purple-800 text-lg">
                   <AiFillLock />
                 </div>
                 <div
-                  className="absolute xl:bottom-3 top-8 ml-[278px] xl:ml-[440px] text-purple-800 text-lg"
+                  className="absolute xl:bottom-3 top-10 xl:top-8 ml-[278px] xl:ml-[440px] text-purple-800 text-lg"
                   onClick={handleClick1}
                 >
                   {show1 ? <BsEyeFill /> : <BsEyeSlashFill />}
