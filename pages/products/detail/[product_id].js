@@ -11,6 +11,19 @@ import { toast } from "react-toastify";
 import Link from "next/link";
 import healthymedlogo from "../../../public/healthymed-logo.svg";
 import MetaDecorator from "../../../components/MetaDecorator";
+import { FaCartPlus } from "react-icons/fa";
+import { FiHeart } from "react-icons/fi";
+import { MdArrowBackIosNew } from "react-icons/md";
+import { IoCart } from "react-icons/io5";
+import {
+  Button,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+} from "@chakra-ui/react";
+import { HamburgerIcon } from "@chakra-ui/icons";
 
 function ProductDetail({ product, productTerkait }) {
   const route = useRouter();
@@ -120,11 +133,56 @@ function ProductDetail({ product, productTerkait }) {
         />
       </div>
       <>
-        <Navbar />
+        <div className="hidden md:block">
+          <Navbar />
+        </div>
+        <div className="md:hidden flex w-screen mt-12 h-12 px-6 text-xl shadow-lg font-bold justify-between text-primary">
+          <div className="pt-1 mr-3 cursor-pointer flex">
+            <MdArrowBackIosNew
+              onClick={() => route.push("/home")}
+              className="mt-1 mr-3"
+            />
+            <div>Kategori</div>
+          </div>
+          <div>
+            <div className="flex items-center justify-center">
+              <IoCart
+                className="text-2xl text-primary"
+                onClick={() => {
+                  route.push("/cart");
+                }}
+              />
+              <Menu>
+                <MenuButton
+                  as={IconButton}
+                  aria-label="Options"
+                  icon={<HamburgerIcon />}
+                  variant="outline"
+                  className="ml-4"
+                  borderColor={"transparent"}
+                />
+                <MenuList>
+                  <MenuItem
+                    fontSize={"md"}
+                    onClick={() => route.push("/profile")}
+                  >
+                    Profile
+                  </MenuItem>
+                  <MenuItem
+                    fontSize={"md"}
+                    onClick={() => route.push("/userprofile/transactions")}
+                  >
+                    Transaksi
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            </div>
+          </div>
+        </div>
 
-        <div className="user-container">
+        <div className="md:user-container">
           {/* Breadcrumb */}
-          <div className="mb-[38px]">
+          <div className="mb-[38px] hidden md:block">
             <Link href="/home">
               <a className="text-secondary hover:text-primary">Beranda / </a>
             </Link>
@@ -148,7 +206,7 @@ function ProductDetail({ product, productTerkait }) {
           <div className="border-b-2 mt-[50px]"></div>
 
           {/* Product Terkait */}
-          <div className="mt-[60px] text-2xl text-primary font-bold">
+          <div className="md:mt-[60px] mt-6 px-4 md:px-0 text-2xl text-primary font-bold ">
             Produk Terkait
           </div>
           <div className="mt-[28px]">
@@ -156,7 +214,34 @@ function ProductDetail({ product, productTerkait }) {
           </div>
         </div>
 
-        <Footer />
+        {/* button mobile */}
+        <div className="flex md:hidden w-full px-8 my-6 justify-between">
+          <div
+            className="flex items-center w-12 h-12 border-2 border-secondary rounded-md text-secondary hover:bg-hover-button cursor-pointer"
+            onClick={() => onBuyClick()}
+          >
+            <FaCartPlus className="text-xl mx-auto " />
+          </div>
+          <div className="flex items-center w-12 h-12 border-2 border-secondary rounded-md text-secondary">
+            <FiHeart className="text-xl mx-auto" />
+          </div>
+          <div
+            className="flex items-center w-8/12 h-12 bg-secondary rounded-md text-white cursor-pointer"
+            onClick={() => {
+              try {
+                onBuyClick();
+                route.push("/cart");
+              } catch (error) {
+                console.log(error);
+              }
+            }}
+          >
+            <span className="mx-auto">Beli Sekarang</span>
+          </div>
+        </div>
+        <div className="hidden md:block">
+          <Footer />
+        </div>
       </>
     </>
   );

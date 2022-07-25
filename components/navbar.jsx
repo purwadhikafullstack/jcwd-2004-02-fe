@@ -43,6 +43,7 @@ const Navbar = () => {
 
   const { isLogin, name, profilepic } = useUser();
   const profpic = profilepic ? `${API_URL + profilepic}` : `../no_pic.png`;
+  console.log(profpic, "profpic");
 
   return (
     <div className="flex justify-between h-[80px] bg-white shadow-lg shadow-purple-100 px-5">
@@ -83,6 +84,7 @@ const Navbar = () => {
                   borderRadius="full"
                   boxSize="60px"
                   src={profpic}
+                  fallbackSrc="/no_pic.png"
                   alt="profilepic"
                 />
                 <div className="text-xs lg:max-w-[89px] text-purple-800 truncate">

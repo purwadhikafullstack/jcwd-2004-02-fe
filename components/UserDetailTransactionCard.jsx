@@ -98,9 +98,7 @@ function UserDetailTransactionCard({ data, show, setShow }) {
                   Batas Akhir Pembayaran
                 </div>
                 <div className="font-semibold text-sm">
-                  {dayjs(updated_at)
-                    .add(2, "day")
-                    .format("DD MMMM YYYY hh:mm A")}
+                  {dayjs(expired_at).format("DD MMMM YYYY hh:mm A")}
                 </div>
               </div>
               <div className="flex items-center">
@@ -146,7 +144,7 @@ function UserDetailTransactionCard({ data, show, setShow }) {
                     Tanggal Pengajuan
                   </div>
                   <div className=" text-sm">
-                    {new Date(created_at).toUTCString()}
+                    {dayjs(created_at).format("DD MMMM YYYY hh:mm A")}
                   </div>
                   <div className="text-secondary text-sm font-medium mt-[20px]">
                     Perbesar Gambar
@@ -156,7 +154,7 @@ function UserDetailTransactionCard({ data, show, setShow }) {
               {status == "menunggu konfirmasi" ? (
                 <div className="text-right lg:mt-[24px]">
                   <div className="text-slate-500 text-[12px] w-[177px]">
-                    Mohon menunggu balasan dari apoteker selama 5 menit
+                    Mohon menunggu balasan dari apoteker selama
                   </div>
                   <div className="flex items-center">
                     <div className="w-[31px] h-[32px] text-white bg-red-400 font-semibold rounded-lg text-center py-[3px]">
@@ -195,7 +193,7 @@ function UserDetailTransactionCard({ data, show, setShow }) {
 
         {products?.length ? (
           <>
-            <div className="px-[40px] py-[28px] w-full border-[1px] border-slate-100 shadow-lg rounded-xl">
+            <div className="px-[40px] py-[28px] mt-[15px] w-full border-[1px] border-slate-100 shadow-lg rounded-xl">
               <div className="font-bold text-xl">Ringkasan Order</div>
               <div className="mt-[12px] w-full border-b-2" />
               <div className="flex justify-between">
@@ -229,10 +227,10 @@ function UserDetailTransactionCard({ data, show, setShow }) {
                 </div>
               </div>
               {show
-                ? products.map((val, id) => {
+                ? products.map((val, ind) => {
                     return (
-                      <div key={id}>
-                        {val.id == 0 ? null : (
+                      <div key={ind}>
+                        {ind == 0 ? null : (
                           <div className="flex justify-between">
                             <div className="flex py-[12px] ">
                               <div className="w-[123.63px] h-[115.34px] bg-slate-200 rounded-lg overflow-hidden relative">

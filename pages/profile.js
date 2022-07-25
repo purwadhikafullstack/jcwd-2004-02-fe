@@ -27,10 +27,8 @@ import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import Head from "next/head";
 import HeaderMobile from "../components/HeaderMobile";
 import UserProfileSidebar from "../components/UserProfileSidebar";
-import { MdLocationOn } from "react-icons/md";
 
 const Profile = () => {
   const { name, email, gender, birthdate, profilepic, id } = useUser();
@@ -78,7 +76,7 @@ const Profile = () => {
         <Navbar />
       </div>
 
-      <div className="md:user-container flex items-center justify-between">
+      <div className="md:user-container flex items-center justify-between md:mx-[96px]  md:w-full">
         <div className="hidden md:block">
           <UserProfileSidebar />
         </div>
@@ -97,7 +95,7 @@ const Profile = () => {
                 <Divider className="mt-7 " />
               </div>
             </div>
-            <div className="flex flex-col w-screen md:w-[900px]  md:flex-row">
+            <div className="flex flex-col w-screen md:w-[900px] mt-6 md:mt-0 md:flex-row">
               <div className="flex flex-col items-center justify-center w-screen md:w-[500px]  ">
                 <div className="md:mt-3 md:w-[300px]">
                   <Image alt={"profpic"} src={profpic} />

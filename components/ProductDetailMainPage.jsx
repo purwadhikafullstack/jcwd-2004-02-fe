@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import Slider from "react-slick";
 // import { API_URL } from "../../../helpers";
 import {
@@ -31,7 +30,7 @@ function ProductDetailMainPage({
   function NextArrow({ onClick }) {
     return (
       <div
-        className="p-1 rounded-full bg-white drop-shadow-lg border-slate-50 border-[2px] text-2xl absolute bottom-[110px] -right-[70px]"
+        className="p-1 rounded-full bg-white drop-shadow-md border-slate-50 border-[2px] text-2xl absolute bottom-[110px] -right-[70px]"
         onClick={onClick}
       >
         <HiOutlineChevronRight className="text-3xl text-primary" />
@@ -42,7 +41,7 @@ function ProductDetailMainPage({
   function PrevArrow({ onClick }) {
     return (
       <div
-        className="p-1 rounded-full bg-white drop-shadow-lg border-slate-50 border-[2px] text-2xl absolute bottom-[110px] -left-[70px]"
+        className="p-1 rounded-full bg-white drop-shadow-md border-slate-50 border-[2px] text-2xl absolute bottom-[110px] -left-[70px]"
         onClick={onClick}
       >
         <HiOutlineChevronLeft className="text-3xl text-primary" />
@@ -76,20 +75,20 @@ function ProductDetailMainPage({
 
   return (
     <>
-      <div className="flex">
-        <div>
+      <div className="flex flex-col md:flex-row">
+        <div className="flex items-center justify-center md:block">
           {/* Image Carousel */}
           <div
-            className="lg:w-[405px] lg:h-[300px] border-2 border-slate-50 
-    rounded-lg shadow-lg shadow-slate-200"
+            className=" w-[405px] h-[300px] md:border-2 border-slate-50 
+    rounded-md md:shadow-md md:shadow-slate-200"
           >
-            <div className="lg:w-[223px] lg:h-[239px] mx-auto mt-[25px]">
-              <Slider {...settings} className="">
+            <div className=" w-[223px] h-[239px] mx-auto mt-[25px]">
+              <Slider {...settings}>
                 {product.images?.map((val, i) => {
                   return (
                     <div
                       key={i}
-                      className="lg:w-[223px] lg:h-[239px] overflow-hidden relative"
+                      className=" w-[223px] h-[239px] overflow-hidden relative"
                     >
                       <Image
                         src={`${API_URL}${val.image}`}
@@ -103,16 +102,16 @@ function ProductDetailMainPage({
             </div>
           </div>
           {/* Button */}
-          <div className="flex mt-[24px]">
+          <div className="hidden md:flex mt-[24px]">
             <div
-              className="flex justify-between text-center items-center lg:w-[145px] lg:h-[46px]
+              className="flex justify-between text-center items-center w-full h-full md:w-[145px] md:h-[46px]
        text-xs tracking-wide font-medium bg-secondary rounded-full text-white px-[24px] cursor-pointer"
             >
               <BsFillChatDotsFill className="text-xl" />
               <span>Chat Admin</span>
             </div>
             <div
-              className="flex justify-between text-center items-center lg:w-[145px] lg:h-[46px]
+              className="flex justify-between text-center items-center w-full h-full md:w-[145px] md:h-[46px]
        text-xs tracking-wide font-medium bg-secondary rounded-full text-white px-[35px] ml-[10px] cursor-pointer"
             >
               <IoShareSocial className="text-xl" />
@@ -122,7 +121,7 @@ function ProductDetailMainPage({
         </div>
 
         {/* Other information */}
-        <div className="ml-[122px] w-full">
+        <div className="md:ml-[122px] w-full px-4 md:px-0">
           <div className="text-sm font-bold text-primary">
             {product.brand_name}
           </div>
@@ -133,7 +132,7 @@ function ProductDetailMainPage({
             </span>
             <span className="text-sm">/ {product.unit}</span>
           </div>
-          <div className="flex items-center tracking-wide mb-[24px] lg:h-[24px] mt-[11px] text-sm">
+          <div className="flex items-center tracking-wide mb-[24px] md:h-[24px] mt-[11px] text-sm">
             <div className="pr-2 line-through decoration-1 decoration-slate-400 text-slate-400">
               {rupiah(65000)}
             </div>
@@ -141,8 +140,8 @@ function ProductDetailMainPage({
               17%
             </div>
           </div>
-          <div className="flex items-center mb-[44px]">
-            <div className="grid grid-cols-3 text-center items-center text-secondary h-[38px] w-[164px] bg-slate-200 rounded-lg cursor-pointer">
+          <div className="flex items-center md:mb-[44px]">
+            <div className="grid grid-cols-3 text-center items-center text-secondary h-[38px] w-[164px] bg-slate-200 rounded-md cursor-pointer">
               <div className="text-xl mx-auto" onClick={decrease}>
                 <HiMinus />
               </div>
@@ -162,16 +161,16 @@ function ProductDetailMainPage({
               Sisa {product.total_stock} {product.unit}
             </div>
           </div>
-          <div className="flex justify-between w-[427px]">
+          <div className="hidden md:flex justify-between md:w-[427px] ">
             <div
-              className="flex items-center w-[194px] h-[47px] border-2 border-secondary rounded-lg text-secondary hover:bg-hover-button cursor-pointer"
+              className="flex items-center w-[194px] h-[47px] border-2 border-secondary rounded-md text-secondary hover:bg-hover-button cursor-pointer"
               onClick={() => onBuyClick()}
             >
               <FaCartPlus className="text-xl ml-[40px]" />
               <span className="text-sm font-semibold ml-[20px]">Keranjang</span>
             </div>
             <div
-              className="flex items-center w-[153px] h-[47px] bg-secondary rounded-lg text-white cursor-pointer"
+              className="flex items-center w-[153px] h-[47px] bg-secondary rounded-md text-white cursor-pointer"
               onClick={() => {
                 try {
                   onBuyClick();
@@ -183,13 +182,13 @@ function ProductDetailMainPage({
             >
               <span className="mx-auto">Beli</span>
             </div>
-            <div className="flex items-center w-[48px] h-[47px] border-2 border-secondary rounded-lg text-secondary">
+            <div className="flex items-center w-[48px] h-[47px] border-2 border-secondary rounded-md text-secondary">
               <FiHeart className="text-xl mx-auto" />
             </div>
           </div>
 
           {/* Description */}
-          <div className="mt-[76px] border-t-2"></div>
+          <div className="mt-4 md:mt-[76px] border-t-2"></div>
 
           <Tabs isFitted textColor={"brand.primary"}>
             <TabList height={"58px"}>

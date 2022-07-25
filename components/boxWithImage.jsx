@@ -131,7 +131,7 @@ const BoxWithImage = ({
   };
 
   return (
-    <div className=" w-[783px] h-[240px] mb-[26px] rounded-lg border-[1px] border-slate-100 shadow-lg shadow-slate-200 px-[41px]">
+    <div className=" w-[680px] h-[240px] mb-[26px] rounded-lg border-[1px] border-slate-100 shadow-lg shadow-slate-200 px-[20px]">
       <div>
         <div className="ml-2">
           {/* <input type={"checkbox"} className="mr-2"/> */}
@@ -160,7 +160,7 @@ const BoxWithImage = ({
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-end">
+        <div className="flex items-center justify-end mt-5">
           <span className="text-sm text-purple-900">
             Pindahkan ke whistlist
           </span>
@@ -175,7 +175,6 @@ const BoxWithImage = ({
             {/* <img src={"./min.svg"}  />  */}
             <button
               className="font-extrabold text-2xl text-purple-900 ml-7"
-              disabled={quantity == 1}
               onClick={decrease}
             >
               -
