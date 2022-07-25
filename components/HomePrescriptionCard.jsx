@@ -71,8 +71,7 @@ function HomePrescriptionCard({ alamat }) {
         <div className="text-primary font-bold text-xl">
           Punya resep dokter ?
         </div>
-      ) : (
-        // kalau tidak ada alamat
+        ) : ( // kalau tidak ada alamat
         <div className="my-auto mr-[28px]">
           {/* <Link href={"/address"}> */}
           <Button
@@ -95,13 +94,14 @@ function HomePrescriptionCard({ alamat }) {
           </Button>
           {/* </Link> */}
 
-        <div className="rounded-xl mt-[12px]">
-          <div className="h-[87px] overflow-hidden border-[1px] border-slate-50 shadow-slate-100 shadow-sm relative rounded-xl ">
-            <Image
-              src={"/resep-mobile-banner.svg"}
-              layout="fill"
-              objectFit="cover"
-            ></Image>
+          <div className="rounded-xl mt-[12px]">
+            <div className="h-[87px] overflow-hidden border-[1px] border-slate-50 shadow-slate-100 shadow-sm relative rounded-xl ">
+              <Image
+                src={"/resep-mobile-banner.svg"}
+                layout="fill"
+                objectFit="cover"
+              ></Image>
+            </div>
           </div>
         </div>
       </div>
