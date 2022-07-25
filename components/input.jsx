@@ -16,7 +16,7 @@ const Input = ({
         name={name}
         type={type}
         className={
-          "border-2 xl:h-10 xl:pl-10 h-12 pl-8 pr-8 xl:pr-10 pb-1 w-full rounded-xl focus:outline-none xl:text-sm" +
+          "border-2 xl:h-10 xl:pl-10 h-12 pl-8 pr-8 xl:pr-10 pb-1 w-full rounded-xl  xl:text-sm" +
           className
         }
         onChange={onChange}

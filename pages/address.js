@@ -261,6 +261,11 @@ const Address = () => {
               Batalkan
             </button>
             {/* <ButtonPrimary className="md:w-[240px] md:h-[40px] w-[380px] h-[50px]">
+            </ButtonSecondary>
+            <ButtonPrimary
+              type={"submit"}
+              className="md:w-[240px] md:h-[40px] w-[380px] h-[50px]"
+            >
               Simpan Alamat
             </ButtonPrimary> */}
             {/* <button

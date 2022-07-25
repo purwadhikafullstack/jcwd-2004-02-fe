@@ -17,7 +17,7 @@ function HomeJaminanBanner() {
           </div>
         </div>
       </div>
-      <div className="lg:w-[320px] lg:h-[161px] bg-hover-button rounded-lg shadow-lg">
+      <div className="lg:w-[320px] lg:h-[161px] mt-[16px] lg:mt-0 bg-hover-button rounded-lg shadow-lg">
         <div className="w-[290px] h-[93px] flex justify-between mx-auto mt-[34px]">
           <div className="w-[61px] h-[85px] overflow-hidden relative">
             <Image src={"/jaminan2.svg"} layout="fill" objectFit="cover" />
@@ -31,7 +31,7 @@ function HomeJaminanBanner() {
           </div>
         </div>
       </div>
-      <div className="lg:w-[320px] lg:h-[161px] bg-hover-button rounded-lg shadow-lg">
+      <div className="lg:w-[320px] lg:h-[161px] mt-[16px] lg:mt-0 bg-hover-button rounded-lg shadow-lg">
         <div className="w-[290px] h-[93px] flex justify-between mx-auto mt-[34px]">
           <div className="w-[90px] h-[50px] overflow-hidden relative mt-[19px] ">
             <Image src={"/jaminan3.svg"} layout="fill" objectFit="cover" />

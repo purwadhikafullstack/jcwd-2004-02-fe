@@ -28,7 +28,7 @@
   }
 
   .user-container {
-    @apply max-w-screen-lg my-[44px] mx-auto w-[327px] lg:w-full;
+    @apply max-w-screen-lg mt-[120px] lg:mt-[120px] mx-auto w-[327px] lg:w-full;
   }
 
   .container {

@@ -88,19 +88,21 @@ export default function Home() {
         <HomePrescriptionCard alamat={alamat} />
 
         {/* Category Carousel  */}
-        <div className="flex justify-between mt-[50px] items-end ">
-          <div className="font-bold text-xl text-primary">Kategori</div>
+        <div className="flex justify-between mt-[22px] lg:mt-[50px] items-end ">
+          <div className="font-bold text-lg lg:text-xl text-primary">
+            Kategori
+          </div>
           <div className="font-bold text-md text-secondary">Lihat Semua</div>
         </div>
-        <div className="mt-[20px]">
-          <HomeCategoryCarousel />
-        </div>
+      </div>
+      <div className=" mt-[10px] lg:mt-[20px] lg:w-[1024px] lg:mx-auto pl-2">
+        <HomeCategoryCarousel />
       </div>
 
       {/* Discount Products */}
       <div className="mt-[30px] border-b-2 lg:w-[1024px] lg:mx-auto" />
-      <div className="flex justify-between mt-[38px] items-end lg:w-[1024px] w-[327px] mx-auto">
-        <div className="font-bold text-xl text-primary ">
+      <div className="flex justify-between mt-[22px] lg:mt-[38px] items-end lg:w-[1024px] w-[327px] mx-auto">
+        <div className="font-bold text-lg lg:text-xl text-primary ">
           Kejar Diskon Hari Ini
         </div>
         <div className="font-bold text-md text-secondary">Lihat Semua</div>
@@ -108,9 +110,9 @@ export default function Home() {
       <div className="lg:w-[1024px] lg:mx-auto">
         <HomeDiscount data={data} />
       </div>
-      <div className="mt-[40px] border-b-2" />
+      <div className="mt-[40px] border-b-2 lg:w-[1027px]" />
 
-      <div className="user-container">
+      <div className=" mt-[40px] lg:mt-[40px] mx-auto w-[327px] lg:w-[1027px]">
         {/* Event Banner */}
         <div>
           <div className="mt-[48px] grid lg:grid-cols-2 gap-6">
@@ -129,10 +131,12 @@ export default function Home() {
           <div className="font-bold text-xl text-primary">Popular Product</div>
           <div className="font-bold text-md text-secondary">Lihat Semua</div>
         </div>
-        <div className="mt-[28px]">
-          <HomePopularProductCarousel data={data} />
-        </div>
+      </div>
+      <div className="mt-[28px]">
+        <HomePopularProductCarousel data={data} />
+      </div>
 
+      <div className=" mt-[40px] lg:mt-[40px] mx-auto w-[327px] lg:w-[1027px]">
         {/* Jaminan */}
         <div className="mt-[48px] border-b-2" />
         <div className="mt-[48px] items-end ">

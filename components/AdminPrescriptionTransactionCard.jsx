@@ -498,7 +498,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                     </div>
                     <button
                       disabled
-                      className="text-white bg-slate-400 w-[156px] rounded-md h-[32px] py-[5px] px-[25px]"
+                      className="text-white bg-secondary w-[156px] rounded-md h-[32px] py-[5px] px-[25px]"
                     >
                       Terima Pesanan
                     </button>
@@ -658,7 +658,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                         </div>
                         <button
                           onClick={onOpenAccept}
-                          className="text-white bg-slate-400 w-[156px] rounded-md h-[32px]"
+                          className="text-white bg-secondary w-[156px] rounded-md h-[32px]"
                         >
                           Terima Pesanan
                         </button>
@@ -668,23 +668,23 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                     {status == "diproses" ? (
                       <button
                         onClick={onOpenSend}
-                        className="text-white bg-slate-400 w-[156px] rounded-md h-[32px]"
+                        className="text-white bg-secondary w-[156px] rounded-md h-[32px]"
                       >
                         Minta Penjemputan
                       </button>
                     ) : null}
                     {status == "dikirim" ? (
-                      <button className="text-white bg-slate-400 w-[156px] rounded-md h-[32px]">
+                      <button className="text-white bg-secondary w-[156px] rounded-md h-[32px]">
                         Lihat Rincian
                       </button>
                     ) : null}
                     {status == "selesai" ? (
-                      <button className="text-white bg-slate-400 w-[156px] rounded-md h-[32px]">
+                      <button className="text-white bg-secondary w-[156px] rounded-md h-[32px]">
                         Lihat Rincian
                       </button>
                     ) : null}
                     {status == "dibatalkan" ? (
-                      <button className="text-white bg-slate-400 w-[156px] rounded-md h-[32px]">
+                      <button className="text-white bg-secondary w-[156px] rounded-md h-[32px]">
                         Lihat Rincian
                       </button>
                     ) : null}
