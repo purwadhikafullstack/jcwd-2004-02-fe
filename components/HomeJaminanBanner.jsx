@@ -2,7 +2,7 @@ import Image from "next/image";
 
 function HomeJaminanBanner() {
   return (
-    <div className="flex justify-between">
+    <div className="grid lg:grid-cols-3 grid-cols-1 justify-between">
       <div className="lg:w-[320px] lg:h-[161px] px-[20px] bg-hover-button rounded-lg shadow-lg">
         <div className="w-[290px] h-[93px] flex justify-between mx-auto mt-[34px]">
           <div className="w-[70px] h-[85px] overflow-hidden relative">

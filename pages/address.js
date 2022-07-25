@@ -98,8 +98,11 @@ const Address = () => {
         />
       </div>
       <Navbar />
-      <div className="px-[380px] pt-[50px] mb-24 h-full">
-        <span className="font-bold text-xl text-purple-900">
+      <div className="md:px-[380px] md:pt-[50px] px-12 md:w-full w-[900px] md:mx-0 mx-20 md:mb-24 h-full">
+        <span className="hidden md:inline-block font-bold text-xl text-purple-900">
+          Alamat Pengiriman
+        </span>
+        <span className="md:hidden inline-block w-[900px] font-bold text-xl text-purple-900 mt-10">
           Alamat Pengiriman
         </span>
         <form onSubmit={onSubmitAddAddress}>
@@ -109,19 +112,35 @@ const Address = () => {
           <span className="font-bold text-sm text-purple-900">
             Info Penerima
           </span>
-          <div className="my-8 flex justify-between">
-            <div className="w-[250px]">
+          {/* Dekstop */}
+          <div className="md:my-8 md:flex md:justify-between">
+            <div className="md:inline-block hidden w-[250px]">
               <Input name="firstname" onChange={addAddressHandleChange}>
                 Nama Depan
               </Input>
             </div>
-            <div className="w-[250px]">
+            <div className="md:inline-block hidden w-[250px]">
               <Input name="lastname" onChange={addAddressHandleChange}>
                 Nama Belakang
               </Input>
             </div>
           </div>
-          <div className="w-[300px]">
+          {/* Mobile */}
+          <div className="md:hidden inline-block ">
+            <div className="my-8 flex flex-col">
+              <div className="w-[800px] mb-5">
+                <Input name="firstname" onChange={addAddressHandleChange}>
+                  Nama Depan
+                </Input>
+              </div>
+              <div className="md:hidden inline-block w-[800px]">
+                <Input name="lastname" onChange={addAddressHandleChange}>
+                  Nama Belakang
+                </Input>
+              </div>
+            </div>
+          </div>
+          <div className="md:w-[300px] w-[800px] md:mb-0 mb-5">
             <Input
               name="phonenumber"
               onChange={addAddressHandleChange}
@@ -130,8 +149,9 @@ const Address = () => {
               Nomor HP
             </Input>
           </div>
-          <div className="flex justify-between my-8">
-            <div>
+          {/* Dekstop */}
+          <div className="md:flex md:justify-between md:my-8">
+            <div className="md:inline-block hidden">
               <span className="text-xs text-purple-800 mb-1">Provinsi</span>
               <Select
                 name="province_id"
@@ -149,7 +169,7 @@ const Address = () => {
                 })}
               </Select>
             </div>
-            <div>
+            <div className="md:inline-block hidden">
               <span className="text-xs text-purple-800 mb-1">
                 Kota/Kabupaten
               </span>
@@ -170,6 +190,49 @@ const Address = () => {
               </Select>
             </div>
           </div>
+          {/* Mobile */}
+          <div className="md:hidden inline-block">
+            <div className="flex flex-col ">
+              <div className="mb-5">
+                <span className="text-xs text-purple-800 mb-1">Provinsi</span>
+                <Select
+                  name="province_id"
+                  onChange={provinceHandleChange}
+                  w="800px"
+                  className="w-[150px] mt-2"
+                  placeholder="Pilih Provinsi..."
+                >
+                  {province.map((val, index) => {
+                    return (
+                      <option key={index} value={val.id}>
+                        {val.name}
+                      </option>
+                    );
+                  })}
+                </Select>
+              </div>
+              <div>
+                <span className="text-xs text-purple-800 mb-1">
+                  Kota/Kabupaten
+                </span>
+                <Select
+                  name="city_id"
+                  onChange={addAddressHandleChange}
+                  w="800px"
+                  className="w-[250px] mt-2"
+                  placeholder="Pilih Kota/Kabupaten..."
+                >
+                  {city.map((val, index) => {
+                    return (
+                      <option key={index} value={val.id}>
+                        {val.name}
+                      </option>
+                    );
+                  })}
+                </Select>
+              </div>
+            </div>
+          </div>
           {/* <div> 
                         <span className="text-xs text-purple-800 mb-1">Kecamatan</span>
                         <Select className="w-[250px] mt-2" options={options} />
@@ -188,10 +251,10 @@ const Address = () => {
             <span className="text-xs ">Simpan sebagai alamat utama</span>
           </div> */}
           <div className="flex justify-between">
-            <ButtonSecondary className="w-[240px] h-[40px]">
+            <ButtonSecondary className="md:w-[240px] md:h-[40px] w-[380px] h-[50px]">
               Batalkan
             </ButtonSecondary>
-            <ButtonPrimary className="w-[240px] h-[40px]">
+            <ButtonPrimary className="md:w-[240px] md:h-[40px] w-[380px] h-[50px]">
               Simpan Alamat
             </ButtonPrimary>
           </div>

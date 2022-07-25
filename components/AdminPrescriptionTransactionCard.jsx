@@ -313,7 +313,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
   let token = Cookies.get("token");
   const tolakPesanan = async () => {
     try {
-      await axios.post(`${API_URL}/transaction/rejectPayment/${id}`, {
+      await axios.post(`${API_URL}/transaction/rejectPayment/${id}`, null, {
         headers: {
           authorization: `Bearer ${token}`,
         },
@@ -342,7 +342,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
 
   const kirimPesanan = async () => {
     try {
-      await axios.patch(`${API_URL}/transaction/sendorder/${id}`, {
+      await axios.patch(`${API_URL}/transaction/sendorder/${id}`, null, {
         headers: {
           authorization: `Bearer ${token}`,
         },

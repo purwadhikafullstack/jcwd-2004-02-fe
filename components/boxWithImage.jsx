@@ -131,7 +131,7 @@ const BoxWithImage = ({
   };
 
   return (
-    <div className=" w-[680px] h-[240px] mb-[26px] rounded-lg border-[1px] border-slate-100 shadow-lg shadow-slate-200 px-[20px]">
+    <div className=" md:w-[680px] md:h-[240px] mb-[26px] md:rounded-lg md:border-[1px] w-[900px] md:border-slate-100 md:shadow-lg md:shadow-slate-200 md:px-[20px]">
       <div>
         <div className="ml-2">
           {/* <input type={"checkbox"} className="mr-2"/> */}
@@ -144,47 +144,53 @@ const BoxWithImage = ({
         <div className="flex ml-2">
           <div className="flex items-center">
             <div>{/* <input type={"checkbox"}/>  */}</div>
-            <div className="w-[86px] h-[86px]">
+            <div className="md:w-[86px] md:h-[86px] w-[200px] h-[200px]">
               <img src={imageProduct} />
             </div>
           </div>
           <div className="flex justify-between w-full">
             <div className="flex flex-col ml-10">
-              <span className="text-lg text-purple-900 font-semibold">
+              <span className="md:text-lg text-3xl text-purple-900 font-semibold">
                 {name}
               </span>
-              <span className="text-xs text-purple-900">1 {unit}</span>
+              <span className="md:text-xs text-2xl text-purple-900">
+                {kuantitas} {unit}
+              </span>
             </div>
             <div className="">
-              <span className="font-bold text-purple-900">{Rupiah(price)}</span>
+              <span className="font-bold md:text-base text-2xl text-purple-900">
+                {Rupiah(price)}
+              </span>
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-end mt-5">
-          <span className="text-sm text-purple-900">
+        <div className="flex items-center md:justify-end mt-5">
+          <span className="md:text-sm text-2xl text-purple-900 md:mr-0 mr-[380px]">
             Pindahkan ke whistlist
           </span>
           <span className="mx-3">|</span>
           <div>
             <BsFillTrashFill
-              className="w-[20px] h-[20px] text-purple-900"
+              className="md:w-[20px] md:h-[20px] w-[30px] h-[30px] text-purple-900"
               onClick={onDeleteClick}
             />
           </div>
-          <div className="w-[150px] h-[38px]  bg-gray-200 rounded-xl ml-5 flex justify-between items-center">
+          <div className="md:w-[150px] md:h-[38px] w-[200px] h-[60px]  bg-gray-200 rounded-xl ml-5 flex justify-between items-center">
             {/* <img src={"./min.svg"}  />  */}
             <button
-              className="font-extrabold text-2xl text-purple-900 ml-7"
+              className="font-extrabold md:text-2xl text-5xl text-purple-900 ml-7"
               onClick={decrease}
             >
               -
             </button>
             {/* <input name="quantity" onChange={(value) => setquantity(value)} value={quantity} className="text-sm font-bold text-purple-900 ml-2 w-5 bg-gray-200"/> */}
-            <div className="mr-5 ml-4">{input.quantity}</div>
+            <div className="mr-5 ml-4 md:text-base text-3xl">
+              {input.quantity}
+            </div>
             {/* <img src={"./plus.svg"}  />   */}
             {/* // quantity lebih atau = maka true */}
             <button
-              className="font-bold text-2xl text-purple-900 mr-7"
+              className="font-bold md:text-2xl text-5xl text-purple-900 mr-7"
               onClick={increase}
             >
               +

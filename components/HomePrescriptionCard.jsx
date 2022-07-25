@@ -10,34 +10,66 @@ function HomePrescriptionCard({ alamat }) {
   const router = useRouter();
 
   return (
-    <div className="flex mt-[56px] rounded-xl shadow-lg shadow-slate-100 border-[0.1px] border-slate-50 justify-between">
-      <div className="rounded-xl">
-        <div className="lg:h-[150px] lg:w-[451px] h-[76px] overflow-hidden relative rounded-xl ">
-          <Image src={"/home2.svg"} layout="fill" objectFit="cover"></Image>
+    <>
+      <div className="hidden lg:flex mt-[56px] rounded-xl shadow-lg shadow-slate-100 border-[0.1px] border-slate-50 justify-between">
+        <div className="rounded-xl">
+          <div className="lg:h-[150px] lg:w-[451px] h-[76px] overflow-hidden relative rounded-xl ">
+            <Image src={"/home2.svg"} layout="fill" objectFit="cover"></Image>
+          </div>
         </div>
-      </div>
-      <div className="w-[300px] ml-[11px] my-auto">
-        <div className="text-lg font-bold tracking-wide text-primary">
-          Punya Resep Dokter?
+        <div className="w-[300px] ml-[11px] my-auto">
+          <div className="text-lg font-bold tracking-wide text-primary">
+            Punya Resep Dokter?
+          </div>
+          <div className="text-xs font-medium tracking-wide text-slate-700 mt-[12px]">
+            Tak perlu antre & obat langsung dikirimkan ke lokasi anda! Foto
+            tidak boleh lebih dari 10 MB
+          </div>
         </div>
-        <div className="text-xs font-medium tracking-wide text-slate-700 mt-[12px]">
-          Tak perlu antre & obat langsung dikirimkan ke lokasi anda! Foto tidak
-          boleh lebih dari 10 MB
-        </div>
-      </div>
-      {/* kalau ada alamat */}
-      {alamat.length ? (
-        <div className="my-auto">
-          <Link href={"/prescription"}>
+        {/* kalau ada alamat */}
+        {alamat.length ? (
+          <div className="my-auto mr-[28px]">
+            <Link href={"/prescription"}>
+              <Button
+                height="40px"
+                width="180px"
+                textColor={"whiteAlpha.900"}
+                bgColor={"brand.primary"}
+              >
+                Unggah Resep
+              </Button>
+            </Link>
+          </div>
+        ) : (
+          // kalau tidak ada alamat
+          <div className="my-auto mr-[28px]">
+            {/* <Link href={"/address"}> */}
             <Button
               height="40px"
               width="180px"
               textColor={"whiteAlpha.900"}
               bgColor={"brand.primary"}
+              onClick={() => {
+                // kalau belum login
+                if (!isLogin) {
+                  router.push("/login");
+                }
+                // kalau sudah login, ke address
+                else {
+                  router.push("/address");
+                }
+              }}
             >
               Unggah Resep
             </Button>
-          </Link>
+            {/* </Link> */}
+          </div>
+        )}
+      </div>
+
+      <div className="lg:hidden mt-[32px]">
+        <div className="text-primary font-bold text-xl">
+          Punya resep dokter ?
         </div>
       ) : (
         // kalau tidak ada alamat
@@ -62,9 +94,18 @@ function HomePrescriptionCard({ alamat }) {
             Unggah Resep
           </Button>
           {/* </Link> */}
+
+        <div className="rounded-xl mt-[12px]">
+          <div className="h-[87px] overflow-hidden border-[1px] border-slate-50 shadow-slate-100 shadow-sm relative rounded-xl ">
+            <Image
+              src={"/resep-mobile-banner.svg"}
+              layout="fill"
+              objectFit="cover"
+            ></Image>
+          </div>
         </div>
-      )}
-    </div>
+      </div>
+    </>
   );
 }
 
