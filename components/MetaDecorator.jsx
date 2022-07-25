@@ -10,11 +10,15 @@ const MetaDecorator = ({ title, description, imageUrl }) => (
     <meta property="og:description" content={description} key="ogdesc" />
     <meta
       property="og:image"
-      content={metaDecorator + imageUrl}
-      // content={jcwd200402api.purwadhikabootcamp.com + imageUrl}
+      // content={metaDecorator + imageUrl}
+      content={"https://jcwd200402api.purwadhikabootcamp.com" + imageUrl}
       key="ogimg"
     />
-    <meta property="og:url" content={"https://healthymed.url"} key="ogurl" />
+    <meta
+      property="og:url"
+      content={"https://jcwd200402.purwadhikabootcamp.com"}
+      key="ogurl"
+    />
 
     {/* TWITTER */}
 
