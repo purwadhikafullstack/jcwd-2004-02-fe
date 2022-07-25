@@ -43,11 +43,10 @@ const Navbar = () => {
 
   const { isLogin, name, profilepic } = useUser();
   const profpic = profilepic ? `${API_URL + profilepic}` : `../no_pic.png`;
-  console.log(profpic, "profpic");
 
   return (
-    <div className="flex justify-between h-[80px] bg-white shadow-lg shadow-purple-100 px-5">
-      <div className="w-[250px] h-full  flex items-center justify-center">
+    <div className="flex justify-between lg:h-[80px] w-full h-[92px] bg-white shadow-lg shadow-purple-100 px-5">
+      <div className="hidden w-[250px] h-full lg:flex items-center justify-center">
         <Link href="/home">
           <div className="w-[200px] cursor-pointer">
             <img src={"/logo.svg"} className="text-sm" />
@@ -55,12 +54,12 @@ const Navbar = () => {
         </Link>
       </div>
 
-      <div className="w-[680px]">
+      <div className="hidden lg:inline w-[680px]">
         <div className="mt-5 h-10 border-[1px] rounded-md border-gray-300 flex bg-white">
           <div className="w-full flex items-center">
             <input
               placeholder="Cari Obat, Suplemen, Vitamin, Produk kesehatan"
-              className="w-[595px] border-0 ml-2 focus:outline-none text-sm"
+              className="lg:w-[595px] border-0 ml-2 focus:outline-none text-sm"
             />
           </div>
           <div>
@@ -68,45 +67,62 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+
+      <div className="lg:hidden w-[247px] mt-2">
+        <div className="mt-5 h-10 border-[1px] rounded-md border-gray-300 flex bg-white">
+          <div className="w-full flex items-center">
+            <input
+              placeholder="Cari Obat, Suplemen, Vitamin, Produk kesehatan"
+              className="lg:w-[595px] border-0 ml-2 focus:outline-none text-sm"
+            />
+          </div>
+          <div>
+            <AiOutlineSearch className="text-gray-300 mt-2 mr-3 text-xl" />
+          </div>
+        </div>
+      </div>
+
       {isLogin ? (
-        <div className="w-[270px] ml-10 flex items-center justify-center">
+        <div className="flex items-center justify-between ml-[10px]">
           <IoCart
-            className="text-2xl text-purple-900"
+            className="text-2xl text-purple-900 mx-[10px]"
             onClick={() => {
               router.push("/cart");
             }}
           />
-          <BsBellFill className="text-xl text-purple-900 mx-10" />
-          <Menu isLazy>
-            <MenuButton>
-              <div className="lg:max-w-[125px] flex items-center">
-                <Image
-                  borderRadius="full"
-                  boxSize="60px"
-                  src={profpic}
-                  fallbackSrc="/no_pic.png"
-                  alt="profilepic"
-                />
-                <div className="text-xs lg:max-w-[89px] text-purple-800 truncate">
-                  {name}
+          <BsBellFill className="text-xl text-purple-900 mx-[10px]" />
+          <div className="hidden lg:block">
+            <Menu isLazy>
+              <MenuButton>
+                <div className="lg:max-w-[125px] flex items-center">
+                  <Image
+                    borderRadius="full"
+                    boxSize="60px"
+                    src={profpic}
+                    fallbackSrc="/no_pic.png"
+                    alt="profilepic"
+                  />
+                  <div className="text-xs lg:max-w-[89px] text-purple-800 truncate">
+                    {name}
+                  </div>
                 </div>
-              </div>
-            </MenuButton>
-            <MenuList>
-              <MenuItem onClick={() => router.push("/profile")}>
-                Profile
-              </MenuItem>
-              <MenuItem
-                onClick={() => router.push("/userprofile/transactions")}
-              >
-                Transaksi
-              </MenuItem>
-              <MenuItem onClick={onOpenLogout}>Log Out</MenuItem>
-            </MenuList>
-          </Menu>
+              </MenuButton>
+              <MenuList>
+                <MenuItem onClick={() => router.push("/profile")}>
+                  Profile
+                </MenuItem>
+                <MenuItem
+                  onClick={() => router.push("/userprofile/transactions")}
+                >
+                  Transaksi
+                </MenuItem>
+                <MenuItem onClick={onOpenLogout}>Log Out</MenuItem>
+              </MenuList>
+            </Menu>
+          </div>
         </div>
       ) : (
-        <div className="w-96 flex items-center justify-center">
+        <div className="hidden w-96 lg:flex items-center justify-center">
           <Link href="/login">
             <div>
               <ButtonSecondary className="w-24 h-9 mx-2">Masuk</ButtonSecondary>

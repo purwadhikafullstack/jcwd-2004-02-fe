@@ -14,7 +14,7 @@ function HomeDiscountProductCarousel({ data }) {
     return (
       <div
         onClick={onClick}
-        className="p-2 rounded-full bg-white drop-shadow-lg text-2xl absolute top-[120px] -right-1 z-10 "
+        className="p-2 rounded-full bg-white drop-shadow-lg text-2xl absolute top-[120px] -right-1 z-10 lg:inline hidden "
       >
         <HiOutlineChevronRight className="text-3xl text-primary" />
       </div>
@@ -35,13 +35,29 @@ function HomeDiscountProductCarousel({ data }) {
   const settings = {
     dots: false,
     infinite: true,
-    slidesToShow: 5,
+    slidesToShow: 2,
     slidesToScroll: 1,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     autoplay: true,
     autoplaySpeed: 2000,
     pauseOnHover: true,
+    responsive: [
+      {
+        breakpoint: 2048,
+        settings: {
+          slidesToShow: 5,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 390,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
   return (

@@ -30,34 +30,34 @@ const routes = [
   {
     path: "/profile",
     name: "Profile",
-    icon: <FaUserCircle className="text-2xl" />,
+    icon: <FaUserCircle className="text-xl" />,
   },
   {
     path: "/userprofile/transactions",
     name: "Proses Pemesanan",
-    icon: <AiOutlineBars className="text-2xl" />,
+    icon: <AiOutlineBars className="text-xl" />,
   },
   {
     path: "#",
     name: "Metode Pembayaran",
-    icon: <HiCash className="text-[28px]" />,
+    icon: <HiCash className="text-[20px]" />,
   },
 
   {
     path: "#",
     name: "Wishlist",
-    icon: <AiFillHeart className="text-2xl" />,
+    icon: <AiFillHeart className="text-xl" />,
   },
   {
     path: "#",
     name: "Pesan Bantuan",
-    icon: <IoMail className="text-2xl" />,
+    icon: <IoMail className="text-xl" />,
   },
 
   {
     path: "/changePass",
     name: "Ganti Password",
-    icon: <RiLockPasswordLine className="text-2xl" />,
+    icon: <RiLockPasswordLine className="text-xl" />,
   },
 ];
 
@@ -95,7 +95,7 @@ function UserProfileSidebar({ children }) {
 
   return (
     <>
-      <div className="w-[300px] h-fit rounded-lg border-[1px] border-slate-100 shadow-lg text-primary">
+      <div className="w-[280px] h-fit rounded-lg border-[1px] border-slate-100 shadow-lg text-primary">
         {/* User's name */}
         <div className="flex py-[4px] pl-[20px] items-center">
           <Image
@@ -120,7 +120,7 @@ function UserProfileSidebar({ children }) {
                   >
                     {route.icon}
 
-                    <div className="cursor-pointer pl-[50px] font-medium">
+                    <div className="cursor-pointer pl-[50px] text-sm font-medium">
                       {route.name}
                     </div>
                   </div>
@@ -133,7 +133,7 @@ function UserProfileSidebar({ children }) {
                     >
                       {route.icon}
 
-                      <div className="cursor-pointer pl-[50px] font-medium">
+                      <div className="cursor-pointer pl-[50px] text-sm font-medium">
                         {route.name}
                       </div>
                     </div>
@@ -143,9 +143,9 @@ function UserProfileSidebar({ children }) {
             );
           })}
           <div className="flex cursor-pointer">
-            <MdLocationOn className="flex ml-10 text-2xl items-center mb-6" />
+            <MdLocationOn className="flex ml-10 text-xl items-center mb-6" />
             <div
-              className="text-primary font-semibold pl-[48px] items-center"
+              className="text-primary text-sm font-semibold pl-[48px] items-center"
               onClick={onOpen}
             >
               Alamat
