@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { useEffect, useState } from "react";
+import React from "react";
+import { useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -17,21 +17,21 @@ import {
   Select,
 } from "@chakra-ui/react";
 import { editProfileActions } from "../redux/actions/userActions";
-import { connect, useDispatch } from "react-redux";
+import { connect } from "react-redux";
 import useUser from "../hooks/useUser";
+import { DateConverter } from "../helpers";
+
 const ProfileModalEditProfile = ({ editProfileActions }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { name, email, gender, birthdate } = useUser();
+  const { name, gender, birthdate } = useUser();
   const [input, setinput] = useState({
-    name: name,
-    gender: gender,
-    birthdate: birthdate,
+    name: "",
+    gender: "",
+    birthdate: "",
   });
 
   const initialRef = React.useRef();
   const finalRef = React.useRef();
-
-  // const dispatch = useDispatch();
 
   const onFileChange = (e) => {
     console.log(input, "inpuuut");
@@ -42,14 +42,17 @@ const ProfileModalEditProfile = ({ editProfileActions }) => {
     editProfileActions(input);
     console.log(input);
     onClose();
+  };
 
-    // window.location.reload();
+  const onopenEdit = () => {
+    setinput({ ...input, name: name, gender: gender, birthdate: birthdate });
+    onOpen();
   };
   return (
     <>
       <div className="flex items-center justify-center">
         <Button
-          onClick={onOpen}
+          onClick={onopenEdit}
           className=" text-[14px] w-32 h-10 mt-10 "
           variant="outline"
           colorScheme={"purple"}
@@ -79,7 +82,7 @@ const ProfileModalEditProfile = ({ editProfileActions }) => {
                     name="name"
                     ref={initialRef}
                     value={input.name}
-                    // defaultValue={name}
+                    // defaultValue={input.name}
                     onChange={onFileChange}
                   />
                 </Stack>
@@ -97,6 +100,9 @@ const ProfileModalEditProfile = ({ editProfileActions }) => {
                     value={input.gender}
                     onChange={onFileChange}
                   >
+                    <option value="" hidden>
+                      Pilih Gender
+                    </option>
                     <option value="Pria">Pria</option>
                     <option value="Wanita">Wanita</option>
                   </Select>
@@ -113,7 +119,7 @@ const ProfileModalEditProfile = ({ editProfileActions }) => {
                     <input
                       name="birthdate"
                       onChange={onFileChange}
-                      value={input.birthdate}
+                      value={DateConverter(input.birthdate)}
                       style={{
                         border: "1px solid #ccc",
                         borderRadius: "4px",
