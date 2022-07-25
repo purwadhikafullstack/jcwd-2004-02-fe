@@ -69,14 +69,28 @@ function HomeCategoryCarousel() {
 
   const settings = {
     dots: false,
-    infinite: true,
-    slidesToShow: 6,
+    infinite: false,
+    slidesToShow: 2,
     slidesToScroll: 1,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
-    autoplay: true,
-    autoplaySpeed: 2000,
-    pauseOnHover: true,
+    speed: 500,
+    responsive: [
+      {
+        breakpoint: 2048,
+        settings: {
+          slidesToShow: 6,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 390,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
   return (
