@@ -62,16 +62,16 @@ const Prescription = () => {
         />
       </div>
       <>
-        <div>
-          <div className="hidden md:block">
-            <Navbar />
-          </div>
-          <div className="flex flex-col ">
-            <div className="hidden md:block ml-12 mt-10 ">
-              <div className="text-2xl font-semibold md:ml-24 md:mt-10">
+        <div className="hidden md:block">
+          <Navbar />
+        </div>
+        <div className="md:flex md:justify-center">
+          <div className="flex flex-col md:w-8/12 ">
+            <div className="hidden md:block mt-10 ">
+              <div className="text-2xl font-semibold  md:mt-10">
                 Kirim Resep
               </div>
-              <div className="text-sm flex md:ml-24">
+              <div className="text-sm flex ">
                 <div>
                   Tak perlu antre & obat langsung dikirimkan ke lokasi anda!
                 </div>
@@ -80,7 +80,7 @@ const Prescription = () => {
                 </div>
               </div>
             </div>
-            <div className="flex mx-auto flex-col shadow-md w-full rounded-lg mt-10  ">
+            <div className="flex mx-auto flex-col shadow-md w-full rounded-lg mt-10 ">
               <div className="mx-12 mt-3 text-sm font-semibold justify-start hidden md:text-gray-500">
                 Unggah Resep Dokter
               </div>
@@ -167,10 +167,10 @@ const Prescription = () => {
                 </Button>
               </div>
             </div>
-            <div className="hidden md:block">
-              <Footer />
-            </div>
           </div>
+        </div>
+        <div className="hidden md:block">
+          <Footer />
         </div>
       </>
     </div>
