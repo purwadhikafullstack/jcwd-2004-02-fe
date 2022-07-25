@@ -67,6 +67,36 @@ function UserTransactionCard({ data }) {
     return detik;
   };
 
+  const barangDiterima = async () => {
+    try {
+      await axios.patch(`${API_URL}/transaction/receiveorder/${id}`, null, {
+        headers: {
+          authorization: `bearer ${token}`,
+        },
+      });
+
+      setIsLoading(!isLoading);
+      toast.success(`Pesanan No. ${transaction_number} berhasil dikirim.`, {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
+      // onCloseSend();
+    } catch (error) {
+      console.log(error);
+
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
+    } finally {
+      setIsLoading(!isLoading);
+    }
+  };
+
   return (
     <>
       {prescription_number ? null : (
@@ -193,6 +223,9 @@ function UserTransactionCard({ data }) {
                   </p>
                 </div>
                 <button
+                  onClick={() => {
+                    barangDiterima();
+                  }}
                   className="w-[157px] h-[30px] text-white text-sm font-medium
                         bg-secondary rounded-lg text-center"
                 >
