@@ -44,13 +44,13 @@ function HomePopularProductCarousel({ data }) {
   };
 
   return (
-    <div className="w-full md:w-[1244px]">
+    <div className="w-full ">
       <Slider {...settings}>
         {data.map((val, ind) => {
           return (
             <div
               key={ind}
-              className="pb-[20px] cursor-pointer"
+              className="pb-[20px] cursor-pointer mx-2"
               onClick={() => {
                 router.push(
                   `/products/detail/${val.id}?brand=${val.brand_name}`
