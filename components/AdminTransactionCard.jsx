@@ -69,14 +69,14 @@ function AdminTransactionCard({ data, setIsLoading, isLoading }) {
   let token = Cookies.get("token");
   const tolakPesanan = async () => {
     try {
-      await axios.put(`${API_URL}/transaction/rejectPayment/${id}`, {
+      await axios.post(`${API_URL}/transaction/rejectPayment/${id}`, {
         headers: {
           authorization: `bearer ${token}`,
         },
       });
 
       setIsLoading(!isLoading);
-      toast.warning(`Pesanan No. ${transaction_number} berhasil ditolak.`, {
+      toast.success(`Pesanan No. ${transaction_number} berhasil ditolak.`, {
         position: "top-right",
         autoClose: 1000,
         closeOnClick: true,
@@ -98,14 +98,14 @@ function AdminTransactionCard({ data, setIsLoading, isLoading }) {
 
   const kirimPesanan = async () => {
     try {
-      await axios.put(`${API_URL}/transaction/sendorder/${id}`, {
+      await axios.patch(`${API_URL}/transaction/sendorder/${id}`, {
         headers: {
           authorization: `bearer ${token}`,
         },
       });
 
       setIsLoading(!isLoading);
-      toast.warning(`Pesanan No. ${transaction_number} berhasil dikirim.`, {
+      toast.success(`Pesanan No. ${transaction_number} berhasil dikirim.`, {
         position: "top-right",
         autoClose: 1000,
         closeOnClick: true,
@@ -328,7 +328,7 @@ function AdminTransactionCard({ data, setIsLoading, isLoading }) {
                         />
                       </div>
                       <div
-                        className="ml-[10px] font-medium text-sm"
+                        className="ml-[10px] font-medium text-sm cursor-pointer"
                         onClick={onOpenDetail}
                       >
                         Detail Pesanan
@@ -356,23 +356,23 @@ function AdminTransactionCard({ data, setIsLoading, isLoading }) {
                     {status == "diproses" ? (
                       <button
                         onClick={onOpenSend}
-                        className="text-white bg-slate-400 w-[156px] rounded-md h-[32px] "
+                        className="text-white bg-secondary w-[156px] rounded-md h-[32px] "
                       >
                         Minta Penjemputan
                       </button>
                     ) : null}
                     {status == "dikirim" ? (
-                      <button className="text-white bg-slate-400 w-[156px] rounded-md h-[32px] py-[5px] px-[25px]">
+                      <button className="text-white bg-secondary w-[156px] rounded-md h-[32px] py-[5px] px-[25px]">
                         Lihat Rincian
                       </button>
                     ) : null}
                     {status == "selesai" ? (
-                      <button className="text-white bg-slate-400 w-[156px] rounded-md h-[32px] py-[5px] px-[25px]">
+                      <button className="text-white bg-secondary w-[156px] rounded-md h-[32px] py-[5px] px-[25px]">
                         Lihat Rincian
                       </button>
                     ) : null}
                     {status == "dibatalkan" ? (
-                      <button className="text-white bg-slate-400 w-[156px] rounded-md h-[32px] py-[5px] px-[25px]">
+                      <button className="text-white bg-secondary w-[156px] rounded-md h-[32px] py-[5px] px-[25px]">
                         Lihat Rincian
                       </button>
                     ) : null}

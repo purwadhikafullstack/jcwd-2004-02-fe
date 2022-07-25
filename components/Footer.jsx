@@ -99,7 +99,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className=" flex flex-col items-center justify-center  bg-[#4F618E]">
+      <div className=" flex flex-col items-center justify-center bg-primary">
         <h1 className=" text-white my-6">Designed by JCUI/UX 1004</h1>
       </div>
     </div>
