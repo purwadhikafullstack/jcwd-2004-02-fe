@@ -7,6 +7,7 @@ const nextConfig = {
   },
   images: {
     domains: ["localhost", "jcwd200402api.purwadhikabootcamp.com"],
+
   },
 };
 
