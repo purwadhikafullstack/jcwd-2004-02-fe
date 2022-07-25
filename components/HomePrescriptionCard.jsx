@@ -55,7 +55,7 @@ function HomePrescriptionCard({ alamat }) {
               }
               // kalau sudah login, ke address
               else {
-                router.push("/address");
+                router.push("/addresspresc");
               }
             }}
           >
