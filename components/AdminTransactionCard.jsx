@@ -69,7 +69,7 @@ function AdminTransactionCard({ data, setIsLoading, isLoading }) {
   let token = Cookies.get("token");
   const tolakPesanan = async () => {
     try {
-      await axios.post(`${API_URL}/transaction/rejectPayment/${id}`, {
+      await axios.post(`${API_URL}/transaction/rejectPayment/${id}`, null, {
         headers: {
           authorization: `bearer ${token}`,
         },
@@ -97,8 +97,9 @@ function AdminTransactionCard({ data, setIsLoading, isLoading }) {
   };
 
   const kirimPesanan = async () => {
+    console.log("ini token", token);
     try {
-      await axios.patch(`${API_URL}/transaction/sendorder/${id}`, {
+      await axios.patch(`${API_URL}/transaction/sendorder/${id}`, null, {
         headers: {
           authorization: `bearer ${token}`,
         },
@@ -111,6 +112,7 @@ function AdminTransactionCard({ data, setIsLoading, isLoading }) {
         closeOnClick: true,
         draggable: true,
       });
+      onCloseSend();
     } catch (error) {
       console.log(error);
 
@@ -689,10 +691,7 @@ function AdminTransactionCard({ data, setIsLoading, isLoading }) {
             <Button
               bgColor="brand.secondary"
               colorScheme="black"
-              onClick={() => {
-                kirimPesanan();
-                onCloseSend();
-              }}
+              onClick={kirimPesanan}
             >
               Kirim Pesanan
             </Button>
