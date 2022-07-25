@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useDisclosure } from "@chakra-ui/react";
+import { Divider, useDisclosure } from "@chakra-ui/react";
 import {
   Modal,
   ModalOverlay,
@@ -53,19 +53,26 @@ const BoxAddress = ({ setSelectedAddress, selectedAddress, getAddress }) => {
   // }
 
   return (
-    <div className=" w-[700px] h-[260px] rounded-lg mr-12 shadow-lg shadow-purple-100 p-5 ">
+    <div className=" md:w-[700px] md:h-[260px] w-[900px] md:rounded-lg md:mr-12 md:shadow-lg md:shadow-purple-100 md:p-5 ">
       <div>
         <div>
-          <span className="ml-2 font-bold text-purple-900">
+          <span className="md:ml-2 md:text-base text-3xl  font-bold text-purple-900">
             Alamat Pengiriman
           </span>
-          <img className="my-3" src={"/Line24.svg"} />
+          <span className="ml-96 md:text-base text-2xl font-bold md:hidden inline-block text-purple-900">
+            Pilih Alamat Lain
+          </span>
+          {/* <img className="my-2" src={"/Line24.svg"} />  */}
+          <Divider className="my-4" />
         </div>
-        <div className="flex justify-between mx-2 mb-5 text-xs font-bold text-purple-900">
+        <div className="flex justify-between md:mx-2 md:mb-5 md:text-xs text-2xl my-10 font-bold text-purple-900">
           <span>
             {firstname} {lastname}, {phonenumber}
           </span>
-          <span onClick={onOpen} className="cursor-pointer">
+          <span
+            onClick={onOpen}
+            className="cursor-pointer hidden md:inline-block"
+          >
             Pilih Alamat Lain
           </span>
 
@@ -107,22 +114,24 @@ const BoxAddress = ({ setSelectedAddress, selectedAddress, getAddress }) => {
             </ModalContent>
           </Modal>
         </div>
-        <div className="flex flex-col justify-between w-72 ml-2">
-          <span className="text-xs">
+        <div className="flex flex-col justify-between text-2xl md:w-72 md:ml-2">
+          <span className="md:text-xs">
             {firstname} {lastname}
           </span>
-          <span className="text-xs">
+          <span className="md:text-xs">
             {address}, {city}, {province}
           </span>
+          <Divider className="md:hidden inline-block my-5" />
         </div>
-        <img className="mt-5" src={"/Line24.svg"} />
-        <div className="flex">
+        <Divider className="my-4 md:inline-block hidden" />
+        {/* <img className="mt-5" src={"/Line24.svg"} /> */}
+        <div className="flex items-center justify-center md:justify-start">
           <Link href={"/address"}>
-            <button className="w-[24px] h-[24px] bg-white shadow-md shadow-gray-200 text-center rounded-full  pb-2 font-extrabold text-base text-purple-900">
+            <button className="md:w-[24px] md:h-[24px] w-16 h-16 bg-white shadow-md shadow-gray-200 text-center rounded-full pb-2 font-extrabold md:text-base text-3xl text-purple-900">
               +
             </button>
           </Link>
-          <span className="font-bold text-purple-900  ml-2">
+          <span className="font-bold text-purple-900 md:ml-2 ml-4 md:text-sm text-2xl">
             Tambahkan Alamat Baru
           </span>
         </div>

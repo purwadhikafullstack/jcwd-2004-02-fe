@@ -115,7 +115,7 @@ const Login = ({ loginActions }) => {
                   <AiFillLock />
                 </div>
                 <div
-                  className="absolute xl:bottom-3 top-8 ml-[278px] xl:ml-[490px] text-purple-800 text-lg"
+                  className="absolute xl:bottom-3 top-8 ml-[490px] xl:ml-[490px] text-purple-800 text-lg"
                   onClick={handleClick1}
                 >
                   {show1 ? <BsEyeFill /> : <BsEyeSlashFill />}
