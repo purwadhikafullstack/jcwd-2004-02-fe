@@ -1,10 +1,8 @@
 import AdminNavbar from "../../../components/AdminNavbar";
 import AdminSidebar from "../../../components/AdminSidebar";
 import { FiDownload } from "react-icons/fi";
-import { HiSearch, HiDotsVertical } from "react-icons/hi";
+import { HiSearch } from "react-icons/hi";
 import { IoDocumentText } from "react-icons/io5";
-import { AiOutlineClockCircle } from "react-icons/ai";
-import { BsFillChatDotsFill } from "react-icons/bs";
 import { Checkbox } from "@chakra-ui/react";
 import { useCallback, useEffect, useState } from "react";
 import Pagination from "../../../components/AdminTransactionPagination";
@@ -171,47 +169,55 @@ function SemuaPesanan() {
             </div>
           </div>
 
-          <div className="mt-[34px] flex items-center justify-between">
-            <div>
-              <Checkbox
-                borderColor={"gray.300"}
-                colorScheme="purple"
-                isChecked={allChecked}
-                isIndeterminate={isIndeterminate}
-                onChange={(e) =>
-                  setCheckedItems([e.target.checked, e.target.checked])
-                }
-              >
-                <p className="text-primary">Pilih Semua</p>
-              </Checkbox>
-            </div>
-            <div>
-              <Pagination
-                totalData={totalData}
-                dataPerPage={10}
-                pageChangeHandler={setPage}
-                totalPage={Math.ceil(totalData / 10)}
-              />
-            </div>
-          </div>
-
           {/* CARD */}
-          {data?.map((val, id) => {
-            return (
-              <div key={id}>
-                <AdminTransactionCard
-                  data={val}
-                  isLoading={loadingStatus}
-                  setIsLoading={setLoadingStatus}
-                />
-                <AdminPrescriptionTransactionCard
-                  data={val}
-                  isLoading={loadingStatus}
-                  setIsLoading={setLoadingStatus}
-                />
+          {data.length == 0 ? (
+            <div className="font-semibold text-primary text-center pt-52">
+              {" "}
+              Data yang kamu cari tidak ada.
+            </div>
+          ) : (
+            <>
+              <div className="mt-[34px] flex items-center justify-between">
+                <div>
+                  <Checkbox
+                    borderColor={"gray.300"}
+                    colorScheme="purple"
+                    isChecked={allChecked}
+                    isIndeterminate={isIndeterminate}
+                    onChange={(e) =>
+                      setCheckedItems([e.target.checked, e.target.checked])
+                    }
+                  >
+                    <p className="text-primary">Pilih Semua</p>
+                  </Checkbox>
+                </div>
+                <div>
+                  <Pagination
+                    totalData={totalData}
+                    dataPerPage={10}
+                    pageChangeHandler={setPage}
+                    totalPage={Math.ceil(totalData / 10)}
+                  />
+                </div>
               </div>
-            );
-          })}
+              {data?.map((val, id) => {
+                return (
+                  <div key={id}>
+                    <AdminTransactionCard
+                      data={val}
+                      isLoading={loadingStatus}
+                      setIsLoading={setLoadingStatus}
+                    />
+                    <AdminPrescriptionTransactionCard
+                      data={val}
+                      isLoading={loadingStatus}
+                      setIsLoading={setLoadingStatus}
+                    />
+                  </div>
+                );
+              })}
+            </>
+          )}
         </div>
       </>
     </>

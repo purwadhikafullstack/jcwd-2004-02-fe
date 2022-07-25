@@ -38,11 +38,7 @@ function Report({ statistik, chart }) {
   // handlechange filter
   const handleChange = (e) => {
     setfilter({ ...filter, [e.target.name]: e.target.value });
-    console.log(filter.filterStatistik, "filtr");
-    console.log(filter.filterPenjualan, "filtr");
   };
-
-  console.log(statistik, "statistik");
   useEffect(() => {
     getStatistik();
     getChart();

@@ -30,6 +30,12 @@ import {
   Th,
   Td,
   TableContainer,
+  HStack,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
 } from "@chakra-ui/react";
 import Cookies from "js-cookie";
 import axios from "axios";
@@ -53,6 +59,8 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
     courier,
     pr_status,
     id,
+    nama_pasien,
+    nama_dokter,
   } = data;
 
   const [tab, setTab] = useState(0);
@@ -61,18 +69,16 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
   const [input, setinput] = useState({
     nama_pasien: "",
     nama_dokter: "",
-    // tgl pemesanan
-
-    // kuantitas,
     quantity: 0,
-    // satuan
     unit: "",
-    // dosis
     dosis: "",
-    // nama obat
     name: "",
   });
+
   const [dataResep, setdataResep] = useState([]);
+  const [dataPrescUser, setdataPrescUser] = useState({});
+
+  const [quantity, setquantity] = useState(0);
 
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
@@ -81,12 +87,9 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
     onOpen: onOpenCustomOrder,
     onClose: onCloseCustomOrder,
   } = useDisclosure();
-
   // handle
   const handleChange = (e, prop) => {
     if (prop === "quantity") {
-      console.log(e.target.value, "val");
-      console.log(input.name.value.total_stock, "totstok");
       if (e.target.value >= input.name.value.total_stock) {
         setinput({ ...input, [prop]: input.name.value.total_stock });
       } else {
@@ -94,8 +97,10 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
       }
     } else {
       setinput({ ...input, [prop]: e.target.value });
-      console.log(prop, "prop");
     }
+  };
+  const handleChangeQty = (e) => {
+    setquantity(e);
   };
 
   // handle select
@@ -113,7 +118,6 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
     try {
       let res = await axios.get(`${API_URL}/transaction/product`);
       setproductList(res.data);
-      console.log("resdata", res.data);
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message, {
@@ -124,20 +128,39 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
       });
     }
   };
+
+  const fetchPrescription = async () => {
+    try {
+      let res = await axios.get(`${API_URL}/transaction/pic/${id}`);
+      setdataPrescUser(res.data);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
+    }
+  };
+
+  const onclickpr = (id) => {
+    fetchPrescription(id);
+    onOpenPrescription();
+  };
   // add obat
   const tambahObatClick = async (e) => {
     // fitur tambahin obat
-    console.log(input, "inpout");
     setdataResep([
       ...dataResep,
       {
         ...input.name.value,
-        quantity: input.quantity,
+        quantity: quantity,
         dosis: input.dosis,
         unit: input.unit,
       },
     ]);
-    console.log(dataResep, "datres");
+    // console.log(dataResep, "added Data to table");
     setinput({
       ...input,
       quantity: 0,
@@ -157,7 +180,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
       nama_dokter: input.nama_dokter,
       dataResep: dataResep,
     };
-    console.log(insertData);
+    // console.log(insertData, "inserted data");
 
     try {
       await submitProduct(insertData);
@@ -179,7 +202,6 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
       });
       setdataResep({ quantity: 0, unit: "", dosis: "", name: null });
       setTimeout(() => {
-        // setTab(0);
         onCloseCustomOrder();
       }, 1000);
     }
@@ -204,20 +226,17 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
   const nameOptions = productList.product?.map((val) => {
     return { value: val, label: val.name };
   });
+  // const incNum = () => {
+  //   let count = parseInt(input.quantity) + 1;
+  //   // count = count >= productList.total_stock ? productList.total_stock : count;
+  //   setinput({ ...input, quantity: count });
+  // };
 
-  const incNum = () => {
-    let count = parseInt(input.quantity) + 1;
-    // count = count >= productList.total_stock ? productList.total_stock : count;
-    setinput({ ...input, quantity: count });
-  };
-
-  const decNum = () => {
-    let count = parseInt(input.quantity) - 1;
-    count = count < 1 ? 1 : count;
-    setinput({ ...input, quantity: count });
-  };
-
-  console.log(input, "input");
+  // const decNum = () => {
+  //   let count = parseInt(input.quantity) - 1;
+  //   count = count < 1 ? 1 : count;
+  //   setinput({ ...input, quantity: count });
+  // };
 
   const subTotal = () => {
     let subTotal = 0;
@@ -254,6 +273,18 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
     onClose: onCloseReject,
   } = useDisclosure();
 
+  const {
+    isOpen: isOpenSend,
+    onOpen: onOpenSend,
+    onClose: onCloseSend,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenPrescription,
+    onOpen: onOpenPrescription,
+    onClose: onClosePrescription,
+  } = useDisclosure();
+
   const terimaPesanan = async () => {
     try {
       await axios.put(`${API_URL}/transaction/acceptPayment/${id}`);
@@ -282,14 +313,43 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
   let token = Cookies.get("token");
   const tolakPesanan = async () => {
     try {
-      await axios.put(`${API_URL}/transaction/rejectPayment/${id}`, {
+      await axios.post(`${API_URL}/transaction/rejectPayment/${id}`, {
         headers: {
-          authorization: `bearer ${token}`,
+          authorization: `Bearer ${token}`,
         },
       });
 
       setIsLoading(!isLoading);
-      toast.warning(`Pesanan No. ${transaction_number} berhasil ditolak.`, {
+      toast.success(`Pesanan No. ${transaction_number} berhasil ditolak.`, {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
+    } catch (error) {
+      console.log(error);
+
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 1000,
+        closeOnClick: true,
+        draggable: true,
+      });
+    } finally {
+      setIsLoading(!isLoading);
+    }
+  };
+
+  const kirimPesanan = async () => {
+    try {
+      await axios.patch(`${API_URL}/transaction/sendorder/${id}`, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      });
+
+      setIsLoading(!isLoading);
+      toast.success(`Pesanan No. ${transaction_number} berhasil dikirim.`, {
         position: "top-right",
         autoClose: 1000,
         closeOnClick: true,
@@ -361,7 +421,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                 <div className="flex">
                   <div className="w-[75px] h-[75px] rounded-lg border-2 mr-[24px] overflow-hidden relative">
                     <Image
-                      src={`${API_URL}/${pr_image}`}
+                      src={`${API_URL}${pr_image}`}
                       layout="fill"
                       objectFit="cover"
                     />
@@ -422,7 +482,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                         />
                       </div>
                       <div
-                        className="ml-[10px] font-medium text-sm"
+                        className="ml-[10px] font-medium text-sm cursor-pointer"
                         onClick={onOpenDetail}
                       >
                         Detail Pesanan
@@ -431,7 +491,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                   </div>
                   <div className="flex text-sm font-medium items-center">
                     <div
-                      className="mr-[46px] text-primary"
+                      className="mr-[46px] text-primary cursor-pointer"
                       onClick={onOpenReject}
                     >
                       Tolak Pesanan
@@ -513,12 +573,21 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
               </div>
               <div className="py-[19px] px-[32px]">
                 <div className="flex">
-                  <div className="w-[75px] h-[75px] rounded-lg border-2 mr-[24px]"></div>
+                  <div className="w-[75px] h-[75px] rounded-lg border-2 mr-[24px] overflow-hidden relative">
+                    <Image
+                      src={`${API_URL}${pr_image}`}
+                      layout="fill"
+                      objectFit="cover"
+                    />
+                  </div>
                   <div className="w-[216px] border-r-2 text-sm">
                     <div className="truncate pr-[32px] font-bold text-primary">
                       Resep Dokter
                     </div>
-                    <button className="text-center mt-[10px] w-[123px] h-[32px] border-secondary  hover:bg-hover-button rounded-md font-medium text-secondary border-2 text-xs">
+                    <button
+                      onClick={() => onclickpr(id)}
+                      className="text-center mt-[10px] w-[123px] h-[32px] border-secondary  hover:bg-hover-button rounded-md font-medium text-secondary border-2 text-xs"
+                    >
                       Lihat Salinan Resep
                     </button>
                   </div>
@@ -538,17 +607,19 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                   </div>
                 </div>
 
-                <div className="mt-[19px] p-[16px] bg-slate-100 rounded-md flex justify-between">
-                  <div className="font-bold text-primary">
-                    Total Harga{" "}
-                    <span className="text-xs font-normal text-slate-600">
-                      ({products.length} Obat)
-                    </span>
+                {products.length < 1 ? null : (
+                  <div className="mt-[19px] p-[16px] bg-slate-100 rounded-md flex justify-between">
+                    <div className="font-bold text-primary">
+                      Total Harga{" "}
+                      <span className="text-xs font-normal text-slate-600">
+                        ({products.length} Obat)
+                      </span>
+                    </div>
+                    <div className="font-bold text-primary">
+                      {rupiah(subtotal)}
+                    </div>
                   </div>
-                  <div className="font-bold text-primary">
-                    {rupiah(subtotal)}
-                  </div>
-                </div>
+                )}
 
                 <div className="mt-[28px] flex justify-between">
                   <div className="flex text-primary">
@@ -569,7 +640,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                         />
                       </div>
                       <div
-                        className="ml-[10px] font-medium text-sm"
+                        className="ml-[10px] font-medium text-sm cursor-pointer"
                         onClick={onOpenDetail}
                       >
                         Detail Pesanan
@@ -586,7 +657,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                           Tolak Pesanan
                         </div>
                         <button
-                          disabled
+                          onClick={onOpenAccept}
                           className="text-white bg-slate-400 w-[156px] rounded-md h-[32px]"
                         >
                           Terima Pesanan
@@ -596,33 +667,24 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
 
                     {status == "diproses" ? (
                       <button
-                        disabled
+                        onClick={onOpenSend}
                         className="text-white bg-slate-400 w-[156px] rounded-md h-[32px]"
                       >
                         Minta Penjemputan
                       </button>
                     ) : null}
                     {status == "dikirim" ? (
-                      <button
-                        disabled
-                        className="text-white bg-slate-400 w-[156px] rounded-md h-[32px]"
-                      >
+                      <button className="text-white bg-slate-400 w-[156px] rounded-md h-[32px]">
                         Lihat Rincian
                       </button>
                     ) : null}
                     {status == "selesai" ? (
-                      <button
-                        disabled
-                        className="text-white bg-slate-400 w-[156px] rounded-md h-[32px]"
-                      >
+                      <button className="text-white bg-slate-400 w-[156px] rounded-md h-[32px]">
                         Lihat Rincian
                       </button>
                     ) : null}
                     {status == "dibatalkan" ? (
-                      <button
-                        disabled
-                        className="text-white bg-slate-400 w-[156px] rounded-md h-[32px]"
-                      >
+                      <button className="text-white bg-slate-400 w-[156px] rounded-md h-[32px]">
                         Lihat Rincian
                       </button>
                     ) : null}
@@ -656,7 +718,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                   </div>
                   <div className="w-[450px]">
                     <div className="flex">
-                      <FormControl mt={"3"} className="">
+                      <FormControl mt={"3"}>
                         <FormLabel pt={2} fontSize="sm" w="175px">
                           No. Pemesanan
                         </FormLabel>
@@ -689,7 +751,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                         />
                       </FormControl>
                     </div>
-                    <FormControl mt={"3"} className="">
+                    <FormControl mt={"3"}>
                       <FormLabel pt={2} fontSize="xs" w="175px">
                         Nama Pasien
                       </FormLabel>
@@ -703,7 +765,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                         value={input.nama_pasien}
                       />
                     </FormControl>
-                    <FormControl mt={"3"} className="">
+                    <FormControl mt={"3"}>
                       <FormLabel pt={2} fontSize="xs" w="175px">
                         Nama Dokter
                       </FormLabel>
@@ -720,7 +782,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                     <hr className="mt-5" />
                     <div className="mt-3 text-sm ">Tambah Obat</div>
                     <hr className="bg-purple-800 border-purple-800 rounded-xl border-2 max-w-[82px] mt-[2px]" />
-                    <FormControl mt={"3"} className="">
+                    <FormControl mt={"3"}>
                       <FormLabel pt={2} fontSize="xs" w="175px">
                         Nama Obat
                       </FormLabel>
@@ -735,7 +797,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                       />
                     </FormControl>
                     <div className="flex w-[450px]">
-                      <FormControl mt={"3"} className="">
+                      {/* <FormControl mt={"3"}>
                         <FormLabel pt={2} fontSize="xs">
                           Kuantitas
                         </FormLabel>
@@ -746,7 +808,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                           >
                             -
                           </button>
-                          <div className="">
+                          <div>
                             <input
                               className="w-6 pb-[6px] text-xs  focus:outline-none"
                               type="number"
@@ -765,9 +827,29 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                             +
                           </button>
                         </div>
+                      </FormControl> */}
+                      <FormControl mt={"3"}>
+                        <FormLabel pt={2} fontSize="xs" w="100px">
+                          Kuantitas
+                        </FormLabel>
+                        <NumberInput
+                          size="sm"
+                          maxW="100px"
+                          defaultValue={0}
+                          min={0}
+                          max={input?.name?.value?.total_stock}
+                          value={quantity}
+                          onChange={handleChangeQty}
+                        >
+                          <NumberInputField />
+                          <NumberInputStepper>
+                            <NumberIncrementStepper />
+                            <NumberDecrementStepper />
+                          </NumberInputStepper>
+                        </NumberInput>
                       </FormControl>
 
-                      <FormControl mt={"3"} className="">
+                      <FormControl mt={"3"}>
                         <FormLabel pt={2} fontSize="xs" w="170px">
                           Satuan
                         </FormLabel>
@@ -782,7 +864,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                         />
                       </FormControl>
 
-                      <FormControl mt={"3"} className="">
+                      <FormControl mt={"3"}>
                         <FormLabel pt={2} fontSize="xs" w="170px">
                           Dosis
                         </FormLabel>
@@ -807,7 +889,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
                           !input.nama_dokter ||
                           !input.nama_pasien ||
                           !input.name ||
-                          !input.quantity ||
+                          !quantity ||
                           !input.unit ||
                           !input.dosis
                         }
@@ -1053,7 +1135,7 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
           <ModalHeader>
             <div className="flex justify-center mt-10 font-bold">
               <div>
-                <div className="text-center text-[20px] text-primary">
+                <div className="text-center text-[20px] text-primary cursor-pointer">
                   Tolak Pesanan
                 </div>
                 <div className="text-center text-[14px] font-medium text-primary">
@@ -1210,6 +1292,213 @@ function AdminPrescriptionTransactionCard({ data, setIsLoading, isLoading }) {
               Terima Pesanan
             </Button>
           </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      {/* KIRIM PESANAN */}
+      <Modal
+        isOpen={isOpenSend}
+        scrollBehavior="inside"
+        onClose={onCloseSend}
+        size="3xl"
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            <div className="flex justify-center mt-10 font-bold">
+              <div>
+                <div className="text-center text-[20px] text-primary">
+                  Kirim Pesanan
+                </div>
+                <div className="text-center text-[14px] font-medium text-primary">
+                  Apakah kamu yakin untuk mengirim pesanan ini?
+                </div>
+              </div>
+            </div>
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <div className="w-full pb-5 justify-between items-center text-primary">
+              <div className="flex text-[14px] gap-2 mb-[20px]">
+                <div className="font-bold">{recipient} / </div>
+                <div className=" font-bold pr-2">{transaction_number} /</div>
+                <div className="flex items-center gap-2">
+                  <span>
+                    <AiOutlineClockCircle />
+                  </span>
+                  {dayjs(created_at).format("DD MMM YYYY, HH:mm WIB")}
+                </div>
+              </div>
+
+              {products.map((val, id) => {
+                return (
+                  <div className="text-[14px] mb-[5px]" key={id}>
+                    <div className="font-semibold">{val.name}</div>
+                    <div className="flex text-slate-500">
+                      <p className="w-[120px]">
+                        {val.quantity} x {val.price}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+
+              <div className="w-full mt-[37px] h-[32px] px-[10px] py-[8px] bg-slate-200 font-bold rounded-md flex items-center justify-between">
+                <div>
+                  Total Harga{" "}
+                  <span className="font-medium text-sm">
+                    ({products.length} Obat){" "}
+                  </span>
+                </div>
+                <div>{rupiah(subtotal)}</div>
+              </div>
+            </div>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button
+              onClick={onCloseSend}
+              bgColor="gray.400"
+              colorScheme="black"
+              mr={3}
+            >
+              Kembali
+            </Button>
+            <Button
+              bgColor="brand.secondary"
+              colorScheme="black"
+              onClick={() => {
+                kirimPesanan();
+                onCloseSend();
+              }}
+            >
+              Kirim Pesanan
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      {/* DETAIL PRESCRIPT PESANAN */}
+      <Modal
+        initialFocusRef={initialRef}
+        finalFocusRef={finalRef}
+        isOpen={isOpenPrescription}
+        onClose={onClosePrescription}
+      >
+        <ModalOverlay />
+        <ModalContent maxW="1000px" maxH="900px" pl={8} pt={4}>
+          <ModalHeader>Salinan Resep</ModalHeader>
+          <ModalCloseButton />
+
+          <div>
+            <ModalBody pb={6}>
+              <div className="flex">
+                {/*yg bungkus */}
+                <div className="mr-10 items-center justify-center flex">
+                  <img src={`${API_URL + pr_image}`} />
+                </div>
+                <div className="w-[450px]">
+                  <div className="flex">
+                    <FormControl mt={"3"}>
+                      <FormLabel pt={2} fontSize="xs" w="175px">
+                        No. Pemesanan
+                      </FormLabel>
+                      <div
+                        style={{
+                          border: "1px solid #ccc",
+                          borderRadius: "4px",
+                        }}
+                        className="h-[30px] px-3 pt-[6px] mt-[3px] text-xs text-gray-400 w-[210px]"
+                        type="string"
+                      >
+                        {prescription_number}
+                      </div>
+                    </FormControl>
+
+                    <FormControl mt={"3"} className="ml-7">
+                      <FormLabel pt={2} fontSize="xs" w="175px">
+                        Tgl. Pemesanan
+                      </FormLabel>
+                      <div
+                        style={{
+                          border: "1px solid #ccc",
+                          borderRadius: "4px",
+                        }}
+                        className="h-[30px] px-3 pt-[6px] mt-[3px] text-xs text-gray-400 w-[210px]"
+                        type="string"
+                      >
+                        {dayjs(created_at).format("DD-MM-YYYY")}
+                      </div>
+                    </FormControl>
+                  </div>
+                  <FormControl mt={"3"}>
+                    <FormLabel pt={2} fontSize="xs" w="175px">
+                      Nama Pasien
+                    </FormLabel>
+                    <div
+                      style={{
+                        border: "1px solid #ccc",
+                        borderRadius: "4px",
+                      }}
+                      className="h-[30px] px-3 pt-[6px] mt-[3px] text-xs text-gray-400 w-[450px]"
+                      type="string"
+                    >
+                      {dataPrescUser?.prescription?.nama_pasien}
+                    </div>
+                  </FormControl>
+                  <FormControl mt={"3"}>
+                    <FormLabel pt={2} fontSize="xs" w="175px">
+                      Nama Dokter
+                    </FormLabel>
+                    <div
+                      style={{
+                        border: "1px solid #ccc",
+                        borderRadius: "4px",
+                      }}
+                      className="h-[30px] px-3 pt-[6px] mt-[3px] text-xs text-gray-400 w-[450px]"
+                      type="string"
+                    >
+                      {dataPrescUser?.prescription?.nama_dokter}
+                    </div>
+                  </FormControl>
+                  <hr className="mt-5" />
+                  <div className="mt-3 text-sm ">List Obat</div>
+                  <hr className="bg-purple-800 border-purple-800 rounded-xl border-2 max-w-[60px] mt-[2px]" />
+                  <TableContainer className="mb-4">
+                    <Table
+                      mt={3}
+                      variant="striped"
+                      size="sm"
+                      colorScheme="purple"
+                    >
+                      <Thead>
+                        <Tr>
+                          <Th>No.</Th>
+                          <Th>Nama Obat</Th>
+                          <Th>Kuantitas</Th>
+                          <Th>Satuan</Th>
+                          <Th>Dosis</Th>
+                        </Tr>
+                      </Thead>
+                      <Tbody>
+                        {dataPrescUser?.prescriptiond?.map((data, index) => {
+                          return (
+                            <Tr key={index}>
+                              <Td>{index + 1}</Td>
+                              <Td>{data.name}</Td>
+                              <Td>{data.quantity}</Td>
+                              <Td>{data.unit}</Td>
+                              <Td>{data.dosis}</Td>
+                            </Tr>
+                          );
+                        })}
+                      </Tbody>
+                    </Table>
+                  </TableContainer>
+                </div>
+              </div>
+            </ModalBody>
+          </div>
         </ModalContent>
       </Modal>
     </>

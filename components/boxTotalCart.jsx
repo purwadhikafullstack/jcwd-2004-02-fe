@@ -12,7 +12,7 @@ const BoxTotalCart = ({ subTotal, address }) => {
     router.push("/checkout");
   };
   return (
-    <div className="h-[300px] w-[405px] px-[24px] py-[10px] border-[1px] border-slate-100 rounded-lg shadow-lg shadow-slate-200 ">
+    <div className="h-[300px] w-[350px] px-[24px] py-[10px] border-[1px] border-slate-100 rounded-lg shadow-lg shadow-slate-200 ">
       <span className="font-bold text-purple-900 text-lg">Total</span>
       <div className="flex justify-between mt-7">
         <span className="text-gray-400">Sub Total</span>

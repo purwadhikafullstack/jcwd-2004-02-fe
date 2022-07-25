@@ -18,6 +18,7 @@ import { getCartAction } from "../../redux/actions";
 import Rupiah from "../../helpers/convertToRupiah";
 import MetaDecorator from "../../components/MetaDecorator";
 import healthymedlogo from "../../public/healthymed-logo.svg";
+import { Suspense } from "react";
 
 const Payment = ({ getCartAction }) => {
   const router = useRouter();
@@ -27,7 +28,7 @@ const Payment = ({ getCartAction }) => {
   const [data, setData] = useState([]);
   const [order, setOrder] = useState([]);
   const { transactionID } = router.query;
-  transactionID = parseInt(transactionID);
+  // transactionID = parseInt(transactionID);
 
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
     console.log("accepted", acceptedFiles);
@@ -112,6 +113,7 @@ const Payment = ({ getCartAction }) => {
   }, []);
 
   return (
+    // <Suspense fallback={<div>Loading...</div>}>
     <div>
       <div>
         <MetaDecorator
@@ -130,8 +132,8 @@ const Payment = ({ getCartAction }) => {
       </div>
       <div className="flex flex-col items-center gap-y-10 ">
         <BoxTimePayment
-          created_at={order[0].created_at}
-          expired_at={order[0].expired_at}
+          created_at={order[0]?.created_at}
+          expired_at={order[0]?.expired_at}
         />
         <div className=" w-[800px] min-h-[260px] rounded-lg shadow-md p-6 font-bold text-purple-900">
           Ringkasan Order
@@ -220,6 +222,7 @@ const Payment = ({ getCartAction }) => {
       </div>
       <Footer />
     </div>
+    // </Suspense>
   );
 };
 

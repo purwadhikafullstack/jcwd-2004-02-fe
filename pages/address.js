@@ -122,7 +122,11 @@ const Address = () => {
             </div>
           </div>
           <div className="w-[300px]">
-            <Input name="phonenumber" onChange={addAddressHandleChange}>
+            <Input
+              name="phonenumber"
+              onChange={addAddressHandleChange}
+              placeholder="contoh: 0812xxxx"
+            >
               Nomor HP
             </Input>
           </div>
@@ -179,10 +183,10 @@ const Address = () => {
                         <span className="text-xs text-purple-800 mb-1">Kodepos</span>
                         <Select className="w-[250px] mt-2" options={options} />
                     </div>   */}
-          <div className="flex mt-6 mb-10">
+          {/* <div className="flex mt-6 mb-10">
             <input type="checkbox" className="mr-2"></input>
             <span className="text-xs ">Simpan sebagai alamat utama</span>
-          </div>
+          </div> */}
           <div className="flex justify-between">
             <ButtonSecondary className="w-[240px] h-[40px]">
               Batalkan

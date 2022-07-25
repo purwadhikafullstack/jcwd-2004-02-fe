@@ -86,11 +86,11 @@ const Cart = ({ getCartAction }) => {
         />
       </div>
       <Navbar />
-      <div className="">
-        <div className="text-xl font-bold text-purple-900 mb-[36px] mx-20 mt-[30px]">
+      <div className="px-[20px] pt-[32px] pb-[32px]">
+        <span className="text-xl font-bold text-purple-900  ml-[80px] mt-[30px]">
           Keranjang Saya
-        </div>
-        <div className="mx-[40px]">
+        </span>
+        <div className="mx-[40px] mt-10">
           <div className="px-[40px]">
             {cart.length ? (
               <div className="flex justify-between">
