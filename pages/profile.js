@@ -26,7 +26,6 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import HeaderMobile from "../components/HeaderMobile";
 import UserProfileSidebar from "../components/UserProfileSidebar";
 
@@ -38,8 +37,6 @@ const Profile = () => {
   useEffect(() => {
     getAlamat();
   }, []);
-
-  const router = useRouter();
   const getAlamat = async () => {
     try {
       let token = Cookies.get("token");
@@ -76,13 +73,13 @@ const Profile = () => {
         <Navbar />
       </div>
 
-      <div className="md:user-container flex items-center justify-between md:mx-[96px]  md:w-full">
+      <div className="flex my-6 md:my-[44px] md:mx-[64px] justify-between md:w-full">
         <div className="hidden md:block">
           <UserProfileSidebar />
         </div>
 
-        {/* <div className="flex md:mx-auto md:w-7/12 md:ml-10 md:h-5/6 w-screen justify-center shadow-md rounded-lg mt-10 pb-14 h-screen "> */}
-        <div className="md:w-[900px] md:px-[40px] md:py-[28px] md:rounded-lg md:border-[1px] md:border-slate-100 md:shadow-lg md:text-primary">
+        {/* container */}
+        <div className="md:w-[800px] md:px-[40px] md:py-[28px] md:rounded-lg md:border-[1px] md:border-slate-100 md:shadow-lg md:text-primary">
           <div>
             {/* mobile */}
             <div className="w-screen md:w-full">
@@ -95,18 +92,23 @@ const Profile = () => {
                 <Divider className="mt-7 " />
               </div>
             </div>
-            <div className="flex flex-col w-screen md:w-[900px] mt-6 md:mt-0 md:flex-row">
-              <div className="flex flex-col items-center justify-center w-screen md:w-[500px]  ">
-                <div className="md:mt-3 md:w-[300px]">
-                  <Image alt={"profpic"} src={profpic} />
+            <div className="flex flex-col md:w-full mt-6 md:mt-0 md:flex-row">
+              <div className="flex flex-col items-center justify-center w-screen md:w-full  ">
+                <div className="md:mt-3 ">
+                  <Image
+                    objectFit="cover"
+                    boxSize={"xs"}
+                    alt={"profpic"}
+                    src={profpic}
+                  />
                 </div>
 
                 <ProfileModalEditPhoto />
               </div>
               {/* biodata */}
               <div className="w-screen flex flex-col">
-                <div className="  flex flex-col items-center justify-center">
-                  <div className="flex md:mt-12">
+                <div className="flex flex-col items-center justify-center">
+                  <div className="flex md:mt-6">
                     <div className="w-full">
                       <div className="profileTag">Nama Lengkap</div>
                       <div className="profileTag">Gender</div>
