@@ -69,7 +69,7 @@ function HomeCategoryCarousel() {
 
   const settings = {
     dots: false,
-    infinite: false,
+    infinite: true,
     slidesToShow: 2,
     slidesToScroll: 1,
     nextArrow: <NextArrow />,

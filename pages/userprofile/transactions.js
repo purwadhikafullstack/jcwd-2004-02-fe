@@ -94,16 +94,16 @@ function UserTransaction() {
       <>
         <Navbar />
 
-        <div className="user-container flex justify-between ">
+        <div className="my-[44px] mx-[64px] flex justify-between ">
           {/* User sidebar */}
           <UserProfileSidebar />
 
           {/* User main page */}
-          <div className="w-[900px] px-[40px] py-[28px] rounded-lg border-[1px] border-slate-100 shadow-lg text-primary ">
-            <div className="text-xl font-bold">Daftar Pemesanan</div>
+          <div className="w-[800px] px-[40px] py-[28px] rounded-lg border-[1px] border-slate-100 shadow-lg text-primary ">
+            <div className="text-md font-bold">Daftar Pemesanan</div>
             <div className="pt-[10px]">
               <Tabs isFitted textColor={"brand.primary"}>
-                <TabList height={"58px"}>
+                <TabList height={"48px"}>
                   <Tab
                     _selected={{
                       borderBottom: "4px solid",

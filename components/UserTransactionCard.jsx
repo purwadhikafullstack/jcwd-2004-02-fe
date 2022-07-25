@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 function UserTransactionCard({ data, setIsLoading, isLoading }) {
   const {
@@ -181,7 +182,7 @@ function UserTransactionCard({ data, setIsLoading, isLoading }) {
               <div className="flex font-bold">{rupiah(products[0]?.price)}</div>
             </div>
           </div>
-          <div className="flex justify-between py-[13px] border-t-2 text-lg ml-[100px]">
+          <div className="flex justify-between py-[13px] border-t-2 text-md ml-[100px]">
             <div>Sub Total</div>
             <div className="font-bold">{rupiah(subtotal)}</div>
           </div>

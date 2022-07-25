@@ -5,6 +5,7 @@ import { API_URL } from "../helpers";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Router, { useRouter } from "next/router";
+import { toast } from "react-toastify";
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -199,7 +200,7 @@ function UserTransactionPrescriptionCard({ data, setIsLoading, isLoading }) {
                 ) : null}
               </div>
               {products.length ? (
-                <div className="flex justify-between py-[13px] border-t-2 text-lg ml-[100px]">
+                <div className="flex justify-between py-[13px] border-t-2 text-md ml-[100px]">
                   <div>Sub Total</div>
                   <div className="font-bold">{rupiah(subtotal)}</div>
                 </div>
