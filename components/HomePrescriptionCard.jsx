@@ -67,17 +67,19 @@ function HomePrescriptionCard({ alamat }) {
         )}
       </div>
 
-      <div className="lg:hidden mt-[32px]">
-        <div className="text-primary font-bold text-xl">
+      <div className="lg:hidden mt-[22px]">
+        <div className="text-primary font-bold text-lg">
           Punya resep dokter ?
         </div>
-        <div className="rounded-xl mt-[12px]">
-          <div className="h-[87px] overflow-hidden border-[1px] border-slate-50 shadow-slate-100 shadow-sm relative rounded-xl ">
-            <Image
-              src={"/resep-mobile-banner.svg"}
-              layout="fill"
-              objectFit="cover"
-            ></Image>
+        <div className="my-auto mr-[28px]">
+          <div className="rounded-xl mt-[12px]">
+            <div className="h-[87px] w-[327px] overflow-hidden border-[1px] border-slate-50 shadow-slate-100 shadow-sm relative rounded-xl ">
+              <Image
+                src={"/resep-mobile-banner.svg"}
+                layout="fill"
+                objectFit="cover"
+              ></Image>
+            </div>
           </div>
         </div>
       </div>

@@ -45,7 +45,7 @@ const Navbar = () => {
   const profpic = profilepic ? `${API_URL + profilepic}` : `../no_pic.png`;
 
   return (
-    <div className="flex justify-between lg:h-[80px] w-full h-[92px] bg-white shadow-lg shadow-purple-100 px-5">
+    <div className="flex justify-between lg:h-[80px] w-full h-[92px] bg-white shadow-lg shadow-purple-100 px-5 fixed top-0 right-0 left-0 z-50">
       <div className="hidden w-[250px] h-full lg:flex items-center justify-center">
         <Link href="/home">
           <div className="w-[200px] cursor-pointer">
@@ -122,14 +122,14 @@ const Navbar = () => {
           </div>
         </div>
       ) : (
-        <div className="hidden w-96 lg:flex items-center justify-center">
+        <div className="w-96 flex items-center justify-center">
           <Link href="/login">
-            <div>
+            <div className="lg:mt-0 mt-1">
               <ButtonSecondary className="w-24 h-9 mx-2">Masuk</ButtonSecondary>
             </div>
           </Link>
           <Link href="/register">
-            <div>
+            <div className="hidden lg:inline">
               <ButtonPrimary className="w-24 h-9 mx-2">Daftar</ButtonPrimary>
             </div>
           </Link>

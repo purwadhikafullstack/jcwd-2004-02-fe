@@ -36,9 +36,9 @@ const BoxTimePayment = ({ created_at, expired_at }) => {
     return detik;
   };
   return (
-    <div className="w-[800px] h-[105px] rounded-lg p-4 shadow-md">
+    <div className="md:w-[800px] md:h-[105px] md:ml-0 ml-96 w-[700px] md:rounded-lg md:p-4 md:shadow-md">
       <div className="flex">
-        <div className="ml-5 flex flex-col mt-3">
+        <div className="md:ml-5 flex flex-col md:mt-3 mt-10">
           <span>Batas Akhir Pembayaran</span>
           <span className="font-bold text-purple-900">
             {dayjs(expired_at).add(1, "day").format("DD MMMM YYYY hh:mm:ss A")}
