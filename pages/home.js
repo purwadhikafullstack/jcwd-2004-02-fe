@@ -110,7 +110,7 @@ export default function Home() {
       <div className="lg:w-[1024px] lg:mx-auto">
         <HomeDiscount data={data} />
       </div>
-      <div className="mt-[40px] border-b-2 lg:w-[1027px]" />
+      <div className="mt-[40px] border-b-2 lg:w-[1027px] mx-auto" />
 
       <div className=" mt-[40px] lg:mt-[40px] mx-auto w-[327px] lg:w-[1027px]">
         {/* Event Banner */}

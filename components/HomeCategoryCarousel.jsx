@@ -49,7 +49,7 @@ function HomeCategoryCarousel() {
     return (
       <div
         onClick={onClick}
-        className="hidden lg:inline p-2 rounded-full bg-white drop-shadow-lg text-2xl absolute bottom-[55px] -right-5 "
+        className="hidden lg:inline p-2 rounded-full bg-white drop-shadow-lg text-2xl absolute bottom-[46px] -right-2 "
       >
         <HiOutlineChevronRight className="text-3xl text-primary" />
       </div>
@@ -60,7 +60,7 @@ function HomeCategoryCarousel() {
     return (
       <div
         onClick={onClick}
-        className="hidden lg:inline p-2 rounded-full bg-white drop-shadow-lg text-2xl absolute z-10 bottom-[55px] -left-5 "
+        className="hidden lg:inline p-2 rounded-full bg-white drop-shadow-lg text-2xl absolute z-10 bottom-[46px] -left-5 "
       >
         <HiOutlineChevronLeft className="text-3xl text-primary" />
       </div>

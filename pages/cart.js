@@ -86,7 +86,7 @@ const Cart = ({ getCartAction }) => {
         />
       </div>
       <Navbar />
-      <div className="md:px-[20px] md:pt-[32px] md:pb-[32px] ml-3">
+      <div className="md:px-[20px] md:mt-[75px] md:pt-[32px] md:pb-[32px] ml-3">
         <span className="text-xl font-bold text-purple-900  ml-[80px] mt-[30px]">
           Keranjang Saya
         </span>

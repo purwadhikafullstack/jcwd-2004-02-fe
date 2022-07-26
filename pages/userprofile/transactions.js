@@ -94,7 +94,7 @@ function UserTransaction() {
       <>
         <Navbar />
 
-        <div className="my-[44px] mx-[64px] flex justify-between ">
+        <div className="mt-[130px] mb-[44px] mx-[64px] flex justify-between ">
           {/* User sidebar */}
           <UserProfileSidebar />
 
