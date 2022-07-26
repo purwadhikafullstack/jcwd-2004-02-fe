@@ -98,7 +98,7 @@ const Address = () => {
         />
       </div>
       <Navbar />
-      <div className="md:px-[380px] md:pt-[50px] px-12 md:w-full w-[900px] md:mx-0 mx-20 md:mb-24 h-full">
+      <div className="md:px-[380px] md:pt-[50px] px-12 md:w-full w-[900px] md:mx-0 mx-20 md:mb-24 mt-20 h-full">
         <span className="hidden md:inline-block font-bold text-xl text-purple-900">
           Alamat Pengiriman
         </span>
@@ -256,7 +256,9 @@ const Address = () => {
             </ButtonSecondary> */}
             <button
               className="py-2 border-[1.5px] text-xs font-medium border-purple-800 rounded-lg bg-white text-purple-800 hover:bg-purple-100 md:w-[240px] md:h-[40px] w-[380px] h-[50px]"
-              disabled={addAddress.length == 0}
+              onClick={() => {
+                router.push("/cart");
+              }}
             >
               Batalkan
             </button>
@@ -291,7 +293,9 @@ const Address = () => {
           </div>
         </form>
       </div>
-      <Footer />
+      <div className="md:block hidden">
+        <Footer />
+      </div>
     </div>
   );
 };

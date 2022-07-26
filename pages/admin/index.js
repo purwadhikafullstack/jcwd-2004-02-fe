@@ -301,9 +301,9 @@ function AdminHome({ data, penjualan, profit }) {
                 {/* <CircularProgressbar value={value3} text={`${value3 * 100}%`} /> */}
               </div>
             </div>
-            <span className="text-[10px] font-bold text-purple-900">
+            {/* <span className="text-[10px] font-bold text-purple-900">
               {data.progressProfit || 0}
-            </span>
+            </span> */}
           </div>
         </div>
         <div className="flex mt-9">
@@ -364,7 +364,7 @@ function AdminHome({ data, penjualan, profit }) {
                 <span className="text-xs font-semibold text-purple-900">
                   Chat Baru
                 </span>
-                <span className="font-bold text-2xl text-purple-900">10</span>
+                <span className="font-bold text-2xl text-purple-900">0</span>
               </div>
             </div>
           </div>

@@ -103,7 +103,7 @@ const Checkout = ({ getCartAction }) => {
         />
       </>
       <Navbar />
-      <div className="flex md:flex-row flex-col px-[96px] pt-10 pb-14">
+      <div className="flex md:flex-row flex-col px-[96px] pt-10 pb-14 md:mt-20 mt-32">
         <div className="flex flex-col">
           <div>
             <BoxAddress
@@ -113,7 +113,7 @@ const Checkout = ({ getCartAction }) => {
             />
           </div>
           <Divider className="md:hidden inline-block my-6" />
-          <div className=" md:w-[700px] md:min-h-[260px] w-[900px] md:rounded-lg md:mr-12 md:mt-[20px] md:shadow-lg md:shadow-purple-100 md:p-6 md:text-base text-2xl text-purple-900 font-bold">
+          <div className=" md:w-[700px] md:min-h-[260px] w-[900px] md:rounded-lg md:mr-12 md:pr-10 pr-14 md:mt-[20px] md:shadow-lg md:shadow-purple-100 md:p-6 md:text-base text-2xl text-purple-900 font-bold">
             Ringkasan Order
             <Divider className="md:hidden inline-block my-6" />
             <div>

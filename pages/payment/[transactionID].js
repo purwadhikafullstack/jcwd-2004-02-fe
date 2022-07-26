@@ -125,7 +125,7 @@ const Payment = ({ getCartAction }) => {
         />
       </div>
       <Navbar />
-      <div className="my-10">
+      <div className="mb-10 md:mt-28">
         <span className="text-xl text-purple-900 text-left ml-[250px] font-bold ">
           Menunggu Pembayaran
         </span>
@@ -135,7 +135,7 @@ const Payment = ({ getCartAction }) => {
           created_at={order[0]?.created_at}
           expired_at={order[0]?.expired_at}
         />
-        <div className=" w-[800px] min-h-[260px] rounded-lg shadow-md p-6 font-bold text-purple-900">
+        <div className=" md:w-[800px] md:min-h-[260px] w-[700px] md:ml-0 ml-96 rounded-lg shadow-md md:p-6 p-5 font-bold text-purple-900">
           Ringkasan Order
           <div className="my-4">
             <Divider />
@@ -154,13 +154,13 @@ const Payment = ({ getCartAction }) => {
             ))}
           </div>
           <Divider marginLeft="48" w="556px" />
-          <div className="mt-4 w-[556px] ml-48 flex justify-between">
+          <div className="md:mt-4 md:w-[556px] md:ml-48 flex justify-between">
             <span>Subtotal</span>
             <span>{Rupiah(subTotal())}</span>
           </div>
         </div>
         {/* <BoxPaymentProof/> */}
-        <div className="w-[800px] h-[400px] rounded-lg shadow-md p-6 font-bold text-purple-900">
+        <div className="md:w-[800px] md:h-[400px]  md:ml-0 ml-96 rounded-lg shadow-md p-6 font-bold text-purple-900">
           Upload Bukti Pembayaran
           <div className="my-5">
             <Divider />
@@ -212,15 +212,17 @@ const Payment = ({ getCartAction }) => {
           </div>
         </div>
       </div>
-      <div className="flex items-center justify-center mb-36">
+      <div className="flex md:items-center md:justify-center mb-36">
         <button
           onClick={onSubmitPayment}
-          className="w-[500px] h-[45px] mt-10 bg-purple-900 text-white rounded-lg text-sm text-center"
+          className="md:w-[500px] h-[45px] w-full mr-0 mt-10 bg-purple-900 text-white rounded-lg text-sm md:text-center"
         >
           Konfirmasi Pembayaran
         </button>
       </div>
-      <Footer />
+      <div className="md:block hidden">
+        <Footer />
+      </div>
     </div>
     // </Suspense>
   );

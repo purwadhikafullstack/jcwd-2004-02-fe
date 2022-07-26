@@ -91,7 +91,7 @@ const ChangePass = () => {
   return (
     <>
       <Navbar />
-      <div className="flex px-0">
+      <div className="flex px-0 mt-20">
         <div className="hidden md:block mt-10 ml-[80px]">
           <UserProfileSidebar />
         </div>

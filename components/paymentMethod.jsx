@@ -104,7 +104,7 @@ const PaymentMethod = ({
         w="300px"
         fontSize="md"
         h="50px"
-        bgColor="purple"
+        colorScheme="purple"
         textColor="white"
         onClick={onOpen}
       >
@@ -350,7 +350,6 @@ const PaymentMethod = ({
               colorScheme="purple"
               w="400px"
               h="50px"
-              bgColor="purple"
               onClick={userCheckout}
               disabled={!selectBank}
             >
