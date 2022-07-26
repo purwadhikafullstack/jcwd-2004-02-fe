@@ -36,8 +36,8 @@ function HomeCategoryCarousel() {
 
   function HomeCategoryCard({ icon, caption }) {
     return (
-      <div className="w-[160px] h-[109px] border-[2px] border-slate-100 shadow-lg hover:border-secondary shadow-slate-100 rounded-xl text-center my-5 ">
-        <div className="h-[44px] w-[44px] mx-auto my-[13px] overflow-hidden relative">
+      <div className="w-[135px] h-[100px] lg:w-[150px] border-[2px] border-slate-100 shadow-lg hover:border-secondary shadow-slate-100 rounded-xl text-center my-5 ">
+        <div className="h-[44px] w-[44px] mx-auto my-[10px] overflow-hidden relative">
           <Image src={icon} layout="fill" objectFit="cover" />
         </div>
         <div className="font-bold text-sm text-primary">{caption}</div>
@@ -49,7 +49,7 @@ function HomeCategoryCarousel() {
     return (
       <div
         onClick={onClick}
-        className="p-2 rounded-full bg-white drop-shadow-lg text-2xl absolute bottom-[55px] -right-5 "
+        className="hidden lg:inline p-2 rounded-full bg-white drop-shadow-lg text-2xl absolute bottom-[46px] -right-2 "
       >
         <HiOutlineChevronRight className="text-3xl text-primary" />
       </div>
@@ -60,7 +60,7 @@ function HomeCategoryCarousel() {
     return (
       <div
         onClick={onClick}
-        className="p-2 rounded-full bg-white drop-shadow-lg text-2xl absolute z-50 bottom-[55px] -left-5 "
+        className="hidden lg:inline p-2 rounded-full bg-white drop-shadow-lg text-2xl absolute z-10 bottom-[46px] -left-5 "
       >
         <HiOutlineChevronLeft className="text-3xl text-primary" />
       </div>
@@ -84,9 +84,9 @@ function HomeCategoryCarousel() {
         },
       },
       {
-        breakpoint: 390,
+        breakpoint: 415,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 2.5,
           slidesToScroll: 1,
         },
       },

@@ -22,17 +22,10 @@ function CardHomeBottom({ img, name, price, unit }) {
             objectFit="cover"
           ></Image>
         </div>
-        <div className="h-[34px] lg:h-[30px] text-xs lg:text-sm font-bold text-primary truncate">
+        <div className="h-[60px] mb-2 mt-2 lg:h-[60px] lg:mb-4 text-xs lg:text-sm font-bold text-primary text-ellipsis overflow-hidden">
           {name}
         </div>
-        <div className="flex items-center tracking-wide h-[21px] mb-[4px] lg:h-[24px] lg:mb-[7px] mt-[8px] text-xs">
-          <div className="border-2 border-orange-300 text-orange-300 rounded-md px-1 font-semibold">
-            17%
-          </div>
-          <div className="pl-2 line-through decoration-1 decoration-slate-600 text-slate-500">
-            {rupiah(65000)}
-          </div>
-        </div>
+
         <div className="flex justify-between text-sm items-center text-primary">
           <div className="font-bold">{rupiah(price)}</div>
           <div className="text-xs font-semibold">/{unit}</div>

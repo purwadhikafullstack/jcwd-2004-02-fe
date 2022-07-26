@@ -104,7 +104,7 @@ const PaymentMethod = ({
         w="300px"
         fontSize="md"
         h="50px"
-        bgColor="purple"
+        colorScheme="purple"
         textColor="white"
         onClick={onOpen}
       >
@@ -347,11 +347,11 @@ const PaymentMethod = ({
 
           <ModalFooter>
             <Button
-              colorScheme="blue"
+              colorScheme="purple"
               w="400px"
               h="50px"
-              bgColor="purple"
               onClick={userCheckout}
+              disabled={!selectBank}
             >
               Pilih Metode
             </Button>

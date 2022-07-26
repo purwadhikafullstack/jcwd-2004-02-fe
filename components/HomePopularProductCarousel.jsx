@@ -13,7 +13,7 @@ function HomePopularProductCarousel({ data }) {
     return (
       <div
         onClick={onClick}
-        className="p-2 rounded-full bg-white drop-shadow-lg text-2xl absolute bottom-[150px] -right-5 "
+        className="hidden lg:inline p-2 rounded-full bg-white drop-shadow-lg text-2xl absolute bottom-[150px] -right-5 "
       >
         <HiOutlineChevronRight className="text-3xl text-primary" />
       </div>
@@ -24,7 +24,7 @@ function HomePopularProductCarousel({ data }) {
     return (
       <div
         onClick={onClick}
-        className="p-2 rounded-full bg-white drop-shadow-lg text-2xl absolute z-50 bottom-[150px] -left-5 "
+        className="hidden lg:inline p-2 rounded-full bg-white drop-shadow-lg text-2xl absolute z-10 bottom-[150px] -left-5 "
       >
         <HiOutlineChevronLeft className="text-3xl text-primary" />
       </div>
@@ -41,10 +41,26 @@ function HomePopularProductCarousel({ data }) {
     autoplay: true,
     autoplaySpeed: 2000,
     pauseOnHover: true,
+    responsive: [
+      {
+        breakpoint: 2048,
+        settings: {
+          slidesToShow: 6,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 415,
+        settings: {
+          slidesToShow: 2.5,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
   return (
-    <div className="w-full ">
+    <div className="lg:w-[1027px] lg:mx-auto w-full ">
       <Slider {...settings}>
         {data.map((val, ind) => {
           return (

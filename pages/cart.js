@@ -85,8 +85,10 @@ const Cart = ({ getCartAction }) => {
           imageUrl={healthymedlogo}
         />
       </div>
-      <Navbar />
-      <div className="md:px-[20px] md:pt-[32px] md:pb-[32px] ml-3">
+      <div>
+        <Navbar />
+      </div>
+      <div className="md:px-[20px] md:pt-[32px] md:pb-[32px] md:ml-3 md:mt-20 mt-32">
         <span className="text-xl font-bold text-purple-900  ml-[80px] mt-[30px]">
           Keranjang Saya
         </span>
@@ -112,7 +114,9 @@ const Cart = ({ getCartAction }) => {
                     />
                   ))}
                 </div>
-                <BoxTotalCart subTotal={subTotal} address={address} />
+                <div className="md:inline-block hidden">
+                  <BoxTotalCart subTotal={subTotal} address={address} />
+                </div>
               </div>
             ) : (
               <div className="text-primary text-xl font-semibold text-center">

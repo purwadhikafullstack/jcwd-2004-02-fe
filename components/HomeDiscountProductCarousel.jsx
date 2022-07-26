@@ -25,7 +25,7 @@ function HomeDiscountProductCarousel({ data }) {
     return (
       <div
         onClick={onClick}
-        className="p-2 rounded-full bg-white drop-shadow-lg text-2xl absolute z-50 bottom-[60px] -left-5 hidden "
+        className="p-2 rounded-full bg-white drop-shadow-lg text-2xl absolute z-10 bottom-[60px] -left-5 hidden "
       >
         <HiOutlineChevronLeft className="text-3xl text-primary" />
       </div>
@@ -51,9 +51,9 @@ function HomeDiscountProductCarousel({ data }) {
         },
       },
       {
-        breakpoint: 390,
+        breakpoint: 414,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 1.5,
           slidesToScroll: 1,
         },
       },
@@ -67,7 +67,7 @@ function HomeDiscountProductCarousel({ data }) {
           return (
             <div
               key={ind}
-              className="py-2 px-[3px] cursor-pointer"
+              className="py-2 px-[3px] cursor-pointer "
               onClick={() => {
                 router.push(
                   `/products/detail/${val.id}?brand=${val.brand_name}`

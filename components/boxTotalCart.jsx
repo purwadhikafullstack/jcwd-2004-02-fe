@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ButtonPrimary } from "./button";
 import { useRouter } from "next/router";
 import Rupiah from "../helpers/convertToRupiah";
+import { Divider } from "@chakra-ui/react";
 
 const BoxTotalCart = ({ subTotal, address }) => {
   const router = useRouter();
@@ -18,9 +19,10 @@ const BoxTotalCart = ({ subTotal, address }) => {
         <span className="text-gray-400">Sub Total</span>
         <span className="font-bold text-gray-400">{Rupiah(subTotal)}</span>
       </div>
-      <div className="my-5">
+      {/* <div className="my-5">
         <img src={"./Line19.svg"} />
-      </div>
+      </div>  */}
+      <Divider className="my-8" />
       <div className="flex justify-between mt-7">
         <span className="font-medium text-purple-900">Total</span>
         <span className="font-bold text-purple-900">{Rupiah(subTotal)}</span>

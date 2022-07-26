@@ -15,7 +15,7 @@ function HomeDiscount({ data }) {
           objectFit="cover"
         ></Image>
       </div>
-      <div className="w-[230px] h-[253px] lg:h-[395px] lg:w-[840px] absolute top-[2px] left-[150px] lg:top-[25px] lg:left-[195px]">
+      <div className="w-[228px] h-[253px] lg:h-[395px] lg:w-[840px] absolute top-[2px] right-0 lg:top-[25px] lg:left-[195px]">
         <HomeDiscountProductCarousel data={data} />
       </div>
     </div>

@@ -15,6 +15,7 @@ import Link from "next/link";
 import { useRouter, router } from "next/router";
 import MetaDecorator from "../components/MetaDecorator";
 import healthymedlogo from "../public/healthymed-logo.svg";
+import { Button } from "@chakra-ui/react";
 
 const Login = ({ loginActions }) => {
   const [show1, setShow1] = useState(false);
@@ -135,9 +136,20 @@ const Login = ({ loginActions }) => {
                 </div>
               </div>
               <div>
-                <ButtonPrimary type="submit" className="w-full h-12 xl:h-10">
+                {/* <ButtonPrimary type="submit" className="w-full h-12 xl:h-10">
                   Masuk
-                </ButtonPrimary>
+                </ButtonPrimary> */}
+                <Button
+                  width="full"
+                  height="40px"
+                  fontSize="14px"
+                  textColor="white"
+                  colorScheme="purple"
+                  type="submit"
+                  disabled={isLogin}
+                >
+                  Masuk
+                </Button>
               </div>
             </form>
           </div>
