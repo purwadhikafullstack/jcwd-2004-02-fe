@@ -50,8 +50,10 @@ function SemuaPesanan() {
         `${API_URL}/transaction/getalltransaction?page=${page}&filter=${
           input.filter
         }&sort=${input.sort}&search=${input.search}&from_date=${
-          startDate ? dayjs(startDate).format("YYYY-MM-DD") : ""
-        }&to_date=${endDate ? dayjs(endDate).format("YYYY-MM-DD") : ""}`,
+          startDate ? dayjs(startDate).format("YYYY-MM-DD HH:mm:ss") : ""
+        }&to_date=${
+          endDate ? dayjs(endDate).format("YYYY-MM-DD HH:mm:ss") : ""
+        }`,
         {
           headers: { authorization: `Bearer ${token}` },
         }

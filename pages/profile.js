@@ -73,7 +73,7 @@ const Profile = () => {
         <Navbar />
       </div>
 
-      <div className="flex my-6 md:my-[44px] md:mx-[64px] justify-between md:w-full">
+      <div className="flex my-6 md:mt-[130px] md:mb-[44px] md:mx-[64px] justify-between md:w-full">
         <div className="hidden md:block">
           <UserProfileSidebar />
         </div>
