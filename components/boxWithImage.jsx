@@ -131,7 +131,7 @@ const BoxWithImage = ({
   };
 
   return (
-    <div className=" md:w-[680px] md:h-[240px] mb-[26px] md:rounded-lg md:border-[1px] w-[900px] md:border-slate-100 md:shadow-lg md:shadow-slate-200 md:px-[20px]">
+    <div className=" md:w-[680px] md:h-[240px] mb-[26px] md:rounded-lg md:border-[1px] w-[900px] md:border-slate-100 md:shadow-lg md:shadow-slate-200 md:px-[20px] md:pr-8 pr-20">
       <div>
         <div className="ml-2">
           {/* <input type={"checkbox"} className="mr-2"/> */}
@@ -165,7 +165,7 @@ const BoxWithImage = ({
           </div>
         </div>
         <div className="flex items-center md:justify-end mt-5">
-          <span className="md:text-sm text-2xl text-purple-900 md:mr-0 mr-[380px]">
+          <span className="md:text-sm text-2xl text-purple-900 md:mr-0 mr-[305px]">
             Pindahkan ke whistlist
           </span>
           <span className="mx-3">|</span>

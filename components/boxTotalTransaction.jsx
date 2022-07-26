@@ -20,7 +20,7 @@ const BoxTotalTransaction = ({
   let { id, firstname, lastname, address, phonenumber } = selectedAddress;
 
   return (
-    <div className="w-[900px] md:h-[400px] md:w-[360px] md:p-5 md:rounded-lg md:shadow-xl md:shadow-purple-100 md:border-[0.5px] md:text-base text-2xl">
+    <div className="w-[900px] md:h-[400px] md:w-[360px] md:p-5 pr-14 md:rounded-lg md:shadow-xl md:shadow-purple-100 md:border-[0.5px] md:text-base text-2xl">
       <span className="md:inline-block hidden font-bold text-purple-900 text-lg">
         Total
       </span>

@@ -23,6 +23,7 @@ const Input = ({
         value={value}
         onBlur={onBlur}
         placeholder={placeholder}
+        // required
       ></input>
       <div className="absolute xl:bottom-3 top-8 ml-3 text-purple-800 text-lg">
         {leftIcon}
