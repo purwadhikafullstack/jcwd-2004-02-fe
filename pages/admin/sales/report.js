@@ -7,6 +7,8 @@ import Rupiah from "../../../helpers/convertToRupiah";
 import { Select } from "@chakra-ui/react";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
+import healthymedlogo from "../../../public/healthymed-logo.svg";
+import MetaDecorator from "../../../components/MetaDecorator";
 
 function subtractMonths(numOfMonths, date = new Date()) {
   date.setMonth(date.getMonth() - numOfMonths);
@@ -93,6 +95,15 @@ function Report() {
   ];
   return (
     <>
+      <div>
+        <MetaDecorator
+          title={"Admin / Healthymed"}
+          description={
+            "Healthymed - Apotek Online Terpercaya. Beli obat yang kamu inginkan disini. 100% Asli, Produk BPOM, Uang Dijamin Kembali"
+          }
+          imageUrl={healthymedlogo}
+        />
+      </div>
       <div>
         <AdminNavbar />
         <AdminSidebar />
