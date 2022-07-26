@@ -16,6 +16,7 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import Navbar from "../components/navbar";
 import UserProfileSidebar from "../components/UserProfileSidebar";
+import { useRouter, router } from "next/router";
 
 const ChangePass = () => {
   const [show1, setShow1] = useState(false);
@@ -28,6 +29,8 @@ const ChangePass = () => {
   const handleClick3 = () => setShow3(!show3);
 
   const { isLogin } = useSelector((state) => state.user);
+
+  const router = useRouter();
 
   const formik = useFormik({
     initialValues: {
@@ -76,6 +79,7 @@ const ChangePass = () => {
           closeOnClick: true,
           draggable: true,
         });
+        router.push("/changePass");
       } catch (error) {
         console.log(error);
         toast.error(error.response.data.message, {
