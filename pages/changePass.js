@@ -65,7 +65,7 @@ const ChangePass = () => {
         .required("Confirm new password is required")
         .oneOf([Yup.ref("newPassword"), null], "Passwords must match"),
     }),
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       let token = Cookies.get("token");
       try {
         await axios.put(`${API_URL}/auth/changePassword`, values, {
@@ -79,7 +79,8 @@ const ChangePass = () => {
           closeOnClick: true,
           draggable: true,
         });
-        router.push("/changePass");
+        // router.push("/changePass");
+        resetForm();
       } catch (error) {
         console.log(error);
         toast.error(error.response.data.message, {
