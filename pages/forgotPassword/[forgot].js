@@ -46,7 +46,7 @@ const ForgotPass = () => {
         .required("Confirm new password is required")
         .oneOf([Yup.ref("newPassword"), null], "Passwords must match"),
     }),
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       try {
         await axios.put(`${API_URL}/auth/resetPassword`, values, {
           headers: {
@@ -59,6 +59,7 @@ const ForgotPass = () => {
           closeOnClick: true,
           draggable: true,
         });
+        resetForm();
         router.push("/login");
       } catch (error) {
         console.log(error);
