@@ -67,10 +67,6 @@ const Register = ({ registerActions }) => {
     },
   });
 
-  // if (isLogin) {
-  //   router.push("/home");
-  // }
-
   return (
     <>
       <div>
