@@ -19,6 +19,7 @@ import "react-circular-progressbar/dist/styles.css";
 Chart.register(CategoryScale, LineElement, LinearScale, PointElement);
 import healthymedlogo from "../../public/healthymed-logo.svg";
 import MetaDecorator from "../../components/MetaDecorator";
+import dayjs from "dayjs";
 
 function AdminHome({ data, penjualan, profit }) {
   const [menu, setMenu] = useState(0);
@@ -254,7 +255,10 @@ function AdminHome({ data, penjualan, profit }) {
           <span className="font-bold text-lg text-slate-700">
             Analisis Produk & Toko
           </span>
-          <span className="text-xs">Update Terakhir: 20 Juli 2022</span>
+          <span className="text-xs">
+            Update Terakhir:{" "}
+            {dayjs(Date.now()).locale("id").format("DD MMMM YYYY hh:mm A")}
+          </span>
         </div>
         <div className="flex justify-between my-5">
           <div className="w-[300px] h-[110px] rounded-lg bg-white flex flex-col px-3 py-3">
