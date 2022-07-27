@@ -16,12 +16,19 @@ import Link from "next/link";
 import Input from "../components/input";
 import MetaDecorator from "../components/MetaDecorator";
 import healthymedlogo from "../public/healthymed-logo.svg";
+import { Button } from "@chakra-ui/react";
+import { useRouter, router } from "next/router";
 
 const Register = ({ registerActions }) => {
   const [show1, setShow1] = useState(false);
   const handleClick1 = () => setShow1(!show1);
 
+  //const [disable, setDisable] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const { isLogin } = useUser();
+
+  const router = useRouter();
 
   const formik = useFormik({
     initialValues: {
@@ -45,14 +52,24 @@ const Register = ({ registerActions }) => {
           "Must be at least 1 special character"
         ),
     }),
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       try {
+        setIsLoading(true);
         registerActions(values);
+        resetForm();
+        router.push("/home");
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
+        console.log("masuk sini");
       }
     },
   });
+
+  // if (isLogin) {
+  //   router.push("/home");
+  // }
 
   return (
     <>
@@ -180,9 +197,19 @@ const Register = ({ registerActions }) => {
                 </span>
               </div>
               <div>
-                <ButtonPrimary type="submit" className="w-full h-12 xl:h-10">
+                {/* <ButtonPrimary type="submit" className="w-full h-12 xl:h-10">
                   Register
-                </ButtonPrimary>
+                </ButtonPrimary> */}
+                <Button
+                  width="full"
+                  height="40px"
+                  fontSize="14px"
+                  textColor="white"
+                  colorScheme="purple"
+                  type="submit"
+                >
+                  Register
+                </Button>
               </div>
             </form>
           </div>
