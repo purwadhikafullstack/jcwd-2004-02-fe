@@ -340,12 +340,7 @@ function DaftarProduk() {
         confirmButtonText: "Hapus",
       }).then(async (result) => {
         if (result.isConfirmed) {
-          let token = Cookies.get("token");
-          await axios.patch(`${API_URL}/products/deleteproducts/${id}`, {
-            headers: {
-              authorization: `Bearer ${token}`,
-            },
-          });
+          await axios.patch(`${API_URL}/products/deleteproducts/${id}`);
           Swal.fire("Deleted!", "Berhasil dihapus!", "success");
         }
       });
